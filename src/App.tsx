@@ -1,4 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Global } from "@emotion/react";
+import globalStyles from "./styles/globalStyles";
 import MainPage from "./pages/main";
 
 const router = createBrowserRouter([
@@ -9,7 +11,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Global styles={globalStyles} />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;
