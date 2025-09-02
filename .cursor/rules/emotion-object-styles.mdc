@@ -1,0 +1,157 @@
+# Emotion Object Styles 상세 규칙
+
+## CSS 속성 변환 가이드
+
+### 레이아웃 속성
+
+```typescript
+// 올바른 사용법
+const layoutStyle = css({
+  display: "flex", // display: flex
+  flexDirection: "row", // flex-direction: row
+  justifyContent: "center", // justify-content: center
+  alignItems: "center", // align-items: center
+  gap: 16, // gap: 16px
+  padding: 20, // padding: 20px
+  margin: 10, // margin: 10px
+  width: 300, // width: 300px
+  height: 200, // height: 200px
+});
+```
+
+### 타이포그래피 속성
+
+```typescript
+const typographyStyle = css({
+  // fontFamily: "Pretendard" - 기본값이므로 제외
+  fontSize: 16, // font-size: 16px
+  fontWeight: 600, // font-weight: 600
+  lineHeight: 1.5, // line-height: 1.5
+  letterSpacing: "-2%", // letter-spacing: -2%
+  textAlign: "center", // text-align: center
+  color: "#191919", // color: #191919
+});
+```
+
+### 배경 및 테두리 속성
+
+```typescript
+const backgroundStyle = css({
+  background: "#FFFFFF", // background: #FFFFFF
+  backgroundColor: "#f5f5f5", // background-color: #f5f5f5
+  borderRadius: 8, // border-radius: 8px
+  border: "1px solid #ddd", // border: 1px solid #ddd
+  boxShadow: "0 2px 4px rgba(0,0,0,0.1)", // box-shadow
+});
+```
+
+### 위치 및 변환 속성
+
+```typescript
+const positionStyle = css({
+  position: "relative", // position: relative
+  top: 0, // top: 0px
+  left: 0, // left: 0px
+  zIndex: 100, // z-index: 100
+  transform: "translateY(-2px)", // transform
+});
+```
+
+## 단위가 자동으로 추가되지 않는 속성들
+
+```typescript
+const specialStyle = css({
+  zIndex: 100, // z-index: 100 (px 추가 안됨)
+  opacity: 0.8, // opacity: 0.8 (px 추가 안됨)
+  flex: 1, // flex: 1 (px 추가 안됨)
+  order: 2, // order: 2 (px 추가 안됨)
+  lineHeight: 1.5, // line-height: 1.5 (px 추가 안됨)
+});
+```
+
+## 폰트 패밀리 규칙
+
+**중요**: `fontFamily: "Pretendard"`는 프로젝트 기본값이므로 명시적으로 작성하지 마세요.
+
+```typescript
+// ❌ 잘못된 사용법
+const wrongStyle = css({
+  fontFamily: "Pretendard", // 불필요한 중복
+  fontSize: 16,
+  fontWeight: 600,
+});
+
+// ✅ 올바른 사용법
+const correctStyle = css({
+  fontSize: 16,
+  fontWeight: 600,
+  color: "#191919",
+});
+```
+
+## 조건부 스타일링
+
+```typescript
+const dynamicStyle = css({
+  color: isActive ? "#FB3F11" : "#191919",
+  fontWeight: isActive ? 700 : 400,
+  transform: isHovered ? "scale(1.05)" : "scale(1)",
+});
+```
+
+## 스타일 조합
+
+```typescript
+const baseStyle = css({
+  padding: 16,
+  borderRadius: 8,
+});
+
+const variantStyle = css({
+  backgroundColor: "#f0f0f0",
+  border: "1px solid #ddd",
+});
+
+// 사용할 때
+<div css={[baseStyle, variantStyle]}>
+  내용
+</div>
+```
+
+## 미디어 쿼리
+
+```typescript
+const responsiveStyle = css({
+  width: 300,
+  "@media (max-width: 768px)": {
+    width: "100%",
+    padding: 16,
+  },
+});
+```
+
+## 호버 및 포커스 상태
+
+```typescript
+const interactiveStyle = css({
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+  "&:hover": {
+    transform: "translateY(-2px)",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
+  },
+  "&:focus": {
+    outline: "2px solid #FB3F11",
+    outlineOffset: 2,
+  },
+});
+```
+
+## 참고 예시
+
+[SummaryCard 컴포넌트](mdc:src/pages/main/components/SummaryCard/index.tsx)에서 실제 사용 예시를 확인하세요.
+description:
+globs:
+alwaysApply: true
+
+---
