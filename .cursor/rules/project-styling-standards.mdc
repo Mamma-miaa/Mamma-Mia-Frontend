@@ -1,0 +1,165 @@
+# 프로젝트 스타일링 표준
+
+## 기본 원칙
+
+이 프로젝트의 모든 컴포넌트는 Emotion의 Object Styles 패턴을 사용하여 일관된 스타일링을 유지합니다.
+
+## 필수 준수사항
+
+### 1. 스타일링 방식
+
+- ✅ **Emotion Object Styles 사용**: `css` 함수로 스타일 객체 정의
+- ❌ **styled-components 사용 금지**
+- ❌ **인라인 스타일 사용 금지**
+- ❌ **CSS 파일 import 사용 금지**
+- ❌ **`fontFamily: "Pretendard"` 명시적 작성 금지** (프로젝트 기본값)
+
+### 2. 네이밍 컨벤션
+
+```typescript
+// 올바른 네이밍
+const containerStyle = css({ ... });
+const buttonStyle = css({ ... });
+const titleStyle = css({ ... });
+
+// 잘못된 네이밍
+const container = css({ ... });
+const button = css({ ... });
+const title = css({ ... });
+```
+
+### 3. 파일 구조
+
+```
+components/
+  ComponentName/
+    index.tsx          # 메인 컴포넌트
+    index.stories.tsx  # Storybook 스토리
+    styles.ts          # 스타일 정의 (선택사항)
+```
+
+### 4. 색상 시스템
+
+```typescript
+// 브랜드 색상
+const brandColors = {
+  primary: "#FB3F11", // 주 색상 (오렌지)
+  text: "#191919", // 메인 텍스트
+  textSecondary: "rgba(55, 56, 60, 0.61)", // 보조 텍스트
+  background: "#FFFFFF", // 배경색
+  backgroundSecondary: "#f5f5f5", // 보조 배경색
+};
+```
+
+### 5. 타이포그래피
+
+```typescript
+// 기본 폰트 - Pretendard는 프로젝트 기본값이므로 명시하지 않음
+const typography = {
+  fontSize: {
+    small: 12,
+    base: 14,
+    medium: 16,
+    large: 18,
+    xlarge: 24,
+  },
+  fontWeight: {
+    normal: 400,
+    medium: 500,
+    semibold: 600,
+    bold: 700,
+  },
+};
+
+// 사용 예시 - fontFamily는 생략
+const titleStyle = css({
+  fontSize: 24,
+  fontWeight: 700,
+  color: "#191919",
+  // fontFamily: "Pretendard" - 기본값이므로 생략
+});
+```
+
+### 6. 간격 시스템
+
+```typescript
+// 일관된 간격 사용
+const spacing = {
+  xs: 2, // 2px
+  sm: 4, // 4px
+  md: 8, // 8px
+  lg: 12, // 12px
+  xl: 16, // 16px
+  xxl: 20, // 20px
+  xxxl: 24, // 24px
+};
+```
+
+## 코드 예시
+
+### 올바른 컴포넌트 구조
+
+```typescript
+import { css } from "@emotion/react";
+
+interface ComponentProps {
+  // props 정의
+}
+
+const Component = ({ ... }: ComponentProps) => {
+  return (
+    <div css={containerStyle}>
+      <h1 css={titleStyle}>제목</h1>
+      <p css={textStyle}>내용</p>
+    </div>
+  );
+};
+
+// 스타일 정의 (컴포넌트 외부)
+const containerStyle = css({
+  padding: 20,
+  backgroundColor: "#FFFFFF",
+  borderRadius: 8,
+});
+
+const titleStyle = css({
+  // fontFamily: "Pretendard" - 기본값이므로 생략
+  fontSize: 24,
+  fontWeight: 700,
+  color: "#191919",
+});
+
+const textStyle = css({
+  // fontFamily: "Pretendard" - 기본값이므로 생략
+  fontSize: 16,
+  lineHeight: 1.5,
+  color: "#191919",
+});
+
+export default Component;
+```
+
+## 참고 자료
+
+- [컴포넌트 스타일링 규칙](mdc:.cursor/rules/component-styling.mdc)
+- [Emotion Object Styles 상세 규칙](mdc:.cursor/rules/emotion-object-styles.mdc)
+- [SummaryCard 예시 컴포넌트](mdc:src/pages/main/components/SummaryCard/index.tsx)
+
+## 검증 체크리스트
+
+새로운 컴포넌트를 만들 때 다음 사항을 확인하세요:
+
+- [ ] `import { css } from "@emotion/react"` 사용
+- [ ] `styled-components` 사용하지 않음
+- [ ] CSS 속성이 `camelCase`로 작성됨
+- [ ] 숫자 값에 단위(`px`) 추가하지 않음
+- [ ] 스타일 객체가 컴포넌트 외부에 정의됨
+- [ ] 스타일 이름에 `Style` 접미사 사용
+- [ ] 색상이 hex 값으로 정의됨
+- [ ] **`fontFamily: "Pretendard"` 명시적 작성하지 않음** (기본값)
+- [ ] 폰트 크기, 굵기, 색상 등만 명시
+      description:
+      globs:
+      alwaysApply: true
+
+---

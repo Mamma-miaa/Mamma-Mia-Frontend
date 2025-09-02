@@ -1,0 +1,70 @@
+# 컴포넌트 스타일링 규칙
+
+## 기본 원칙
+
+모든 React 컴포넌트의 스타일링은 Emotion의 Object Styles 패턴을 사용해야 합니다.
+
+## 필수 패턴
+
+### 1. Import 방식
+
+```typescript
+import { css } from "@emotion/react";
+```
+
+### 2. 스타일 정의
+
+- `styled-components` 대신 `css` 함수 사용
+- CSS 속성은 `camelCase`로 작성
+- 숫자 값은 단위 없이 작성 (Emotion이 자동으로 `px` 추가)
+- **`fontFamily: "Pretendard"`는 기본값이므로 작성 제외**
+
+```typescript
+const containerStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  gap: 6, // 6px로 자동 변환
+  padding: 12, // 12px로 자동 변환
+  width: 311, // 311px로 자동 변환
+  background: "#FFFFFF",
+  borderRadius: 8, // 8px로 자동 변환
+  // fontFamily: "Pretendard" - 기본값이므로 제외
+});
+```
+
+### 3. 컴포넌트에서 사용
+
+```typescript
+const MyComponent = () => {
+  return (
+    <div css={containerStyle}>
+      <span css={textStyle}>텍스트</span>
+    </div>
+  );
+};
+```
+
+## 금지사항
+
+- ❌ `styled-components` 사용 금지
+- ❌ `kebab-case` CSS 속성 사용 금지 (예: `flex-direction`)
+- ❌ 인라인 스타일 사용 금지
+- ❌ CSS 파일 import 사용 금지
+- ❌ `fontFamily: "Pretendard"` 명시적 작성 금지 (기본값)
+
+## 권장사항
+
+- ✅ 스타일 객체는 컴포넌트 외부에 정의
+- ✅ 스타일 이름은 `Style` 접미사 사용 (예: `containerStyle`, `textStyle`)
+- ✅ 색상은 hex 값 사용 (예: `#FFFFFF`, `#191919`)
+- ✅ `fontFamily`는 기본값이므로 생략
+- ✅ 폰트 크기, 굵기, 색상 등만 명시
+
+## 예시 참고
+
+[SummaryCard 컴포넌트](mdc:src/pages/main/components/SummaryCard/index.tsx)를 참고하여 올바른 패턴을 확인하세요.
+description:
+globs:
+alwaysApply: true
+
+---
