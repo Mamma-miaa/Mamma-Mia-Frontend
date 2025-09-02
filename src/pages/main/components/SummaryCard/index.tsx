@@ -1,7 +1,10 @@
 import { css } from "@emotion/react";
 import LocationIcon from "./_assets/location.svg?react";
+import type { ComponentProps } from "react";
+import TYPOGRAPHY from "@/constants/typography";
+import THEME from "@/constants/theme";
 
-interface SummaryCardProps {
+interface SummaryCardProps extends ComponentProps<"div"> {
   category: string;
   restaurantName: string;
   distance: string;
@@ -13,9 +16,10 @@ const SummaryCard = ({
   restaurantName,
   distance,
   restaurantImageUrl,
+  ...props
 }: SummaryCardProps) => {
   return (
-    <div css={containerStyle}>
+    <div css={containerStyle} {...props}>
       <div css={imageContainerStyle}>
         <img
           src={restaurantImageUrl}
@@ -79,24 +83,22 @@ const titleSectionStyle = css({
   alignSelf: "stretch",
 });
 
-const categoryStyle = css({
-  fontWeight: 400,
-  fontSize: 12,
-  lineHeight: 1.4,
-  letterSpacing: "-2%",
-  color: "rgba(55, 56, 60, 0.61)",
-});
+const categoryStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+  },
+  TYPOGRAPHY.SUB["12R"]
+);
 
-const restaurantNameStyle = css({
-  fontWeight: 600,
-  fontSize: 16,
-  lineHeight: 1.4,
-  letterSpacing: "-2%",
-  textAlign: "left",
-  color: "#191919",
-  margin: 0,
-  width: 210,
-});
+const restaurantNameStyle = css(
+  {
+    textAlign: "left",
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+    margin: 0,
+    width: 210,
+  },
+  TYPOGRAPHY.HEADERS["16SB"]
+);
 
 const locationSectionStyle = css({
   display: "flex",
@@ -105,22 +107,20 @@ const locationSectionStyle = css({
   gap: 1,
 });
 
-const locationTextStyle = css({
-  fontWeight: 400,
-  fontSize: 12,
-  lineHeight: 1.4,
-  letterSpacing: "-2%",
-  textAlign: "center",
-  color: "#191919",
-});
+const locationTextStyle = css(
+  {
+    textAlign: "center",
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.SUB["12R"]
+);
 
-const distanceStyle = css({
-  fontWeight: 700,
-  fontSize: 12,
-  lineHeight: 1.4,
-  letterSpacing: "-2%",
-  textAlign: "center",
-  color: "#FB3F11",
-});
+const distanceStyle = css(
+  {
+    textAlign: "center",
+    color: THEME.COLORS.PRIMARY.RED,
+  },
+  TYPOGRAPHY.SUB["12B"]
+);
 
 export default SummaryCard;

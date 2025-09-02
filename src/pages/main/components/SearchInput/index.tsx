@@ -2,6 +2,8 @@ import { css } from "@emotion/react";
 import type { SerializedStyles } from "@emotion/react";
 import SearchIcon from "./_assets/search.svg?react";
 import type { ComponentProps } from "react";
+import THEME from "@/constants/theme";
+import TYPOGRAPHY from "@/constants/typography";
 
 interface SearchInputProps extends ComponentProps<"input"> {
   placeholder?: string;
@@ -40,18 +42,18 @@ const containerStyle = css({
     "0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.12)",
 });
 
-const inputStyle = css({
-  flex: 1,
-  border: "none",
-  outline: "none",
-  background: "transparent",
-  fontSize: 14,
-  lineHeight: 1.4,
-  letterSpacing: "-2%",
-  color: "#191919",
-  "&::placeholder": {
-    color: "rgba(55, 56, 60, 0.28)",
+const inputStyle = css(
+  {
+    flex: 1,
+    border: "none",
+    outline: "none",
+    background: "transparent",
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+    "&::placeholder": {
+      color: "rgba(55, 56, 60, 0.28)",
+    },
   },
-});
+  TYPOGRAPHY.BODY["14R"]
+);
 
 export default SearchInput;
