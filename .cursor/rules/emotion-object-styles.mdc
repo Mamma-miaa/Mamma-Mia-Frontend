@@ -22,26 +22,46 @@ const layoutStyle = css({
 ### 타이포그래피 속성
 
 ```typescript
-const typographyStyle = css({
+// ✅ 올바른 사용법 - TYPOGRAPHY 상수 사용
+const titleStyle = css({
+  ...TYPOGRAPHY.HEADERS["16SB"],
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
+});
+
+const bodyStyle = css({
+  ...TYPOGRAPHY.BODY["14R"],
+  color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+});
+
+// ❌ 잘못된 사용법 - 직접 정의
+const wrongStyle = css({
   // fontFamily: "Pretendard" - 기본값이므로 제외
-  fontSize: 16, // font-size: 16px
-  fontWeight: 600, // font-weight: 600
-  lineHeight: 1.5, // line-height: 1.5
-  letterSpacing: "-2%", // letter-spacing: -2%
-  textAlign: "center", // text-align: center
-  color: "#191919", // color: #191919
+  fontSize: 16, // 직접 정의 금지
+  fontWeight: 600, // 직접 정의 금지
+  lineHeight: 1.4, // 직접 정의 금지
+  letterSpacing: "-2%", // 직접 정의 금지
+  textAlign: "center", // 직접 정의 금지
+  color: "#191919", // 하드코딩 금지
 });
 ```
 
 ### 배경 및 테두리 속성
 
 ```typescript
+// ✅ 올바른 사용법 - THEME 상수 사용
 const backgroundStyle = css({
-  background: "#FFFFFF", // background: #FFFFFF
-  backgroundColor: "#f5f5f5", // background-color: #f5f5f5
+  background: THEME.COLORS.BACKGROUND.WHITE,
+  backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
   borderRadius: 8, // border-radius: 8px
-  border: "1px solid #ddd", // border: 1px solid #ddd
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
   boxShadow: "0 2px 4px rgba(0,0,0,0.1)", // box-shadow
+});
+
+// ❌ 잘못된 사용법 - 하드코딩
+const wrongStyle = css({
+  background: "#FFFFFF", // 하드코딩 금지
+  backgroundColor: "#f5f5f5", // 하드코딩 금지
+  border: "1px solid #ddd", // 하드코딩 금지
 });
 ```
 
@@ -81,11 +101,85 @@ const wrongStyle = css({
   fontWeight: 600,
 });
 
-// ✅ 올바른 사용법
+// ✅ 올바른 사용법 - TYPOGRAPHY 상수 사용
 const correctStyle = css({
-  fontSize: 16,
-  fontWeight: 600,
-  color: "#191919",
+  ...TYPOGRAPHY.BODY["14SB"],
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
+});
+```
+
+## THEME 상수 활용 가이드
+
+### 색상 시스템 활용
+
+```typescript
+const componentStyle = css({
+  // 브랜드 색상
+  backgroundColor: THEME.COLORS.PRIMARY.RED,
+
+  // 텍스트 색상
+  color: THEME.COLORS.GRAYSCALE.NORMAL, // 메인 텍스트
+  "&::placeholder": {
+    color: THEME.COLORS.GRAYSCALE.ASSISTIVE, // 플레이스홀더
+  },
+
+  // 배경 색상
+  background: THEME.COLORS.BACKGROUND.WHITE,
+
+  // 테두리 색상
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+});
+```
+
+### 상태별 색상 활용
+
+```typescript
+const buttonStyle = css({
+  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
+  color: THEME.COLORS.BACKGROUND.WHITE,
+
+  "&:hover": {
+    backgroundColor: THEME.COLORS.GRAYSCALE.STRONG,
+  },
+
+  "&:disabled": {
+    backgroundColor: THEME.COLORS.GRAYSCALE.DISABLE,
+    cursor: "not-allowed",
+  },
+});
+```
+
+## TYPOGRAPHY 상수 활용 가이드
+
+### 스타일 조합
+
+```typescript
+const titleStyle = css({
+  ...TYPOGRAPHY.HEADERS["16SB"],
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
+  textAlign: "center",
+});
+
+const subtitleStyle = css({
+  ...TYPOGRAPHY.BODY["14R"],
+  color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+  marginTop: 8,
+});
+
+const captionStyle = css({
+  ...TYPOGRAPHY.CAPTION["11B"],
+  color: THEME.COLORS.PRIMARY.RED,
+});
+```
+
+### 반응형 타이포그래피
+
+```typescript
+const responsiveTextStyle = css({
+  ...TYPOGRAPHY.BODY["14SB"],
+  "@media (max-width: 768px)": {
+    ...TYPOGRAPHY.BODY["12SB"],
+  },
 });
 ```
 
@@ -93,8 +187,8 @@ const correctStyle = css({
 
 ```typescript
 const dynamicStyle = css({
-  color: isActive ? "#FB3F11" : "#191919",
-  fontWeight: isActive ? 700 : 400,
+  color: isActive ? THEME.COLORS.PRIMARY.RED : THEME.COLORS.GRAYSCALE.NORMAL,
+  ...(isActive ? TYPOGRAPHY.BODY["14SB"] : TYPOGRAPHY.BODY["14R"]),
   transform: isHovered ? "scale(1.05)" : "scale(1)",
 });
 ```
@@ -105,11 +199,12 @@ const dynamicStyle = css({
 const baseStyle = css({
   padding: 16,
   borderRadius: 8,
+  ...TYPOGRAPHY.BODY["14R"],
 });
 
 const variantStyle = css({
-  backgroundColor: "#f0f0f0",
-  border: "1px solid #ddd",
+  backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
 });
 
 // 사용할 때
@@ -123,9 +218,11 @@ const variantStyle = css({
 ```typescript
 const responsiveStyle = css({
   width: 300,
+  ...TYPOGRAPHY.HEADERS["16SB"],
   "@media (max-width: 768px)": {
     width: "100%",
     padding: 16,
+    ...TYPOGRAPHY.BODY["14SB"],
   },
 });
 ```
@@ -136,12 +233,17 @@ const responsiveStyle = css({
 const interactiveStyle = css({
   cursor: "pointer",
   transition: "all 0.2s ease",
+  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+
   "&:hover": {
     transform: "translateY(-2px)",
     boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
+    borderColor: THEME.COLORS.PRIMARY.RED,
   },
+
   "&:focus": {
-    outline: "2px solid #FB3F11",
+    outline: `2px solid ${THEME.COLORS.PRIMARY.RED}`,
     outlineOffset: 2,
   },
 });
@@ -150,6 +252,7 @@ const interactiveStyle = css({
 ## 참고 예시
 
 [SummaryCard 컴포넌트](mdc:src/pages/main/components/SummaryCard/index.tsx)에서 실제 사용 예시를 확인하세요.
+[theme.ts](mdc:src/constants/theme.ts)와 [typography.ts](mdc:src/constants/typography.ts)를 참고하여 상수를 사용하세요.
 description:
 globs:
 alwaysApply: true
