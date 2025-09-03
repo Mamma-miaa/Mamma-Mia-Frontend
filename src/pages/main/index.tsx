@@ -11,6 +11,7 @@ import ChallengeIcon from "./_assets/challenge_restaurant.svg?react";
 import Spacing from "@/@lib/components/Spacing";
 import RankingIcon from "./_assets/ranking.svg?react";
 import MyIcon from "./_assets/my.svg?react";
+import ListIcon from "./_assets/list.svg?react";
 
 const sampleData = {
   category: "국밥·탕/찌개",
@@ -35,6 +36,22 @@ const MainPage = () => {
   }, []);
   return (
     <div ref={mapRef} css={css({ width: "100dvw", height: "100dvh" })}>
+      <ListChip
+        css={css({
+          position: "fixed",
+          bottom: 124,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 1000,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 4,
+        })}
+      >
+        <ListIcon />
+        <span>목록보기</span>
+      </ListChip>
       <SummaryCard
         {...sampleData}
         css={css({
@@ -117,11 +134,29 @@ const Button = styled("button")(
     border: "none",
     cursor: "pointer",
     flex: "none",
-    color: "#FFFFFF",
+    color: THEME.COLORS.BACKGROUND.WHITE,
     padding: "8px 16px",
     display: "flex",
     alignItems: "center",
     gap: 4,
+  },
+  TYPOGRAPHY.BODY["14SB"]
+);
+
+const ListChip = styled("button")(
+  {
+    height: 44,
+    borderRadius: 1000,
+    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+    border: "none",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
+    padding: "8px 16px 8px 12px",
+    boxShadow: THEME.SHADOWS.EMPHASIZED,
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14SB"]
 );
