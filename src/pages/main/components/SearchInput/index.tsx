@@ -38,8 +38,7 @@ const containerStyle = css({
   width: "100%",
   background: "#FFFFFF",
   borderRadius: 8,
-  boxShadow:
-    "0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.12)",
+  boxShadow: THEME.SHADOWS.EMPHASIZED,
 });
 
 const inputStyle = css(

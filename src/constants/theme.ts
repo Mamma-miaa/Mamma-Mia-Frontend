@@ -24,8 +24,20 @@ const COLORS = {
   },
 } as const;
 
+const SHADOWS = {
+  HEAVY:
+    "0px 0px 8px 0px rgba(0, 0, 0, 0.08), 0px 8px 16px 0px rgba(0, 0, 0, 0.08), 0px 16px 20px 0px rgba(0, 0, 0, 0.12)",
+  STRONG:
+    "0px 0px 4px 0px rgba(0, 0, 0, 0.08), 0px 4px 8px 0px rgba(0, 0, 0, 0.08), 0px 6px 12px 0px rgba(0, 0, 0, 0.12)",
+  EMPHASIZED:
+    "0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.12)",
+  NORMAL:
+    "0px 0px 6px 0px rgba(0, 0, 0, 0.05), 1px 1px 1px 0px rgba(0, 0, 0, 0.01), 1px 1px 1px 1px rgba(0, 0, 0, 0.01)",
+};
+
 const THEME = {
   COLORS,
+  SHADOWS,
 };
 
 export default THEME;
