@@ -12,6 +12,10 @@ import Spacing from "@/@lib/components/Spacing";
 import RankingIcon from "./_assets/ranking.svg?react";
 import MyIcon from "./_assets/my.svg?react";
 import ListIcon from "./_assets/list.svg?react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Virtual } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/virtual";
 
 const sampleData = {
   category: "국밥·탕/찌개",
@@ -32,7 +36,7 @@ const MainPage = () => {
       level: 3, //지도의 레벨(확대, 축소 정도)
     };
 
-    var map = new kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
+    new kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
   }, []);
   return (
     <div ref={mapRef} css={css({ width: "100dvw", height: "100dvh" })}>
@@ -52,16 +56,38 @@ const MainPage = () => {
         <ListIcon />
         <span>목록보기</span>
       </ListChip>
-      <SummaryCard
-        {...sampleData}
+
+      <Swiper
+        modules={[Virtual]}
+        virtual
+        slidesPerView={3}
+        centeredSlides
         css={css({
+          width: 957,
           position: "fixed",
-          bottom: 16,
+          bottom: 20,
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 1000,
         })}
-      />
+      >
+        <SwiperSlide virtualIndex={0}>
+          <SummaryCard {...sampleData} />
+        </SwiperSlide>
+        <SwiperSlide virtualIndex={1}>
+          <SummaryCard {...sampleData} />
+        </SwiperSlide>
+        <SwiperSlide virtualIndex={2}>
+          <SummaryCard {...sampleData} />
+        </SwiperSlide>
+        <SwiperSlide virtualIndex={3}>
+          <SummaryCard {...sampleData} />
+        </SwiperSlide>
+        <SwiperSlide virtualIndex={4}>
+          <SummaryCard {...sampleData} />
+        </SwiperSlide>
+      </Swiper>
+
       <div
         css={css({
           position: "fixed",

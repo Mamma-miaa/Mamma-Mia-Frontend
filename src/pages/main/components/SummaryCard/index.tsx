@@ -4,6 +4,7 @@ import type { ComponentProps } from "react";
 import TYPOGRAPHY from "@/constants/typography";
 import THEME from "@/constants/theme";
 
+// Import Swiper styles
 interface SummaryCardProps extends ComponentProps<"div"> {
   category: string;
   restaurantName: string;
