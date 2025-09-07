@@ -7,11 +7,29 @@ const RestaurantDetailPage = () => {
       <img
         src="https://d12zq4w4guyljn.cloudfront.net/20240928082830_photo1_f13518079202.webp"
         alt="레스토랑 이미지"
-        css={restaurantImageStyle}
+        css={restaurantBackgroundImageStyle}
       />
+      <div
+        css={css({
+          position: "absolute",
+          top: 80,
+          left: "50%",
+          transform: "translateX(-50%)",
+          padding: "0 20px",
+          width: "100%",
+        })}
+      >
+        <img
+          src="https://d12zq4w4guyljn.cloudfront.net/20240928082830_photo1_f13518079202.webp"
+          alt="레스토랑 이미지"
+          css={restaurantImageStyle}
+        />
+      </div>
     </div>
   );
 };
+
+export default RestaurantDetailPage;
 
 // 페이지 컨테이너 스타일
 const pageContainerStyle = css({
@@ -22,7 +40,7 @@ const pageContainerStyle = css({
 });
 
 // 레스토랑 이미지 스타일
-const restaurantImageStyle = css({
+const restaurantBackgroundImageStyle = css({
   width: "100%",
   height: "100%",
   objectFit: "cover",
@@ -32,4 +50,9 @@ const restaurantImageStyle = css({
     "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
 });
 
-export default RestaurantDetailPage;
+const restaurantImageStyle = css({
+  width: "100%",
+  aspectRatio: "1/1",
+  borderRadius: 12,
+  objectFit: "cover",
+});
