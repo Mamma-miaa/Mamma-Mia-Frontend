@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import SummaryCard from "./components/SummaryCard";
 import SearchInput from "./components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
@@ -31,20 +31,25 @@ const sampleData = {
 
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
+  const kakaoMap = useRef<kakao.maps.Map | null>(null);
+  const [myLocation, setMyLocation] = useState<{
+    lat: number;
+    lng: number;
+  }>(충무로_좌표);
 
   useEffect(() => {
     if (!mapRef.current) return;
 
     var options = {
       //지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(충무로_좌표.lat, 충무로_좌표.lng), //지도의 중심좌표.
+      center: new kakao.maps.LatLng(myLocation.lat, myLocation.lng), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)
     };
 
-    const map = new kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
+    kakaoMap.current = new kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
 
     const circle = new kakao.maps.Circle({
-      center: new kakao.maps.LatLng(충무로_좌표.lat, 충무로_좌표.lng), // 원의 중심좌표 입니다
+      center: new kakao.maps.LatLng(myLocation.lat, myLocation.lng), // 원의 중심좌표 입니다
       radius: 1000, // 미터 단위의 원의 반지름입니다
       strokeWeight: 1, // 선의 두께입니다
       strokeColor: THEME.COLORS.PRIMARY.RED, // 선의 색깔입니다
@@ -55,8 +60,16 @@ const MainPage = () => {
     });
 
     // 지도에 원을 표시합니다
-    circle.setMap(map);
+    circle.setMap(kakaoMap.current);
   }, []);
+
+  useEffect(() => {
+    if (!mapRef.current) return;
+    kakaoMap.current?.setCenter(
+      new kakao.maps.LatLng(myLocation.lat, myLocation.lng)
+    );
+  }, [myLocation.lat, myLocation.lng]);
+
   return (
     <div ref={mapRef} css={css({ width: "100dvw", height: "100dvh" })}>
       <ListChip
@@ -142,7 +155,16 @@ const MainPage = () => {
               flex: "none",
             })}
           >
-            <MyLocationIcon />
+            <MyLocationIcon
+              onClick={() => {
+                navigator.geolocation.getCurrentPosition((position) => {
+                  setMyLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                  });
+                });
+              }}
+            />
           </button>
         </div>
         <Spacing size={12} />
