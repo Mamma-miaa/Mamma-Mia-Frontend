@@ -17,6 +17,11 @@ import { Virtual } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/virtual";
 
+const 충무로_좌표 = {
+  lat: 37.561306,
+  lng: 126.9945,
+};
+
 const sampleData = {
   category: "국밥·탕/찌개",
   restaurantName: "계림닭도리탕 충무로직영점",
@@ -32,11 +37,25 @@ const MainPage = () => {
 
     var options = {
       //지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+      center: new kakao.maps.LatLng(충무로_좌표.lat, 충무로_좌표.lng), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)
     };
 
-    new kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
+    const map = new kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
+
+    const circle = new kakao.maps.Circle({
+      center: new kakao.maps.LatLng(충무로_좌표.lat, 충무로_좌표.lng), // 원의 중심좌표 입니다
+      radius: 1000, // 미터 단위의 원의 반지름입니다
+      strokeWeight: 1, // 선의 두께입니다
+      strokeColor: THEME.COLORS.PRIMARY.RED, // 선의 색깔입니다
+      strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+      strokeStyle: "solid", // 선의 스타일 입니다
+      fillColor: "#FB3F11", // 채우기 색깔입니다
+      fillOpacity: 0.1, // 채우기 불투명도 입니다
+    });
+
+    // 지도에 원을 표시합니다
+    circle.setMap(map);
   }, []);
   return (
     <div ref={mapRef} css={css({ width: "100dvw", height: "100dvh" })}>
