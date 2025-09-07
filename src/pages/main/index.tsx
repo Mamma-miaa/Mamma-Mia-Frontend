@@ -1,3 +1,4 @@
+import ReactDOMServer from "react-dom/server";
 import { css } from "@emotion/react";
 import { useEffect, useRef, useState } from "react";
 import SummaryCard from "./components/SummaryCard";
@@ -16,6 +17,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Virtual } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/virtual";
+import 아시안_이미지 from "@/assets/graphics/아시안.webp";
+import OverlayMarker from "@/@lib/components/OverlayMarker";
 
 const MOCK_DATA = [
   {
@@ -89,10 +92,29 @@ const MainPage = () => {
     circle.setMap(kakaoMap.current);
 
     MOCK_DATA.forEach((data) => {
-      const marker = new kakao.maps.Marker({
+      // 커스텀 오버레이 생성
+      new kakao.maps.CustomOverlay({
+        map: kakaoMap.current || undefined,
         position: new kakao.maps.LatLng(data.latitude, data.longitude),
+        content: `<div id='overlay-mark${data.id}'>${ReactDOMServer.renderToString(
+          <OverlayMarker>
+            <img
+              src={아시안_이미지}
+              style={{
+                width: "20px",
+                height: "20px",
+                objectFit: "cover",
+              }}
+            />
+          </OverlayMarker>
+        )}</div>`,
+        yAnchor: 1,
+        xAnchor: 0.5,
       });
-      marker.setMap(kakaoMap.current);
+    });
+
+    MOCK_DATA.forEach((data) => {
+      document.getElementById(`overlay-mark${data.id}`);
     });
   }, []);
 
@@ -104,113 +126,115 @@ const MainPage = () => {
   }, [myLocation.lat, myLocation.lng]);
 
   return (
-    <div ref={mapRef} css={css({ width: "100dvw", height: "100dvh" })}>
-      <ListChip
-        css={css({
-          position: "fixed",
-          bottom: 124,
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 1000,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 4,
-        })}
-      >
-        <ListIcon />
-        <span>목록보기</span>
-      </ListChip>
-
-      <Swiper
-        modules={[Virtual]}
-        virtual
-        slidesPerView={3}
-        centeredSlides
-        css={css({
-          width: 957,
-          position: "fixed",
-          bottom: 20,
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 1000,
-        })}
-      >
-        {MOCK_DATA.map((data, index) => (
-          <SwiperSlide key={data.id} virtualIndex={index}>
-            <SummaryCard {...data} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
-      <div
-        css={css({
-          position: "fixed",
-          top: 16,
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 1000,
-          padding: "0 20px",
-          width: "100%",
-        })}
-      >
-        <div
+    <>
+      <div ref={mapRef} css={css({ width: "100dvw", height: "100dvh" })}>
+        <ListChip
           css={css({
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-          })}
-        >
-          <LogoIcon />
-          <SearchInput
-            css={css({
-              flex: 1,
-            })}
-          />
-          <button
-            css={css({
-              width: 44,
-              height: 44,
-              borderRadius: 8,
-              backgroundColor: "#191919",
-              border: "none",
-              cursor: "pointer",
-              flex: "none",
-            })}
-          >
-            <MyLocationIcon
-              onClick={() => {
-                navigator.geolocation.getCurrentPosition((position) => {
-                  setMyLocation({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                  });
-                });
-              }}
-            />
-          </button>
-        </div>
-        <Spacing size={12} />
-        <div
-          css={css({
+            position: "fixed",
+            bottom: 124,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 1000,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: 8,
+            gap: 4,
           })}
         >
-          <Button>
-            <ChallengeIcon /> 도전맛집
-          </Button>
-          <Button>
-            <RankingIcon /> 랭킹
-          </Button>
-          <Button>
-            <MyIcon /> MY
-          </Button>
+          <ListIcon />
+          <span>목록보기</span>
+        </ListChip>
+
+        <Swiper
+          modules={[Virtual]}
+          virtual
+          slidesPerView={3}
+          centeredSlides
+          css={css({
+            width: 957,
+            position: "fixed",
+            bottom: 20,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 1000,
+          })}
+        >
+          {MOCK_DATA.map((data, index) => (
+            <SwiperSlide key={data.id} virtualIndex={index}>
+              <SummaryCard {...data} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        <div
+          css={css({
+            position: "fixed",
+            top: 16,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 1000,
+            padding: "0 20px",
+            width: "100%",
+          })}
+        >
+          <div
+            css={css({
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            })}
+          >
+            <LogoIcon />
+            <SearchInput
+              css={css({
+                flex: 1,
+              })}
+            />
+            <button
+              css={css({
+                width: 44,
+                height: 44,
+                borderRadius: 8,
+                backgroundColor: "#191919",
+                border: "none",
+                cursor: "pointer",
+                flex: "none",
+              })}
+            >
+              <MyLocationIcon
+                onClick={() => {
+                  navigator.geolocation.getCurrentPosition((position) => {
+                    setMyLocation({
+                      lat: position.coords.latitude,
+                      lng: position.coords.longitude,
+                    });
+                  });
+                }}
+              />
+            </button>
+          </div>
+          <Spacing size={12} />
+          <div
+            css={css({
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+            })}
+          >
+            <Button>
+              <ChallengeIcon /> 도전맛집
+            </Button>
+            <Button>
+              <RankingIcon /> 랭킹
+            </Button>
+            <Button>
+              <MyIcon /> MY
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
