@@ -17,16 +17,42 @@ import { Virtual } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/virtual";
 
+const MOCK_DATA = [
+  {
+    id: "1",
+    restaurantName: "사랑방칼국수",
+    category: "korean",
+    address: "서울 중구 퇴계로27길 46 (충무로3가)",
+    latitude: 37.5623,
+    longitude: 126.9918,
+    restaurantImageUrl: "https://placehold.co/78x78",
+    distance: "380m",
+  },
+  {
+    id: "2",
+    restaurantName: "필동함박",
+    category: "world",
+    address: "서울 중구 필동로 7-1 (필동3가)",
+    latitude: 37.5617,
+    longitude: 126.9935,
+    restaurantImageUrl: "https://placehold.co/78x78",
+    distance: "380m",
+  },
+  {
+    id: "3",
+    restaurantName: "충무로쭈꾸미불고기",
+    category: "korean",
+    address: "서울 중구 퇴계로31길 11",
+    latitude: 37.5628,
+    longitude: 126.9942,
+    restaurantImageUrl: "https://placehold.co/78x78",
+    distance: "380m",
+  },
+];
+
 const 충무로_좌표 = {
   lat: 37.561306,
   lng: 126.9945,
-};
-
-const sampleData = {
-  category: "국밥·탕/찌개",
-  restaurantName: "계림닭도리탕 충무로직영점",
-  distance: "380m",
-  restaurantImageUrl: "https://placehold.co/78x78",
 };
 
 const MainPage = () => {
@@ -49,7 +75,7 @@ const MainPage = () => {
     kakaoMap.current = new kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
 
     const circle = new kakao.maps.Circle({
-      center: new kakao.maps.LatLng(myLocation.lat, myLocation.lng), // 원의 중심좌표 입니다
+      center: new kakao.maps.LatLng(충무로_좌표.lat, 충무로_좌표.lng), // 원의 중심좌표 입니다
       radius: 1000, // 미터 단위의 원의 반지름입니다
       strokeWeight: 1, // 선의 두께입니다
       strokeColor: THEME.COLORS.PRIMARY.RED, // 선의 색깔입니다
@@ -61,6 +87,13 @@ const MainPage = () => {
 
     // 지도에 원을 표시합니다
     circle.setMap(kakaoMap.current);
+
+    MOCK_DATA.forEach((data) => {
+      const marker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(data.latitude, data.longitude),
+      });
+      marker.setMap(kakaoMap.current);
+    });
   }, []);
 
   useEffect(() => {
@@ -103,21 +136,11 @@ const MainPage = () => {
           zIndex: 1000,
         })}
       >
-        <SwiperSlide virtualIndex={0}>
-          <SummaryCard {...sampleData} />
-        </SwiperSlide>
-        <SwiperSlide virtualIndex={1}>
-          <SummaryCard {...sampleData} />
-        </SwiperSlide>
-        <SwiperSlide virtualIndex={2}>
-          <SummaryCard {...sampleData} />
-        </SwiperSlide>
-        <SwiperSlide virtualIndex={3}>
-          <SummaryCard {...sampleData} />
-        </SwiperSlide>
-        <SwiperSlide virtualIndex={4}>
-          <SummaryCard {...sampleData} />
-        </SwiperSlide>
+        {MOCK_DATA.map((data, index) => (
+          <SwiperSlide key={data.id} virtualIndex={index}>
+            <SummaryCard {...data} />
+          </SwiperSlide>
+        ))}
       </Swiper>
 
       <div
