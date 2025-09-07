@@ -1,8 +1,8 @@
 import ReactDOMServer from "react-dom/server";
 import { css } from "@emotion/react";
 import { useEffect, useRef, useState } from "react";
-import SummaryCard from "./components/SummaryCard";
-import SearchInput from "./components/SearchInput";
+import SummaryCard from "./_components/SummaryCard";
+import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
 import LogoIcon from "@/assets/logo.svg?react";
 import styled from "@emotion/styled";
