@@ -21,9 +21,56 @@ const RestaurantLocationSection = () => {
     kakaoMap.current.setDraggable(false);
     kakaoMap.current.setZoomable(false);
 
-    new kakao.maps.Marker({
+    new kakao.maps.CustomOverlay({
       map: kakaoMap.current,
       position: new kakao.maps.LatLng(37.5617, 126.9935),
+      content: /* HTML */ `
+        <div
+          style="
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        "
+        >
+          <div
+            style="
+            background-color: #191919;
+            border-radius: 28px;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 28px;
+            box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.15);
+          "
+          >
+            <span
+              style="
+              color: #FFFFFF;
+              font-family: 'Pretendard', sans-serif;
+              font-weight: 700;
+              font-size: 11px;
+              line-height: 1.4;
+              letter-spacing: -2%;
+              text-align: center;
+              white-space: nowrap;
+            "
+              >충무로에서 가장맛있는 치킨집은 여기</span
+            >
+          </div>
+          <div
+            style="
+            width: 0;
+            height: 0;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-top: 6px solid #191919;
+            margin-top: -1px;
+          "
+          ></div>
+        </div>
+      `,
     });
   }, []);
 
