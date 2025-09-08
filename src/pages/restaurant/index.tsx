@@ -12,10 +12,10 @@ import carImg from "@/assets/emoji/car.webp";
 import deliveryImg from "@/assets/emoji/delivery.webp";
 import takeoutImg from "@/assets/emoji/takeout.webp";
 import priceImg from "@/assets/emoji/price.webp";
-import kakaoMapImg from "./_assets/kakaomap_basic_1.webp";
 import ArrowIcon from "./_assets/arrow.svg?react";
 import BackIcon from "./_assets/back.svg?react";
 import ShareIcon from "./_assets/share.svg?react";
+import RestaurantLocationSection from "./_components/RestaurantLocationSection";
 
 const RestaurantDetailPage = () => {
   return (
@@ -166,22 +166,7 @@ const RestaurantDetailPage = () => {
         </div>
 
         {/* 매장 위치 */}
-        <div css={locationSectionStyle}>
-          <h2 css={sectionTitleStyle}>매장 위치</h2>
-          <div css={mapContainerStyle}>
-            <div css={mapImageStyle}>
-              <img
-                src="https://placehold.co/336x150"
-                alt="지도"
-                css={mapImageStyle}
-              />
-            </div>
-            <button css={mapButtonStyle}>
-              <img src={kakaoMapImg} alt="카카오맵" width={20} height={20} />
-              <span css={mapButtonTextStyle}>카카오 맵으로 길찾기</span>
-            </button>
-          </div>
-        </div>
+        <RestaurantLocationSection />
 
         {/* 제보 버튼 */}
         <div css={reportSectionStyle}>
@@ -499,51 +484,6 @@ const additionalPriceStyle = css(
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
-
-// 위치 섹션
-const locationSectionStyle = css({
-  display: "flex",
-  flexDirection: "column",
-  gap: 12,
-});
-
-// 지도 컨테이너
-const mapContainerStyle = css({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-});
-
-// 지도 이미지
-const mapImageStyle = css({
-  width: "100%",
-  height: 150,
-  borderRadius: "8px 8px 0 0",
-  objectFit: "cover",
-  position: "relative",
-});
-
-// 지도 버튼
-const mapButtonStyle = css({
-  width: "100%",
-  height: 40,
-  backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
-  border: `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
-  borderRadius: "0 0 8px 8px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 4,
-  padding: "8px 4px",
-});
-
-// 지도 버튼 텍스트
-const mapButtonTextStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.NEUTRAL,
-  },
-  TYPOGRAPHY.SUB["12R"]
 );
 
 // 제보 섹션
