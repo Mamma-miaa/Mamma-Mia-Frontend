@@ -1,3 +1,213 @@
+---
+alwaysApply: true
+---
+
+# 프로젝트 스타일링 표준
+
+## 기본 원칙
+
+이 프로젝트의 모든 컴포넌트는 Emotion의 Object Styles 패턴을 사용하여 일관된 스타일링을 유지합니다.
+
+## 필수 준수사항
+
+### 1. 스타일링 방식
+
+- ✅ **Emotion Object Styles 사용**: `css` 함수로 스타일 객체 정의
+- ❌ **styled-components 사용 금지**
+- ❌ **인라인 스타일 사용 금지**
+- ❌ **CSS 파일 import 사용 금지**
+- ❌ **`fontFamily: "Pretendard"` 명시적 작성 금지** (프로젝트 기본값)
+- ❌ **색상 하드코딩 금지** (THEME 상수 사용 필수)
+- ❌ **타이포그래피 직접 정의 금지** (TYPOGRAPHY 상수 사용 필수)
+
+### 2. 네이밍 컨벤션
+
+```typescript
+// 올바른 네이밍
+const containerStyle = css({ ... });
+const buttonStyle = css({ ... });
+const titleStyle = css({ ... });
+
+// 잘못된 네이밍
+const container = css({ ... });
+const button = css({ ... });
+const title = css({ ... });
+```
+
+### 3. 파일 구조
+
+```
+components/
+  ComponentName/
+    index.tsx          # 메인 컴포넌트
+    index.stories.tsx  # Storybook 스토리
+    styles.ts          # 스타일 정의 (선택사항)
+```
+
+### 4. 색상 시스템
+
+```typescript
+// ✅ 올바른 사용법 - THEME 상수 사용
+import THEME from "@/constants/theme";
+
+const componentStyle = css({
+  backgroundColor: THEME.COLORS.PRIMARY.RED, // 브랜드 주 색상
+  color: THEME.COLORS.GRAYSCALE.NORMAL, // 메인 텍스트
+  background: THEME.COLORS.BACKGROUND.WHITE, // 배경색
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`, // 테두리
+});
+
+// ❌ 잘못된 사용법 - 하드코딩
+const wrongStyle = css({
+  backgroundColor: "#FB3F11", // 하드코딩 금지
+  color: "#191919", // 하드코딩 금지
+  background: "#FFFFFF", // 하드코딩 금지
+});
+```
+
+### 5. 타이포그래피
+
+```typescript
+// ✅ 올바른 사용법 - TYPOGRAPHY 상수 사용
+import TYPOGRAPHY from "@/constants/typography";
+
+const titleStyle = css({
+  ...TYPOGRAPHY.HEADERS["16SB"],
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
+});
+
+const bodyStyle = css({
+  ...TYPOGRAPHY.BODY["14R"],
+  color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+});
+
+// ❌ 잘못된 사용법 - 직접 정의
+const wrongStyle = css({
+  fontSize: 16, // 직접 정의 금지
+  fontWeight: 600, // 직접 정의 금지
+  lineHeight: 1.4, // 직접 정의 금지
+  letterSpacing: "-2%", // 직접 정의 금지
+});
+```
+
+### 6. 간격 시스템
+
+```typescript
+// 일관된 간격 사용
+const spacing = {
+  xs: 2, // 2px
+  sm: 4, // 4px
+  md: 8, // 8px
+  lg: 12, // 12px
+  xl: 16, // 16px
+  xxl: 20, // 20px
+  xxxl: 24, // 24px
+};
+```
+
+## 코드 예시
+
+### 올바른 컴포넌트 구조
+
+```typescript
+import { css } from "@emotion/react";
+import THEME from "@/constants/theme";
+import TYPOGRAPHY from "@/constants/typography";
+
+interface ComponentProps {
+  // props 정의
+}
+
+const Component = ({ ... }: ComponentProps) => {
+  return (
+    <div css={containerStyle}>
+      <h1 css={titleStyle}>제목</h1>
+      <p css={bodyStyle}>내용</p>
+      <button css={buttonStyle}>버튼</button>
+    </div>
+  );
+};
+
+// 스타일 정의 (컴포넌트 외부)
+const containerStyle = css({
+  padding: 20,
+  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+  borderRadius: 8,
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+});
+
+const titleStyle = css({
+  ...TYPOGRAPHY.HEADERS["16SB"],
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
+  marginBottom: 20,
+  textAlign: "center",
+});
+
+const bodyStyle = css({
+  ...TYPOGRAPHY.BODY["14R"],
+  color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+  lineHeight: 1.5,
+});
+
+const buttonStyle = css({
+  ...TYPOGRAPHY.BODY["14SB"],
+  backgroundColor: THEME.COLORS.PRIMARY.RED,
+  color: THEME.COLORS.BACKGROUND.WHITE,
+  padding: "12px 24px",
+  borderRadius: 8,
+  border: "none",
+  cursor: "pointer",
+
+  "&:hover": {
+    backgroundColor: THEME.COLORS.GRAYSCALE.STRONG,
+  },
+});
+
+export default Component;
+```
+
+## 상수 파일 참고
+
+### theme.ts
+
+- **PRIMARY**: 브랜드 주 색상 (`#FB3F11`)
+- **GRAYSCALE**: 텍스트 및 중성 색상 (다양한 투명도)
+- **BACKGROUND**: 배경 색상 (`#FFFFFF`, `#F7F7F8`)
+- **LINE**: 테두리 및 구분선 색상 (다양한 투명도)
+
+### typography.ts
+
+- **HEADERS**: 제목용 스타일 (`16SB`)
+- **BODY**: 본문용 스타일 (`14R`, `14SB`)
+- **SUB**: 보조 텍스트용 스타일 (`12R`, `12B`)
+- **CAPTION**: 캡션용 스타일 (`11B`)
+
+## 참고 자료
+
+- [컴포넌트 스타일링 규칙](mdc:.cursor/rules/component-styling.mdc)
+- [Emotion Object Styles 상세 규칙](mdc:.cursor/rules/emotion-object-styles.mdc)
+- [SummaryCard 예시 컴포넌트](mdc:src/pages/main/components/SummaryCard/index.tsx)
+- [theme.ts](mdc:src/constants/theme.ts)
+- [typography.ts](mdc:src/constants/typography.ts)
+
+## 검증 체크리스트
+
+새로운 컴포넌트를 만들 때 다음 사항을 확인하세요:
+
+- [ ] `import { css } from "@emotion/react"` 사용
+- [ ] `styled-components` 사용하지 않음
+- [ ] CSS 속성이 `camelCase`로 작성됨
+- [ ] 숫자 값에 단위(`px`) 추가하지 않음
+- [ ] 스타일 객체가 컴포넌트 외부에 정의됨
+- [ ] 스타일 이름에 `Style` 접미사 사용
+- [ ] **THEME.COLORS 사용으로 색상 일관성 유지**
+- [ ] **TYPOGRAPHY 상수 사용으로 폰트 스타일 일관성 유지**
+- [ ] **`fontFamily: "Pretendard"` 명시적 작성하지 않음** (기본값)
+- [ ] **색상 하드코딩하지 않음** (THEME 상수 사용)
+- [ ] **타이포그래피 직접 정의하지 않음** (TYPOGRAPHY 상수 사용)
+
+---
+
 # 프로젝트 스타일링 표준
 
 ## 기본 원칙

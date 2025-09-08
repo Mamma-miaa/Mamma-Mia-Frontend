@@ -1,8 +1,8 @@
 import ReactDOMServer from "react-dom/server";
 import { css } from "@emotion/react";
 import { useEffect, useRef, useState } from "react";
-import SummaryCard from "./components/SummaryCard";
-import SearchInput from "./components/SearchInput";
+import SummaryCard from "./_components/SummaryCard";
+import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
 import LogoIcon from "@/assets/logo.svg?react";
 import styled from "@emotion/styled";
@@ -19,6 +19,7 @@ import "swiper/css";
 import "swiper/css/virtual";
 import 아시안_이미지 from "@/assets/graphics/아시안.webp";
 import OverlayMarker from "@/@lib/components/OverlayMarker";
+import { useNavigate } from "react-router-dom";
 
 const MOCK_DATA = [
   {
@@ -65,7 +66,7 @@ const MainPage = () => {
     lat: number;
     lng: number;
   }>(충무로_좌표);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (!mapRef.current) return;
 
@@ -161,7 +162,10 @@ const MainPage = () => {
         >
           {MOCK_DATA.map((data, index) => (
             <SwiperSlide key={data.id} virtualIndex={index}>
-              <SummaryCard {...data} />
+              <SummaryCard
+                {...data}
+                onClick={() => navigate(`/restaurant?id=${data.id}`)}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

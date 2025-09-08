@@ -1,0 +1,543 @@
+import { css } from "@emotion/react";
+import THEME from "@/constants/theme";
+import TYPOGRAPHY from "@/constants/typography";
+import MammaMiaBadge from "./_assets/mamma_mia_badge.svg?react";
+import MammaMiaVoteButton from "./_assets/mamma_mia_vote_button.svg?react";
+import ClickToVoteButton from "./_assets/click_to_vote.svg?react";
+import locationImg from "@/assets/emoji/location.webp";
+import ClipBoardIcon from "./_assets/clipboard.svg?react";
+import TranslateIcon from "./_assets/translate.svg?react";
+import timeImg from "@/assets/emoji/time.webp";
+import carImg from "@/assets/emoji/car.webp";
+import deliveryImg from "@/assets/emoji/delivery.webp";
+import takeoutImg from "@/assets/emoji/takeout.webp";
+import priceImg from "@/assets/emoji/price.webp";
+import ArrowIcon from "./_assets/arrow.svg?react";
+import BackIcon from "./_assets/back.svg?react";
+import ShareIcon from "./_assets/share.svg?react";
+import RestaurantLocationSection from "./_components/RestaurantLocationSection";
+import { useNavigate } from "react-router-dom";
+
+const RestaurantDetailPage = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div css={pageContainerStyle}>
+      {/* 뒤로가기 버튼 */}
+      <button
+        css={css(
+          floatingButtonStyle,
+          css({ position: "absolute", top: 3, left: 20 })
+        )}
+        onClick={() => navigate(-1)}
+      >
+        <BackIcon />
+      </button>
+      <button
+        css={css(
+          floatingButtonStyle,
+          css({ position: "absolute", top: 3, right: 20 })
+        )}
+      >
+        <ShareIcon />
+      </button>
+
+      {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
+      <img
+        src="https://d12zq4w4guyljn.cloudfront.net/20240928082830_photo1_f13518079202.webp"
+        alt="레스토랑 배경 이미지"
+        css={restaurantBackgroundImageStyle}
+      />
+      <div
+        css={css({
+          position: "absolute",
+          top: 80,
+          left: "50%",
+          transform: "translateX(-50%)",
+          padding: "0 20px",
+          width: "100%",
+        })}
+      >
+        <img
+          src="https://d12zq4w4guyljn.cloudfront.net/20240928082830_photo1_f13518079202.webp"
+          alt="레스토랑 이미지"
+          css={restaurantImageStyle}
+        />
+      </div>
+
+      {/* 레스토랑 정보 카드 */}
+      <div css={infoCardStyle}>
+        {/* 레스토랑 기본 정보 */}
+        <div css={restaurantInfoSectionStyle}>
+          <div css={titleSectionStyle}>
+            <span css={categoryStyle}>국밥·탕/찌개</span>
+            <h1 css={restaurantNameStyle}>충무로의 김치찌개는 여기밖에 없다</h1>
+          </div>
+
+          <div css={mammaMiaSectionStyle}>
+            <MammaMiaBadge />
+            <div css={votingInfoStyle}>
+              <div css={votingItemStyle}>
+                <span css={votingLabelStyle}>이번주</span>
+                <span css={votingNumberStyle}>4</span>
+              </div>
+              <span css={separatorStyle}>/</span>
+              <div css={votingItemStyle}>
+                <span css={votingLabelStyle}>누적</span>
+                <span css={votingNumberStyle}>128</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 투표 완료 버튼 */}
+        <button css={votingButtonStyle}>
+          <MammaMiaVoteButton />
+          <ClickToVoteButton
+            css={css({
+              position: "absolute",
+              bottom: 7.5,
+              left: "75%",
+              transform: "translateX(-50%)",
+            })}
+          />
+        </button>
+
+        {/* 매장 정보 */}
+        <div css={storeInfoSectionStyle}>
+          <h2 css={sectionTitleStyle}>매장 정보</h2>
+
+          <div css={locationInfoStyle}>
+            <div css={infoItemStyle}>
+              <img src={locationImg} css={emojiIconStyle} />
+              <div css={infoContentStyle}>
+                <div css={infoRowStyle}>
+                  <span css={infoTextStyle}>서울특별시 중구 필동로 30-1</span>
+                  <ClipBoardIcon />
+                </div>
+                <div css={distanceRowStyle}>
+                  <span css={distanceTextStyle}>충무로 역으로부터</span>
+                  <span css={distanceValueStyle}>380m</span>
+                  <TranslateIcon />
+                </div>
+              </div>
+            </div>
+
+            <div css={timeInfoStyle}>
+              <div css={infoItemStyle}>
+                <img src={timeImg} css={emojiIconStyle} />
+                <div css={timeContentStyle}>
+                  <div css={timeRowStyle}>
+                    <span css={timeTextStyle}>월 10:00 ~ 20:00</span>
+                    <ArrowIcon css={css({ transform: "rotate(270deg)" })} />
+                  </div>
+                  <ul css={timeListStyle}>
+                    <li>화 10:00 ~ 20:00 </li>
+                    <li>수 10:00 ~ 20:00 </li>
+                    <li>목 10:00 ~ 20:00 </li>
+                    <li>금 10:00 ~ 20:00 </li>
+                    <li>토 10:00 ~ 20:00 </li>
+                    <li>일 10:00 ~ 20:00 </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 부가 정보 */}
+        <div css={additionalInfoSectionStyle}>
+          <h2 css={sectionTitleStyle}>부가 정보</h2>
+          <div css={additionalInfoGridStyle}>
+            <div css={additionalInfoItemStyle}>
+              <img css={additionalEmojiStyle} src={carImg} />
+              <span css={additionalTextStyle}>주차 가능</span>
+            </div>
+            <div css={additionalInfoItemStyle}>
+              <img css={additionalEmojiStyle} src={deliveryImg} />
+              <span css={additionalTextStyle}>배달 가능</span>
+            </div>
+            <div css={additionalInfoItemStyle}>
+              <img css={additionalEmojiStyle} src={takeoutImg} />
+              <span css={additionalTextStyle}>포장 가능</span>
+            </div>
+            <div css={additionalInfoItemStyle}>
+              <img css={additionalEmojiStyle} src={priceImg} />
+              <span css={additionalTextStyle}>평균 가격대</span>
+              <span css={additionalPriceStyle}>15,000원</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 매장 위치 */}
+        <RestaurantLocationSection />
+
+        {/* 제보 버튼 */}
+        <div css={reportSectionStyle}>
+          <button css={reportButtonStyle}>
+            <span css={reportTextStyle}>잘못된 정보 제보하기</span>
+            <ArrowIcon />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// 페이지 컨테이너 스타일
+const pageContainerStyle = css({
+  width: "100%",
+  minHeight: "100vh",
+  position: "relative",
+  backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
+});
+
+// 레스토랑 배경 이미지 스타일
+const restaurantBackgroundImageStyle = css({
+  width: "100%",
+  aspectRatio: "375/460",
+  objectFit: "cover",
+  filter: "blur(140px)",
+  mask: "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
+  WebkitMask:
+    "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
+});
+
+// 레스토랑 이미지 스타일
+const restaurantImageStyle = css({
+  width: "100%",
+  aspectRatio: "1/1",
+  borderRadius: 12,
+  objectFit: "cover",
+});
+
+// 정보 카드 스타일
+const infoCardStyle = css({
+  position: "relative",
+  top: -33,
+  left: 0,
+  margin: "0 20px",
+  backgroundColor: "rgba(255, 255, 255, 0.6)",
+  border: "1px solid #FFFFFF",
+  borderRadius: 12,
+  padding: 16,
+  display: "flex",
+  flexDirection: "column",
+  gap: 24,
+  boxShadow:
+    "0px 0px 6px 0px rgba(0, 0, 0, 0.05), 1px 1px 1px 0px rgba(0, 0, 0, 0.01), 1px 1px 1px 0px rgba(0, 0, 0, 0.01), inset -2px 2px 4px 0px rgba(255, 255, 255, 0.2)",
+  backdropFilter: "blur(4px)",
+});
+
+// 레스토랑 정보 섹션
+const restaurantInfoSectionStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 6,
+});
+
+// 제목 섹션
+const titleSectionStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 2,
+});
+
+// 카테고리 스타일
+const categoryStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NEUTRAL,
+  },
+  TYPOGRAPHY.SUB["12R"]
+);
+
+// 레스토랑 이름 스타일
+const restaurantNameStyle = css({
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
+  margin: 0,
+  fontSize: 18,
+  fontWeight: 600,
+  lineHeight: 1.4,
+  letterSpacing: "-2%",
+});
+
+// 맘마미아 섹션
+const mammaMiaSectionStyle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 8,
+});
+
+// 투표 정보
+const votingInfoStyle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 6,
+});
+
+// 투표 아이템
+const votingItemStyle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 4,
+});
+
+// 투표 라벨
+const votingLabelStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NEUTRAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+// 투표 숫자
+const votingNumberStyle = css(
+  {
+    color: THEME.COLORS.PRIMARY.RED,
+  },
+  TYPOGRAPHY.BODY["14SB"]
+);
+
+// 구분자
+const separatorStyle = css({
+  color: THEME.COLORS.GRAYSCALE.NEUTRAL,
+  opacity: 0.6,
+  fontSize: 8,
+  fontWeight: 400,
+  lineHeight: 1.4,
+  letterSpacing: "-2%",
+});
+
+// 투표 버튼
+const votingButtonStyle = css({
+  height: 56,
+  position: "relative",
+  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
+  borderRadius: 8,
+  border: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: 11,
+  "&:disabled": {
+    backgroundColor: THEME.COLORS.GRAYSCALE.DISABLE,
+  },
+});
+
+// 매장 정보 섹션
+const storeInfoSectionStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 12,
+});
+
+// 섹션 제목
+const sectionTitleStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+    margin: 0,
+  },
+  TYPOGRAPHY.HEADERS["16SB"]
+);
+
+// 위치 정보
+const locationInfoStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 16,
+});
+
+// 정보 아이템
+const infoItemStyle = css({
+  display: "flex",
+  gap: 6,
+});
+
+// 이모지 아이콘
+const emojiIconStyle = css({
+  width: 24,
+  height: 24,
+});
+
+// 정보 콘텐츠
+const infoContentStyle = css({
+  display: "flex",
+  flexDirection: "column",
+});
+
+// 정보 행
+const infoRowStyle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 4,
+  height: 24,
+});
+
+// 정보 텍스트
+const infoTextStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+// 거리 행
+const distanceRowStyle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 2,
+});
+
+// 거리 텍스트
+const distanceTextStyle = css({
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
+  fontSize: 12,
+  fontWeight: 700,
+  lineHeight: 1.4,
+  letterSpacing: "-2%",
+});
+
+// 거리 값
+const distanceValueStyle = css({
+  color: THEME.COLORS.PRIMARY.RED,
+  fontSize: 12,
+  fontWeight: 700,
+  lineHeight: 1.4,
+  letterSpacing: "-2%",
+});
+
+// 시간 정보
+const timeInfoStyle = css({
+  display: "flex",
+  flexDirection: "column",
+});
+
+// 시간 콘텐츠
+const timeContentStyle = css({
+  display: "flex",
+  flexDirection: "column",
+});
+
+// 시간 행
+const timeRowStyle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 4,
+  height: 24,
+});
+
+// 시간 텍스트
+const timeTextStyle = css(
+  {
+    color: THEME.COLORS.PRIMARY.RED,
+  },
+  TYPOGRAPHY.BODY["14SB"]
+);
+
+// 시간 리스트
+const timeListStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NEUTRAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+// 부가 정보 섹션
+const additionalInfoSectionStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 12,
+});
+
+// 부가 정보 그리드
+const additionalInfoGridStyle = css({
+  display: "flex",
+  justifyContent: "stretch",
+  alignItems: "stretch",
+  gap: 24,
+});
+
+// 부가 정보 아이템
+const additionalInfoItemStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: 6,
+  flex: 1,
+});
+
+// 부가 정보 이모지
+const additionalEmojiStyle = css({
+  width: 24,
+  height: 24,
+});
+
+// 부가 정보 텍스트
+const additionalTextStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+    textAlign: "center",
+    whiteSpace: "nowrap",
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+// 부가 정보 가격
+const additionalPriceStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14SB"]
+);
+
+// 제보 섹션
+const reportSectionStyle = css({
+  padding: "12px 0 0",
+  borderTop: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+});
+
+// 제보 버튼
+const reportButtonStyle = css({
+  width: "100%",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: 10,
+  backgroundColor: "transparent",
+  border: "none",
+  padding: 0,
+});
+
+// 제보 텍스트
+const reportTextStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NEUTRAL,
+  },
+  TYPOGRAPHY.SUB["12R"]
+);
+
+// 뒤로가기 버튼 스타일
+const floatingButtonStyle = css({
+  width: 44,
+  height: 44,
+  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+  borderRadius: 28,
+  border: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+  zIndex: 10,
+  boxShadow:
+    "0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.12)",
+
+  "&:hover": {
+    backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
+  },
+
+  "&:active": {
+    transform: "scale(0.95)",
+  },
+});
+
+export default RestaurantDetailPage;

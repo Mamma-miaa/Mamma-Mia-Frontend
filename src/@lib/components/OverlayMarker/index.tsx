@@ -1,5 +1,4 @@
 import React from "react";
-import { css } from "@emotion/react";
 
 export interface OverlayMarkerProps {
   children?: React.ReactNode;
