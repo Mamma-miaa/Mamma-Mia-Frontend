@@ -19,6 +19,7 @@ import "swiper/css";
 import "swiper/css/virtual";
 import 아시안_이미지 from "@/assets/graphics/아시안.webp";
 import OverlayMarker from "@/@lib/components/OverlayMarker";
+import { useNavigate } from "react-router-dom";
 
 const MOCK_DATA = [
   {
@@ -65,7 +66,7 @@ const MainPage = () => {
     lat: number;
     lng: number;
   }>(충무로_좌표);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (!mapRef.current) return;
 
@@ -161,7 +162,10 @@ const MainPage = () => {
         >
           {MOCK_DATA.map((data, index) => (
             <SwiperSlide key={data.id} virtualIndex={index}>
-              <SummaryCard {...data} />
+              <SummaryCard
+                {...data}
+                onClick={() => navigate(`/restaurant?id=${data.id}`)}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

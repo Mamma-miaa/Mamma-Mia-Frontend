@@ -16,8 +16,11 @@ import ArrowIcon from "./_assets/arrow.svg?react";
 import BackIcon from "./_assets/back.svg?react";
 import ShareIcon from "./_assets/share.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantDetailPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div css={pageContainerStyle}>
       {/* 뒤로가기 버튼 */}
@@ -26,6 +29,7 @@ const RestaurantDetailPage = () => {
           floatingButtonStyle,
           css({ position: "absolute", top: 3, left: 20 })
         )}
+        onClick={() => navigate(-1)}
       >
         <BackIcon />
       </button>
