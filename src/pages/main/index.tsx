@@ -5,14 +5,9 @@ import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
 import LogoIcon from "@/assets/logo.svg?react";
-import styled from "@emotion/styled";
-import TYPOGRAPHY from "@/constants/typography";
+
 import THEME from "@/constants/theme";
-import ChallengeIcon from "./_assets/challenge_restaurant.svg?react";
 import Spacing from "@/@lib/components/Spacing";
-import RankingIcon from "./_assets/ranking.svg?react";
-import MyIcon from "./_assets/my.svg?react";
-import ListIcon from "./_assets/list.svg?react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Virtual } from "swiper/modules";
 import "swiper/css";
@@ -20,8 +15,20 @@ import "swiper/css/virtual";
 import 아시안_이미지 from "@/assets/graphics/아시안.webp";
 import OverlayMarker from "@/@lib/components/OverlayMarker";
 import { useNavigate } from "react-router-dom";
+import RestaurantListPopup from "./_components/RestaurantListPopup";
+import TopNavigation from "./_components/TopNavigation";
+import PopupToggleButton from "./_components/PopupToggleButton";
 
-const MOCK_DATA = [
+const MOCK_DATA: {
+  id: string;
+  restaurantName: string;
+  category: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  restaurantImageUrl: string;
+  distance: string;
+}[] = [
   {
     id: "1",
     restaurantName: "사랑방칼국수",
@@ -66,11 +73,18 @@ const MainPage = () => {
     lat: number;
     lng: number;
   }>(충무로_좌표);
+  const [isRestaurantListPopupOpen, setIsRestaurantListPopupOpen] =
+    useState(false);
   const navigate = useNavigate();
+
+  const toggleRestaurantListPopup = () => {
+    setIsRestaurantListPopupOpen((prev) => !prev);
+  };
+
   useEffect(() => {
     if (!mapRef.current) return;
 
-    var options = {
+    const options = {
       //지도를 생성할 때 필요한 기본 옵션
       center: new kakao.maps.LatLng(myLocation.lat, myLocation.lng), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)
@@ -129,36 +143,19 @@ const MainPage = () => {
   return (
     <>
       <div ref={mapRef} css={css({ width: "100dvw", height: "100dvh" })}>
-        <ListChip
-          css={css({
-            position: "fixed",
-            bottom: 124,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 1000,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 4,
-          })}
-        >
-          <ListIcon />
-          <span>목록보기</span>
-        </ListChip>
+        <div css={listChipPositionStyle}>
+          <PopupToggleButton
+            isPopupOpen={isRestaurantListPopupOpen}
+            onClick={toggleRestaurantListPopup}
+          />
+        </div>
 
         <Swiper
           modules={[Virtual]}
           virtual
           slidesPerView={3}
           centeredSlides
-          css={css({
-            width: 957,
-            position: "fixed",
-            bottom: 20,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 1000,
-          })}
+          css={swiperStyle}
         >
           {MOCK_DATA.map((data, index) => (
             <SwiperSlide key={data.id} virtualIndex={index}>
@@ -170,41 +167,11 @@ const MainPage = () => {
           ))}
         </Swiper>
 
-        <div
-          css={css({
-            position: "fixed",
-            top: 16,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 1000,
-            padding: "0 20px",
-            width: "100%",
-          })}
-        >
-          <div
-            css={css({
-              display: "flex",
-              alignItems: "center",
-              gap: 4,
-            })}
-          >
+        <div css={topContainerStyle}>
+          <div css={searchContainerStyle}>
             <LogoIcon />
-            <SearchInput
-              css={css({
-                flex: 1,
-              })}
-            />
-            <button
-              css={css({
-                width: 44,
-                height: 44,
-                borderRadius: 8,
-                backgroundColor: "#191919",
-                border: "none",
-                cursor: "pointer",
-                flex: "none",
-              })}
-            >
+            <SearchInput css={searchInputStyle} />
+            <button css={locationButtonStyle}>
               <MyLocationIcon
                 onClick={() => {
                   navigator.geolocation.getCurrentPosition((position) => {
@@ -218,63 +185,59 @@ const MainPage = () => {
             </button>
           </div>
           <Spacing size={12} />
-          <div
-            css={css({
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-            })}
-          >
-            <Button>
-              <ChallengeIcon /> 도전맛집
-            </Button>
-            <Button>
-              <RankingIcon /> 랭킹
-            </Button>
-            <Button>
-              <MyIcon /> MY
-            </Button>
-          </div>
+          <TopNavigation />
         </div>
       </div>
+      {isRestaurantListPopupOpen && <RestaurantListPopup data={MOCK_DATA} />}
     </>
   );
 };
 
 export default MainPage;
 
-const Button = styled("button")(
-  {
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
-    border: "none",
-    cursor: "pointer",
-    flex: "none",
-    color: THEME.COLORS.BACKGROUND.WHITE,
-    padding: "8px 16px",
-    display: "flex",
-    alignItems: "center",
-    gap: 4,
-  },
-  TYPOGRAPHY.BODY["14SB"]
-);
+const swiperStyle = css({
+  width: 957,
+  position: "fixed",
+  bottom: 20,
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 1000,
+});
 
-const ListChip = styled("button")(
-  {
-    height: 44,
-    borderRadius: 1000,
-    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-    border: "none",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 4,
-    padding: "8px 16px 8px 12px",
-    boxShadow: THEME.SHADOWS.EMPHASIZED,
-    color: THEME.COLORS.GRAYSCALE.NORMAL,
-  },
-  TYPOGRAPHY.BODY["14SB"]
-);
+const topContainerStyle = css({
+  position: "fixed",
+  top: 16,
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 1000,
+  padding: "0 20px",
+  width: "100%",
+});
+
+const searchContainerStyle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 4,
+});
+
+const searchInputStyle = css({
+  flex: 1,
+});
+
+const locationButtonStyle = css({
+  width: 44,
+  height: 44,
+  borderRadius: 8,
+  backgroundColor: "#191919",
+  border: "none",
+  cursor: "pointer",
+  flex: "none",
+});
+
+const listChipPositionStyle = css({
+  position: "fixed",
+  bottom: 124,
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 9999,
+});
