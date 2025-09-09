@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 import NewIcon from "../_assets/new.svg?react";
 import ResponsiveSummaryCard from "./ResponsiveSummaryCard";
 import { useNavigate } from "react-router-dom";
+import TYPOGRAPHY from "@/constants/typography";
 
 const RestaurantListPopup = ({
   data,
@@ -26,13 +27,12 @@ const RestaurantListPopup = ({
       <Spacing size={20} />
       {/* 필터 칩 컨테이너 */}
       <div css={filterContainerStyle}>
-        <div css={css(filterChipStyle)}>
+        <button css={css(filterChipStyle)}>
           <NewIcon />
-        </div>
-
-        {["영업중", "카테고리", "가격대"].map((text) => (
-          <div css={css(filterChipStyle)}>{text}</div>
-        ))}
+        </button>
+        <button css={css(filterChipStyle)}>영업중</button>
+        <button css={css(filterChipStyle)}>카테고리</button>
+        <button css={css(filterChipStyle)}>가격대</button>
       </div>
       <Spacing size={16} />
       <div
@@ -72,17 +72,20 @@ const filterContainerStyle = css({
   height: 44,
 });
 
-const filterChipStyle = css({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "8px 16px",
-  height: 44,
-  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
-  borderRadius: 1000,
-  cursor: "pointer",
-  transition: "all 0.2s ease",
-});
+const filterChipStyle = css(
+  {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "8px 16px",
+    height: 44,
+    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+    border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+    borderRadius: 1000,
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
 
 export default RestaurantListPopup;
