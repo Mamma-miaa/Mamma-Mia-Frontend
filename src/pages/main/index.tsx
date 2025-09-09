@@ -5,11 +5,9 @@ import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
 import LogoIcon from "@/assets/logo.svg?react";
-import styled from "@emotion/styled";
-import TYPOGRAPHY from "@/constants/typography";
+
 import THEME from "@/constants/theme";
 import Spacing from "@/@lib/components/Spacing";
-import ListIcon from "./_assets/list.svg?react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Virtual } from "swiper/modules";
 import "swiper/css";
@@ -19,6 +17,7 @@ import OverlayMarker from "@/@lib/components/OverlayMarker";
 import { useNavigate } from "react-router-dom";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
 import TopNavigation from "./_components/TopNavigation";
+import PopupToggleButton from "./_components/PopupToggleButton";
 
 const MOCK_DATA: {
   id: string;
@@ -85,7 +84,7 @@ const MainPage = () => {
   useEffect(() => {
     if (!mapRef.current) return;
 
-    var options = {
+    const options = {
       //지도를 생성할 때 필요한 기본 옵션
       center: new kakao.maps.LatLng(myLocation.lat, myLocation.lng), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)
@@ -144,13 +143,12 @@ const MainPage = () => {
   return (
     <>
       <div ref={mapRef} css={css({ width: "100dvw", height: "100dvh" })}>
-        <ListChip
-          onClick={toggleRestaurantListPopup}
-          css={listChipPositionStyle}
-        >
-          <ListIcon />
-          <span>목록보기</span>
-        </ListChip>
+        <div css={listChipPositionStyle}>
+          <PopupToggleButton
+            isPopupOpen={isRestaurantListPopupOpen}
+            onClick={toggleRestaurantListPopup}
+          />
+        </div>
 
         <Swiper
           modules={[Virtual]}
@@ -197,19 +195,6 @@ const MainPage = () => {
 
 export default MainPage;
 
-// 스타일 정의
-const listChipPositionStyle = css({
-  position: "fixed",
-  bottom: 124,
-  left: "50%",
-  transform: "translateX(-50%)",
-  zIndex: 9999,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 4,
-});
-
 const swiperStyle = css({
   width: 957,
   position: "fixed",
@@ -249,20 +234,10 @@ const locationButtonStyle = css({
   flex: "none",
 });
 
-const ListChip = styled("button")(
-  {
-    height: 44,
-    borderRadius: 1000,
-    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-    border: "none",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 4,
-    padding: "8px 16px 8px 12px",
-    boxShadow: THEME.SHADOWS.EMPHASIZED,
-    color: THEME.COLORS.GRAYSCALE.NORMAL,
-  },
-  TYPOGRAPHY.BODY["14SB"]
-);
+const listChipPositionStyle = css({
+  position: "fixed",
+  bottom: 124,
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 9999,
+});

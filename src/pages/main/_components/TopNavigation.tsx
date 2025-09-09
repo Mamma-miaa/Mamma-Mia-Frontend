@@ -2,9 +2,9 @@ import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import RankingIcon from "./_assets/ranking.svg?react";
-import MyIcon from "./_assets/my.svg?react";
-import ChallengeIcon from "./_assets/challenge_restaurant.svg?react";
+import RankingIcon from "../_assets/ranking.svg?react";
+import MyIcon from "../_assets/my.svg?react";
+import ChallengeIcon from "../_assets/challenge_restaurant.svg?react";
 
 const TopNavigation = () => {
   return (
