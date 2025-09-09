@@ -8,10 +8,7 @@ import LogoIcon from "@/assets/logo.svg?react";
 import styled from "@emotion/styled";
 import TYPOGRAPHY from "@/constants/typography";
 import THEME from "@/constants/theme";
-import ChallengeIcon from "./_assets/challenge_restaurant.svg?react";
 import Spacing from "@/@lib/components/Spacing";
-import RankingIcon from "./_assets/ranking.svg?react";
-import MyIcon from "./_assets/my.svg?react";
 import ListIcon from "./_assets/list.svg?react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Virtual } from "swiper/modules";
@@ -20,8 +17,19 @@ import "swiper/css/virtual";
 import 아시안_이미지 from "@/assets/graphics/아시안.webp";
 import OverlayMarker from "@/@lib/components/OverlayMarker";
 import { useNavigate } from "react-router-dom";
+import RestaurantListPopup from "./_components/RestaurantListPopup";
+import TopNavigation from "./_components/TopNavigation";
 
-const MOCK_DATA = [
+const MOCK_DATA: {
+  id: string;
+  restaurantName: string;
+  category: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  restaurantImageUrl: string;
+  distance: string;
+}[] = [
   {
     id: "1",
     restaurantName: "사랑방칼국수",
@@ -66,7 +74,14 @@ const MainPage = () => {
     lat: number;
     lng: number;
   }>(충무로_좌표);
+  const [isRestaurantListPopupOpen, setIsRestaurantListPopupOpen] =
+    useState(false);
   const navigate = useNavigate();
+
+  const toggleRestaurantListPopup = () => {
+    setIsRestaurantListPopupOpen((prev) => !prev);
+  };
+
   useEffect(() => {
     if (!mapRef.current) return;
 
@@ -130,17 +145,8 @@ const MainPage = () => {
     <>
       <div ref={mapRef} css={css({ width: "100dvw", height: "100dvh" })}>
         <ListChip
-          css={css({
-            position: "fixed",
-            bottom: 124,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 1000,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 4,
-          })}
+          onClick={toggleRestaurantListPopup}
+          css={listChipPositionStyle}
         >
           <ListIcon />
           <span>목록보기</span>
@@ -151,14 +157,7 @@ const MainPage = () => {
           virtual
           slidesPerView={3}
           centeredSlides
-          css={css({
-            width: 957,
-            position: "fixed",
-            bottom: 20,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 1000,
-          })}
+          css={swiperStyle}
         >
           {MOCK_DATA.map((data, index) => (
             <SwiperSlide key={data.id} virtualIndex={index}>
@@ -170,41 +169,11 @@ const MainPage = () => {
           ))}
         </Swiper>
 
-        <div
-          css={css({
-            position: "fixed",
-            top: 16,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 1000,
-            padding: "0 20px",
-            width: "100%",
-          })}
-        >
-          <div
-            css={css({
-              display: "flex",
-              alignItems: "center",
-              gap: 4,
-            })}
-          >
+        <div css={topContainerStyle}>
+          <div css={searchContainerStyle}>
             <LogoIcon />
-            <SearchInput
-              css={css({
-                flex: 1,
-              })}
-            />
-            <button
-              css={css({
-                width: 44,
-                height: 44,
-                borderRadius: 8,
-                backgroundColor: "#191919",
-                border: "none",
-                cursor: "pointer",
-                flex: "none",
-              })}
-            >
+            <SearchInput css={searchInputStyle} />
+            <button css={locationButtonStyle}>
               <MyLocationIcon
                 onClick={() => {
                   navigator.geolocation.getCurrentPosition((position) => {
@@ -218,48 +187,67 @@ const MainPage = () => {
             </button>
           </div>
           <Spacing size={12} />
-          <div
-            css={css({
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 8,
-            })}
-          >
-            <Button>
-              <ChallengeIcon /> 도전맛집
-            </Button>
-            <Button>
-              <RankingIcon /> 랭킹
-            </Button>
-            <Button>
-              <MyIcon /> MY
-            </Button>
-          </div>
+          <TopNavigation />
         </div>
       </div>
+      {isRestaurantListPopupOpen && <RestaurantListPopup data={MOCK_DATA} />}
     </>
   );
 };
 
 export default MainPage;
 
-const Button = styled("button")(
-  {
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
-    border: "none",
-    cursor: "pointer",
-    flex: "none",
-    color: THEME.COLORS.BACKGROUND.WHITE,
-    padding: "8px 16px",
-    display: "flex",
-    alignItems: "center",
-    gap: 4,
-  },
-  TYPOGRAPHY.BODY["14SB"]
-);
+// 스타일 정의
+const listChipPositionStyle = css({
+  position: "fixed",
+  bottom: 124,
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 9999,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 4,
+});
+
+const swiperStyle = css({
+  width: 957,
+  position: "fixed",
+  bottom: 20,
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 1000,
+});
+
+const topContainerStyle = css({
+  position: "fixed",
+  top: 16,
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 1000,
+  padding: "0 20px",
+  width: "100%",
+});
+
+const searchContainerStyle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 4,
+});
+
+const searchInputStyle = css({
+  flex: 1,
+});
+
+const locationButtonStyle = css({
+  width: 44,
+  height: 44,
+  borderRadius: 8,
+  backgroundColor: "#191919",
+  border: "none",
+  cursor: "pointer",
+  flex: "none",
+});
 
 const ListChip = styled("button")(
   {
