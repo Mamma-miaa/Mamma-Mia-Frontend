@@ -1,0 +1,51 @@
+name: Deploy to S3
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.19.0"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Deploy to S3
+        uses: Reggionick/s3-deploy@v4.0.0
+        with:
+          # Directory to deploy
+          folder: dist
+          # Name of AWS Bucket
+          bucket: ${{ secrets.S3_BUCKET }}
+          # The destination bucket region
+          bucket-region: ${{ secrets.AWS_REGION }}
+          # AWS CloudFront distribution ID
+          dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+          # AWS CloudFront invalidation path(s)
+          invalidation: "/*"
+          # Removes files in S3 that are not available in the local copy of the directory
+          delete-removed: true
+          # Use this parameter to specify Cache-Control: no-cache, no-store, must-revalidate header
+          no-cache: true
+          # Upload files with private ACL, needed for S3 static website hosting
+          private: false
+          # Sets the Cache-Control: max-age=X header
+          cache: "0"
+          # Sets the Cache-Control header to immutable
+          immutable: true
+          # Allows for a comma delineated Regex String that matches files to include in the deployment
+          files-to-include: "*.html,*.css,*.js,*.svg,*.webp,*.woff2"
