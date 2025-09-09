@@ -40,11 +40,11 @@ jobs:
           # Removes files in S3 that are not available in the local copy of the directory
           delete-removed: true
           # Use this parameter to specify Cache-Control: no-cache, no-store, must-revalidate header
-          no-cache: false
+          no-cache: true
           # Upload files with private ACL, needed for S3 static website hosting
           private: false
           # Sets the Cache-Control: max-age=X header
-          cache: "31536000"
+          cache: "0"
           # Sets the Cache-Control header to immutable
           immutable: true
           # Allows for a comma delineated Regex String that matches files to include in the deployment
