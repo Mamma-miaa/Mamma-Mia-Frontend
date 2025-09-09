@@ -2,21 +2,22 @@ import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import RankingIcon from "../_assets/ranking.svg?react";
-import MyIcon from "../_assets/my.svg?react";
-import ChallengeIcon from "../_assets/challenge_restaurant.svg?react";
+import challengeImg from "@/assets/emoji/challenge.webp";
+import medalImg from "@/assets/emoji/medal.webp";
+import personImg from "@/assets/emoji/person.webp";
 
 const TopNavigation = () => {
   return (
     <div css={buttonContainerStyle}>
       <Button>
-        <ChallengeIcon /> 도전맛집
+        <img src={challengeImg} alt="도전맛집" width={20} height={20} />
+        도전맛집
       </Button>
       <Button>
-        <RankingIcon /> 랭킹
+        <img src={medalImg} alt="랭킹" width={20} height={20} /> 랭킹
       </Button>
       <Button>
-        <MyIcon /> MY
+        <img src={personImg} alt="MY" width={20} height={20} /> MY
       </Button>
     </div>
   );
