@@ -141,6 +141,7 @@ const baseCSS = css`
   * {
     box-sizing: border-box;
     font-family: "Pretendard", sans-serif;
+    font-synthesis: none;
   }
 `;
 
