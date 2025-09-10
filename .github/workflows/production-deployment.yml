@@ -50,5 +50,3 @@ jobs:
           cache: "0"
           # Sets the Cache-Control header to immutable
           immutable: true
-          # Allows for a comma delineated Regex String that matches files to include in the deployment
-          files-to-include: "*.html,*.css,*.js,*.svg,*.webp,*.woff2"
