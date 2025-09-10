@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "generate-types": "npx openapi-typescript https://api.mamma-mia.site/v3/api-docs -o ./path/to/my/schema.d.ts"
+    "generate-types": "npx openapi-typescript https://api.mamma-mia.site/v3/api-docs -o ./src/apis/schema.d.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
