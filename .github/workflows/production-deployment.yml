@@ -45,7 +45,7 @@ jobs:
           # Use this parameter to specify Cache-Control: no-cache, no-store, must-revalidate header
           no-cache: true
           # Upload files with private ACL, needed for S3 static website hosting
-          private: false
+          private: true
           # Sets the Cache-Control: max-age=X header
           cache: "0"
           # Sets the Cache-Control header to immutable
