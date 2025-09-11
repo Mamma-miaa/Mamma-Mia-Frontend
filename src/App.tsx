@@ -4,14 +4,22 @@ import globalStyles from "./styles/globalStyles";
 import MainPage from "./pages/main";
 import RestaurantDetailPage from "./pages/restaurant";
 import { OverlayProvider } from "overlay-kit";
+import { Suspense } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <OverlayProvider>
-        <Outlet />
-      </OverlayProvider>
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={<div>Loading...</div>}>
+          <OverlayProvider>
+            <Outlet />
+          </OverlayProvider>
+        </Suspense>
+      </QueryClientProvider>
     ),
     children: [
       {
