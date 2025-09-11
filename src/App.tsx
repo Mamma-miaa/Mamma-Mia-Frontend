@@ -6,6 +6,7 @@ import RestaurantDetailPage from "./pages/restaurant";
 import { OverlayProvider } from "overlay-kit";
 import { Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Spinner from "./@lib/components/Spinner";
 
 const queryClient = new QueryClient();
 
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <QueryClientProvider client={queryClient}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Spinner />}>
           <OverlayProvider>
             <Outlet />
           </OverlayProvider>
