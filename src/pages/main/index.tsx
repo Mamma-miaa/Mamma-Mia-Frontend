@@ -18,48 +18,7 @@ import { useNavigate } from "react-router-dom";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
 import TopNavigation from "./_components/TopNavigation";
 import PopupToggleButton from "./_components/PopupToggleButton";
-
-const MOCK_DATA: {
-  id: string;
-  restaurantName: string;
-  category: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-  restaurantImageUrl: string;
-  distance: string;
-}[] = [
-  {
-    id: "1",
-    restaurantName: "사랑방칼국수",
-    category: "korean",
-    address: "서울 중구 퇴계로27길 46 (충무로3가)",
-    latitude: 37.5623,
-    longitude: 126.9918,
-    restaurantImageUrl: "https://placehold.co/78x78",
-    distance: "380m",
-  },
-  {
-    id: "2",
-    restaurantName: "필동함박",
-    category: "world",
-    address: "서울 중구 필동로 7-1 (필동3가)",
-    latitude: 37.5617,
-    longitude: 126.9935,
-    restaurantImageUrl: "https://placehold.co/78x78",
-    distance: "380m",
-  },
-  {
-    id: "3",
-    restaurantName: "충무로쭈꾸미불고기",
-    category: "korean",
-    address: "서울 중구 퇴계로31길 11",
-    latitude: 37.5628,
-    longitude: 126.9942,
-    restaurantImageUrl: "https://placehold.co/78x78",
-    distance: "380m",
-  },
-];
+import { useGetNearbyStoreQuery } from "@/hooks/@server/store";
 
 const 충무로_좌표 = {
   lat: 37.561306,
@@ -75,6 +34,15 @@ const MainPage = () => {
   }>(충무로_좌표);
   const [isRestaurantListPopupOpen, setIsRestaurantListPopupOpen] =
     useState(false);
+  const { data: nearbyStore } = useGetNearbyStoreQuery({
+    userLatitude: myLocation.lat,
+    userLongitude: myLocation.lng,
+    minLatitude: myLocation.lat - 0.01,
+    maxLatitude: myLocation.lat + 0.01,
+    minLongitude: myLocation.lng - 0.01,
+    maxLongitude: myLocation.lng + 0.01,
+  });
+
   const navigate = useNavigate();
 
   const toggleRestaurantListPopup = () => {
@@ -106,12 +74,15 @@ const MainPage = () => {
     // 지도에 원을 표시합니다
     circle.setMap(kakaoMap.current);
 
-    MOCK_DATA.forEach((data) => {
+    nearbyStore.items?.forEach((restaurant) => {
       // 커스텀 오버레이 생성
       new kakao.maps.CustomOverlay({
         map: kakaoMap.current || undefined,
-        position: new kakao.maps.LatLng(data.latitude, data.longitude),
-        content: `<div id='overlay-mark${data.id}'>${ReactDOMServer.renderToString(
+        position: new kakao.maps.LatLng(
+          restaurant.latitude,
+          restaurant.longitude
+        ),
+        content: `<div id='overlay-mark${restaurant.storeId}'>${ReactDOMServer.renderToString(
           <OverlayMarker>
             <img
               src={아시안_이미지}
@@ -128,8 +99,8 @@ const MainPage = () => {
       });
     });
 
-    MOCK_DATA.forEach((data) => {
-      document.getElementById(`overlay-mark${data.id}`);
+    nearbyStore.items?.forEach((data) => {
+      document.getElementById(`overlay-mark${data.storeId}`);
     });
   }, []);
 
@@ -157,11 +128,11 @@ const MainPage = () => {
           centeredSlides
           css={swiperStyle}
         >
-          {MOCK_DATA.map((data, index) => (
-            <SwiperSlide key={data.id} virtualIndex={index}>
+          {nearbyStore.items?.map((data, index) => (
+            <SwiperSlide key={data.storeId} virtualIndex={index}>
               <SummaryCard
-                {...data}
-                onClick={() => navigate(`/restaurant?id=${data.id}`)}
+                restaurant={data}
+                onClick={() => navigate(`/restaurant?id=${data.storeId}`)}
               />
             </SwiperSlide>
           ))}
@@ -188,7 +159,9 @@ const MainPage = () => {
           <TopNavigation />
         </div>
       </div>
-      {isRestaurantListPopupOpen && <RestaurantListPopup data={MOCK_DATA} />}
+      {isRestaurantListPopupOpen && (
+        <RestaurantListPopup data={nearbyStore.items || []} />
+      )}
     </>
   );
 };

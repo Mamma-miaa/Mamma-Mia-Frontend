@@ -5,20 +5,12 @@ import NewIcon from "../_assets/new.svg?react";
 import ResponsiveSummaryCard from "./ResponsiveSummaryCard";
 import { useNavigate } from "react-router-dom";
 import TYPOGRAPHY from "@/constants/typography";
+import type { components } from "@/apis/schema";
 
 const RestaurantListPopup = ({
   data,
 }: {
-  data: {
-    id: string;
-    restaurantName: string;
-    category: string;
-    address: string;
-    latitude: number;
-    longitude: number;
-    restaurantImageUrl: string;
-    distance: string;
-  }[];
+  data: components["schemas"]["GetNearByResponse"][];
 }) => {
   const navigate = useNavigate();
 
@@ -42,11 +34,11 @@ const RestaurantListPopup = ({
           padding: "0 20px",
         })}
       >
-        {data.map((restaurant) => (
+        {data.map((restaurant: components["schemas"]["GetNearByResponse"]) => (
           <ResponsiveSummaryCard
-            {...restaurant}
-            key={restaurant.id}
-            onClick={() => navigate(`/restaurant?id=${restaurant.id}`)}
+            restaurant={restaurant}
+            key={restaurant.storeId}
+            onClick={() => navigate(`/restaurant?id=${restaurant.storeId}`)}
           />
         ))}
       </div>
