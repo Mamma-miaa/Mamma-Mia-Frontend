@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
-import LogoIcon from "@/assets/logo.svg?react";
+import logoImg from "@/assets/logo.png";
 
 import THEME from "@/constants/theme";
 import Spacing from "@/@lib/components/Spacing";
@@ -179,7 +179,7 @@ const MainPage = () => {
 
         <div css={topContainerStyle}>
           <div css={searchContainerStyle}>
-            <LogoIcon />
+            <img src={logoImg} alt="logo" width={95} height={40} />
             <SearchInput css={searchInputStyle} />
             <button css={locationButtonStyle}>
               <MyLocationIcon
