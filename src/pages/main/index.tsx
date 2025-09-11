@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
-import LogoIcon from "@/assets/logo.svg?react";
+import logoImg from "@/assets/logo.png";
 
 import THEME from "@/constants/theme";
 import Spacing from "@/@lib/components/Spacing";
@@ -18,50 +18,9 @@ import { useNavigate } from "react-router-dom";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
 import TopNavigation from "./_components/TopNavigation";
 import PopupToggleButton from "./_components/PopupToggleButton";
+import { useGetNearbyStoreQuery } from "@/hooks/@server/store";
 
-const MOCK_DATA: {
-  id: string;
-  restaurantName: string;
-  category: string;
-  address: string;
-  latitude: number;
-  longitude: number;
-  restaurantImageUrl: string;
-  distance: string;
-}[] = [
-  {
-    id: "1",
-    restaurantName: "사랑방칼국수",
-    category: "korean",
-    address: "서울 중구 퇴계로27길 46 (충무로3가)",
-    latitude: 37.5623,
-    longitude: 126.9918,
-    restaurantImageUrl: "https://placehold.co/78x78",
-    distance: "380m",
-  },
-  {
-    id: "2",
-    restaurantName: "필동함박",
-    category: "world",
-    address: "서울 중구 필동로 7-1 (필동3가)",
-    latitude: 37.5617,
-    longitude: 126.9935,
-    restaurantImageUrl: "https://placehold.co/78x78",
-    distance: "380m",
-  },
-  {
-    id: "3",
-    restaurantName: "충무로쭈꾸미불고기",
-    category: "korean",
-    address: "서울 중구 퇴계로31길 11",
-    latitude: 37.5628,
-    longitude: 126.9942,
-    restaurantImageUrl: "https://placehold.co/78x78",
-    distance: "380m",
-  },
-];
-
-const 충무로_좌표 = {
+const 충무로역_좌표 = {
   lat: 37.561306,
   lng: 126.9945,
 };
@@ -72,9 +31,32 @@ const MainPage = () => {
   const [myLocation, setMyLocation] = useState<{
     lat: number;
     lng: number;
-  }>(충무로_좌표);
+  }>(충무로역_좌표);
   const [isRestaurantListPopupOpen, setIsRestaurantListPopupOpen] =
     useState(false);
+
+  const [지도_모서리, set지도_모서리] = useState<{
+    minLatitude: number;
+    maxLatitude: number;
+    minLongitude: number;
+    maxLongitude: number;
+  }>({
+    minLatitude: 0,
+    maxLatitude: 0,
+    minLongitude: 0,
+    maxLongitude: 0,
+  });
+
+  const { data: nearbyStore } = useGetNearbyStoreQuery({
+    userLatitude: myLocation.lat,
+    userLongitude: myLocation.lng,
+    minLatitude: 지도_모서리.minLatitude,
+    maxLatitude: 지도_모서리.maxLatitude,
+    minLongitude: 지도_모서리.minLongitude,
+    maxLongitude: 지도_모서리.maxLongitude,
+    size: 10,
+  });
+
   const navigate = useNavigate();
 
   const toggleRestaurantListPopup = () => {
@@ -92,8 +74,15 @@ const MainPage = () => {
 
     kakaoMap.current = new kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
 
+    set지도_모서리({
+      minLatitude: kakaoMap.current?.getBounds().getSouthWest().getLat() || 0,
+      maxLatitude: kakaoMap.current?.getBounds().getNorthEast().getLat() || 0,
+      minLongitude: kakaoMap.current?.getBounds().getSouthWest().getLng() || 0,
+      maxLongitude: kakaoMap.current?.getBounds().getNorthEast().getLng() || 0,
+    });
+
     const circle = new kakao.maps.Circle({
-      center: new kakao.maps.LatLng(충무로_좌표.lat, 충무로_좌표.lng), // 원의 중심좌표 입니다
+      center: new kakao.maps.LatLng(충무로역_좌표.lat, 충무로역_좌표.lng), // 원의 중심좌표 입니다
       radius: 1000, // 미터 단위의 원의 반지름입니다
       strokeWeight: 1, // 선의 두께입니다
       strokeColor: THEME.COLORS.PRIMARY.RED, // 선의 색깔입니다
@@ -106,12 +95,32 @@ const MainPage = () => {
     // 지도에 원을 표시합니다
     circle.setMap(kakaoMap.current);
 
-    MOCK_DATA.forEach((data) => {
+    kakao.maps.event.addListener(kakaoMap.current, "idle", () => {
+      setMyLocation({
+        lat: kakaoMap.current?.getCenter().getLat() || 0,
+        lng: kakaoMap.current?.getCenter().getLng() || 0,
+      });
+      set지도_모서리({
+        minLatitude: kakaoMap.current?.getBounds().getSouthWest().getLat() || 0,
+        maxLatitude: kakaoMap.current?.getBounds().getNorthEast().getLat() || 0,
+        minLongitude:
+          kakaoMap.current?.getBounds().getSouthWest().getLng() || 0,
+        maxLongitude:
+          kakaoMap.current?.getBounds().getNorthEast().getLng() || 0,
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    nearbyStore?.items?.forEach((restaurant) => {
       // 커스텀 오버레이 생성
       new kakao.maps.CustomOverlay({
         map: kakaoMap.current || undefined,
-        position: new kakao.maps.LatLng(data.latitude, data.longitude),
-        content: `<div id='overlay-mark${data.id}'>${ReactDOMServer.renderToString(
+        position: new kakao.maps.LatLng(
+          restaurant.latitude,
+          restaurant.longitude
+        ),
+        content: `<div id='overlay-mark${restaurant.storeId}'>${ReactDOMServer.renderToString(
           <OverlayMarker>
             <img
               src={아시안_이미지}
@@ -127,11 +136,12 @@ const MainPage = () => {
         xAnchor: 0.5,
       });
     });
-
-    MOCK_DATA.forEach((data) => {
-      document.getElementById(`overlay-mark${data.id}`);
-    });
-  }, []);
+  }, [
+    지도_모서리.minLatitude,
+    지도_모서리.maxLatitude,
+    지도_모서리.minLongitude,
+    지도_모서리.maxLongitude,
+  ]);
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -157,11 +167,11 @@ const MainPage = () => {
           centeredSlides
           css={swiperStyle}
         >
-          {MOCK_DATA.map((data, index) => (
-            <SwiperSlide key={data.id} virtualIndex={index}>
+          {nearbyStore?.items?.map((data, index) => (
+            <SwiperSlide key={data.storeId} virtualIndex={index}>
               <SummaryCard
-                {...data}
-                onClick={() => navigate(`/restaurant?id=${data.id}`)}
+                restaurant={data}
+                onClick={() => navigate(`/restaurant?id=${data.storeId}`)}
               />
             </SwiperSlide>
           ))}
@@ -169,7 +179,7 @@ const MainPage = () => {
 
         <div css={topContainerStyle}>
           <div css={searchContainerStyle}>
-            <LogoIcon />
+            <img src={logoImg} alt="logo" width={95} height={40} />
             <SearchInput css={searchInputStyle} />
             <button css={locationButtonStyle}>
               <MyLocationIcon
@@ -188,7 +198,9 @@ const MainPage = () => {
           <TopNavigation />
         </div>
       </div>
-      {isRestaurantListPopupOpen && <RestaurantListPopup data={MOCK_DATA} />}
+      {isRestaurantListPopupOpen && (
+        <RestaurantListPopup data={nearbyStore?.items || []} />
+      )}
     </>
   );
 };

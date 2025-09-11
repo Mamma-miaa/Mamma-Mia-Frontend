@@ -3,40 +3,32 @@ import LocationIcon from "./_assets/location.svg?react";
 import type { ComponentProps } from "react";
 import TYPOGRAPHY from "@/constants/typography";
 import THEME from "@/constants/theme";
+import type { components } from "@/apis/schema";
 
 // Import Swiper styles
 interface SummaryCardProps extends ComponentProps<"div"> {
-  category: string;
-  restaurantName: string;
-  distance: string;
-  restaurantImageUrl: string;
+  restaurant: components["schemas"]["GetNearByResponse"];
 }
 
-const ResponsiveSummaryCard = ({
-  category,
-  restaurantName,
-  distance,
-  restaurantImageUrl,
-  ...props
-}: SummaryCardProps) => {
+const ResponsiveSummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
   return (
     <div css={containerStyle} {...props}>
       <div css={imageContainerStyle}>
         <img
-          src={restaurantImageUrl}
-          alt={restaurantName}
+          src={restaurant.imageUrl}
+          alt={restaurant.name}
           css={restaurantImageStyle}
         />
       </div>
       <div css={contentContainerStyle}>
         <div css={titleSectionStyle}>
-          <span css={categoryStyle}>{category}</span>
-          <h3 css={restaurantNameStyle}>{restaurantName}</h3>
+          <span css={categoryStyle}>{restaurant.category}</span>
+          <h3 css={restaurantNameStyle}>{restaurant.name}</h3>
         </div>
         <div css={locationSectionStyle}>
           <LocationIcon />
           <span css={locationTextStyle}>내 위치로부터</span>
-          <span css={distanceStyle}>{distance}</span>
+          <span css={distanceStyle}>{restaurant.distanceMeters}</span>
         </div>
       </div>
     </div>
