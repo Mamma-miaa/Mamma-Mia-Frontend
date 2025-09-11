@@ -20,7 +20,7 @@ import TopNavigation from "./_components/TopNavigation";
 import PopupToggleButton from "./_components/PopupToggleButton";
 import { useGetNearbyStoreQuery } from "@/hooks/@server/store";
 
-const 충무로_좌표 = {
+const 충무로역_좌표 = {
   lat: 37.561306,
   lng: 126.9945,
 };
@@ -31,16 +31,30 @@ const MainPage = () => {
   const [myLocation, setMyLocation] = useState<{
     lat: number;
     lng: number;
-  }>(충무로_좌표);
+  }>(충무로역_좌표);
   const [isRestaurantListPopupOpen, setIsRestaurantListPopupOpen] =
     useState(false);
+
+  const [지도_모서리, set지도_모서리] = useState<{
+    minLatitude: number;
+    maxLatitude: number;
+    minLongitude: number;
+    maxLongitude: number;
+  }>({
+    minLatitude: 0,
+    maxLatitude: 0,
+    minLongitude: 0,
+    maxLongitude: 0,
+  });
+
   const { data: nearbyStore } = useGetNearbyStoreQuery({
     userLatitude: myLocation.lat,
     userLongitude: myLocation.lng,
-    minLatitude: myLocation.lat - 0.01,
-    maxLatitude: myLocation.lat + 0.01,
-    minLongitude: myLocation.lng - 0.01,
-    maxLongitude: myLocation.lng + 0.01,
+    minLatitude: 지도_모서리.minLatitude,
+    maxLatitude: 지도_모서리.maxLatitude,
+    minLongitude: 지도_모서리.minLongitude,
+    maxLongitude: 지도_모서리.maxLongitude,
+    size: 10,
   });
 
   const navigate = useNavigate();
@@ -60,8 +74,15 @@ const MainPage = () => {
 
     kakaoMap.current = new kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
 
+    set지도_모서리({
+      minLatitude: kakaoMap.current?.getBounds().getSouthWest().getLat() || 0,
+      maxLatitude: kakaoMap.current?.getBounds().getNorthEast().getLat() || 0,
+      minLongitude: kakaoMap.current?.getBounds().getSouthWest().getLng() || 0,
+      maxLongitude: kakaoMap.current?.getBounds().getNorthEast().getLng() || 0,
+    });
+
     const circle = new kakao.maps.Circle({
-      center: new kakao.maps.LatLng(충무로_좌표.lat, 충무로_좌표.lng), // 원의 중심좌표 입니다
+      center: new kakao.maps.LatLng(충무로역_좌표.lat, 충무로역_좌표.lng), // 원의 중심좌표 입니다
       radius: 1000, // 미터 단위의 원의 반지름입니다
       strokeWeight: 1, // 선의 두께입니다
       strokeColor: THEME.COLORS.PRIMARY.RED, // 선의 색깔입니다
@@ -74,7 +95,24 @@ const MainPage = () => {
     // 지도에 원을 표시합니다
     circle.setMap(kakaoMap.current);
 
-    nearbyStore.items?.forEach((restaurant) => {
+    kakao.maps.event.addListener(kakaoMap.current, "idle", () => {
+      setMyLocation({
+        lat: kakaoMap.current?.getCenter().getLat() || 0,
+        lng: kakaoMap.current?.getCenter().getLng() || 0,
+      });
+      set지도_모서리({
+        minLatitude: kakaoMap.current?.getBounds().getSouthWest().getLat() || 0,
+        maxLatitude: kakaoMap.current?.getBounds().getNorthEast().getLat() || 0,
+        minLongitude:
+          kakaoMap.current?.getBounds().getSouthWest().getLng() || 0,
+        maxLongitude:
+          kakaoMap.current?.getBounds().getNorthEast().getLng() || 0,
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    nearbyStore?.items?.forEach((restaurant) => {
       // 커스텀 오버레이 생성
       new kakao.maps.CustomOverlay({
         map: kakaoMap.current || undefined,
@@ -98,11 +136,12 @@ const MainPage = () => {
         xAnchor: 0.5,
       });
     });
-
-    nearbyStore.items?.forEach((data) => {
-      document.getElementById(`overlay-mark${data.storeId}`);
-    });
-  }, []);
+  }, [
+    지도_모서리.minLatitude,
+    지도_모서리.maxLatitude,
+    지도_모서리.minLongitude,
+    지도_모서리.maxLongitude,
+  ]);
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -128,7 +167,7 @@ const MainPage = () => {
           centeredSlides
           css={swiperStyle}
         >
-          {nearbyStore.items?.map((data, index) => (
+          {nearbyStore?.items?.map((data, index) => (
             <SwiperSlide key={data.storeId} virtualIndex={index}>
               <SummaryCard
                 restaurant={data}
@@ -160,7 +199,7 @@ const MainPage = () => {
         </div>
       </div>
       {isRestaurantListPopupOpen && (
-        <RestaurantListPopup data={nearbyStore.items || []} />
+        <RestaurantListPopup data={nearbyStore?.items || []} />
       )}
     </>
   );
