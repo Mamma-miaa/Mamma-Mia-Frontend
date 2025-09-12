@@ -98,7 +98,7 @@ const RestaurantDetailPage = () => {
               </div>
               <span css={separatorStyle}>/</span>
               <div css={votingItemStyle}>
-                <span css={votingLabelStyle}>누적</span>
+                <span css={votingLabelStyle}>이번달</span>
                 <span css={votingNumberStyle}>128</span>
               </div>
             </div>
