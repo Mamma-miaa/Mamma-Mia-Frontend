@@ -275,7 +275,11 @@ const RestaurantDetailPage = () => {
         </div>
 
         {/* 매장 위치 */}
-        <RestaurantLocationSection />
+        <RestaurantLocationSection
+          latitude={storeDetail?.latitude ?? 0}
+          longitude={storeDetail?.longitude ?? 0}
+          restaurantName={storeDetail?.name ?? ""}
+        />
 
         {/* 제보 버튼 */}
         <div css={reportSectionStyle}>

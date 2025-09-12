@@ -4,7 +4,15 @@ import { css } from "@emotion/react";
 import kakaoMapImg from "../_assets/kakaomap_basic_1.webp";
 import { useEffect, useRef } from "react";
 
-const RestaurantLocationSection = () => {
+const RestaurantLocationSection = ({
+  latitude,
+  longitude,
+  restaurantName,
+}: {
+  latitude: number;
+  longitude: number;
+  restaurantName: string;
+}) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const kakaoMap = useRef<kakao.maps.Map | null>(null);
 
@@ -13,7 +21,7 @@ const RestaurantLocationSection = () => {
 
     var options = {
       //지도를 생성할 때 필요한 기본 옵션
-      center: new kakao.maps.LatLng(37.5617, 126.9935), //지도의 중심좌표.
+      center: new kakao.maps.LatLng(latitude, longitude), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)
     };
 
@@ -23,7 +31,7 @@ const RestaurantLocationSection = () => {
 
     new kakao.maps.CustomOverlay({
       map: kakaoMap.current,
-      position: new kakao.maps.LatLng(37.5617, 126.9935),
+      position: new kakao.maps.LatLng(latitude, longitude),
       content: /* HTML */ `
         <div
           style="
@@ -56,7 +64,7 @@ const RestaurantLocationSection = () => {
               text-align: center;
               white-space: nowrap;
             "
-              >충무로에서 가장맛있는 치킨집은 여기</span
+              >${restaurantName}</span
             >
           </div>
           <div
