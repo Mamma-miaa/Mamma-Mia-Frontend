@@ -17,6 +17,7 @@ import BackIcon from "./_assets/back.svg?react";
 import ShareIcon from "./_assets/share.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
 import { useNavigate } from "react-router-dom";
+import BookmarkIcon from "./_assets/bookmark.svg?react";
 
 const RestaurantDetailPage = () => {
   const navigate = useNavigate();
@@ -40,6 +41,14 @@ const RestaurantDetailPage = () => {
         )}
       >
         <ShareIcon />
+      </button>
+      <button
+        css={css(
+          floatingButtonStyle,
+          css({ position: "absolute", top: 3, right: 76 })
+        )}
+      >
+        <BookmarkIcon />
       </button>
 
       {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
