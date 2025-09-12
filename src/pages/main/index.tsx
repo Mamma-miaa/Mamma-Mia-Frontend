@@ -225,7 +225,7 @@ const MainPage = () => {
         <div css={topContainerStyle}>
           <div css={searchContainerStyle}>
             <img src={logoImg} alt="logo" width={95} height={40} />
-            <SearchInput css={searchInputStyle} />
+            <SearchInput css={searchInputStyle} type="button" />
             <button css={locationButtonStyle}>
               <MyLocationIcon
                 onClick={() => {

@@ -12,6 +12,7 @@ interface SearchInputProps extends ComponentProps<"input"> {
 
 const SearchInput = ({
   placeholder = "Text",
+  type = "text",
   css: containerCss,
   ...props
 }: SearchInputProps) => {
@@ -19,7 +20,7 @@ const SearchInput = ({
     <div css={css(containerStyle, containerCss)}>
       <SearchIcon />
       <input
-        type="text"
+        type={type}
         placeholder={placeholder}
         css={inputStyle}
         {...props}
