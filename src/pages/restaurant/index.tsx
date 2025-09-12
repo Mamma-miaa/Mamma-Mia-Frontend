@@ -64,7 +64,7 @@ const RestaurantDetailPage = () => {
 
       {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
       <img
-        src={storeDetail?.images?.[0]}
+        src={storeDetail.images[0]}
         alt="레스토랑 배경 이미지"
         css={restaurantBackgroundImageStyle}
       />
@@ -79,7 +79,7 @@ const RestaurantDetailPage = () => {
         })}
       >
         <img
-          src={storeDetail?.images?.[0]}
+          src={storeDetail.images[0]}
           alt="레스토랑 이미지"
           css={restaurantImageStyle}
         />
@@ -90,8 +90,8 @@ const RestaurantDetailPage = () => {
         {/* 레스토랑 기본 정보 */}
         <div css={restaurantInfoSectionStyle}>
           <div css={titleSectionStyle}>
-            <span css={categoryStyle}>{storeDetail?.category}</span>
-            <h1 css={restaurantNameStyle}>{storeDetail?.name}</h1>
+            <span css={categoryStyle}>{storeDetail.category}</span>
+            <h1 css={restaurantNameStyle}>{storeDetail.name}</h1>
           </div>
 
           <div css={mammaMiaSectionStyle}>
@@ -132,13 +132,13 @@ const RestaurantDetailPage = () => {
               <img src={locationImg} css={emojiIconStyle} />
               <div css={infoContentStyle}>
                 <div css={infoRowStyle}>
-                  <span css={infoTextStyle}>{storeDetail?.address}</span>
+                  <span css={infoTextStyle}>{storeDetail.address}</span>
                   <ClipBoardIcon />
                 </div>
                 <div css={distanceRowStyle}>
                   <span css={distanceTextStyle}>충무로 역으로부터</span>
                   <span css={distanceValueStyle}>
-                    {Math.round(storeDetail?.station?.distanceMeters ?? 0)}m
+                    {Math.round(storeDetail.station.distanceMeters)}m
                   </span>
                   <TranslateIcon />
                 </div>
@@ -253,19 +253,19 @@ const RestaurantDetailPage = () => {
         <div css={additionalInfoSectionStyle}>
           <h2 css={sectionTitleStyle}>부가 정보</h2>
           <div css={additionalInfoGridStyle}>
-            {storeDetail?.parking && (
+            {storeDetail.parking && (
               <div css={additionalInfoItemStyle}>
                 <img css={additionalEmojiStyle} src={carImg} />
                 <span css={additionalTextStyle}>주차 가능</span>
               </div>
             )}
-            {storeDetail?.delivery && (
+            {storeDetail.delivery && (
               <div css={additionalInfoItemStyle}>
                 <img css={additionalEmojiStyle} src={deliveryImg} />
                 <span css={additionalTextStyle}>배달 가능</span>
               </div>
             )}
-            {storeDetail?.takeout && (
+            {storeDetail.takeout && (
               <div css={additionalInfoItemStyle}>
                 <img css={additionalEmojiStyle} src={takeoutImg} />
                 <span css={additionalTextStyle}>포장 가능</span>
@@ -276,9 +276,9 @@ const RestaurantDetailPage = () => {
 
         {/* 매장 위치 */}
         <RestaurantLocationSection
-          latitude={storeDetail?.latitude ?? 0}
-          longitude={storeDetail?.longitude ?? 0}
-          restaurantName={storeDetail?.name ?? ""}
+          latitude={storeDetail.latitude}
+          longitude={storeDetail.longitude}
+          restaurantName={storeDetail.name}
         />
 
         {/* 제보 버튼 */}
