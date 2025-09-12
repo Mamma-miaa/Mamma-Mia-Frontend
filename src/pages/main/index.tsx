@@ -91,8 +91,8 @@ const MainPage = () => {
   });
 
   const { data: nearbyStore } = useGetNearbyStoreQuery({
-    userLatitude: myLocation.lat,
-    userLongitude: myLocation.lng,
+    userLatitude: 충무로역_좌표.lat,
+    userLongitude: 충무로역_좌표.lng,
     minLatitude: 지도_모서리.minLatitude,
     maxLatitude: 지도_모서리.maxLatitude,
     minLongitude: 지도_모서리.minLongitude,

@@ -15,7 +15,7 @@ const SummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
     <div css={containerStyle} {...props}>
       <div css={imageContainerStyle}>
         <img
-          src={restaurant.imageUrl}
+          src={restaurant.imageUrl ?? "https://placehold.co/78x78"}
           alt={restaurant.name}
           css={restaurantImageStyle}
         />
@@ -27,8 +27,10 @@ const SummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
         </div>
         <div css={locationSectionStyle}>
           <LocationIcon />
-          <span css={locationTextStyle}>내 위치로부터</span>
-          <span css={distanceStyle}>{restaurant.distanceMeters}</span>
+          <span css={locationTextStyle}>충무로 역로부터</span>
+          <span css={distanceStyle}>
+            {Math.round(restaurant.distanceMeters)}m
+          </span>
         </div>
       </div>
     </div>
