@@ -15,7 +15,7 @@ import ArrowIcon from "./_assets/arrow.svg?react";
 import BackIcon from "./_assets/back.svg?react";
 import ShareIcon from "./_assets/share.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import BookmarkIcon from "./_assets/bookmark.svg?react";
 import menu1Img from "@/assets/menu/menu1.webp";
@@ -23,10 +23,15 @@ import menu2Img from "@/assets/menu/menu2.webp";
 import menu3Img from "@/assets/menu/menu3.webp";
 import menu4Img from "@/assets/menu/menu4.webp";
 import menu5Img from "@/assets/menu/menu5.webp";
+import { useGetStoreDetailQuery } from "@/hooks/@server/store";
 
 const RestaurantDetailPage = () => {
   const navigate = useNavigate();
   const [isTimeAccordionOpen, setIsTimeAccordionOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+  const { data: storeDetail } = useGetStoreDetailQuery(
+    Number(searchParams.get("id"))
+  );
 
   return (
     <div css={pageContainerStyle}>
@@ -59,7 +64,7 @@ const RestaurantDetailPage = () => {
 
       {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
       <img
-        src="https://d12zq4w4guyljn.cloudfront.net/20240928082830_photo1_f13518079202.webp"
+        src={storeDetail?.images?.[0]}
         alt="레스토랑 배경 이미지"
         css={restaurantBackgroundImageStyle}
       />
@@ -74,7 +79,7 @@ const RestaurantDetailPage = () => {
         })}
       >
         <img
-          src="https://d12zq4w4guyljn.cloudfront.net/20240928082830_photo1_f13518079202.webp"
+          src={storeDetail?.images?.[0]}
           alt="레스토랑 이미지"
           css={restaurantImageStyle}
         />
@@ -85,8 +90,8 @@ const RestaurantDetailPage = () => {
         {/* 레스토랑 기본 정보 */}
         <div css={restaurantInfoSectionStyle}>
           <div css={titleSectionStyle}>
-            <span css={categoryStyle}>국밥·탕/찌개</span>
-            <h1 css={restaurantNameStyle}>충무로의 김치찌개는 여기밖에 없다</h1>
+            <span css={categoryStyle}>{storeDetail?.category}</span>
+            <h1 css={restaurantNameStyle}>{storeDetail?.name}</h1>
           </div>
 
           <div css={mammaMiaSectionStyle}>
@@ -127,12 +132,14 @@ const RestaurantDetailPage = () => {
               <img src={locationImg} css={emojiIconStyle} />
               <div css={infoContentStyle}>
                 <div css={infoRowStyle}>
-                  <span css={infoTextStyle}>서울특별시 중구 필동로 30-1</span>
+                  <span css={infoTextStyle}>{storeDetail?.address}</span>
                   <ClipBoardIcon />
                 </div>
                 <div css={distanceRowStyle}>
                   <span css={distanceTextStyle}>충무로 역으로부터</span>
-                  <span css={distanceValueStyle}>380m</span>
+                  <span css={distanceValueStyle}>
+                    {Math.round(storeDetail?.station?.distanceMeters ?? 0)}m
+                  </span>
                   <TranslateIcon />
                 </div>
               </div>
@@ -246,18 +253,24 @@ const RestaurantDetailPage = () => {
         <div css={additionalInfoSectionStyle}>
           <h2 css={sectionTitleStyle}>부가 정보</h2>
           <div css={additionalInfoGridStyle}>
-            <div css={additionalInfoItemStyle}>
-              <img css={additionalEmojiStyle} src={carImg} />
-              <span css={additionalTextStyle}>주차 가능</span>
-            </div>
-            <div css={additionalInfoItemStyle}>
-              <img css={additionalEmojiStyle} src={deliveryImg} />
-              <span css={additionalTextStyle}>배달 가능</span>
-            </div>
-            <div css={additionalInfoItemStyle}>
-              <img css={additionalEmojiStyle} src={takeoutImg} />
-              <span css={additionalTextStyle}>포장 가능</span>
-            </div>
+            {storeDetail?.parking && (
+              <div css={additionalInfoItemStyle}>
+                <img css={additionalEmojiStyle} src={carImg} />
+                <span css={additionalTextStyle}>주차 가능</span>
+              </div>
+            )}
+            {storeDetail?.delivery && (
+              <div css={additionalInfoItemStyle}>
+                <img css={additionalEmojiStyle} src={deliveryImg} />
+                <span css={additionalTextStyle}>배달 가능</span>
+              </div>
+            )}
+            {storeDetail?.takeout && (
+              <div css={additionalInfoItemStyle}>
+                <img css={additionalEmojiStyle} src={takeoutImg} />
+                <span css={additionalTextStyle}>포장 가능</span>
+              </div>
+            )}
           </div>
         </div>
 
