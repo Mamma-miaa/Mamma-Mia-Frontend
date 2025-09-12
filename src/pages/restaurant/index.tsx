@@ -11,12 +11,12 @@ import timeImg from "@/assets/emoji/time.webp";
 import carImg from "@/assets/emoji/car.webp";
 import deliveryImg from "@/assets/emoji/delivery.webp";
 import takeoutImg from "@/assets/emoji/takeout.webp";
-import priceImg from "@/assets/emoji/price.webp";
 import ArrowIcon from "./_assets/arrow.svg?react";
 import BackIcon from "./_assets/back.svg?react";
 import ShareIcon from "./_assets/share.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import BookmarkIcon from "./_assets/bookmark.svg?react";
 import menu1Img from "@/assets/menu/menu1.webp";
 import menu2Img from "@/assets/menu/menu2.webp";
@@ -26,6 +26,7 @@ import menu5Img from "@/assets/menu/menu5.webp";
 
 const RestaurantDetailPage = () => {
   const navigate = useNavigate();
+  const [isTimeAccordionOpen, setIsTimeAccordionOpen] = useState(false);
 
   return (
     <div css={pageContainerStyle}>
@@ -141,18 +142,30 @@ const RestaurantDetailPage = () => {
               <div css={infoItemStyle}>
                 <img src={timeImg} css={emojiIconStyle} />
                 <div css={timeContentStyle}>
-                  <div css={timeRowStyle}>
+                  <button
+                    css={timeRowButtonStyle}
+                    onClick={() => setIsTimeAccordionOpen(!isTimeAccordionOpen)}
+                  >
                     <span css={timeTextStyle}>월 10:00 ~ 20:00</span>
-                    <ArrowIcon css={css({ transform: "rotate(270deg)" })} />
-                  </div>
-                  <ul css={timeListStyle}>
-                    <li>화 10:00 ~ 20:00 </li>
-                    <li>수 10:00 ~ 20:00 </li>
-                    <li>목 10:00 ~ 20:00 </li>
-                    <li>금 10:00 ~ 20:00 </li>
-                    <li>토 10:00 ~ 20:00 </li>
-                    <li>일 10:00 ~ 20:00 </li>
-                  </ul>
+                    <ArrowIcon
+                      css={css({
+                        transform: isTimeAccordionOpen
+                          ? "rotate(270deg)"
+                          : "rotate(90deg)",
+                        transition: "transform 0.2s ease",
+                      })}
+                    />
+                  </button>
+                  {isTimeAccordionOpen && (
+                    <ul css={timeListStyle}>
+                      <li>화 10:00 ~ 20:00 </li>
+                      <li>수 10:00 ~ 20:00 </li>
+                      <li>목 10:00 ~ 20:00 </li>
+                      <li>금 10:00 ~ 20:00 </li>
+                      <li>토 10:00 ~ 20:00 </li>
+                      <li>일 10:00 ~ 20:00 </li>
+                    </ul>
+                  )}
                 </div>
               </div>
             </div>
@@ -497,12 +510,18 @@ const timeContentStyle = css({
   flexDirection: "column",
 });
 
-// 시간 행
-const timeRowStyle = css({
+// 시간 행 버튼
+const timeRowButtonStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 4,
   height: 24,
+  backgroundColor: "transparent",
+  border: "none",
+  padding: 0,
+  cursor: "pointer",
+  width: "100%",
+  justifyContent: "space-between",
 });
 
 // 시간 텍스트
