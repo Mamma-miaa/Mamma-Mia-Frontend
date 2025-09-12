@@ -18,6 +18,11 @@ import ShareIcon from "./_assets/share.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
 import { useNavigate } from "react-router-dom";
 import BookmarkIcon from "./_assets/bookmark.svg?react";
+import menu1Img from "@/assets/menu/menu1.webp";
+import menu2Img from "@/assets/menu/menu2.webp";
+import menu3Img from "@/assets/menu/menu3.webp";
+import menu4Img from "@/assets/menu/menu4.webp";
+import menu5Img from "@/assets/menu/menu5.webp";
 
 const RestaurantDetailPage = () => {
   const navigate = useNavigate();
@@ -149,6 +154,76 @@ const RestaurantDetailPage = () => {
                     <li>일 10:00 ~ 20:00 </li>
                   </ul>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 메뉴 섹션 */}
+        <div css={menuSectionStyle}>
+          <h2 css={sectionTitleStyle}>메뉴</h2>
+          <div css={menuListStyle}>
+            <div css={menuItemStyle}>
+              <div css={menuInfoStyle}>
+                <div css={menuTitleStyle}>
+                  <span css={menuNameStyle}>빠다 숙성 삼겹</span>
+                </div>
+                <span css={menuPriceStyle}>19,000원</span>
+              </div>
+              <div css={menuImageContainerStyle}>
+                <img src={menu1Img} alt="빠다 숙성 삼겹" css={menuImageStyle} />
+              </div>
+            </div>
+
+            <div css={menuItemStyle}>
+              <div css={menuInfoStyle}>
+                <div css={menuTitleStyle}>
+                  <span css={menuNameStyle}>빠다 숙성 삼겹 세트</span>
+                </div>
+                <span css={menuPriceStyle}>48,000원</span>
+              </div>
+              <div css={menuImageContainerStyle}>
+                <img
+                  src={menu2Img}
+                  alt="빠다 숙성 삼겹 세트"
+                  css={menuImageStyle}
+                />
+              </div>
+            </div>
+
+            <div css={menuItemStyle}>
+              <div css={menuInfoStyle}>
+                <div css={menuTitleStyle}>
+                  <span css={menuNameStyle}>가브리살</span>
+                </div>
+                <span css={menuPriceStyle}>14,000원</span>
+              </div>
+              <div css={menuImageContainerStyle}>
+                <img src={menu3Img} alt="가브리살" css={menuImageStyle} />
+              </div>
+            </div>
+
+            <div css={menuItemStyle}>
+              <div css={menuInfoStyle}>
+                <div css={menuTitleStyle}>
+                  <span css={menuNameStyle}>안심구이</span>
+                </div>
+                <span css={menuPriceStyle}>15,000원</span>
+              </div>
+              <div css={menuImageContainerStyle}>
+                <img src={menu4Img} alt="안심구이" css={menuImageStyle} />
+              </div>
+            </div>
+
+            <div css={menuItemStyle}>
+              <div css={menuInfoStyle}>
+                <div css={menuTitleStyle}>
+                  <span css={menuNameStyle}>야끼소바</span>
+                </div>
+                <span css={menuPriceStyle}>7,000원</span>
+              </div>
+              <div css={menuImageContainerStyle}>
+                <img src={menu5Img} alt="야끼소바" css={menuImageStyle} />
               </div>
             </div>
           </div>
@@ -450,6 +525,80 @@ const timeListStyle = css(
   },
   TYPOGRAPHY.BODY["14R"]
 );
+
+// 메뉴 섹션
+const menuSectionStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 12,
+});
+
+// 메뉴 리스트
+const menuListStyle = css({
+  display: "flex",
+  flexDirection: "column",
+});
+
+// 메뉴 아이템
+const menuItemStyle = css({
+  display: "flex",
+  alignItems: "center",
+  gap: 12,
+  padding: "12px 0",
+  borderBottom: `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
+  "&:last-child": {
+    borderBottom: "none",
+  },
+});
+
+// 메뉴 정보
+const menuInfoStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 4,
+  flex: 1,
+});
+
+// 메뉴 제목
+const menuTitleStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignSelf: "stretch",
+  gap: 2,
+});
+
+// 메뉴 이름
+const menuNameStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.HEADERS["16SB"]
+);
+
+// 메뉴 가격
+const menuPriceStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+// 메뉴 이미지 컨테이너
+const menuImageContainerStyle = css({
+  width: 60,
+  height: 60,
+  borderRadius: 3.33,
+  overflow: "hidden",
+});
+
+// 메뉴 이미지
+const menuImageStyle = css({
+  width: 65,
+  height: 65,
+  objectFit: "cover",
+  margin: "-2.5px",
+});
 
 // 부가 정보 섹션
 const additionalInfoSectionStyle = css({
