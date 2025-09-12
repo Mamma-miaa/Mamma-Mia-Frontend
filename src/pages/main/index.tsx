@@ -5,7 +5,6 @@ import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
 import logoImg from "@/assets/logo.png";
-
 import THEME from "@/constants/theme";
 import Spacing from "@/@lib/components/Spacing";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -77,6 +76,7 @@ const MainPage = () => {
   }>(충무로역_좌표);
   const [isRestaurantListPopupOpen, setIsRestaurantListPopupOpen] =
     useState(false);
+  const customOverlays = useRef<kakao.maps.CustomOverlay[]>([]);
 
   const [지도_모서리, set지도_모서리] = useState<{
     minLatitude: number;
@@ -153,10 +153,13 @@ const MainPage = () => {
   }, []);
 
   useEffect(() => {
-    nearbyStore?.items?.forEach((restaurant) => {
+    if (!kakaoMap.current) return;
+    if (!nearbyStore?.items) return;
+
+    customOverlays.current = nearbyStore.items.map((restaurant) => {
       // 커스텀 오버레이 생성
-      new kakao.maps.CustomOverlay({
-        map: kakaoMap.current || undefined,
+      return new kakao.maps.CustomOverlay({
+        map: kakaoMap.current!,
         position: new kakao.maps.LatLng(
           restaurant.latitude,
           restaurant.longitude
@@ -178,6 +181,7 @@ const MainPage = () => {
       });
     });
   }, [
+    nearbyStore?.items,
     지도_모서리.minLatitude,
     지도_모서리.maxLatitude,
     지도_모서리.minLongitude,
