@@ -4,273 +4,302 @@
  */
 
 export interface paths {
-  "/api/v1/auth/social": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/auth/social": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 소셜 로그인 */
+        post: operations["join"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** 소셜 로그인 */
-    post: operations["join"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/store/nearby": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/store/nearby": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 근처 가게 정보 */
+        get: operations["list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** 근처 가게 정보 */
-    get: operations["list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/store/detail/{storeId}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/store/detail/{storeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 가게 상세 정보 */
+        get: operations["get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** 가게 상세 정보 */
-    get: operations["get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+    "/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["healthCheck"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    AgreementRequest: {
-      type?: string;
-      isAgreed?: boolean;
+    schemas: {
+        AgreementRequest: {
+            type: string;
+            isAgreed: boolean;
+        };
+        JoinSocialMemberWithIdTokenRequest: {
+            socialType: string;
+            idToken: string;
+            email: string;
+            agreements: components["schemas"]["AgreementRequest"][];
+        };
+        JoinSocialMemberWithIdTokenResponse: {
+            memberId: string;
+            accessToken: string;
+            refreshToken: string;
+        };
+        GetNearByStoreRequest: {
+            /** Format: double */
+            userLatitude: number;
+            /** Format: double */
+            userLongitude: number;
+            /** Format: double */
+            minLatitude: number;
+            /** Format: double */
+            maxLatitude: number;
+            /** Format: double */
+            minLongitude: number;
+            /** Format: double */
+            maxLongitude: number;
+            /** Format: int32 */
+            size: number;
+            /** Format: double */
+            lastDistance: number;
+            /** Format: int64 */
+            lastStoreId: number;
+        };
+        GetNearByResponse: {
+            /** Format: int64 */
+            storeId: number;
+            name: string;
+            address: string;
+            category: string;
+            /** Format: double */
+            latitude: number;
+            /** Format: double */
+            longitude: number;
+            /** Format: double */
+            distanceMeters: number;
+            /** Format: int32 */
+            totalLike: number;
+            parking: boolean;
+            takeout: boolean;
+            delivery: boolean;
+            /** @enum {string} */
+            priceRange: "WON_1" | "WON_2" | "WON_3";
+            imageUrl: string;
+            /** @example {
+             *       "WEEKLY": 10,
+             *       "MONTHLY": 5
+             *     } */
+            ranks: {
+                [key: string]: number;
+            };
+        };
+        GetNearByStoreResponses: {
+            items: components["schemas"]["GetNearByResponse"][];
+            hasNext: boolean;
+            /** Format: int64 */
+            cursorId: number;
+            /** Format: double */
+            lastDistance: number;
+        };
+        BusinessHour: {
+            /** @enum {string} */
+            dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+            openTime: components["schemas"]["LocalTime"];
+            closeTime: components["schemas"]["LocalTime"];
+            breakStart: components["schemas"]["LocalTime"];
+            breakEnd: components["schemas"]["LocalTime"];
+            lastOrder: components["schemas"]["LocalTime"];
+            isClosed: boolean;
+        };
+        GetStoreDetailResponse: {
+            /** Format: int64 */
+            storeId: number;
+            name: string;
+            category: string;
+            address: string;
+            /** Format: double */
+            latitude: number;
+            /** Format: double */
+            longitude: number;
+            images: string[];
+            businessHours: components["schemas"]["BusinessHour"][];
+            parking: boolean;
+            delivery: boolean;
+            takeout: boolean;
+            /** @enum {string} */
+            priceRange: "WON_1" | "WON_2" | "WON_3";
+            station: components["schemas"]["Station"];
+            /** Format: int32 */
+            totalLike: number;
+            menus: components["schemas"]["Menu"][];
+            /** @example {
+             *       "WEEKLY": 10,
+             *       "MONTHLY": 5
+             *     } */
+            ranks: {
+                [key: string]: number;
+            };
+        };
+        LocalTime: {
+            /** Format: int32 */
+            hour: number;
+            /** Format: int32 */
+            minute: number;
+            /** Format: int32 */
+            second: number;
+            /** Format: int32 */
+            nano: number;
+        };
+        Menu: {
+            name: string;
+            /** Format: int32 */
+            price: number;
+        };
+        Station: {
+            name: string;
+            /** Format: double */
+            distanceMeters: number;
+        };
     };
-    JoinSocialMemberWithIdTokenRequest: {
-      socialType?: string;
-      idToken?: string;
-      email?: string;
-      agreements?: components["schemas"]["AgreementRequest"][];
-    };
-    JoinSocialMemberWithIdTokenResponse: {
-      memberId?: string;
-      accessToken?: string;
-      refreshToken?: string;
-    };
-    GetNearByStoreRequest: {
-      /** Format: double */
-      userLatitude?: number;
-      /** Format: double */
-      userLongitude?: number;
-      /** Format: double */
-      minLatitude?: number;
-      /** Format: double */
-      maxLatitude?: number;
-      /** Format: double */
-      minLongitude?: number;
-      /** Format: double */
-      maxLongitude?: number;
-      /** Format: int32 */
-      size?: number;
-      /** Format: double */
-      lastDistance?: number;
-      /** Format: int64 */
-      lastStoreId?: number;
-    };
-    GetNearByResponse: {
-      /** Format: int64 */
-      storeId: number;
-      name: string;
-      address: string;
-      category: string;
-      /** Format: double */
-      latitude: number;
-      /** Format: double */
-      longitude: number;
-      /** Format: double */
-      distanceMeters: number;
-      /** Format: int32 */
-      totalLike: number;
-      parking: boolean;
-      takeout: boolean;
-      delivery: boolean;
-      /** @enum {string} */
-      priceRange: "WON_1" | "WON_2" | "WON_3";
-      imageUrl: string;
-      /** @example {
-       *       "WEEKLY": 10,
-       *       "MONTHLY": 5
-       *     } */
-      ranks: {
-        [key: string]: number;
-      };
-    };
-    GetNearByStoreResponses: {
-      items?: components["schemas"]["GetNearByResponse"][];
-      hasNext?: boolean;
-      /** Format: int64 */
-      cursorId?: number;
-      /** Format: double */
-      lastDistance?: number;
-    };
-    BusinessHour: {
-      /** @enum {string} */
-      dayOfWeek?:
-        | "MONDAY"
-        | "TUESDAY"
-        | "WEDNESDAY"
-        | "THURSDAY"
-        | "FRIDAY"
-        | "SATURDAY"
-        | "SUNDAY";
-      openTime?: components["schemas"]["LocalTime"];
-      closeTime?: components["schemas"]["LocalTime"];
-      breakStart?: components["schemas"]["LocalTime"];
-      breakEnd?: components["schemas"]["LocalTime"];
-      lastOrder?: components["schemas"]["LocalTime"];
-      isClosed?: boolean;
-    };
-    GetStoreDetailResponse: {
-      /** Format: int64 */
-      storeId?: number;
-      name?: string;
-      category?: string;
-      address?: string;
-      /** Format: double */
-      latitude?: number;
-      /** Format: double */
-      longitude?: number;
-      images?: string[];
-      businessHours?: components["schemas"]["BusinessHour"][];
-      parking?: boolean;
-      delivery?: boolean;
-      takeout?: boolean;
-      /** @enum {string} */
-      priceRange?: "WON_1" | "WON_2" | "WON_3";
-      station?: components["schemas"]["Station"];
-      /** Format: int32 */
-      totalLike?: number;
-      menus?: components["schemas"]["Menu"][];
-      /** @example {
-       *       "WEEKLY": 10,
-       *       "MONTHLY": 5
-       *     } */
-      ranks?: {
-        [key: string]: number;
-      };
-    };
-    LocalTime: {
-      /** Format: int32 */
-      hour?: number;
-      /** Format: int32 */
-      minute?: number;
-      /** Format: int32 */
-      second?: number;
-      /** Format: int32 */
-      nano?: number;
-    };
-    Menu: {
-      name?: string;
-      /** Format: int32 */
-      price?: number;
-    };
-    Station: {
-      name?: string;
-      /** Format: double */
-      distanceMeters?: number;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  join: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["JoinSocialMemberWithIdTokenRequest"];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    join: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "*/*": components["schemas"]["JoinSocialMemberWithIdTokenResponse"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["JoinSocialMemberWithIdTokenRequest"];
+            };
         };
-      };
-    };
-  };
-  list: {
-    parameters: {
-      query: {
-        request: components["schemas"]["GetNearByStoreRequest"];
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["JoinSocialMemberWithIdTokenResponse"];
+                };
+            };
         };
-        content: {
-          "*/*": components["schemas"]["GetNearByStoreResponses"];
-        };
-      };
     };
-  };
-  get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        storeId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    list: {
+        parameters: {
+            query: {
+                request: components["schemas"]["GetNearByStoreRequest"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "*/*": components["schemas"]["GetStoreDetailResponse"];
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetNearByStoreResponses"];
+                };
+            };
         };
-      };
     };
-  };
+    get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetStoreDetailResponse"];
+                };
+            };
+        };
+    };
+    healthCheck: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
 }
