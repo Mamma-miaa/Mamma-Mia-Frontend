@@ -245,11 +245,6 @@ const RestaurantDetailPage = () => {
               <img css={additionalEmojiStyle} src={takeoutImg} />
               <span css={additionalTextStyle}>포장 가능</span>
             </div>
-            <div css={additionalInfoItemStyle}>
-              <img css={additionalEmojiStyle} src={priceImg} />
-              <span css={additionalTextStyle}>평균 가격대</span>
-              <span css={additionalPriceStyle}>15,000원</span>
-            </div>
           </div>
         </div>
 
@@ -638,14 +633,6 @@ const additionalTextStyle = css(
     whiteSpace: "nowrap",
   },
   TYPOGRAPHY.BODY["14R"]
-);
-
-// 부가 정보 가격
-const additionalPriceStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.NORMAL,
-  },
-  TYPOGRAPHY.BODY["14SB"]
 );
 
 // 제보 섹션
