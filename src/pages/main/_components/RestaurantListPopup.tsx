@@ -6,6 +6,7 @@ import ResponsiveSummaryCard from "./ResponsiveSummaryCard";
 import { useNavigate } from "react-router-dom";
 import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
+import use가격대_필터링_바텀시트 from "../_hooks/use필터링_바텀시트";
 
 const RestaurantListPopup = ({
   data,
@@ -13,6 +14,8 @@ const RestaurantListPopup = ({
   data: components["schemas"]["GetNearByResponse"][];
 }) => {
   const navigate = useNavigate();
+  const { open가격대_필터링_바텀시트, open카테고리_필터링_바텀시트 } =
+    use가격대_필터링_바텀시트();
 
   return (
     <div css={popupContainerStyle}>
@@ -23,8 +26,15 @@ const RestaurantListPopup = ({
           <NewIcon />
         </button>
         <button css={css(filterChipStyle)}>영업중</button>
-        <button css={css(filterChipStyle)}>카테고리</button>
-        <button css={css(filterChipStyle)}>가격대</button>
+        <button
+          css={css(filterChipStyle)}
+          onClick={open카테고리_필터링_바텀시트}
+        >
+          카테고리
+        </button>
+        <button css={css(filterChipStyle)} onClick={open가격대_필터링_바텀시트}>
+          가격대
+        </button>
       </div>
       <Spacing size={16} />
       <div
