@@ -293,7 +293,7 @@ const locationButtonStyle = css({
 
 const listChipPositionStyle = css({
   position: "fixed",
-  bottom: 124,
+  bottom: 148,
   left: "50%",
   transform: "translateX(-50%)",
   zIndex: 9999,
