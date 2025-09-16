@@ -3,24 +3,15 @@ import { Global } from "@emotion/react";
 import globalStyles from "./styles/globalStyles";
 import MainPage from "./pages/main";
 import RestaurantDetailPage from "./pages/restaurant";
-import { OverlayProvider } from "overlay-kit";
-import { Suspense } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Spinner from "./@lib/components/Spinner";
-
-const queryClient = new QueryClient();
+import Provider from "./Provider";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <QueryClientProvider client={queryClient}>
-        <Suspense fallback={<Spinner />}>
-          <OverlayProvider>
-            <Outlet />
-          </OverlayProvider>
-        </Suspense>
-      </QueryClientProvider>
+      <Provider>
+        <Outlet />
+      </Provider>
     ),
     children: [
       {
