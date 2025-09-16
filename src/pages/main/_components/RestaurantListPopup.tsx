@@ -35,15 +35,7 @@ const RestaurantListPopup = ({
       <Spacing size={20} />
       {/* 필터 칩 컨테이너 */}
       <div css={filterContainerStyle}>
-        <FilterChip
-          isSelected={isNewChipSelected}
-          css={css({
-            path: isNewChipSelected && {
-              fill: THEME.COLORS.BACKGROUND.WHITE,
-            },
-          })}
-          onClick={toggleNewChip}
-        >
+        <FilterChip isSelected={isNewChipSelected} onClick={toggleNewChip}>
           <NewIcon />
         </FilterChip>
         <FilterChip isSelected={isOpenChipSelected}>영업중</FilterChip>
@@ -117,6 +109,9 @@ const FilterChip = styled.button(
     borderRadius: 1000,
     cursor: "pointer",
     transition: "all 0.2s ease",
+    path: isSelected && {
+      fill: THEME.COLORS.BACKGROUND.WHITE,
+    },
   }),
   TYPOGRAPHY.BODY["14R"]
 );
