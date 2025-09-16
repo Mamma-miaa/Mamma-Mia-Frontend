@@ -1,22 +1,7 @@
 import { css } from "@emotion/react";
-import FilterBottomSheet from "../_components/FilterBottomSheet";
+import FilterBottomSheet from "../../_components/FilterBottomSheet";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
-import { overlay } from "overlay-kit";
-
-const use가격대_필터링_바텀시트 = () => {
-  const open가격대_필터링_바텀시트 = () => {
-    return overlay.openAsync(({ isOpen, close }) => {
-      return <가격대_필터링_바텀시트 isOpen={isOpen} onClose={close} />;
-    });
-  };
-
-  return {
-    open가격대_필터링_바텀시트,
-  };
-};
-
-export default use가격대_필터링_바텀시트;
 
 const 가격대_필터링_바텀시트 = ({
   isOpen,
@@ -115,3 +100,5 @@ const sliderHandleStyle = css({
   boxShadow: THEME.SHADOWS.NORMAL,
   cursor: "pointer",
 });
+
+export default 가격대_필터링_바텀시트;
