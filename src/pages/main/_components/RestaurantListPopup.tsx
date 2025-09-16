@@ -47,11 +47,13 @@ const RestaurantListPopup = ({
 };
 
 const popupContainerStyle = css({
-  width: "100dvw",
+  maxWidth: 540,
+  width: "100%",
   height: "100dvh",
   position: "fixed",
   top: 0,
-  left: 0,
+  left: "50%",
+  transform: "translateX(-50%)",
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
   zIndex: 1000,
 });

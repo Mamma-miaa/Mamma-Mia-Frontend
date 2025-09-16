@@ -262,6 +262,8 @@ const swiperStyle = css({
 });
 
 const topContainerStyle = css({
+  maxWidth: 540,
+
   position: "fixed",
   top: 16,
   left: "50%",
