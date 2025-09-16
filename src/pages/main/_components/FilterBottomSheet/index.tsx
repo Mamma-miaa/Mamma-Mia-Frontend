@@ -9,6 +9,8 @@ interface FilterBottomSheetProps {
   isOpen: boolean;
   onClose: (param?: unknown) => void;
   onReset?: () => void;
+  onComplete?: () => void;
+  isCompleteDisabled?: boolean;
   title?: string;
   description?: string;
   children?: React.ReactNode;
@@ -18,6 +20,8 @@ const FilterBottomSheet = ({
   isOpen,
   onClose,
   onReset,
+  onComplete,
+  isCompleteDisabled = false,
   title,
   description,
   children,
@@ -49,7 +53,11 @@ const FilterBottomSheet = ({
           닫기
         </button>
 
-        <button css={applyButtonStyle} onClick={() => {}} disabled={false}>
+        <button
+          css={applyButtonStyle}
+          onClick={onComplete}
+          disabled={isCompleteDisabled}
+        >
           설정완료
         </button>
       </div>
