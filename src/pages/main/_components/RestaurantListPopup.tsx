@@ -8,12 +8,24 @@ import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
 import use가격대_필터링_바텀시트 from "../_hooks/use필터링_바텀시트";
 import VIEWPORT from "@/constants/viewport";
+import styled from "@emotion/styled";
+import { useState } from "react";
 
 const RestaurantListPopup = ({
   data,
 }: {
   data: components["schemas"]["GetNearByResponse"][];
 }) => {
+  const [isNewChipSelected, setIsNewChipSelected] = useState(false);
+  const [isOpenChipSelected, setIsOpenChipSelected] = useState(false);
+  const [isCategoryChipSelected, setIsCategoryChipSelected] = useState(false);
+  const [isPriceRangeChipSelected, setIsPriceRangeChipSelected] =
+    useState(false);
+
+  const toggleNewChip = () => {
+    setIsNewChipSelected(!isNewChipSelected);
+  };
+
   const navigate = useNavigate();
   const { open가격대_필터링_바텀시트, open카테고리_필터링_바텀시트 } =
     use가격대_필터링_바텀시트();
@@ -23,19 +35,30 @@ const RestaurantListPopup = ({
       <Spacing size={20} />
       {/* 필터 칩 컨테이너 */}
       <div css={filterContainerStyle}>
-        <button css={css(filterChipStyle)}>
+        <FilterChip
+          isSelected={isNewChipSelected}
+          css={css({
+            path: isNewChipSelected && {
+              fill: THEME.COLORS.BACKGROUND.WHITE,
+            },
+          })}
+          onClick={toggleNewChip}
+        >
           <NewIcon />
-        </button>
-        <button css={css(filterChipStyle)}>영업중</button>
-        <button
-          css={css(filterChipStyle)}
+        </FilterChip>
+        <FilterChip isSelected={isOpenChipSelected}>영업중</FilterChip>
+        <FilterChip
+          isSelected={isCategoryChipSelected}
           onClick={open카테고리_필터링_바텀시트}
         >
           카테고리
-        </button>
-        <button css={css(filterChipStyle)} onClick={open가격대_필터링_바텀시트}>
+        </FilterChip>
+        <FilterChip
+          isSelected={isPriceRangeChipSelected}
+          onClick={open가격대_필터링_바텀시트}
+        >
           가격대
-        </button>
+        </FilterChip>
       </div>
       <Spacing size={16} />
       <div
@@ -77,19 +100,24 @@ const filterContainerStyle = css({
   height: 44,
 });
 
-const filterChipStyle = css(
-  {
+const FilterChip = styled.button(
+  ({ isSelected }: { isSelected: boolean }) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     padding: "8px 16px",
     height: 44,
-    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+    backgroundColor: isSelected
+      ? THEME.COLORS.GRAYSCALE.NORMAL
+      : THEME.COLORS.BACKGROUND.WHITE,
+    color: isSelected
+      ? THEME.COLORS.BACKGROUND.WHITE
+      : THEME.COLORS.GRAYSCALE.NORMAL,
     border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
     borderRadius: 1000,
     cursor: "pointer",
     transition: "all 0.2s ease",
-  },
+  }),
   TYPOGRAPHY.BODY["14R"]
 );
 
