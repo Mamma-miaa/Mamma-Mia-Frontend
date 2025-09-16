@@ -262,6 +262,8 @@ const swiperStyle = css({
 });
 
 const topContainerStyle = css({
+  maxWidth: 540,
+
   position: "fixed",
   top: 16,
   left: "50%",
@@ -293,7 +295,7 @@ const locationButtonStyle = css({
 
 const listChipPositionStyle = css({
   position: "fixed",
-  bottom: 124,
+  bottom: 148,
   left: "50%",
   transform: "translateX(-50%)",
   zIndex: 9999,

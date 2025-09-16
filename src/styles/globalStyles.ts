@@ -143,6 +143,13 @@ const baseCSS = css`
     font-family: "Pretendard", sans-serif;
     font-synthesis: none;
   }
+
+  html,
+  body {
+    max-width: 540px;
+    overflow-x: hidden;
+    margin: 0 auto;
+  }
 `;
 
 const globalStyles = css(resetCSS, baseCSS);
