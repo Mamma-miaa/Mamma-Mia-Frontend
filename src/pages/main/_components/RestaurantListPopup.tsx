@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
 import use가격대_필터링_바텀시트 from "../_hooks/use필터링_바텀시트";
+import VIEWPORT from "@/constants/viewport";
 
 const RestaurantListPopup = ({
   data,
@@ -57,7 +58,7 @@ const RestaurantListPopup = ({
 };
 
 const popupContainerStyle = css({
-  maxWidth: 540,
+  maxWidth: VIEWPORT.MAX_WIDTH,
   width: "100%",
   height: "100dvh",
   position: "fixed",

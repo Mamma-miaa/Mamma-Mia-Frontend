@@ -18,6 +18,7 @@ import RestaurantListPopup from "./_components/RestaurantListPopup";
 import TopNavigation from "./_components/TopNavigation";
 import PopupToggleButton from "./_components/PopupToggleButton";
 import { useGetNearbyStoreQuery } from "@/hooks/@server/store";
+import VIEWPORT from "@/constants/viewport";
 
 const 충무로역_좌표 = {
   lat: 37.561306,
@@ -262,7 +263,7 @@ const swiperStyle = css({
 });
 
 const topContainerStyle = css({
-  maxWidth: 540,
+  maxWidth: VIEWPORT.MAX_WIDTH,
 
   position: "fixed",
   top: 16,

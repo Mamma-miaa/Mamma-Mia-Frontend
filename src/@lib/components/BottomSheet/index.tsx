@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import type { PropsWithChildren } from "react";
+import VIEWPORT from "@/constants/viewport";
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -38,7 +39,7 @@ const overlayStyle = css({
   justifyContent: "center",
 
   width: "100%",
-  maxWidth: 540,
+  maxWidth: VIEWPORT.MAX_WIDTH,
 });
 
 const containerStyle = css({
@@ -52,7 +53,7 @@ const containerStyle = css({
   alignItems: "center",
   gap: 24,
 
-  maxWidth: 540,
+  maxWidth: VIEWPORT.MAX_WIDTH,
 });
 
 export default BottomSheet;
