@@ -15,6 +15,7 @@ const COLORS = {
   BACKGROUND: {
     WHITE: "#FFFFFF",
     ALTERNATIVE: "#F7F7F8",
+    DISABLE: "#F4F4F5",
   },
 
   LINE: {
