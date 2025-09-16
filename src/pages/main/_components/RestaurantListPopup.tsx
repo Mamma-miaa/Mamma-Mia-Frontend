@@ -23,7 +23,11 @@ const RestaurantListPopup = ({
     useState(false);
 
   const toggleNewChip = () => {
-    setIsNewChipSelected(!isNewChipSelected);
+    setIsNewChipSelected((prev) => !prev);
+  };
+
+  const toggleIsOpenChip = () => {
+    setIsOpenChipSelected((prev) => !prev);
   };
 
   const navigate = useNavigate();
@@ -38,7 +42,9 @@ const RestaurantListPopup = ({
         <FilterChip isSelected={isNewChipSelected} onClick={toggleNewChip}>
           <NewIcon />
         </FilterChip>
-        <FilterChip isSelected={isOpenChipSelected}>영업중</FilterChip>
+        <FilterChip isSelected={isOpenChipSelected} onClick={toggleIsOpenChip}>
+          영업중
+        </FilterChip>
         <FilterChip
           isSelected={isCategoryChipSelected}
           onClick={open카테고리_필터링_바텀시트}
