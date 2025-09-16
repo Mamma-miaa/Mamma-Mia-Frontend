@@ -19,6 +19,7 @@ import 아시안 from "@/assets/graphics/아시안.webp";
 import 분식 from "@/assets/graphics/분식.webp";
 import 채식_건강식 from "@/assets/graphics/채식_건강식.webp";
 import 간식_길거리음식 from "@/assets/graphics/간식_길거리음식.webp";
+import styled from "@emotion/styled";
 
 interface CategoryChipProps {
   id: string;
@@ -36,12 +37,10 @@ const CategoryChip = ({
   onClick,
 }: CategoryChipProps) => {
   return (
-    <button css={chipStyle(isSelected)} onClick={() => onClick(id)}>
-      <div css={chipImageStyle}>
-        <img src={image} alt={label} css={imageStyle} />
-      </div>
-      <span css={chipTextStyle}>{label}</span>
-    </button>
+    <Chip isSelected={isSelected} onClick={() => onClick(id)}>
+      <img width={20} height={20} src={image} alt={label} css={imageStyle} />
+      <span css={TYPOGRAPHY.SUB["12R"]}>{label}</span>
+    </Chip>
   );
 };
 
@@ -83,13 +82,19 @@ const 카테고리_필터링_바텀시트 = ({
     setSelectedCategories([]);
   };
 
+  const handleApply = () => {
+    onClose(selectedCategories);
+  };
+
   return (
     <FilterBottomSheet
       isOpen={isOpen}
       onClose={onClose}
+      onApply={handleApply}
       title="카테고리"
       description="먹고싶은 음식의 카테고리를 설정해주세요."
       onReset={handleReset}
+      isApplyButtonDisabled={selectedCategories.length === 0}
     >
       <div css={categoriesContainerStyle}>
         {categories.map((category) => (
@@ -114,49 +119,27 @@ const categoriesContainerStyle = css({
   width: "100%",
 });
 
-const chipStyle = (isSelected: boolean) =>
-  css(
-    {
-      display: "flex",
-      alignItems: "center",
-      gap: 4,
-      padding: "8px 12px 8px 8px",
-      backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-      border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
-      borderRadius: 1000,
-      cursor: "pointer",
-      transition: "all 0.2s ease",
-
-      "&:hover": {
-        borderColor: THEME.COLORS.PRIMARY.RED,
-      },
-    },
-    isSelected && {
-      borderColor: THEME.COLORS.PRIMARY.RED,
-      backgroundColor: THEME.COLORS.PRIMARY.RED + "10",
-    }
-  );
-
-const chipImageStyle = css({
-  width: 20,
-  height: 20,
+const Chip = styled.button(({ isSelected }: { isSelected: boolean }) => ({
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
-});
+  gap: 4,
+  padding: "8px 12px 8px 8px",
+  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+  borderRadius: 1000,
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+
+  ...(isSelected && {
+    borderColor: THEME.COLORS.GRAYSCALE.NORMAL,
+    backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
+    color: THEME.COLORS.BACKGROUND.WHITE,
+  }),
+}));
 
 const imageStyle = css({
-  width: "100%",
-  height: "100%",
   objectFit: "cover",
   borderRadius: 2,
 });
-
-const chipTextStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.NORMAL,
-  },
-  TYPOGRAPHY.SUB["12R"]
-);
 
 export default 카테고리_필터링_바텀시트;

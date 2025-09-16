@@ -8,19 +8,23 @@ import BottomSheet from "@/@lib/components/BottomSheet";
 interface FilterBottomSheetProps {
   isOpen: boolean;
   onClose: (param?: unknown) => void;
+  onApply: (param?: unknown) => void;
   onReset?: () => void;
   title?: string;
   description?: string;
   children?: React.ReactNode;
+  isApplyButtonDisabled?: boolean;
 }
 
 const FilterBottomSheet = ({
   isOpen,
   onClose,
+  onApply,
   onReset,
   title,
   description,
   children,
+  isApplyButtonDisabled,
 }: FilterBottomSheetProps) => {
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>
@@ -49,7 +53,13 @@ const FilterBottomSheet = ({
           닫기
         </button>
 
-        <button css={applyButtonStyle}>설정완료</button>
+        <button
+          css={applyButtonStyle}
+          disabled={isApplyButtonDisabled}
+          onClick={onApply}
+        >
+          설정완료
+        </button>
       </div>
     </BottomSheet>
   );
@@ -151,22 +161,19 @@ const applyButtonStyle = css(
   {
     flex: 1,
     height: 44,
-    backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
+    backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
     border: "none",
     borderRadius: 6,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     cursor: "pointer",
-    color: THEME.COLORS.GRAYSCALE.DISABLE,
-
-    "&:hover:not(:disabled)": {
-      backgroundColor: THEME.COLORS.LINE.ALTERNATIVE,
-    },
+    color: THEME.COLORS.BACKGROUND.WHITE,
 
     "&:disabled": {
       cursor: "not-allowed",
-      opacity: 0.6,
+      backgroundColor: THEME.COLORS.BACKGROUND.DISABLE,
+      color: THEME.COLORS.GRAYSCALE.DISABLE,
     },
   },
   TYPOGRAPHY.BODY["14SB"]
