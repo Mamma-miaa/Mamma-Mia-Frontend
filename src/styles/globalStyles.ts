@@ -152,6 +152,16 @@ const baseCSS = css`
     margin: 0 auto;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   }
+
+  /* 스크롤바 숨김 처리 */
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 `;
 
 const globalStyles = css(resetCSS, baseCSS);
