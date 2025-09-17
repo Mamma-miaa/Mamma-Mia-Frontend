@@ -255,7 +255,7 @@ const MainPage = () => {
 export default MainPage;
 
 const swiperStyle = css({
-  width: "100%",
+  width: VIEWPORT.MAX_WIDTH,
   position: "fixed",
   bottom: 20,
   left: "50%",
