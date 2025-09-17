@@ -198,7 +198,7 @@ const MainPage = () => {
 
   return (
     <>
-      <div ref={mapRef} css={css({ width: "100dvw", height: "100dvh" })}>
+      <div ref={mapRef} css={css({ width: "100%", height: "100dvh" })}>
         <div css={listChipPositionStyle}>
           <PopupToggleButton
             isPopupOpen={isRestaurantListPopupOpen}
@@ -209,7 +209,8 @@ const MainPage = () => {
         <Swiper
           modules={[Virtual]}
           virtual
-          slidesPerView={3}
+          slidesPerView={1}
+          spaceBetween={-210}
           centeredSlides
           css={swiperStyle}
         >
@@ -254,12 +255,21 @@ const MainPage = () => {
 export default MainPage;
 
 const swiperStyle = css({
-  width: 957,
+  width: "100%",
   position: "fixed",
   bottom: 20,
   left: "50%",
   transform: "translateX(-50%)",
   zIndex: 1000,
+
+  overflow: "hidden",
+  maxWidth: VIEWPORT.MAX_WIDTH,
+
+  "& .swiper-slide": {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
 });
 
 const topContainerStyle = css({
