@@ -36,8 +36,6 @@ const RestaurantListPopup = ({
 
   return (
     <div css={popupContainerStyle}>
-      <Spacing size={20} />
-      {/* 필터 칩 컨테이너 */}
       <div css={filterContainerStyle}>
         <FilterChip isSelected={isNewChipSelected} onClick={toggleNewChip}>
           <NewIcon />
@@ -58,7 +56,6 @@ const RestaurantListPopup = ({
           가격대
         </FilterChip>
       </div>
-      <Spacing size={16} />
       <div
         css={css({
           display: "flex",
@@ -82,6 +79,7 @@ const popupContainerStyle = css({
   maxWidth: VIEWPORT.MAX_WIDTH,
   width: "100%",
   height: "100dvh",
+  overflow: "scroll",
   position: "fixed",
   top: 0,
   left: "50%",
@@ -91,11 +89,13 @@ const popupContainerStyle = css({
 });
 
 const filterContainerStyle = css({
+  position: "sticky",
+  top: 0,
+  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+  padding: "20px 20px 16px 20px",
   display: "flex",
   alignItems: "center",
   gap: 8,
-  padding: "0 20px",
-  height: 44,
 });
 
 const FilterChip = styled.button(
