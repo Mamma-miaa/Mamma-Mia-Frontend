@@ -6,9 +6,7 @@ import { useState } from "react";
 
 const use필터링_바텀시트 = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [isCategoryChipSelected, setIsCategoryChipSelected] = useState(false);
-  const [isPriceRangeChipSelected, setIsPriceRangeChipSelected] =
-    useState(false);
+  useState(false);
   const open가격대_필터링_바텀시트 = () => {
     return overlay.openAsync(({ isOpen, close }) => {
       return <가격대_필터링_바텀시트 isOpen={isOpen} onClose={close} />;
@@ -33,8 +31,13 @@ const use필터링_바텀시트 = () => {
 
   const handleClickCategoryChip = async () => {
     const categories = await open카테고리_필터링_바텀시트();
-    if (!categories) return;
-    setIsCategoryChipSelected(true);
+    if (!categories || categories.length === 0) {
+      setSearchParams((prev) => {
+        prev.delete("categories");
+        return prev;
+      });
+      return;
+    }
     setSearchParams({ categories: categories.join(",") });
   };
 
@@ -52,8 +55,6 @@ const use필터링_바텀시트 = () => {
   };
 
   return {
-    isPriceRangeChipSelected,
-    isCategoryChipSelected,
     handleClickPriceRangeChip,
     handleClickCategoryChip,
     getCategoryChipLabel,

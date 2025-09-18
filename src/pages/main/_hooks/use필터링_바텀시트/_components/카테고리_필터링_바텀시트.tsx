@@ -92,6 +92,10 @@ const 카테고리_필터링_바텀시트 = ({
     onClose(selectedCategories);
   };
 
+  const isApplyButtonDisabled =
+    selectedCategories.sort().join(",") ===
+    initialSelectedCategories.sort().join(",");
+
   return (
     <FilterBottomSheet
       isOpen={isOpen}
@@ -100,7 +104,7 @@ const 카테고리_필터링_바텀시트 = ({
       title="카테고리"
       description="먹고싶은 음식의 카테고리를 설정해주세요."
       onReset={handleReset}
-      isApplyButtonDisabled={selectedCategories.length === 0}
+      isApplyButtonDisabled={isApplyButtonDisabled}
     >
       <div css={categoriesContainerStyle}>
         {categories.map((category) => (

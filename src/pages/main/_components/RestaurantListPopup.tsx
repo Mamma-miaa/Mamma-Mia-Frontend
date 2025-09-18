@@ -18,9 +18,7 @@ const RestaurantListPopup = ({
   const [isNewChipSelected, setIsNewChipSelected] = useState(false);
   const [isOpenChipSelected, setIsOpenChipSelected] = useState(false);
   const {
-    isCategoryChipSelected,
     handleClickCategoryChip,
-    isPriceRangeChipSelected,
     handleClickPriceRangeChip,
     getCategoryChipLabel,
   } = use필터링_바텀시트();
@@ -46,15 +44,12 @@ const RestaurantListPopup = ({
           영업중
         </FilterChip>
         <FilterChip
-          isSelected={isCategoryChipSelected}
+          isSelected={searchParams.has("categories")}
           onClick={handleClickCategoryChip}
         >
           {getCategoryChipLabel()}
         </FilterChip>
-        <FilterChip
-          isSelected={isPriceRangeChipSelected}
-          onClick={handleClickPriceRangeChip}
-        >
+        <FilterChip isSelected={false} onClick={handleClickPriceRangeChip}>
           가격대
         </FilterChip>
       </div>
