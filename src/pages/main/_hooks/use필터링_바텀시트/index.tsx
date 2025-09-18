@@ -37,13 +37,16 @@ const use필터링_바텀시트 = () => {
 
     // 카테고리 필터링 바텀시트가 닫혔을 때 카테고리가 선택되지 않았을 때
     if (categories.length === 0) {
-      setSearchParams((prev) => {
-        prev.delete("categories");
-        return prev;
-      });
+      setSearchParams(
+        (prev) => {
+          prev.delete("categories");
+          return prev;
+        },
+        { replace: true }
+      );
       return;
     }
-    setSearchParams({ categories: categories.join(",") });
+    setSearchParams({ categories: categories.join(",") }, { replace: true });
   };
 
   const getCategoryChipLabel = () => {

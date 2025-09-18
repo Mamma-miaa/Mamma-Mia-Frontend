@@ -19,25 +19,31 @@ const RestaurantListPopup = ({
   const [searchParams, setSearchParams] = useSearchParams();
 
   const toggleNewChip = () => {
-    setSearchParams((prev) => {
-      if (prev.has("isNew")) {
-        prev.delete("isNew");
-      } else {
-        prev.set("isNew", "true");
-      }
-      return prev;
-    });
+    setSearchParams(
+      (prev) => {
+        if (prev.has("isNew")) {
+          prev.delete("isNew");
+        } else {
+          prev.set("isNew", "true");
+        }
+        return prev;
+      },
+      { replace: true }
+    );
   };
 
   const toggleIsOpenChip = () => {
-    setSearchParams((prev) => {
-      if (prev.has("isOpen")) {
-        prev.delete("isOpen");
-      } else {
-        prev.set("isOpen", "true");
-      }
-      return prev;
-    });
+    setSearchParams(
+      (prev) => {
+        if (prev.has("isOpen")) {
+          prev.delete("isOpen");
+        } else {
+          prev.set("isOpen", "true");
+        }
+        return prev;
+      },
+      { replace: true }
+    );
   };
 
   const navigate = useNavigate();
