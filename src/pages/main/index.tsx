@@ -13,7 +13,7 @@ import "swiper/css";
 import "swiper/css/virtual";
 import 아시안_이미지 from "@/assets/graphics/아시안.webp";
 import OverlayMarker from "@/@lib/components/OverlayMarker";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
 import TopNavigation from "./_components/TopNavigation";
 import { useGetNearbyStoreQuery } from "@/hooks/@server/store";
@@ -28,8 +28,8 @@ const MainPage = () => {
     lat: number;
     lng: number;
   }>(충무로역_좌표);
-  const [isRestaurantListPopupOpen, setIsRestaurantListPopupOpen] =
-    useState(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
   const customOverlays = useRef<kakao.maps.CustomOverlay[]>([]);
 
   const [지도_모서리, set지도_모서리] = useState<{
@@ -148,16 +148,28 @@ const MainPage = () => {
   return (
     <>
       <div ref={mapRef} css={css({ width: "100%", height: "100dvh" })}>
-        {isRestaurantListPopupOpen ? (
+        {searchParams.has("isPopupOpen") ? (
           <PopupToggleButton.지도보기
             onClick={() => {
-              setIsRestaurantListPopupOpen(false);
+              setSearchParams(
+                (prev) => {
+                  prev.delete("isPopupOpen");
+                  return prev;
+                },
+                { replace: true }
+              );
             }}
           />
         ) : (
           <PopupToggleButton.목록보기
             onClick={() => {
-              setIsRestaurantListPopupOpen(true);
+              setSearchParams(
+                (prev) => {
+                  prev.set("isPopupOpen", "true");
+                  return prev;
+                },
+                { replace: true }
+              );
             }}
           />
         )}
