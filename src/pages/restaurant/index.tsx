@@ -64,7 +64,7 @@ const RestaurantDetailPage = () => {
 
       {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
       <img
-        src={storeDetail?.images?.[0]}
+        src={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
         alt="레스토랑 배경 이미지"
         css={restaurantBackgroundImageStyle}
       />
@@ -79,7 +79,7 @@ const RestaurantDetailPage = () => {
         })}
       >
         <img
-          src={storeDetail?.images?.[0]}
+          src={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
           alt="레스토랑 이미지"
           css={restaurantImageStyle}
         />
