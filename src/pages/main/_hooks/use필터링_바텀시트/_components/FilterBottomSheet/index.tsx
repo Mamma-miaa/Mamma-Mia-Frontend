@@ -149,6 +149,7 @@ const closeButtonStyle = css(
     alignItems: "center",
     justifyContent: "center",
     cursor: "pointer",
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
 
     "&:hover": {
       backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
