@@ -16,9 +16,9 @@ import OverlayMarker from "@/@lib/components/OverlayMarker";
 import { useNavigate } from "react-router-dom";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
 import TopNavigation from "./_components/TopNavigation";
-import PopupToggleButton from "./_components/PopupToggleButton";
 import { useGetNearbyStoreQuery } from "@/hooks/@server/store";
 import VIEWPORT from "@/constants/viewport";
+import PopupToggleButton from "./_components/PopupToggleButton";
 
 const 충무로역_좌표 = {
   lat: 37.561306,
@@ -102,10 +102,6 @@ const MainPage = () => {
   });
 
   const navigate = useNavigate();
-
-  const toggleRestaurantListPopup = () => {
-    setIsRestaurantListPopupOpen((prev) => !prev);
-  };
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -199,12 +195,19 @@ const MainPage = () => {
   return (
     <>
       <div ref={mapRef} css={css({ width: "100%", height: "100dvh" })}>
-        <div css={listChipPositionStyle}>
-          <PopupToggleButton
-            isPopupOpen={isRestaurantListPopupOpen}
-            onClick={toggleRestaurantListPopup}
+        {isRestaurantListPopupOpen ? (
+          <PopupToggleButton.지도보기
+            onClick={() => {
+              setIsRestaurantListPopupOpen(false);
+            }}
           />
-        </div>
+        ) : (
+          <PopupToggleButton.목록보기
+            onClick={() => {
+              setIsRestaurantListPopupOpen(true);
+            }}
+          />
+        )}
 
         <Swiper
           modules={[Virtual]}
@@ -302,12 +305,4 @@ const locationButtonStyle = css({
   border: "none",
   cursor: "pointer",
   flex: "none",
-});
-
-const listChipPositionStyle = css({
-  position: "fixed",
-  bottom: 148,
-  left: "50%",
-  transform: "translateX(-50%)",
-  zIndex: 9999,
 });
