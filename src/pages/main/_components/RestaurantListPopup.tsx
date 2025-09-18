@@ -7,7 +7,6 @@ import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
 import VIEWPORT from "@/constants/viewport";
 import styled from "@emotion/styled";
-import { useState } from "react";
 import use필터링_바텀시트 from "../_hooks/use필터링_바텀시트";
 
 const RestaurantListPopup = ({
@@ -15,21 +14,30 @@ const RestaurantListPopup = ({
 }: {
   data: components["schemas"]["GetNearByResponse"][];
 }) => {
-  const [isNewChipSelected, setIsNewChipSelected] = useState(false);
-  const [isOpenChipSelected, setIsOpenChipSelected] = useState(false);
-  const {
-    handleClickCategoryChip,
-    handleClickPriceRangeChip,
-    getCategoryChipLabel,
-  } = use필터링_바텀시트();
+  const { handleClickCategoryChip, getCategoryChipLabel } =
+    use필터링_바텀시트();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const toggleNewChip = () => {
-    setIsNewChipSelected((prev) => !prev);
+    setSearchParams((prev) => {
+      if (prev.has("isNew")) {
+        prev.delete("isNew");
+      } else {
+        prev.set("isNew", "true");
+      }
+      return prev;
+    });
   };
 
   const toggleIsOpenChip = () => {
-    setIsOpenChipSelected((prev) => !prev);
+    setSearchParams((prev) => {
+      if (prev.has("isOpen")) {
+        prev.delete("isOpen");
+      } else {
+        prev.set("isOpen", "true");
+      }
+      return prev;
+    });
   };
 
   const navigate = useNavigate();
@@ -37,10 +45,16 @@ const RestaurantListPopup = ({
   return (
     <div css={popupContainerStyle}>
       <div css={filterContainerStyle}>
-        <FilterChip isSelected={isNewChipSelected} onClick={toggleNewChip}>
+        <FilterChip
+          isSelected={searchParams.has("isNew")}
+          onClick={toggleNewChip}
+        >
           <NewIcon />
         </FilterChip>
-        <FilterChip isSelected={isOpenChipSelected} onClick={toggleIsOpenChip}>
+        <FilterChip
+          isSelected={searchParams.has("isOpen")}
+          onClick={toggleIsOpenChip}
+        >
           영업중
         </FilterChip>
         <FilterChip
@@ -49,9 +63,9 @@ const RestaurantListPopup = ({
         >
           {getCategoryChipLabel()}
         </FilterChip>
-        <FilterChip isSelected={false} onClick={handleClickPriceRangeChip}>
+        {/* <FilterChip isSelected={false} onClick={handleClickPriceRangeChip}>
           가격대
-        </FilterChip>
+        </FilterChip> */}
       </div>
       <div
         css={css({
