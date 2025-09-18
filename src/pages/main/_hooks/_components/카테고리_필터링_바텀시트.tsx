@@ -5,20 +5,21 @@ import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 
 // Import category images
-import 한식_백반 from "@/assets/graphics/한식_백반.webp";
-import 국밥_탕_찌개 from "@/assets/graphics/귝밥_탕_찌개.webp";
-import 삼겹살 from "@/assets/graphics/삼겹살.webp";
-import 치킨 from "@/assets/graphics/치킨.webp";
-import 피자_패푸 from "@/assets/graphics/피자_패푸.webp";
-import 족발_보쌈 from "@/assets/graphics/족발_보쌈.webp";
-import 회_초밥_해산물 from "@/assets/graphics/회_초밥_해산물.webp";
-import 일식 from "@/assets/graphics/일식.webp";
-import 중식 from "@/assets/graphics/중식.webp";
-import 양식 from "@/assets/graphics/양식.webp";
-import 아시안 from "@/assets/graphics/아시안.webp";
-import 분식 from "@/assets/graphics/분식.webp";
-import 채식_건강식 from "@/assets/graphics/채식_건강식.webp";
 import 간식_길거리음식 from "@/assets/graphics/간식_길거리음식.webp";
+import 국밥 from "@/assets/graphics/국밥.webp";
+import 고기구이 from "@/assets/graphics/고기구이.webp";
+import 분식 from "@/assets/graphics/분식.webp";
+import 아시안 from "@/assets/graphics/아시안.webp";
+import 양식 from "@/assets/graphics/양식.webp";
+import 일식 from "@/assets/graphics/일식.webp";
+import 족발_보쌈 from "@/assets/graphics/족발_보쌈.webp";
+import 찜_탕_찌개 from "@/assets/graphics/찜_탕_찌개.webp";
+import 중식 from "@/assets/graphics/중식.webp";
+import 채식_건강식 from "@/assets/graphics/채식_건강식.webp";
+import 치킨 from "@/assets/graphics/치킨.webp";
+import 피자_패스트푸드 from "@/assets/graphics/피자_패스트푸드.webp";
+import 한식_백반 from "@/assets/graphics/한식_백반.webp";
+import 회_해산물 from "@/assets/graphics/회_해산물.webp";
 import styled from "@emotion/styled";
 
 interface CategoryChipProps {
@@ -54,20 +55,21 @@ const 카테고리_필터링_바텀시트 = ({
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const categories = [
-    { id: "korean", label: "한식/백반", image: 한식_백반 },
-    { id: "soup", label: "국밥·탕/찌개", image: 국밥_탕_찌개 },
-    { id: "meat", label: "고기구이", image: 삼겹살 },
-    { id: "chicken", label: "치킨", image: 치킨 },
-    { id: "pizza", label: "피자·패스트푸드", image: 피자_패푸 },
-    { id: "pork", label: "족발·보쌈", image: 족발_보쌈 },
-    { id: "seafood", label: "회·초밥/해산물", image: 회_초밥_해산물 },
-    { id: "japanese", label: "일식(라멘·돈까스)", image: 일식 },
-    { id: "chinese", label: "중식", image: 중식 },
-    { id: "western", label: "양식", image: 양식 },
-    { id: "asian", label: "아시안", image: 아시안 },
-    { id: "snack", label: "분식", image: 분식 },
-    { id: "vegetarian", label: "채식·건강식", image: 채식_건강식 },
-    { id: "street", label: "간식/길거리음식", image: 간식_길거리음식 },
+    { id: "한식/백반", label: "한식/백반", image: 한식_백반 },
+    { id: "국밥", label: "국밥", image: 국밥 },
+    { id: "찜·탕/찌개", label: "찜·탕/찌개", image: 찜_탕_찌개 },
+    { id: "고기구이", label: "고기구이", image: 고기구이 },
+    { id: "치킨", label: "치킨", image: 치킨 },
+    { id: "피자·패스트푸드", label: "피자·패스트푸드", image: 피자_패스트푸드 },
+    { id: "족발·보쌈", label: "족발·보쌈", image: 족발_보쌈 },
+    { id: "회·해산물", label: "회·해산물", image: 회_해산물 },
+    { id: "일식", label: "일식", image: 일식 },
+    { id: "중식", label: "중식", image: 중식 },
+    { id: "양식", label: "양식", image: 양식 },
+    { id: "아시안", label: "아시안", image: 아시안 },
+    { id: "분식", label: "분식", image: 분식 },
+    { id: "채식·건강식", label: "채식·건강식", image: 채식_건강식 },
+    { id: "간식/길거리음식", label: "간식/길거리음식", image: 간식_길거리음식 },
   ];
 
   const handleCategoryClick = (categoryId: string) => {
