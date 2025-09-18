@@ -48,11 +48,15 @@ const CategoryChip = ({
 const 카테고리_필터링_바텀시트 = ({
   isOpen,
   onClose,
+  initialSelectedCategories,
 }: {
   isOpen: boolean;
   onClose: (param: string[] | null) => void;
+  initialSelectedCategories: string[];
 }) => {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    initialSelectedCategories
+  );
 
   const categories = [
     { id: "한식/백반", label: "한식/백반", image: 한식_백반 },

@@ -17,7 +17,15 @@ const use필터링_바텀시트 = () => {
 
   const open카테고리_필터링_바텀시트 = () => {
     return overlay.openAsync<string[] | null>(({ isOpen, close }) => {
-      return <카테고리_필터링_바텀시트 isOpen={isOpen} onClose={close} />;
+      return (
+        <카테고리_필터링_바텀시트
+          isOpen={isOpen}
+          onClose={close}
+          initialSelectedCategories={
+            searchParams.get("categories")?.split(",") || []
+          }
+        />
+      );
     });
   };
 
