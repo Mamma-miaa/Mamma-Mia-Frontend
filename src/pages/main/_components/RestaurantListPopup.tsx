@@ -2,7 +2,7 @@ import THEME from "@/constants/theme";
 import { css } from "@emotion/react";
 import NewIcon from "../_assets/new.svg?react";
 import ResponsiveSummaryCard from "./ResponsiveSummaryCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
 import VIEWPORT from "@/constants/viewport";
@@ -22,7 +22,10 @@ const RestaurantListPopup = ({
     handleClickCategoryChip,
     isPriceRangeChipSelected,
     handleClickPriceRangeChip,
+    getCategoryChipLabel,
   } = use필터링_바텀시트();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const toggleNewChip = () => {
     setIsNewChipSelected((prev) => !prev);
   };
@@ -46,7 +49,7 @@ const RestaurantListPopup = ({
           isSelected={isCategoryChipSelected}
           onClick={handleClickCategoryChip}
         >
-          카테고리
+          {getCategoryChipLabel()}
         </FilterChip>
         <FilterChip
           isSelected={isPriceRangeChipSelected}

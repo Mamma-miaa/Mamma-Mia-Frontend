@@ -30,11 +30,25 @@ const use필터링_바텀시트 = () => {
     setSearchParams({ categories: categories.join(",") });
   };
 
+  const getCategoryChipLabel = () => {
+    if (searchParams.has("categories")) {
+      const categories = searchParams.get("categories")?.split(",") || [];
+
+      if (categories.length === 1) {
+        return categories[0];
+      }
+
+      return `${categories[0]} 외 ${categories.length - 1}개`;
+    }
+    return "카테고리";
+  };
+
   return {
     isPriceRangeChipSelected,
     isCategoryChipSelected,
     handleClickPriceRangeChip,
     handleClickCategoryChip,
+    getCategoryChipLabel,
   };
 };
 
