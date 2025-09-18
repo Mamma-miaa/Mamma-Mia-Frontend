@@ -213,7 +213,7 @@ const MainPage = () => {
           <TopNavigation />
         </div>
       </div>
-      {isRestaurantListPopupOpen && (
+      {searchParams.has("isPopupOpen") && (
         <RestaurantListPopup data={nearbyStore?.items || []} />
       )}
     </>
