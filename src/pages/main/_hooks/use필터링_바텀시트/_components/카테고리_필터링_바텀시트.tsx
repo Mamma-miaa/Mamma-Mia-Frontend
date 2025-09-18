@@ -139,6 +139,7 @@ const Chip = styled.button(({ isSelected }: { isSelected: boolean }) => ({
   borderRadius: 1000,
   cursor: "pointer",
   transition: "all 0.2s ease",
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
 
   ...(isSelected && {
     borderColor: THEME.COLORS.GRAYSCALE.NORMAL,
