@@ -46,7 +46,13 @@ const use필터링_바텀시트 = () => {
       );
       return;
     }
-    setSearchParams({ categories: categories.join(",") }, { replace: true });
+    setSearchParams(
+      (prev) => {
+        prev.set("categories", categories.join(","));
+        return prev;
+      },
+      { replace: true }
+    );
   };
 
   const getCategoryChipLabel = () => {
