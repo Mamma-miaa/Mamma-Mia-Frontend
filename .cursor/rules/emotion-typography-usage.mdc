@@ -1,0 +1,55 @@
+---
+globs: *.tsx,*.ts
+description: Emotion 스타일링에서 TYPOGRAPHY 사용 방법
+---
+
+# Emotion TYPOGRAPHY 사용 규칙
+
+## 올바른 TYPOGRAPHY 사용법
+
+Emotion의 `css` 함수에서 TYPOGRAPHY를 사용할 때는 **spread 연산자(`...`)를 사용하지 말고**, **두 번째 인자로 전달**해야 합니다.
+
+### ✅ 올바른 사용법
+
+```typescript
+import { css } from "@emotion/react";
+import TYPOGRAPHY from "@/constants/typography";
+
+const buttonStyle = css(
+  {
+    flex: 1,
+    height: 44,
+    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+    border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+    borderRadius: 6,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14SB"] // 두 번째 인자로 전달
+);
+```
+
+### ❌ 잘못된 사용법
+
+```typescript
+// spread 연산자 사용 금지
+const wrongStyle = css({
+  ...TYPOGRAPHY.BODY["14SB"], // ❌ 잘못된 방법
+  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+  // ... 기타 스타일
+});
+```
+
+## 이유
+
+- **성능**: Emotion의 `css` 함수는 여러 인자를 받아 병합하는 방식으로 최적화되어 있습니다
+- **타입 안전성**: TypeScript에서 더 나은 타입 추론을 제공합니다
+- **일관성**: 프로젝트 전체에서 동일한 패턴을 유지합니다
+
+## 참고 파일
+
+- [typography.ts](mdc:src/constants/typography.ts) - TYPOGRAPHY 상수 정의
+- [FilterBottomSheet 예시](mdc:src/@lib/components/FilterBottomSheet/index.tsx) - 올바른 사용법 예시
