@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
-import FilterBottomSheet from "../../_components/FilterBottomSheet";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
+import FilterBottomSheet from "./FilterBottomSheet";
 
 const 가격대_필터링_바텀시트 = ({
   isOpen,
@@ -14,6 +14,7 @@ const 가격대_필터링_바텀시트 = ({
     <FilterBottomSheet
       isOpen={isOpen}
       onClose={onClose}
+      onApply={onClose}
       title="가격대"
       description="원하는 가격대를 설정해주세요."
     >

@@ -1,4 +1,3 @@
-import Spacing from "@/@lib/components/Spacing";
 import THEME from "@/constants/theme";
 import { css } from "@emotion/react";
 import NewIcon from "../_assets/new.svg?react";
@@ -6,10 +5,10 @@ import ResponsiveSummaryCard from "./ResponsiveSummaryCard";
 import { useNavigate } from "react-router-dom";
 import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
-import use가격대_필터링_바텀시트 from "../_hooks/use필터링_바텀시트";
 import VIEWPORT from "@/constants/viewport";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import use필터링_바텀시트 from "../_hooks/use필터링_바텀시트";
 
 const RestaurantListPopup = ({
   data,
@@ -18,10 +17,12 @@ const RestaurantListPopup = ({
 }) => {
   const [isNewChipSelected, setIsNewChipSelected] = useState(false);
   const [isOpenChipSelected, setIsOpenChipSelected] = useState(false);
-  const [isCategoryChipSelected, setIsCategoryChipSelected] = useState(false);
-  const [isPriceRangeChipSelected, setIsPriceRangeChipSelected] =
-    useState(false);
-
+  const {
+    isCategoryChipSelected,
+    handleClickCategoryChip,
+    isPriceRangeChipSelected,
+    handleClickPriceRangeChip,
+  } = use필터링_바텀시트();
   const toggleNewChip = () => {
     setIsNewChipSelected((prev) => !prev);
   };
@@ -31,8 +32,6 @@ const RestaurantListPopup = ({
   };
 
   const navigate = useNavigate();
-  const { open가격대_필터링_바텀시트, open카테고리_필터링_바텀시트 } =
-    use가격대_필터링_바텀시트();
 
   return (
     <div css={popupContainerStyle}>
@@ -45,13 +44,13 @@ const RestaurantListPopup = ({
         </FilterChip>
         <FilterChip
           isSelected={isCategoryChipSelected}
-          onClick={open카테고리_필터링_바텀시트}
+          onClick={handleClickCategoryChip}
         >
           카테고리
         </FilterChip>
         <FilterChip
           isSelected={isPriceRangeChipSelected}
-          onClick={open가격대_필터링_바텀시트}
+          onClick={handleClickPriceRangeChip}
         >
           가격대
         </FilterChip>

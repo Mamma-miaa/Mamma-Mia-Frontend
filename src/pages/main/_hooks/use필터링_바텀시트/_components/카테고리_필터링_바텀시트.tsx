@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
-import FilterBottomSheet from "../../_components/FilterBottomSheet";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 
@@ -21,6 +20,7 @@ import 피자_패스트푸드 from "@/assets/graphics/피자_패스트푸드.web
 import 한식_백반 from "@/assets/graphics/한식_백반.webp";
 import 회_해산물 from "@/assets/graphics/회_해산물.webp";
 import styled from "@emotion/styled";
+import FilterBottomSheet from "./FilterBottomSheet";
 
 interface CategoryChipProps {
   id: string;
@@ -50,7 +50,7 @@ const 카테고리_필터링_바텀시트 = ({
   onClose,
 }: {
   isOpen: boolean;
-  onClose: (param: unknown) => void;
+  onClose: (param: string[] | null) => void;
 }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -91,7 +91,7 @@ const 카테고리_필터링_바텀시트 = ({
   return (
     <FilterBottomSheet
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={() => onClose(null)}
       onApply={handleApply}
       title="카테고리"
       description="먹고싶은 음식의 카테고리를 설정해주세요."
