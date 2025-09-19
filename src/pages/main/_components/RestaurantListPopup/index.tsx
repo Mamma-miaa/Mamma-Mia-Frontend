@@ -1,13 +1,13 @@
 import THEME from "@/constants/theme";
 import { css } from "@emotion/react";
-import NewIcon from "../_assets/new.svg?react";
+import NewIcon from "@/pages/main/_assets/new.svg?react";
 import ResponsiveSummaryCard from "../ResponsiveSummaryCard";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
 import VIEWPORT from "@/constants/viewport";
 import styled from "@emotion/styled";
-import use필터링_바텀시트 from "../../_hooks/use필터링_바텀시트";
+import use필터링_바텀시트 from "./_hooks/use필터링_바텀시트";
 import EmptyIcon from "./_assets/emptyIcon.svg?react";
 
 const RestaurantListPopup = ({

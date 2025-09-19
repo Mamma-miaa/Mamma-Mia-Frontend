@@ -14,12 +14,13 @@ import "swiper/css/virtual";
 import 아시안_이미지 from "@/assets/graphics/아시안.webp";
 import OverlayMarker from "@/@lib/components/OverlayMarker";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import RestaurantListPopup from "./_components/RestaurantListPopup";
+
 import TopNavigation from "./_components/TopNavigation";
 import { useGetNearbyStoreQuery } from "@/hooks/@server/store";
 import VIEWPORT from "@/constants/viewport";
 import PopupToggleButton from "./_components/PopupToggleButton";
 import { 충무로역_좌표, 딤_영역, 서비스_영역 } from "./_constants";
+import RestaurantListPopup from "./_components/RestaurantListPopup";
 
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
