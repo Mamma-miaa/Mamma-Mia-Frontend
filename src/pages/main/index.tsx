@@ -1,6 +1,6 @@
 import ReactDOMServer from "react-dom/server";
 import { css } from "@emotion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
@@ -25,25 +25,36 @@ import RestaurantListPopup from "./_components/RestaurantListPopup";
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const kakaoMap = useRef<kakao.maps.Map | null>(null);
-  const [myLocation, setMyLocation] = useState<{
-    lat: number;
-    lng: number;
-  }>(충무로역_좌표);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const customOverlays = useRef<kakao.maps.CustomOverlay[]>([]);
 
-  const [지도_모서리, set지도_모서리] = useState<{
+  // 지도_모서리 상태를 searchParams로 관리
+  const 지도_모서리 = {
+    minLatitude: parseFloat(searchParams.get("minLatitude") || "0"),
+    maxLatitude: parseFloat(searchParams.get("maxLatitude") || "0"),
+    minLongitude: parseFloat(searchParams.get("minLongitude") || "0"),
+    maxLongitude: parseFloat(searchParams.get("maxLongitude") || "0"),
+  };
+
+  const set지도_모서리 = (bounds: {
     minLatitude: number;
     maxLatitude: number;
     minLongitude: number;
     maxLongitude: number;
-  }>({
-    minLatitude: 0,
-    maxLatitude: 0,
-    minLongitude: 0,
-    maxLongitude: 0,
-  });
+  }) => {
+    setSearchParams(
+      (prev) => {
+        prev.set("minLatitude", bounds.minLatitude.toString());
+        prev.set("maxLatitude", bounds.maxLatitude.toString());
+        prev.set("minLongitude", bounds.minLongitude.toString());
+        prev.set("maxLongitude", bounds.maxLongitude.toString());
+        prev.delete("isPopupOpen");
+        return prev;
+      },
+      { replace: true }
+    );
+  };
 
   const { data: nearbyStore } = useGetNearbyStoreQuery({
     userLatitude: 충무로역_좌표.lat,
@@ -59,6 +70,26 @@ const MainPage = () => {
 
   useEffect(() => {
     if (!mapRef.current) return;
+
+    const hasInitialBounds = [
+      searchParams.has("minLatitude"),
+      searchParams.has("maxLatitude"),
+      searchParams.has("minLongitude"),
+      searchParams.has("maxLongitude"),
+    ].every(Boolean);
+
+    const myLocation = {
+      lat: hasInitialBounds
+        ? (Number(searchParams.get("minLatitude")) +
+            Number(searchParams.get("maxLatitude"))) /
+          2
+        : 충무로역_좌표.lat,
+      lng: hasInitialBounds
+        ? (Number(searchParams.get("minLongitude")) +
+            Number(searchParams.get("maxLongitude"))) /
+          2
+        : 충무로역_좌표.lng,
+    };
 
     const options = {
       //지도를 생성할 때 필요한 기본 옵션
@@ -84,14 +115,9 @@ const MainPage = () => {
       fillOpacity: 0.3, // 채우기 불투명도 입니다
     });
 
-    // 지도에 원을 표시합니다
     polygon.setMap(kakaoMap.current);
 
     kakao.maps.event.addListener(kakaoMap.current, "idle", () => {
-      setMyLocation({
-        lat: kakaoMap.current?.getCenter().getLat() || 0,
-        lng: kakaoMap.current?.getCenter().getLng() || 0,
-      });
       set지도_모서리({
         minLatitude: kakaoMap.current?.getBounds().getSouthWest().getLat() || 0,
         maxLatitude: kakaoMap.current?.getBounds().getNorthEast().getLat() || 0,
@@ -132,19 +158,11 @@ const MainPage = () => {
       });
     });
   }, [
-    nearbyStore?.items,
-    지도_모서리.minLatitude,
-    지도_모서리.maxLatitude,
-    지도_모서리.minLongitude,
-    지도_모서리.maxLongitude,
+    searchParams.get("minLatitude"),
+    searchParams.get("maxLatitude"),
+    searchParams.get("minLongitude"),
+    searchParams.get("maxLongitude"),
   ]);
-
-  useEffect(() => {
-    if (!mapRef.current) return;
-    kakaoMap.current?.setCenter(
-      new kakao.maps.LatLng(myLocation.lat, myLocation.lng)
-    );
-  }, [myLocation.lat, myLocation.lng]);
 
   return (
     <>
@@ -201,10 +219,12 @@ const MainPage = () => {
               <MyLocationIcon
                 onClick={() => {
                   navigator.geolocation.getCurrentPosition((position) => {
-                    setMyLocation({
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude,
-                    });
+                    kakaoMap.current?.setCenter(
+                      new kakao.maps.LatLng(
+                        position.coords.latitude,
+                        position.coords.longitude
+                      )
+                    );
                   });
                 }}
               />
