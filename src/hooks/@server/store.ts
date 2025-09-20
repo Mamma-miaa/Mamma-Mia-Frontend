@@ -6,7 +6,7 @@ export const useGetNearbyStoreQuery = (
   params: components["schemas"]["GetNearByStoreRequest"]
 ) =>
   useQuery({
-    queryKey: ["getNearbyStore", params],
+    queryKey: ["getNearbyStore"],
     queryFn: () => getNearbyStore(params),
     placeholderData: { items: [] },
   });
