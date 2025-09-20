@@ -56,7 +56,11 @@ const MainPage = () => {
     );
   };
 
-  const { data: nearbyStore, dataUpdatedAt } = useGetNearbyStoreQuery({
+  const {
+    data: nearbyStore,
+    dataUpdatedAt,
+    refetch,
+  } = useGetNearbyStoreQuery({
     userLatitude: 충무로역_좌표.lat,
     userLongitude: 충무로역_좌표.lng,
     minLatitude: 지도_모서리.minLatitude,
@@ -133,6 +137,9 @@ const MainPage = () => {
     if (!kakaoMap.current) return;
     if (!nearbyStore?.items) return;
 
+    customOverlays.current?.forEach((overlay) => {
+      overlay.setMap(null);
+    });
     customOverlays.current = nearbyStore.items.map((restaurant) => {
       // 커스텀 오버레이 생성
       return new kakao.maps.CustomOverlay({
@@ -168,6 +175,33 @@ const MainPage = () => {
   return (
     <>
       <div ref={mapRef} css={css({ width: "100%", height: "100dvh" })}>
+        <div css={topContainerStyle}>
+          <div css={searchContainerStyle}>
+            <img src={logoImg} alt="logo" width={95} height={40} />
+            <SearchInput css={searchInputStyle} type="button" />
+            <button css={locationButtonStyle}>
+              <MyLocationIcon
+                onClick={() => {
+                  navigator.geolocation.getCurrentPosition((position) => {
+                    kakaoMap.current?.setCenter(
+                      new kakao.maps.LatLng(
+                        position.coords.latitude,
+                        position.coords.longitude
+                      )
+                    );
+                  });
+                }}
+              />
+            </button>
+          </div>
+          <Spacing size={12} />
+          <TopNavigation />
+          <Spacing size={12} />
+          <button css={searchInAreaButtonStyle} onClick={() => refetch()}>
+            이 지역에서 검색하기
+          </button>
+        </div>
+
         {searchParams.has("isPopupOpen") ? (
           <PopupToggleButton.지도보기
             onClick={() => {
@@ -211,29 +245,6 @@ const MainPage = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-
-        <div css={topContainerStyle}>
-          <div css={searchContainerStyle}>
-            <img src={logoImg} alt="logo" width={95} height={40} />
-            <SearchInput css={searchInputStyle} type="button" />
-            <button css={locationButtonStyle}>
-              <MyLocationIcon
-                onClick={() => {
-                  navigator.geolocation.getCurrentPosition((position) => {
-                    kakaoMap.current?.setCenter(
-                      new kakao.maps.LatLng(
-                        position.coords.latitude,
-                        position.coords.longitude
-                      )
-                    );
-                  });
-                }}
-              />
-            </button>
-          </div>
-          <Spacing size={12} />
-          <TopNavigation />
-        </div>
       </div>
       {searchParams.has("isPopupOpen") && (
         <RestaurantListPopup data={nearbyStore?.items || []} />
@@ -292,4 +303,22 @@ const locationButtonStyle = css({
   border: "none",
   cursor: "pointer",
   flex: "none",
+});
+
+const searchInAreaButtonStyle = css({
+  height: 48,
+  backgroundColor: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+  color: THEME.COLORS.BACKGROUND.WHITE,
+  border: "none",
+  borderRadius: 24,
+  padding: "0 16px",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontWeight: 600,
+  fontSize: 16,
+  lineHeight: 1.4,
+  letterSpacing: "-2%",
+  margin: "0 auto",
 });
