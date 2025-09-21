@@ -20,8 +20,9 @@ import { useState } from "react";
 import BookmarkIcon from "./_assets/bookmark.svg?react";
 import { useGetStoreDetailQuery } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
+import RestaurantBusinessHour from "./_components/RestaurantBusinessHour";
 
-const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
+export const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
   SUNDAY: { ko: "일", en: "SUNDAY" },
   MONDAY: { ko: "월", en: "MONDAY" },
   TUESDAY: { ko: "화", en: "TUESDAY" },
@@ -67,7 +68,15 @@ const RestaurantDetailPage = () => {
           css({ position: "absolute", top: 3, right: 20 })
         )}
       >
-        <ShareIcon />
+        <ShareIcon
+          onClick={() => {
+            window.navigator.share({
+              title: storeDetail?.name,
+              text: storeDetail?.name,
+              url: window.location.href,
+            });
+          }}
+        />
       </button>
       <button
         css={css(
@@ -175,18 +184,11 @@ const RestaurantDetailPage = () => {
                     onClick={() => setIsTimeAccordionOpen(!isTimeAccordionOpen)}
                   >
                     <span css={timeTextStyle}>
-                      {TODAY_DAY_OF_WEEK.ko}{" "}
-                      {
-                        businessHours?.find(
-                          (businessHour) => businessHour.isToday
-                        )?.openTime
-                      }{" "}
-                      ~{" "}
-                      {
-                        businessHours?.find(
-                          (businessHour) => businessHour.isToday
-                        )?.closeTime
-                      }
+                      <RestaurantBusinessHour
+                        businessHour={businessHours?.find(
+                          ({ isToday }) => isToday
+                        )}
+                      />
                     </span>
                     <ArrowIcon
                       css={css({
@@ -203,8 +205,9 @@ const RestaurantDetailPage = () => {
                         .filter((businessHour) => !businessHour.isToday)
                         .map((businessHour) => (
                           <li key={businessHour.dayOfWeek}>
-                            {DAY_OF_WEEK[businessHour.dayOfWeek].ko}{" "}
-                            {businessHour.openTime} ~ {businessHour.closeTime}
+                            <RestaurantBusinessHour
+                              businessHour={businessHour}
+                            />
                           </li>
                         ))}
                     </ul>
