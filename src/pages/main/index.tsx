@@ -209,31 +209,33 @@ const MainPage = () => {
           </button>
         </div>
 
-        {searchParams.has("isPopupOpen") ? (
-          <PopupToggleButton.지도보기
-            onClick={() => {
-              setSearchParams(
-                (prev) => {
-                  prev.delete("isPopupOpen");
-                  return prev;
-                },
-                { replace: true }
-              );
-            }}
-          />
-        ) : (
-          <PopupToggleButton.목록보기
-            onClick={() => {
-              setSearchParams(
-                (prev) => {
-                  prev.set("isPopupOpen", "true");
-                  return prev;
-                },
-                { replace: true }
-              );
-            }}
-          />
-        )}
+        <AnimatePresence>
+          {searchParams.has("isPopupOpen") ? (
+            <PopupToggleButton.지도보기
+              onClick={() => {
+                setSearchParams(
+                  (prev) => {
+                    prev.delete("isPopupOpen");
+                    return prev;
+                  },
+                  { replace: true }
+                );
+              }}
+            />
+          ) : (
+            <PopupToggleButton.목록보기
+              onClick={() => {
+                setSearchParams(
+                  (prev) => {
+                    prev.set("isPopupOpen", "true");
+                    return prev;
+                  },
+                  { replace: true }
+                );
+              }}
+            />
+          )}
+        </AnimatePresence>
 
         <Swiper
           modules={[Virtual]}
