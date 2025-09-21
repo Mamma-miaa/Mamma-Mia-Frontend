@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import OverlayMarker from ".";
 import 아시안_이미지 from "@/assets/graphics/아시안.webp";
-import 삼겹살_이미지 from "@/assets/graphics/삼겹살.webp";
+import 삼겹살_이미지 from "@/assets/graphics/고기구이.webp";
 import 치킨_이미지 from "@/assets/graphics/치킨.webp";
 
 const meta: Meta<typeof OverlayMarker> = {
