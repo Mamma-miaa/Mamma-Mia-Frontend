@@ -1,13 +1,14 @@
 import THEME from "@/constants/theme";
 import { css } from "@emotion/react";
-import NewIcon from "../_assets/new.svg?react";
-import ResponsiveSummaryCard from "./ResponsiveSummaryCard";
+import NewIcon from "@/pages/main/_assets/new.svg?react";
+import ResponsiveSummaryCard from "../ResponsiveSummaryCard";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
 import VIEWPORT from "@/constants/viewport";
 import styled from "@emotion/styled";
-import use필터링_바텀시트 from "../_hooks/use필터링_바텀시트";
+import use필터링_바텀시트 from "./_hooks/use필터링_바텀시트";
+import EmptyIcon from "./_assets/emptyIcon.svg?react";
 
 const RestaurantListPopup = ({
   data,
@@ -88,6 +89,18 @@ const RestaurantListPopup = ({
           />
         ))}
       </div>
+      {data.length === 0 && (
+        <div css={emptyStateContainerStyle}>
+          <div css={emptyStateContentStyle}>
+            <div css={emptyStateIconStyle}>
+              <EmptyIcon />
+            </div>
+            <div css={emptyStateTextStyle}>
+              맘마 미아....(밥을 잃어버렸다는 뜻)
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -114,6 +127,35 @@ const filterContainerStyle = css({
   alignItems: "center",
   gap: 8,
 });
+
+const emptyStateContainerStyle = css({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "calc(100vh - 200px)",
+  padding: "40px 20px",
+});
+
+const emptyStateContentStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: 20,
+});
+
+const emptyStateIconStyle = css({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
+const emptyStateTextStyle = css(
+  {
+    textAlign: "center",
+    color: "rgba(55, 56, 60, 0.61)",
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
 
 const FilterChip = styled.button(
   ({ isSelected }: { isSelected: boolean }) => ({

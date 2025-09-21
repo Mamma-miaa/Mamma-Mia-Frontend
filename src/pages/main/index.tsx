@@ -1,6 +1,6 @@
 import ReactDOMServer from "react-dom/server";
 import { css } from "@emotion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
@@ -14,37 +14,53 @@ import "swiper/css/virtual";
 import 아시안_이미지 from "@/assets/graphics/아시안.webp";
 import OverlayMarker from "@/@lib/components/OverlayMarker";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import RestaurantListPopup from "./_components/RestaurantListPopup";
+
 import TopNavigation from "./_components/TopNavigation";
 import { useGetNearbyStoreQuery } from "@/hooks/@server/store";
 import VIEWPORT from "@/constants/viewport";
 import PopupToggleButton from "./_components/PopupToggleButton";
 import { 충무로역_좌표, 딤_영역, 서비스_영역 } from "./_constants";
+import RestaurantListPopup from "./_components/RestaurantListPopup";
 
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const kakaoMap = useRef<kakao.maps.Map | null>(null);
-  const [myLocation, setMyLocation] = useState<{
-    lat: number;
-    lng: number;
-  }>(충무로역_좌표);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const customOverlays = useRef<kakao.maps.CustomOverlay[]>([]);
 
-  const [지도_모서리, set지도_모서리] = useState<{
+  // 지도_모서리 상태를 searchParams로 관리
+  const 지도_모서리 = {
+    minLatitude: parseFloat(searchParams.get("minLatitude") || "0"),
+    maxLatitude: parseFloat(searchParams.get("maxLatitude") || "0"),
+    minLongitude: parseFloat(searchParams.get("minLongitude") || "0"),
+    maxLongitude: parseFloat(searchParams.get("maxLongitude") || "0"),
+  };
+
+  const set지도_모서리 = (bounds: {
     minLatitude: number;
     maxLatitude: number;
     minLongitude: number;
     maxLongitude: number;
-  }>({
-    minLatitude: 0,
-    maxLatitude: 0,
-    minLongitude: 0,
-    maxLongitude: 0,
-  });
+  }) => {
+    setSearchParams(
+      (prev) => {
+        prev.set("minLatitude", bounds.minLatitude.toString());
+        prev.set("maxLatitude", bounds.maxLatitude.toString());
+        prev.set("minLongitude", bounds.minLongitude.toString());
+        prev.set("maxLongitude", bounds.maxLongitude.toString());
+        prev.delete("isPopupOpen");
+        return prev;
+      },
+      { replace: true }
+    );
+  };
 
-  const { data: nearbyStore } = useGetNearbyStoreQuery({
+  const {
+    data: nearbyStore,
+    dataUpdatedAt,
+    refetch,
+  } = useGetNearbyStoreQuery({
     userLatitude: 충무로역_좌표.lat,
     userLongitude: 충무로역_좌표.lng,
     minLatitude: 지도_모서리.minLatitude,
@@ -58,6 +74,26 @@ const MainPage = () => {
 
   useEffect(() => {
     if (!mapRef.current) return;
+
+    const hasInitialBounds = [
+      searchParams.has("minLatitude"),
+      searchParams.has("maxLatitude"),
+      searchParams.has("minLongitude"),
+      searchParams.has("maxLongitude"),
+    ].every(Boolean);
+
+    const myLocation = {
+      lat: hasInitialBounds
+        ? (Number(searchParams.get("minLatitude")) +
+            Number(searchParams.get("maxLatitude"))) /
+          2
+        : 충무로역_좌표.lat,
+      lng: hasInitialBounds
+        ? (Number(searchParams.get("minLongitude")) +
+            Number(searchParams.get("maxLongitude"))) /
+          2
+        : 충무로역_좌표.lng,
+    };
 
     const options = {
       //지도를 생성할 때 필요한 기본 옵션
@@ -83,14 +119,9 @@ const MainPage = () => {
       fillOpacity: 0.3, // 채우기 불투명도 입니다
     });
 
-    // 지도에 원을 표시합니다
     polygon.setMap(kakaoMap.current);
 
     kakao.maps.event.addListener(kakaoMap.current, "idle", () => {
-      setMyLocation({
-        lat: kakaoMap.current?.getCenter().getLat() || 0,
-        lng: kakaoMap.current?.getCenter().getLng() || 0,
-      });
       set지도_모서리({
         minLatitude: kakaoMap.current?.getBounds().getSouthWest().getLat() || 0,
         maxLatitude: kakaoMap.current?.getBounds().getNorthEast().getLat() || 0,
@@ -106,6 +137,9 @@ const MainPage = () => {
     if (!kakaoMap.current) return;
     if (!nearbyStore?.items) return;
 
+    customOverlays.current?.forEach((overlay) => {
+      overlay.setMap(null);
+    });
     customOverlays.current = nearbyStore.items.map((restaurant) => {
       // 커스텀 오버레이 생성
       return new kakao.maps.CustomOverlay({
@@ -131,23 +165,43 @@ const MainPage = () => {
       });
     });
   }, [
-    nearbyStore?.items,
-    지도_모서리.minLatitude,
-    지도_모서리.maxLatitude,
-    지도_모서리.minLongitude,
-    지도_모서리.maxLongitude,
+    dataUpdatedAt,
+    searchParams.get("minLatitude"),
+    searchParams.get("maxLatitude"),
+    searchParams.get("minLongitude"),
+    searchParams.get("maxLongitude"),
   ]);
-
-  useEffect(() => {
-    if (!mapRef.current) return;
-    kakaoMap.current?.setCenter(
-      new kakao.maps.LatLng(myLocation.lat, myLocation.lng)
-    );
-  }, [myLocation.lat, myLocation.lng]);
 
   return (
     <>
       <div ref={mapRef} css={css({ width: "100%", height: "100dvh" })}>
+        <div css={topContainerStyle}>
+          <div css={searchContainerStyle}>
+            <img src={logoImg} alt="logo" width={95} height={40} />
+            <SearchInput css={searchInputStyle} type="button" />
+            <button css={locationButtonStyle}>
+              <MyLocationIcon
+                onClick={() => {
+                  navigator.geolocation.getCurrentPosition((position) => {
+                    kakaoMap.current?.setCenter(
+                      new kakao.maps.LatLng(
+                        position.coords.latitude,
+                        position.coords.longitude
+                      )
+                    );
+                  });
+                }}
+              />
+            </button>
+          </div>
+          <Spacing size={12} />
+          <TopNavigation />
+          <Spacing size={12} />
+          <button css={searchInAreaButtonStyle} onClick={() => refetch()}>
+            이 지역에서 검색하기
+          </button>
+        </div>
+
         {searchParams.has("isPopupOpen") ? (
           <PopupToggleButton.지도보기
             onClick={() => {
@@ -191,27 +245,6 @@ const MainPage = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-
-        <div css={topContainerStyle}>
-          <div css={searchContainerStyle}>
-            <img src={logoImg} alt="logo" width={95} height={40} />
-            <SearchInput css={searchInputStyle} type="button" />
-            <button css={locationButtonStyle}>
-              <MyLocationIcon
-                onClick={() => {
-                  navigator.geolocation.getCurrentPosition((position) => {
-                    setMyLocation({
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude,
-                    });
-                  });
-                }}
-              />
-            </button>
-          </div>
-          <Spacing size={12} />
-          <TopNavigation />
-        </div>
       </div>
       {searchParams.has("isPopupOpen") && (
         <RestaurantListPopup data={nearbyStore?.items || []} />
@@ -270,4 +303,22 @@ const locationButtonStyle = css({
   border: "none",
   cursor: "pointer",
   flex: "none",
+});
+
+const searchInAreaButtonStyle = css({
+  height: 48,
+  backgroundColor: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+  color: THEME.COLORS.BACKGROUND.WHITE,
+  border: "none",
+  borderRadius: 24,
+  padding: "0 16px",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontWeight: 600,
+  fontSize: 16,
+  lineHeight: 1.4,
+  letterSpacing: "-2%",
+  margin: "0 auto",
 });
