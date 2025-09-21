@@ -67,7 +67,15 @@ const RestaurantDetailPage = () => {
           css({ position: "absolute", top: 3, right: 20 })
         )}
       >
-        <ShareIcon />
+        <ShareIcon
+          onClick={() => {
+            window.navigator.share({
+              title: storeDetail?.name,
+              text: storeDetail?.name,
+              url: window.location.href,
+            });
+          }}
+        />
       </button>
       <button
         css={css(
