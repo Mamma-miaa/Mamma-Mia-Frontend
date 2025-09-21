@@ -3,36 +3,45 @@ import TYPOGRAPHY from "@/constants/typography";
 import { css } from "@emotion/react";
 import ListIcon from "../_assets/list.svg?react";
 import MapIcon from "../_assets/map.svg?react";
+import { motion } from "motion/react";
 
 const 지도보기 = ({ onClick }: { onClick: () => void }) => {
   return (
-    <div
+    <motion.div
       css={css(floatingButtonStyle, {
         bottom: 32,
         backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
         color: THEME.COLORS.BACKGROUND.WHITE,
       })}
       onClick={onClick}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <MapIcon />
       <span>지도보기</span>
-    </div>
+    </motion.div>
   );
 };
 
 const 목록보기 = ({ onClick }: { onClick: () => void }) => {
   return (
-    <div
+    <motion.div
       css={css(floatingButtonStyle, {
         bottom: 148,
         backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
         color: THEME.COLORS.GRAYSCALE.NORMAL,
       })}
       onClick={onClick}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <ListIcon />
       <span>목록보기</span>
-    </div>
+    </motion.div>
   );
 };
 

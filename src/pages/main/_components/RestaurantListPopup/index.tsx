@@ -9,6 +9,8 @@ import VIEWPORT from "@/constants/viewport";
 import styled from "@emotion/styled";
 import use필터링_바텀시트 from "./_hooks/use필터링_바텀시트";
 import EmptyIcon from "./_assets/emptyIcon.svg?react";
+import { motion, usePresence } from "motion/react";
+import { useEffect } from "react";
 
 const RestaurantListPopup = ({
   data,
@@ -18,6 +20,7 @@ const RestaurantListPopup = ({
   const { handleClickCategoryChip, getCategoryChipLabel } =
     use필터링_바텀시트();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isPresent, safeToRemove] = usePresence();
 
   const toggleNewChip = () => {
     setSearchParams(
@@ -49,8 +52,18 @@ const RestaurantListPopup = ({
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    !isPresent && setTimeout(safeToRemove, 1000);
+  }, [isPresent]);
+
   return (
-    <div css={popupContainerStyle}>
+    <motion.div
+      css={popupContainerStyle}
+      initial={{ opacity: 0, y: "50%", translateX: "-50%" }}
+      animate={{ opacity: 1, y: 0, translateX: "-50%" }}
+      exit={{ opacity: 0, y: "50%", translateX: "-50%" }}
+      transition={{ type: "keyframes", duration: 0.3 }}
+    >
       <div css={filterContainerStyle}>
         <FilterChip
           isSelected={searchParams.has("isNew")}
@@ -101,7 +114,7 @@ const RestaurantListPopup = ({
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 
