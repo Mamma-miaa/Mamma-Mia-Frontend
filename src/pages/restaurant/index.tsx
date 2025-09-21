@@ -235,7 +235,9 @@ const RestaurantDetailPage = () => {
                   <div css={menuTitleStyle}>
                     <span css={menuNameStyle}>{menu.name}</span>
                   </div>
-                  <span css={menuPriceStyle}>{menu.price}원</span>
+                  <span css={menuPriceStyle}>
+                    {menu.price.toLocaleString()}원
+                  </span>
                 </div>
               </div>
             ))}
