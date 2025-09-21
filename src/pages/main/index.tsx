@@ -1,13 +1,13 @@
 import ReactDOMServer from "react-dom/server";
 import { css } from "@emotion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
 import logoImg from "@/assets/logo.png";
 import THEME from "@/constants/theme";
 import Spacing from "@/@lib/components/Spacing";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
 import { Virtual } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/virtual";
@@ -26,11 +26,11 @@ import {
 } from "./_constants";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
 import { AnimatePresence } from "motion/react";
-import type { components } from "@/apis/schema";
 
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const kakaoMap = useRef<kakao.maps.Map | null>(null);
+  const swiperRef = useRef<SwiperRef>(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const customOverlays = useRef<kakao.maps.CustomOverlay[]>([]);
@@ -151,10 +151,6 @@ const MainPage = () => {
     });
   }, []);
 
-  const [selectedRestaurant, setSelectedRestaurant] = useState<
-    components["schemas"]["GetNearByResponse"] | null
-  >(null);
-
   useEffect(() => {
     if (!kakaoMap.current) return;
     if (!nearbyStore?.items) return;
@@ -192,17 +188,14 @@ const MainPage = () => {
       });
     });
 
-    nearbyStore.items.forEach((restaurant) => {
+    nearbyStore.items.forEach((restaurant, index) => {
       document
         .querySelector(`#overlay-mark${restaurant.storeId}`)
         ?.addEventListener("click", () => {
-          setSelectedRestaurant(() => {
-            kakaoMap.current?.panTo(
-              new kakao.maps.LatLng(restaurant.latitude, restaurant.longitude)
-            );
-
-            return restaurant;
-          });
+          swiperRef.current?.swiper.slideTo(index);
+          kakaoMap.current?.panTo(
+            new kakao.maps.LatLng(restaurant.latitude, restaurant.longitude)
+          );
         });
     });
   }, [
@@ -278,6 +271,7 @@ const MainPage = () => {
           spaceBetween={-210}
           centeredSlides
           css={swiperStyle}
+          ref={swiperRef}
         >
           {nearbyStore?.items?.map((data, index) => (
             <SwiperSlide key={data.storeId} virtualIndex={index}>
