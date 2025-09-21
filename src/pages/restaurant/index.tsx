@@ -25,6 +25,19 @@ import menu4Img from "@/assets/menu/menu4.webp";
 import menu5Img from "@/assets/menu/menu5.webp";
 import { useGetStoreDetailQuery } from "@/hooks/@server/store";
 
+const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
+  SUNDAY: { ko: "일", en: "SUNDAY" },
+  MONDAY: { ko: "월", en: "MONDAY" },
+  TUESDAY: { ko: "화", en: "TUESDAY" },
+  WEDNESDAY: { ko: "수", en: "WEDNESDAY" },
+  THURSDAY: { ko: "목", en: "THURSDAY" },
+  FRIDAY: { ko: "금", en: "FRIDAY" },
+  SATURDAY: { ko: "토", en: "SATURDAY" },
+};
+
+const TODAY = new Date().getDay();
+const TODAY_DAY_OF_WEEK = [...Object.values(DAY_OF_WEEK)][TODAY];
+
 const RestaurantDetailPage = () => {
   const navigate = useNavigate();
   const [isTimeAccordionOpen, setIsTimeAccordionOpen] = useState(false);
@@ -32,6 +45,13 @@ const RestaurantDetailPage = () => {
   const { data: storeDetail } = useGetStoreDetailQuery(
     Number(searchParams.get("id"))
   );
+
+  const businessHours = storeDetail?.businessHours.map((businessHour) => {
+    return {
+      ...businessHour,
+      isToday: businessHour.dayOfWeek === TODAY_DAY_OF_WEEK.en,
+    };
+  });
 
   return (
     <div css={pageContainerStyle}>
@@ -138,7 +158,7 @@ const RestaurantDetailPage = () => {
                 <div css={distanceRowStyle}>
                   <span css={distanceTextStyle}>충무로 역으로부터</span>
                   <span css={distanceValueStyle}>
-                    {Math.round(storeDetail.station.distanceMeters)}m
+                    {Math.round(storeDetail.station?.distanceMeters ?? 0)}m
                   </span>
                   <TranslateIcon />
                 </div>
@@ -153,7 +173,20 @@ const RestaurantDetailPage = () => {
                     css={timeRowButtonStyle}
                     onClick={() => setIsTimeAccordionOpen(!isTimeAccordionOpen)}
                   >
-                    <span css={timeTextStyle}>월 10:00 ~ 20:00</span>
+                    <span css={timeTextStyle}>
+                      {TODAY_DAY_OF_WEEK.ko}{" "}
+                      {
+                        businessHours?.find(
+                          (businessHour) => businessHour.isToday
+                        )?.openTime
+                      }{" "}
+                      ~{" "}
+                      {
+                        businessHours?.find(
+                          (businessHour) => businessHour.isToday
+                        )?.closeTime
+                      }
+                    </span>
                     <ArrowIcon
                       css={css({
                         transform: isTimeAccordionOpen
@@ -165,12 +198,14 @@ const RestaurantDetailPage = () => {
                   </button>
                   {isTimeAccordionOpen && (
                     <ul css={timeListStyle}>
-                      <li>화 10:00 ~ 20:00 </li>
-                      <li>수 10:00 ~ 20:00 </li>
-                      <li>목 10:00 ~ 20:00 </li>
-                      <li>금 10:00 ~ 20:00 </li>
-                      <li>토 10:00 ~ 20:00 </li>
-                      <li>일 10:00 ~ 20:00 </li>
+                      {businessHours
+                        .filter((businessHour) => !businessHour.isToday)
+                        .map((businessHour) => (
+                          <li key={businessHour.dayOfWeek}>
+                            {DAY_OF_WEEK[businessHour.dayOfWeek].ko}{" "}
+                            {businessHour.openTime} ~ {businessHour.closeTime}
+                          </li>
+                        ))}
                     </ul>
                   )}
                 </div>
