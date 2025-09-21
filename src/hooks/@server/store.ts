@@ -16,7 +16,12 @@ export const useGetNearbyStoreQuery = (
       ].every(Boolean),
     ],
     queryFn: () => getNearbyStore(params),
-    placeholderData: { items: [] },
+    placeholderData: {
+      items: [],
+      hasNext: false,
+      cursorId: 0,
+      lastDistance: 0,
+    },
   });
 
 export const useGetStoreDetailQuery = (storeId: number) =>

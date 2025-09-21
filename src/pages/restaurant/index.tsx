@@ -18,12 +18,21 @@ import RestaurantLocationSection from "./_components/RestaurantLocationSection";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import BookmarkIcon from "./_assets/bookmark.svg?react";
-import menu1Img from "@/assets/menu/menu1.webp";
-import menu2Img from "@/assets/menu/menu2.webp";
-import menu3Img from "@/assets/menu/menu3.webp";
-import menu4Img from "@/assets/menu/menu4.webp";
-import menu5Img from "@/assets/menu/menu5.webp";
 import { useGetStoreDetailQuery } from "@/hooks/@server/store";
+import toast from "@/utils/toast";
+
+const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
+  SUNDAY: { ko: "일", en: "SUNDAY" },
+  MONDAY: { ko: "월", en: "MONDAY" },
+  TUESDAY: { ko: "화", en: "TUESDAY" },
+  WEDNESDAY: { ko: "수", en: "WEDNESDAY" },
+  THURSDAY: { ko: "목", en: "THURSDAY" },
+  FRIDAY: { ko: "금", en: "FRIDAY" },
+  SATURDAY: { ko: "토", en: "SATURDAY" },
+};
+
+const TODAY = new Date().getDay();
+const TODAY_DAY_OF_WEEK = [...Object.values(DAY_OF_WEEK)][TODAY];
 
 const RestaurantDetailPage = () => {
   const navigate = useNavigate();
@@ -32,6 +41,13 @@ const RestaurantDetailPage = () => {
   const { data: storeDetail } = useGetStoreDetailQuery(
     Number(searchParams.get("id"))
   );
+
+  const businessHours = storeDetail?.businessHours.map((businessHour) => {
+    return {
+      ...businessHour,
+      isToday: businessHour.dayOfWeek === TODAY_DAY_OF_WEEK.en,
+    };
+  });
 
   return (
     <div css={pageContainerStyle}>
@@ -90,8 +106,8 @@ const RestaurantDetailPage = () => {
         {/* 레스토랑 기본 정보 */}
         <div css={restaurantInfoSectionStyle}>
           <div css={titleSectionStyle}>
-            <span css={categoryStyle}>{storeDetail?.category}</span>
-            <h1 css={restaurantNameStyle}>{storeDetail?.name}</h1>
+            <span css={categoryStyle}>{storeDetail.category}</span>
+            <h1 css={restaurantNameStyle}>{storeDetail.name}</h1>
           </div>
 
           <div css={mammaMiaSectionStyle}>
@@ -132,13 +148,18 @@ const RestaurantDetailPage = () => {
               <img src={locationImg} css={emojiIconStyle} />
               <div css={infoContentStyle}>
                 <div css={infoRowStyle}>
-                  <span css={infoTextStyle}>{storeDetail?.address}</span>
-                  <ClipBoardIcon />
+                  <span css={infoTextStyle}>{storeDetail.address}</span>
+                  <ClipBoardIcon
+                    onClick={() => {
+                      navigator.clipboard.writeText(storeDetail.address);
+                      toast({ message: "주소가 복사가 완료되었습니다." });
+                    }}
+                  />
                 </div>
                 <div css={distanceRowStyle}>
                   <span css={distanceTextStyle}>충무로 역으로부터</span>
                   <span css={distanceValueStyle}>
-                    {Math.round(storeDetail?.station?.distanceMeters ?? 0)}m
+                    {Math.round(storeDetail.station?.distanceMeters ?? 0)}m
                   </span>
                   <TranslateIcon />
                 </div>
@@ -153,7 +174,20 @@ const RestaurantDetailPage = () => {
                     css={timeRowButtonStyle}
                     onClick={() => setIsTimeAccordionOpen(!isTimeAccordionOpen)}
                   >
-                    <span css={timeTextStyle}>월 10:00 ~ 20:00</span>
+                    <span css={timeTextStyle}>
+                      {TODAY_DAY_OF_WEEK.ko}{" "}
+                      {
+                        businessHours?.find(
+                          (businessHour) => businessHour.isToday
+                        )?.openTime
+                      }{" "}
+                      ~{" "}
+                      {
+                        businessHours?.find(
+                          (businessHour) => businessHour.isToday
+                        )?.closeTime
+                      }
+                    </span>
                     <ArrowIcon
                       css={css({
                         transform: isTimeAccordionOpen
@@ -165,12 +199,14 @@ const RestaurantDetailPage = () => {
                   </button>
                   {isTimeAccordionOpen && (
                     <ul css={timeListStyle}>
-                      <li>화 10:00 ~ 20:00 </li>
-                      <li>수 10:00 ~ 20:00 </li>
-                      <li>목 10:00 ~ 20:00 </li>
-                      <li>금 10:00 ~ 20:00 </li>
-                      <li>토 10:00 ~ 20:00 </li>
-                      <li>일 10:00 ~ 20:00 </li>
+                      {businessHours
+                        .filter((businessHour) => !businessHour.isToday)
+                        .map((businessHour) => (
+                          <li key={businessHour.dayOfWeek}>
+                            {DAY_OF_WEEK[businessHour.dayOfWeek].ko}{" "}
+                            {businessHour.openTime} ~ {businessHour.closeTime}
+                          </li>
+                        ))}
                     </ul>
                   )}
                 </div>
@@ -183,102 +219,60 @@ const RestaurantDetailPage = () => {
         <div css={menuSectionStyle}>
           <h2 css={sectionTitleStyle}>메뉴</h2>
           <div css={menuListStyle}>
-            <div css={menuItemStyle}>
-              <div css={menuInfoStyle}>
-                <div css={menuTitleStyle}>
-                  <span css={menuNameStyle}>빠다 숙성 삼겹</span>
+            {storeDetail.menus.map((menu) => (
+              <div css={menuItemStyle} key={menu.name}>
+                <div css={menuImageContainerStyle}>
+                  <img
+                    src={menu.imageUrl ?? "https://placehold.co/60x60"}
+                    alt="빠다 숙성 삼겹 세트"
+                    css={menuImageStyle}
+                  />
                 </div>
-                <span css={menuPriceStyle}>19,000원</span>
-              </div>
-              <div css={menuImageContainerStyle}>
-                <img src={menu1Img} alt="빠다 숙성 삼겹" css={menuImageStyle} />
-              </div>
-            </div>
-
-            <div css={menuItemStyle}>
-              <div css={menuInfoStyle}>
-                <div css={menuTitleStyle}>
-                  <span css={menuNameStyle}>빠다 숙성 삼겹 세트</span>
+                <div css={menuInfoStyle}>
+                  <div css={menuTitleStyle}>
+                    <span css={menuNameStyle}>{menu.name}</span>
+                  </div>
+                  <span css={menuPriceStyle}>{menu.price}원</span>
                 </div>
-                <span css={menuPriceStyle}>48,000원</span>
               </div>
-              <div css={menuImageContainerStyle}>
-                <img
-                  src={menu2Img}
-                  alt="빠다 숙성 삼겹 세트"
-                  css={menuImageStyle}
-                />
-              </div>
-            </div>
-
-            <div css={menuItemStyle}>
-              <div css={menuInfoStyle}>
-                <div css={menuTitleStyle}>
-                  <span css={menuNameStyle}>가브리살</span>
-                </div>
-                <span css={menuPriceStyle}>14,000원</span>
-              </div>
-              <div css={menuImageContainerStyle}>
-                <img src={menu3Img} alt="가브리살" css={menuImageStyle} />
-              </div>
-            </div>
-
-            <div css={menuItemStyle}>
-              <div css={menuInfoStyle}>
-                <div css={menuTitleStyle}>
-                  <span css={menuNameStyle}>안심구이</span>
-                </div>
-                <span css={menuPriceStyle}>15,000원</span>
-              </div>
-              <div css={menuImageContainerStyle}>
-                <img src={menu4Img} alt="안심구이" css={menuImageStyle} />
-              </div>
-            </div>
-
-            <div css={menuItemStyle}>
-              <div css={menuInfoStyle}>
-                <div css={menuTitleStyle}>
-                  <span css={menuNameStyle}>야끼소바</span>
-                </div>
-                <span css={menuPriceStyle}>7,000원</span>
-              </div>
-              <div css={menuImageContainerStyle}>
-                <img src={menu5Img} alt="야끼소바" css={menuImageStyle} />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* 부가 정보 */}
-        <div css={additionalInfoSectionStyle}>
-          <h2 css={sectionTitleStyle}>부가 정보</h2>
-          <div css={additionalInfoGridStyle}>
-            {storeDetail?.parking && (
-              <div css={additionalInfoItemStyle}>
-                <img css={additionalEmojiStyle} src={carImg} />
-                <span css={additionalTextStyle}>주차 가능</span>
-              </div>
-            )}
-            {storeDetail?.delivery && (
-              <div css={additionalInfoItemStyle}>
-                <img css={additionalEmojiStyle} src={deliveryImg} />
-                <span css={additionalTextStyle}>배달 가능</span>
-              </div>
-            )}
-            {storeDetail?.takeout && (
-              <div css={additionalInfoItemStyle}>
-                <img css={additionalEmojiStyle} src={takeoutImg} />
-                <span css={additionalTextStyle}>포장 가능</span>
-              </div>
-            )}
+        {[storeDetail.parking, storeDetail.delivery, storeDetail.takeout].some(
+          Boolean
+        ) && (
+          <div css={additionalInfoSectionStyle}>
+            <h2 css={sectionTitleStyle}>부가 정보</h2>
+            <div css={additionalInfoGridStyle}>
+              {storeDetail.parking && (
+                <div css={additionalInfoItemStyle}>
+                  <img css={additionalEmojiStyle} src={carImg} />
+                  <span css={additionalTextStyle}>주차 가능</span>
+                </div>
+              )}
+              {storeDetail.delivery && (
+                <div css={additionalInfoItemStyle}>
+                  <img css={additionalEmojiStyle} src={deliveryImg} />
+                  <span css={additionalTextStyle}>배달 가능</span>
+                </div>
+              )}
+              {storeDetail.takeout && (
+                <div css={additionalInfoItemStyle}>
+                  <img css={additionalEmojiStyle} src={takeoutImg} />
+                  <span css={additionalTextStyle}>포장 가능</span>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* 매장 위치 */}
         <RestaurantLocationSection
-          latitude={storeDetail?.latitude ?? 0}
-          longitude={storeDetail?.longitude ?? 0}
-          restaurantName={storeDetail?.name ?? ""}
+          latitude={storeDetail.latitude}
+          longitude={storeDetail.longitude}
+          restaurantName={storeDetail.name}
         />
 
         {/* 제보 버튼 */}
