@@ -124,12 +124,16 @@ const RestaurantDetailPage = () => {
             <div css={votingInfoStyle}>
               <div css={votingItemStyle}>
                 <span css={votingLabelStyle}>이번주</span>
-                <span css={votingNumberStyle}>4</span>
+                <span css={votingNumberStyle}>
+                  {(storeDetail.likes?.weekly ?? 0).toLocaleString()}
+                </span>
               </div>
               <span css={separatorStyle}>/</span>
               <div css={votingItemStyle}>
                 <span css={votingLabelStyle}>이번달</span>
-                <span css={votingNumberStyle}>128</span>
+                <span css={votingNumberStyle}>
+                  {(storeDetail.likes?.monthly ?? 0).toLocaleString()}
+                </span>
               </div>
             </div>
           </div>
