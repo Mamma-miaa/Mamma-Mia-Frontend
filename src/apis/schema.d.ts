@@ -86,8 +86,11 @@ export interface components {
             agreements: components["schemas"]["AgreementRequest"][];
         };
         JoinSocialMemberWithIdTokenResponse: {
+            /** @description 유저 ID */
             memberId: string;
+            /** @description 액세스 토큰 */
             accessToken: string;
+            /** @description 리프레시 토큰 */
             refreshToken: string;
         };
         GetNearByStoreRequest: {
@@ -111,29 +114,57 @@ export interface components {
             lastStoreId: number;
         };
         GetNearByResponse: {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @description 가게 ID
+             */
             storeId: number;
+            /** @description 가게 이름 */
             name: string;
+            /** @description 주소 */
             address: string;
+            /** @description 카테고리 */
             category: string;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 위도
+             */
             latitude: number;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 경도
+             */
             longitude: number;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 현재 위치로부터의 거리(미터)
+             */
             distanceMeters: number;
-            /** Format: int32 */
-            totalLike: number;
-            parking: boolean;
-            takeout: boolean;
-            delivery: boolean;
-            /** @enum {string} */
+            /**
+             * Format: int32
+             * @description 전체 좋아요 수
+             */
+            totalLike?: number | null;
+            /** @description 주차 가능 여부 */
+            parking?: boolean | null;
+            /** @description 포장 가능 여부 */
+            takeout?: boolean | null;
+            /** @description 배달 가능 여부 */
+            delivery?: boolean | null;
+            /**
+             * @description 가격대
+             * @enum {string}
+             */
             priceRange: "WON_1" | "WON_2" | "WON_3";
-            imageUrl: string;
-            /** @example {
+            /** @description 대표 이미지 URL */
+            imageUrl?: string | null;
+            /**
+             * @description 랭킹 정보 (주간/월간)
+             * @example {
              *       "WEEKLY": 10,
              *       "MONTHLY": 5
-             *     } */
+             *     }
+             */
             ranks: {
                 [key: string]: number;
             };
@@ -146,65 +177,133 @@ export interface components {
             /** Format: double */
             lastDistance: number;
         };
+        /** @description 영업 시간 정보 */
         BusinessHour: {
-            /** @enum {string} */
+            /**
+             * @description 요일
+             * @enum {string}
+             */
             dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
-            openTime: components["schemas"]["LocalTime"];
-            closeTime: components["schemas"]["LocalTime"];
-            breakStart: components["schemas"]["LocalTime"];
-            breakEnd: components["schemas"]["LocalTime"];
-            lastOrder: components["schemas"]["LocalTime"];
+            /**
+             * @description 오픈 시간
+             * @example 10:00
+             */
+            openTime?: string | null;
+            /**
+             * @description 마감 시간
+             * @example 22:00
+             */
+            closeTime?: string | null;
+            /**
+             * @description 휴게 시작 시간
+             * @example 15:00
+             */
+            breakStart?: string | null;
+            /**
+             * @description 휴게 종료 시간
+             * @example 17:00
+             */
+            breakEnd?: string | null;
+            /**
+             * @description 마지막 주문 시간
+             * @example 21:30
+             */
+            lastOrder?: string | null;
+            /** @description 휴무 여부 */
             isClosed: boolean;
         };
         GetStoreDetailResponse: {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @description 가게 ID
+             */
             storeId: number;
+            /** @description 가게 이름 */
             name: string;
+            /** @description 카테고리 */
             category: string;
+            /** @description 주소 */
             address: string;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 위도
+             */
             latitude: number;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 경도
+             */
             longitude: number;
+            /** @description 가게 이미지 URL 목록 */
             images: string[];
+            /** @description 영업 시간 정보 */
             businessHours: components["schemas"]["BusinessHour"][];
+            /** @description 주차 가능 여부 */
             parking: boolean;
+            /** @description 배달 가능 여부 */
             delivery: boolean;
+            /** @description 포장 가능 여부 */
             takeout: boolean;
-            /** @enum {string} */
+            /**
+             * @description 가격대
+             * @enum {string}
+             */
             priceRange: "WON_1" | "WON_2" | "WON_3";
-            station: components["schemas"]["Station"];
-            /** Format: int32 */
-            totalLike: number;
+            station?: components["schemas"]["Station"];
+            likes?: components["schemas"]["Like"];
+            /** @description 메뉴 목록 */
             menus: components["schemas"]["Menu"][];
-            /** @example {
+            /**
+             * @description 랭킹 정보 (주간/월간)
+             * @example {
              *       "WEEKLY": 10,
              *       "MONTHLY": 5
-             *     } */
+             *     }
+             */
             ranks: {
                 [key: string]: number;
             };
         };
-        LocalTime: {
-            /** Format: int32 */
-            hour: number;
-            /** Format: int32 */
-            minute: number;
-            /** Format: int32 */
-            second: number;
-            /** Format: int32 */
-            nano: number;
-        };
+        /** @description 좋아요 집계 정보 */
+        Like: {
+            /**
+             * Format: int32
+             * @description 전체 좋아요 수
+             */
+            total: number | null;
+            /**
+             * Format: int32
+             * @description 주간 좋아요 수
+             */
+            weekly: number | null;
+            /**
+             * Format: int32
+             * @description 월간 좋아요 수
+             */
+            monthly: number | null;
+        } | null;
+        /** @description 메뉴 목록 */
         Menu: {
+            /** @description 메뉴 이름 */
             name: string;
-            /** Format: int32 */
+            /**
+             * Format: int32
+             * @description 가격
+             */
             price: number;
+            /** @description 메뉴 이미지 URL */
+            imageUrl: string;
         };
+        /** @description 가장 가까운 지하철 역 정보 */
         Station: {
+            /** @description 지하철 역 이름 */
             name: string;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 가게로부터의 거리(미터)
+             */
             distanceMeters: number;
-        };
+        } | null;
     };
     responses: never;
     parameters: never;
