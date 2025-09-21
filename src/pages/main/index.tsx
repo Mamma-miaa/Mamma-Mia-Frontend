@@ -11,7 +11,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Virtual } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/virtual";
-import 아시안_이미지 from "@/assets/graphics/아시안.webp";
 import OverlayMarker from "@/@lib/components/OverlayMarker";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
