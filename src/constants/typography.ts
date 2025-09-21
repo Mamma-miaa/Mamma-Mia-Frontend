@@ -8,6 +8,12 @@ const TYPOGRAPHY = {
       lineHeight: 1.4,
       letterSpacing: "-2%",
     }),
+    "18SB": css({
+      fontSize: 18,
+      fontWeight: 600,
+      lineHeight: 1.4,
+      letterSpacing: "-2%",
+    }),
   },
   BODY: {
     "14R": css({

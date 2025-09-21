@@ -1,5 +1,6 @@
 import { css } from "@emotion/react";
 import pretendardVariable from "./fonts/pretendard-variable.woff2";
+import VIEWPORT from "@/constants/viewport";
 
 const resetCSS = css`
   /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -142,6 +143,24 @@ const baseCSS = css`
     box-sizing: border-box;
     font-family: "Pretendard", sans-serif;
     font-synthesis: none;
+  }
+
+  html,
+  body {
+    max-width: ${VIEWPORT.MAX_WIDTH}px;
+    overflow-x: hidden;
+    margin: 0 auto;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  /* 스크롤바 숨김 처리 */
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
   }
 `;
 
