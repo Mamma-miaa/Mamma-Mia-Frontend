@@ -234,29 +234,33 @@ const RestaurantDetailPage = () => {
         </div>
 
         {/* 부가 정보 */}
-        <div css={additionalInfoSectionStyle}>
-          <h2 css={sectionTitleStyle}>부가 정보</h2>
-          <div css={additionalInfoGridStyle}>
-            {storeDetail.parking && (
-              <div css={additionalInfoItemStyle}>
-                <img css={additionalEmojiStyle} src={carImg} />
-                <span css={additionalTextStyle}>주차 가능</span>
-              </div>
-            )}
-            {storeDetail.delivery && (
-              <div css={additionalInfoItemStyle}>
-                <img css={additionalEmojiStyle} src={deliveryImg} />
-                <span css={additionalTextStyle}>배달 가능</span>
-              </div>
-            )}
-            {storeDetail.takeout && (
-              <div css={additionalInfoItemStyle}>
-                <img css={additionalEmojiStyle} src={takeoutImg} />
-                <span css={additionalTextStyle}>포장 가능</span>
-              </div>
-            )}
+        {[storeDetail.parking, storeDetail.delivery, storeDetail.takeout].some(
+          Boolean
+        ) && (
+          <div css={additionalInfoSectionStyle}>
+            <h2 css={sectionTitleStyle}>부가 정보</h2>
+            <div css={additionalInfoGridStyle}>
+              {storeDetail.parking && (
+                <div css={additionalInfoItemStyle}>
+                  <img css={additionalEmojiStyle} src={carImg} />
+                  <span css={additionalTextStyle}>주차 가능</span>
+                </div>
+              )}
+              {storeDetail.delivery && (
+                <div css={additionalInfoItemStyle}>
+                  <img css={additionalEmojiStyle} src={deliveryImg} />
+                  <span css={additionalTextStyle}>배달 가능</span>
+                </div>
+              )}
+              {storeDetail.takeout && (
+                <div css={additionalInfoItemStyle}>
+                  <img css={additionalEmojiStyle} src={takeoutImg} />
+                  <span css={additionalTextStyle}>포장 가능</span>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* 매장 위치 */}
         <RestaurantLocationSection
