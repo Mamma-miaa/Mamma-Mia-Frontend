@@ -2,6 +2,7 @@ import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import type { PropsWithChildren } from "react";
 import VIEWPORT from "@/constants/viewport";
+import { AnimatePresence, motion } from "motion/react";
 
 interface BottomSheetProps {
   isOpen: boolean;
@@ -13,14 +14,30 @@ const BottomSheet = ({
   onClose,
   children,
 }: PropsWithChildren<BottomSheetProps>) => {
-  if (!isOpen) return null;
-
   return (
-    <div css={overlayStyle} onClick={onClose}>
-      <div css={containerStyle} onClick={(e) => e.stopPropagation()}>
-        {children}
-      </div>
-    </div>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          css={overlayStyle}
+          onClick={onClose}
+          initial={{ opacity: 0, translateX: "-50%" }}
+          animate={{ opacity: 1, translateX: "-50%" }}
+          exit={{ opacity: 0, translateX: "-50%" }}
+          transition={{ duration: 0.2 }}
+        >
+          <motion.div
+            css={containerStyle}
+            onClick={(e) => e.stopPropagation()}
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            transition={{ type: "keyframes" }}
+          >
+            {children}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
