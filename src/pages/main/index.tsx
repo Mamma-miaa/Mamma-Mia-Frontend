@@ -74,6 +74,8 @@ const MainPage = () => {
     minLongitude: 지도_모서리.minLongitude,
     maxLongitude: 지도_모서리.maxLongitude,
     size: 10,
+    lastDistance: 0,
+    lastStoreId: 0,
   });
 
   const navigate = useNavigate();
