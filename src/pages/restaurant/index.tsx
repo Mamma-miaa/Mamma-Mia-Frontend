@@ -19,6 +19,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import BookmarkIcon from "./_assets/bookmark.svg?react";
 import { useGetStoreDetailQuery } from "@/hooks/@server/store";
+import toast from "@/utils/toast";
 
 const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
   SUNDAY: { ko: "일", en: "SUNDAY" },
@@ -148,7 +149,12 @@ const RestaurantDetailPage = () => {
               <div css={infoContentStyle}>
                 <div css={infoRowStyle}>
                   <span css={infoTextStyle}>{storeDetail.address}</span>
-                  <ClipBoardIcon />
+                  <ClipBoardIcon
+                    onClick={() => {
+                      navigator.clipboard.writeText(storeDetail.address);
+                      toast({ message: "주소가 복사가 완료되었습니다." });
+                    }}
+                  />
                 </div>
                 <div css={distanceRowStyle}>
                   <span css={distanceTextStyle}>충무로 역으로부터</span>
