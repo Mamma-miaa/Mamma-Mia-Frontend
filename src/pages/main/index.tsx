@@ -1,6 +1,6 @@
 import ReactDOMServer from "react-dom/server";
 import { css } from "@emotion/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
@@ -26,6 +26,7 @@ import {
 } from "./_constants";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
 import { AnimatePresence } from "motion/react";
+import type { components } from "@/apis/schema";
 
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -150,6 +151,10 @@ const MainPage = () => {
     });
   }, []);
 
+  const [selectedRestaurant, setSelectedRestaurant] = useState<
+    components["schemas"]["GetNearByResponse"] | null
+  >(null);
+
   useEffect(() => {
     if (!kakaoMap.current) return;
     if (!nearbyStore?.items) return;
@@ -165,7 +170,7 @@ const MainPage = () => {
           restaurant.latitude,
           restaurant.longitude
         ),
-        content: `<div id='overlay-mark${restaurant.storeId}'>${ReactDOMServer.renderToString(
+        content: `<div id='overlay-mark${restaurant.storeId}' class='overlay-restaurant-mark'>${ReactDOMServer.renderToString(
           <OverlayMarker>
             <img
               src={
@@ -185,6 +190,20 @@ const MainPage = () => {
         yAnchor: 1,
         xAnchor: 0.5,
       });
+    });
+
+    nearbyStore.items.forEach((restaurant) => {
+      document
+        .querySelector(`#overlay-mark${restaurant.storeId}`)
+        ?.addEventListener("click", () => {
+          setSelectedRestaurant(() => {
+            kakaoMap.current?.panTo(
+              new kakao.maps.LatLng(restaurant.latitude, restaurant.longitude)
+            );
+
+            return restaurant;
+          });
+        });
     });
   }, [
     dataUpdatedAt,
