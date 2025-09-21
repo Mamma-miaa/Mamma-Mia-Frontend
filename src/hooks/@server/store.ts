@@ -6,7 +6,15 @@ export const useGetNearbyStoreQuery = (
   params: components["schemas"]["GetNearByStoreRequest"]
 ) =>
   useQuery({
-    queryKey: ["getNearbyStore"],
+    queryKey: [
+      "getNearbyStore",
+      [
+        params.minLatitude,
+        params.maxLatitude,
+        params.minLongitude,
+        params.maxLongitude,
+      ].every(Boolean),
+    ],
     queryFn: () => getNearbyStore(params),
     placeholderData: { items: [] },
   });
