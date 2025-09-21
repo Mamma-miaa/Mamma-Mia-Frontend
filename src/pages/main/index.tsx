@@ -49,7 +49,6 @@ const MainPage = () => {
         prev.set("maxLatitude", bounds.maxLatitude.toString());
         prev.set("minLongitude", bounds.minLongitude.toString());
         prev.set("maxLongitude", bounds.maxLongitude.toString());
-        prev.delete("isPopupOpen");
         return prev;
       },
       { replace: true }
@@ -130,6 +129,13 @@ const MainPage = () => {
         maxLongitude:
           kakaoMap.current?.getBounds().getNorthEast().getLng() || 0,
       });
+      setSearchParams(
+        (prev) => {
+          prev.delete("isPopupOpen");
+          return prev;
+        },
+        { replace: true }
+      );
     });
   }, []);
 
