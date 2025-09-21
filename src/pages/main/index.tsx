@@ -7,11 +7,10 @@ import MyLocationIcon from "./_assets/my_location.svg?react";
 import logoImg from "@/assets/logo.png";
 import THEME from "@/constants/theme";
 import Spacing from "@/@lib/components/Spacing";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
 import { Virtual } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/virtual";
-import 아시안_이미지 from "@/assets/graphics/아시안.webp";
 import OverlayMarker from "@/@lib/components/OverlayMarker";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -31,6 +30,7 @@ import { AnimatePresence } from "motion/react";
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const kakaoMap = useRef<kakao.maps.Map | null>(null);
+  const swiperRef = useRef<SwiperRef>(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const customOverlays = useRef<kakao.maps.CustomOverlay[]>([]);
@@ -166,7 +166,7 @@ const MainPage = () => {
           restaurant.latitude,
           restaurant.longitude
         ),
-        content: `<div id='overlay-mark${restaurant.storeId}'>${ReactDOMServer.renderToString(
+        content: `<div id='overlay-mark${restaurant.storeId}' class='overlay-restaurant-mark'>${ReactDOMServer.renderToString(
           <OverlayMarker>
             <img
               src={
@@ -186,6 +186,17 @@ const MainPage = () => {
         yAnchor: 1,
         xAnchor: 0.5,
       });
+    });
+
+    nearbyStore.items.forEach((restaurant, index) => {
+      document
+        .querySelector(`#overlay-mark${restaurant.storeId}`)
+        ?.addEventListener("click", () => {
+          swiperRef.current?.swiper.slideTo(index);
+          kakaoMap.current?.panTo(
+            new kakao.maps.LatLng(restaurant.latitude, restaurant.longitude)
+          );
+        });
     });
   }, [
     dataUpdatedAt,
@@ -260,6 +271,7 @@ const MainPage = () => {
           spaceBetween={-210}
           centeredSlides
           css={swiperStyle}
+          ref={swiperRef}
         >
           {nearbyStore?.items?.map((data, index) => (
             <SwiperSlide key={data.storeId} virtualIndex={index}>
