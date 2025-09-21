@@ -10,13 +10,14 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "generate-types": "npx openapi-typescript https://api.mamma-mia.site/v3/api-docs -o ./src/apis/schema.d.ts"
+    "generate-types": "npx openapi-typescript https://api.mamma-mia.site/v3/api-docs -o ./src/apis/schema.d.ts --properties-required-by-default"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@tanstack/react-query": "^5.85.6",
     "axios": "^1.11.0",
+    "dayjs": "^1.11.18",
     "motion": "^12.23.16",
     "overlay-kit": "^1.8.5",
     "react": "^19.1.1",

@@ -19,7 +19,12 @@ import TopNavigation from "./_components/TopNavigation";
 import { useGetNearbyStoreQuery } from "@/hooks/@server/store";
 import VIEWPORT from "@/constants/viewport";
 import PopupToggleButton from "./_components/PopupToggleButton";
-import { 충무로역_좌표, 딤_영역, 서비스_영역 } from "./_constants";
+import {
+  충무로역_좌표,
+  딤_영역,
+  서비스_영역,
+  카테고리_이미지,
+} from "./_constants";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
 import { AnimatePresence } from "motion/react";
 
@@ -74,6 +79,8 @@ const MainPage = () => {
     minLongitude: 지도_모서리.minLongitude,
     maxLongitude: 지도_모서리.maxLongitude,
     size: 10,
+    lastDistance: 0,
+    lastStoreId: 0,
   });
 
   const navigate = useNavigate();
@@ -162,12 +169,17 @@ const MainPage = () => {
         content: `<div id='overlay-mark${restaurant.storeId}'>${ReactDOMServer.renderToString(
           <OverlayMarker>
             <img
-              src={아시안_이미지}
+              src={
+                카테고리_이미지[
+                  restaurant.category as keyof typeof 카테고리_이미지
+                ]
+              }
               style={{
                 width: "20px",
                 height: "20px",
                 objectFit: "cover",
               }}
+              alt={restaurant.category}
             />
           </OverlayMarker>
         )}</div>`,
