@@ -21,6 +21,7 @@ import VIEWPORT from "@/constants/viewport";
 import PopupToggleButton from "./_components/PopupToggleButton";
 import { 충무로역_좌표, 딤_영역, 서비스_영역 } from "./_constants";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
+import { AnimatePresence } from "motion/react";
 
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -252,9 +253,11 @@ const MainPage = () => {
           ))}
         </Swiper>
       </div>
-      {searchParams.has("isPopupOpen") && (
-        <RestaurantListPopup data={nearbyStore?.items || []} />
-      )}
+      <AnimatePresence>
+        {searchParams.has("isPopupOpen") && (
+          <RestaurantListPopup data={nearbyStore?.items || []} />
+        )}
+      </AnimatePresence>
     </>
   );
 };
