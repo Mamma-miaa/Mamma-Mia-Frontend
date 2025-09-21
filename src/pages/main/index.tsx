@@ -38,18 +38,24 @@ const MainPage = () => {
     maxLongitude: parseFloat(searchParams.get("maxLongitude") || "0"),
   };
 
-  const set지도_모서리 = (bounds: {
-    minLatitude: number;
-    maxLatitude: number;
-    minLongitude: number;
-    maxLongitude: number;
-  }) => {
+  const set지도_모서리 = (
+    bounds: {
+      minLatitude: number;
+      maxLatitude: number;
+      minLongitude: number;
+      maxLongitude: number;
+    },
+    option: { isPopupOpen: boolean } = { isPopupOpen: true }
+  ) => {
     setSearchParams(
       (prev) => {
         prev.set("minLatitude", bounds.minLatitude.toString());
         prev.set("maxLatitude", bounds.maxLatitude.toString());
         prev.set("minLongitude", bounds.minLongitude.toString());
         prev.set("maxLongitude", bounds.maxLongitude.toString());
+        if (!option.isPopupOpen) {
+          prev.delete("isPopupOpen");
+        }
         return prev;
       },
       { replace: true }
@@ -122,20 +128,18 @@ const MainPage = () => {
     polygon.setMap(kakaoMap.current);
 
     kakao.maps.event.addListener(kakaoMap.current, "idle", () => {
-      set지도_모서리({
-        minLatitude: kakaoMap.current?.getBounds().getSouthWest().getLat() || 0,
-        maxLatitude: kakaoMap.current?.getBounds().getNorthEast().getLat() || 0,
-        minLongitude:
-          kakaoMap.current?.getBounds().getSouthWest().getLng() || 0,
-        maxLongitude:
-          kakaoMap.current?.getBounds().getNorthEast().getLng() || 0,
-      });
-      setSearchParams(
-        (prev) => {
-          prev.delete("isPopupOpen");
-          return prev;
+      set지도_모서리(
+        {
+          minLatitude:
+            kakaoMap.current?.getBounds().getSouthWest().getLat() || 0,
+          maxLatitude:
+            kakaoMap.current?.getBounds().getNorthEast().getLat() || 0,
+          minLongitude:
+            kakaoMap.current?.getBounds().getSouthWest().getLng() || 0,
+          maxLongitude:
+            kakaoMap.current?.getBounds().getNorthEast().getLng() || 0,
         },
-        { replace: true }
+        { isPopupOpen: false }
       );
     });
   }, []);
