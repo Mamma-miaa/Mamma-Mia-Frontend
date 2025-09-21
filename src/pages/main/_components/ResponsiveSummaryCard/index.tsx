@@ -33,7 +33,7 @@ const ResponsiveSummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
         <div css={locationSectionStyle}>
           <div css={locationInfoStyle}>
             <LocationIcon />
-            <span css={locationTextStyle}>내 위치로부터</span>
+            <span css={locationTextStyle}>충무로 역으로부터</span>
           </div>
           <span css={distanceStyle}>
             {Math.round(restaurant.distanceMeters)}m
