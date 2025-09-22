@@ -56,7 +56,7 @@ const RestaurantDetailPage = () => {
       <button
         css={css(
           floatingButtonStyle,
-          css({ position: "absolute", top: 3, left: 20 })
+          css({ position: "absolute", top: 20, left: 20 })
         )}
         onClick={() => navigate(-1)}
       >
@@ -65,7 +65,7 @@ const RestaurantDetailPage = () => {
       <button
         css={css(
           floatingButtonStyle,
-          css({ position: "absolute", top: 3, right: 20 })
+          css({ position: "absolute", top: 20, right: 20 })
         )}
       >
         <ShareIcon
@@ -81,7 +81,7 @@ const RestaurantDetailPage = () => {
       <button
         css={css(
           floatingButtonStyle,
-          css({ position: "absolute", top: 3, right: 76 })
+          css({ position: "absolute", top: 20, right: 76 })
         )}
       >
         <BookmarkIcon />
