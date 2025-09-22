@@ -13,7 +13,7 @@ const TopNavigation = () => {
       <Button
         type="button"
         onClick={() => {
-          toast({ message: "현재 개발이 필요한 기능입니다." });
+          toast({ message: "개발이 필요한 기능입니다." });
         }}
       >
         <img src={challengeImg} alt="도전맛집" width={20} height={20} />
@@ -22,7 +22,7 @@ const TopNavigation = () => {
       <Button
         type="button"
         onClick={() => {
-          toast({ message: "현재 개발이 필요한 기능입니다." });
+          toast({ message: "개발이 필요한 기능입니다." });
         }}
       >
         <img src={medalImg} alt="랭킹" width={20} height={20} /> 랭킹
@@ -30,7 +30,7 @@ const TopNavigation = () => {
       <Button
         type="button"
         onClick={() => {
-          toast({ message: "현재 개발이 필요한 기능입니다." });
+          toast({ message: "개발이 필요한 기능입니다." });
         }}
       >
         <img src={personImg} alt="MY" width={20} height={20} /> MY

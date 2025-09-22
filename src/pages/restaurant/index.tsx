@@ -65,26 +65,30 @@ const RestaurantDetailPage = () => {
       <button
         css={css(
           floatingButtonStyle,
-          css({ position: "absolute", top: 20, right: 20 })
+          css({ position: "absolute", top: 20, right: 76 })
         )}
+        type="button"
+        onClick={() => {
+          toast({ message: "개발이 필요한 기능입니다." });
+        }}
       >
-        <ShareIcon
-          onClick={() => {
-            window.navigator.share({
-              title: storeDetail?.name,
-              text: storeDetail?.name,
-              url: window.location.href,
-            });
-          }}
-        />
+        <BookmarkIcon />
       </button>
       <button
         css={css(
           floatingButtonStyle,
-          css({ position: "absolute", top: 20, right: 76 })
+          css({ position: "absolute", top: 20, right: 20 })
         )}
+        type="button"
+        onClick={() => {
+          window.navigator.share({
+            title: storeDetail?.name,
+            text: storeDetail?.name,
+            url: window.location.href,
+          });
+        }}
       >
-        <BookmarkIcon />
+        <ShareIcon />
       </button>
 
       {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
@@ -140,7 +144,13 @@ const RestaurantDetailPage = () => {
         </div>
 
         {/* 투표 완료 버튼 */}
-        <button css={votingButtonStyle}>
+        <button
+          css={votingButtonStyle}
+          type="button"
+          onClick={() => {
+            toast({ message: "개발이 필요한 기능입니다." });
+          }}
+        >
           <MammaMiaVoteButton />
           <ClickToVoteButton
             css={css({
@@ -174,7 +184,11 @@ const RestaurantDetailPage = () => {
                   <span css={distanceValueStyle}>
                     {Math.round(storeDetail.station?.distanceMeters ?? 0)}m
                   </span>
-                  <TranslateIcon />
+                  <TranslateIcon
+                    onClick={() => {
+                      toast({ message: "개발이 필요한 기능입니다." });
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -286,7 +300,13 @@ const RestaurantDetailPage = () => {
 
         {/* 제보 버튼 */}
         <div css={reportSectionStyle}>
-          <button css={reportButtonStyle}>
+          <button
+            css={reportButtonStyle}
+            type="button"
+            onClick={() => {
+              toast({ message: "개발이 필요한 기능입니다." });
+            }}
+          >
             <span css={reportTextStyle}>잘못된 정보 제보하기</span>
             <ArrowIcon />
           </button>
