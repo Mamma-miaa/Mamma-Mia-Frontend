@@ -124,12 +124,16 @@ const RestaurantDetailPage = () => {
             <div css={votingInfoStyle}>
               <div css={votingItemStyle}>
                 <span css={votingLabelStyle}>이번주</span>
-                <span css={votingNumberStyle}>4</span>
+                <span css={votingNumberStyle}>
+                  {(storeDetail.likes?.weekly ?? 0).toLocaleString()}
+                </span>
               </div>
               <span css={separatorStyle}>/</span>
               <div css={votingItemStyle}>
                 <span css={votingLabelStyle}>이번달</span>
-                <span css={votingNumberStyle}>128</span>
+                <span css={votingNumberStyle}>
+                  {(storeDetail.likes?.monthly ?? 0).toLocaleString()}
+                </span>
               </div>
             </div>
           </div>
@@ -640,7 +644,6 @@ const additionalInfoSectionStyle = css({
 // 부가 정보 그리드
 const additionalInfoGridStyle = css({
   display: "flex",
-  justifyContent: "stretch",
   alignItems: "stretch",
   gap: 24,
 });
@@ -651,7 +654,7 @@ const additionalInfoItemStyle = css({
   flexDirection: "column",
   alignItems: "center",
   gap: 6,
-  flex: 1,
+  flex: 1 / 3,
 });
 
 // 부가 정보 이모지
