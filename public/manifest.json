@@ -1,0 +1,16 @@
+{
+  "name": "Mamma Mia",
+  "short_name": "Mamma Mia",
+  "description": "충무로 맛집은 여기, 맘마미아",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#191919",
+  "theme_color": "#191919",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "48x48",
+      "type": "image/svg+xml"
+    }
+  ]
+}
