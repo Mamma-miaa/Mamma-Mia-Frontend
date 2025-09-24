@@ -4,6 +4,7 @@ import globalStyles from "./styles/globalStyles";
 import MainPage from "./pages/main";
 import RestaurantDetailPage from "./pages/restaurant";
 import Provider from "./Provider";
+import RankingPage from "./pages/ranking";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/restaurant",
         element: <RestaurantDetailPage />,
+      },
+      {
+        path: "/ranking",
+        element: <RankingPage />,
       },
     ],
   },

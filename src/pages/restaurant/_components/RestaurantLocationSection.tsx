@@ -3,6 +3,7 @@ import TYPOGRAPHY from "@/constants/typography";
 import { css } from "@emotion/react";
 import kakaoMapImg from "../_assets/kakaomap_basic_1.webp";
 import { useEffect, useRef } from "react";
+import toast from "@/utils/toast";
 
 const RestaurantLocationSection = ({
   latitude,
@@ -87,7 +88,13 @@ const RestaurantLocationSection = ({
       <h2 css={sectionTitleStyle}>매장 위치</h2>
       <div css={mapContainerStyle}>
         <div css={mapImageStyle} ref={mapRef} />
-        <button css={mapButtonStyle}>
+        <button
+          css={mapButtonStyle}
+          type="button"
+          onClick={() => {
+            toast({ message: "개발이 필요한 기능입니다." });
+          }}
+        >
           <img src={kakaoMapImg} alt="카카오맵" width={20} height={20} />
           <span css={mapButtonTextStyle}>카카오 맵으로 길찾기</span>
         </button>
