@@ -1,7 +1,6 @@
 import THEME from "@/constants/theme";
 import { css } from "@emotion/react";
 import NewIcon from "@/pages/main/_assets/new.svg?react";
-import ResponsiveSummaryCard from "../ResponsiveSummaryCard";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
@@ -11,6 +10,7 @@ import use필터링_바텀시트 from "./_hooks/use필터링_바텀시트";
 import EmptyIcon from "./_assets/emptyIcon.svg?react";
 import { motion, usePresence } from "motion/react";
 import { useEffect } from "react";
+import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard";
 
 const RestaurantListPopup = ({
   data,
