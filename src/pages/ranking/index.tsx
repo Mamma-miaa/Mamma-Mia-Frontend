@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import BackIcon from "./_assets/back.svg?react";
 import RankingCard from "./_components/RankingCard";
 import { Swiper, SwiperSlide } from "swiper/react";
+import RankingText from "./_assets/ranking_text.svg?react";
 
 const RankingPage = () => {
   const navigate = useNavigate();
@@ -28,8 +29,8 @@ const RankingPage = () => {
         css={restaurantBackgroundImageStyle}
       />
 
+      <RankingText css={rankingTextStyle} />
       {/* 랭킹 카드 섹션 */}
-
       <Swiper
         css={rankingSectionStyle}
         loop
@@ -157,7 +158,7 @@ const restaurantBackgroundImageStyle = css({
 const rankingSectionStyle = css({
   width: 1100,
   position: "absolute",
-  top: 139,
+  top: 158,
   left: "50%",
   transform: "translateX(-50%)",
   zIndex: 1000,
@@ -174,4 +175,13 @@ const rankingSectionStyle = css({
     transform: "scale(1.109)", // 335/302 ≈ 1.109
     transition: "transform 0.3s ease-in-out",
   },
+});
+
+// 랭킹 텍스트 스타일
+const rankingTextStyle = css({
+  position: "fixed",
+  top: 84,
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 1000,
 });
