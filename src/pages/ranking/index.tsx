@@ -5,6 +5,7 @@ import BackIcon from "./_assets/back.svg?react";
 import RankingCard from "./_components/RankingCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import RankingText from "./_assets/ranking_text.svg?react";
+import ToggleButton from "@/@lib/components/ToggleButton";
 
 const RankingPage = () => {
   const navigate = useNavigate();
@@ -21,6 +22,16 @@ const RankingPage = () => {
       >
         <BackIcon />
       </button>
+
+      <div
+        css={css({ position: "absolute", top: 20, right: 20, zIndex: 1000 })}
+      >
+        <ToggleButton
+          paramKey="period"
+          firstItem={{ label: "주간", value: "weekly" }}
+          secondItem={{ label: "월간", value: "monthly" }}
+        />
+      </div>
 
       {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
       <img
