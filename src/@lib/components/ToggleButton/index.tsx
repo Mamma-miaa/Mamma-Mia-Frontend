@@ -28,14 +28,17 @@ const ToggleButton = ({
   return (
     <div
       onClick={() =>
-        setSearchParams((prev) => {
-          if (prev.get(paramKey) === secondItem.value) {
-            prev.delete(paramKey);
-          } else {
-            prev.set(paramKey, secondItem.value);
-          }
-          return prev;
-        })
+        setSearchParams(
+          (prev) => {
+            if (prev.get(paramKey) === secondItem.value) {
+              prev.delete(paramKey);
+            } else {
+              prev.set(paramKey, secondItem.value);
+            }
+            return prev;
+          },
+          { replace: true }
+        )
       }
       css={[containerStyle, isSecondItemActive && { justifyContent: "end" }]}
     >
