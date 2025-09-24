@@ -156,7 +156,7 @@ const restaurantBackgroundImageStyle = css({
 // 랭킹 섹션 스타일
 const rankingSectionStyle = css({
   width: 1100,
-  position: "fixed",
+  position: "absolute",
   top: 139,
   left: "50%",
   transform: "translateX(-50%)",
