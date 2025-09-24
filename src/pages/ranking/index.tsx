@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import BackIcon from "./_assets/back.svg?react";
 import RankingCard from "./_components/RankingCard";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const RankingPage = () => {
   const navigate = useNavigate();
@@ -28,17 +29,81 @@ const RankingPage = () => {
       />
 
       {/* 랭킹 카드 섹션 */}
-      <div css={rankingSectionStyle}>
-        <RankingCard
-          rank={1}
-          period="monthly"
-          category="고기구이"
-          restaurantName="빠삼"
-          weeklyVotes={4}
-          monthlyVotes={128}
-          imageUrl="https://placehold.co/260x335"
-        />
-      </div>
+
+      <Swiper
+        css={rankingSectionStyle}
+        loop
+        slidesPerView={3}
+        spaceBetween={-210}
+        centeredSlides
+      >
+        <SwiperSlide>
+          <RankingCard
+            rank={1}
+            period="monthly"
+            category="고기구이"
+            restaurantName="빠삼"
+            weeklyVotes={4}
+            monthlyVotes={128}
+            imageUrl="https://placehold.co/260x335"
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <RankingCard
+            rank={1}
+            period="monthly"
+            category="고기구이"
+            restaurantName="빠삼"
+            weeklyVotes={4}
+            monthlyVotes={128}
+            imageUrl="https://placehold.co/260x335"
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <RankingCard
+            rank={1}
+            period="monthly"
+            category="고기구이"
+            restaurantName="빠삼"
+            weeklyVotes={4}
+            monthlyVotes={128}
+            imageUrl="https://placehold.co/260x335"
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <RankingCard
+            rank={1}
+            period="monthly"
+            category="고기구이"
+            restaurantName="빠삼"
+            weeklyVotes={4}
+            monthlyVotes={128}
+            imageUrl="https://placehold.co/260x335"
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <RankingCard
+            rank={1}
+            period="monthly"
+            category="고기구이"
+            restaurantName="빠삼"
+            weeklyVotes={4}
+            monthlyVotes={128}
+            imageUrl="https://placehold.co/260x335"
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <RankingCard
+            rank={1}
+            period="monthly"
+            category="고기구이"
+            restaurantName="빠삼"
+            weeklyVotes={4}
+            monthlyVotes={128}
+            imageUrl="https://placehold.co/260x335"
+          />
+        </SwiperSlide>
+      </Swiper>
     </div>
   );
 };
@@ -90,9 +155,23 @@ const restaurantBackgroundImageStyle = css({
 
 // 랭킹 섹션 스타일
 const rankingSectionStyle = css({
-  position: "absolute",
-  top: "50%",
+  width: 1100,
+  position: "fixed",
+  top: 139,
   left: "50%",
-  transform: "translate(-50%, -50%)",
-  zIndex: 5,
+  transform: "translateX(-50%)",
+  zIndex: 1000,
+  overflow: "visible",
+
+  "& .swiper-slide": {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    transition: "transform 0.3s ease-in-out",
+  },
+
+  "& .swiper-slide-active": {
+    transform: "scale(1.109)", // 335/302 ≈ 1.109
+    transition: "transform 0.3s ease-in-out",
+  },
 });
