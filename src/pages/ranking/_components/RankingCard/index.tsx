@@ -3,30 +3,21 @@ import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import MammaMiaIcon from "./_assets/mamma_mia.svg?react";
 import ranking_1st_badge from "@/assets/rank/type_detail_date_monthly_number_1.webp";
-
-interface RankingCardProps {
-  rank: number;
-  period: "weekly" | "monthly";
-  category: string;
-  restaurantName: string;
-  weeklyVotes: number;
-  monthlyVotes: number;
-  imageUrl: string;
-}
+import type { components } from "@/apis/schema";
 
 const RankingCard = ({
-  rank,
-  period,
-  category,
-  restaurantName,
-  weeklyVotes,
-  monthlyVotes,
-  imageUrl,
-}: RankingCardProps) => {
+  restaurant,
+}: {
+  restaurant: components["schemas"]["GetNearByResponse"];
+}) => {
   return (
     <div css={cardContainerStyle}>
       {/* 배경 이미지 */}
-      <img src={imageUrl} alt={restaurantName} css={backgroundImageStyle} />
+      <img
+        src={restaurant.imageUrl ?? "https://placehold.co/260x335"}
+        alt={restaurant.name}
+        css={backgroundImageStyle}
+      />
 
       {/* 랭킹 배지 */}
       <img
@@ -46,8 +37,8 @@ const RankingCard = ({
 
       {/* 콘텐츠 컨테이너 */}
       <div css={contentContainerStyle}>
-        <div css={categoryStyle}>{category}</div>
-        <div css={restaurantNameStyle}>{restaurantName}</div>
+        <div css={categoryStyle}>{restaurant.category}</div>
+        <div css={restaurantNameStyle}>{restaurant.name}</div>
 
         {/* Mamma-Mia! 섹션 */}
         <div css={mammaMiaContainerStyle}>
@@ -55,12 +46,14 @@ const RankingCard = ({
           <div css={votesContainerStyle}>
             <div css={voteItemStyle}>
               <span css={voteLabelStyle}>이번주</span>
-              <span css={voteNumberStyle}>{weeklyVotes}</span>
+              <span css={voteNumberStyle}>{restaurant.ranks?.WEEKLY ?? 0}</span>
             </div>
             <span css={separatorStyle}>/</span>
             <div css={voteItemStyle}>
               <span css={voteLabelStyle}>이번달</span>
-              <span css={voteNumberStyle}>{monthlyVotes}</span>
+              <span css={voteNumberStyle}>
+                {restaurant.ranks?.MONTHLY ?? 0}
+              </span>
             </div>
           </div>
         </div>
