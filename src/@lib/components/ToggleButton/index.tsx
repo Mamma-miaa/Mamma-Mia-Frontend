@@ -48,6 +48,7 @@ const ToggleButton = ({
       <motion.button
         css={[optionStyle]}
         type="button"
+        layout="position"
         transition={{
           type: "keyframes",
           duration: 0.3,
