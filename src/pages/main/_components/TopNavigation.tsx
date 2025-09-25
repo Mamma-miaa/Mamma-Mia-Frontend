@@ -6,8 +6,11 @@ import challengeImg from "@/assets/emoji/challenge.webp";
 import medalImg from "@/assets/emoji/medal.webp";
 import personImg from "@/assets/emoji/person.webp";
 import toast from "@/utils/toast";
+import { useNavigate } from "react-router-dom";
 
 const TopNavigation = () => {
+  const navigate = useNavigate();
+
   return (
     <div css={buttonContainerStyle}>
       <Button
@@ -22,7 +25,7 @@ const TopNavigation = () => {
       <Button
         type="button"
         onClick={() => {
-          toast({ message: "개발이 필요한 기능입니다." });
+          navigate("/ranking");
         }}
       >
         <img src={medalImg} alt="랭킹" width={20} height={20} /> 랭킹
