@@ -224,7 +224,7 @@ const RankingPage = () => {
         ))}
       </Swiper>
 
-      <div css={css({ padding: "0 20px" })}>
+      <div css={css({ padding: "0 20px", marginTop: 96 })}>
         {restaurants.map((restaurant) => (
           <ResponsiveSummaryCard
             restaurant={restaurant}
