@@ -40,7 +40,10 @@ const ToggleButton = ({
           { replace: true }
         )
       }
-      css={[containerStyle, isSecondItemActive && { justifyContent: "end" }]}
+      css={[
+        containerStyle,
+        isSecondItemActive && { justifyContent: "flex-end" },
+      ]}
     >
       <motion.button
         css={[optionStyle]}
@@ -90,6 +93,7 @@ const ToggleButton = ({
 const containerStyle = css({
   display: "flex",
   alignItems: "center",
+  justifyContent: "flex-start",
   padding: 2,
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
   border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
