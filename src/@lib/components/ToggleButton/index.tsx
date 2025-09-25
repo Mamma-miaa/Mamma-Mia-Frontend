@@ -47,12 +47,8 @@ const ToggleButton = ({
         type="button"
         layout
         transition={{
-          type: "spring",
+          type: "keyFrames",
           duration: 0.3,
-          bounce: 0.1,
-        }}
-        whileTap={{
-          scale: isSecondItemActive ? 1 : 0.98,
         }}
       ></motion.button>
 
