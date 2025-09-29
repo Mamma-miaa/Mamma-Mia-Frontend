@@ -77,6 +77,7 @@ const recentSearchSectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 0,
+  height: 276,
 });
 
 const recentSearchHeaderStyle = css({
@@ -116,7 +117,6 @@ const recentSearchListStyle = css({
   flexDirection: "column",
   alignItems: "center",
   width: "100%",
-  height: 276,
 });
 
 const recentSearchItemStyle = css({

@@ -3,6 +3,7 @@ import TYPOGRAPHY from "@/constants/typography";
 import { css } from "@emotion/react";
 import ArrowLeftIcon from "./_assets/arrow_left.svg?react";
 import ArrowRightIcon from "./_assets/arrow_right.svg?react";
+import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react";
 
 const NewRestaurantSection = () => {
   return (
@@ -25,7 +26,7 @@ const NewRestaurantSection = () => {
             <span css={restaurantCategoryStyle}>고기구이</span>
             <span css={restaurantNameStyle}>빠삼</span>
             <div css={restaurantBadgeContainerStyle}>
-              <span css={restaurantBadgeStyle}>Mamma-Mia!</span>
+              <MammaMiaBadge />
               <div css={restaurantStatsStyle}>
                 <div css={restaurantStatItemStyle}>
                   <span css={restaurantStatLabelStyle}>이번주</span>
@@ -146,15 +147,6 @@ const restaurantBadgeContainerStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 4,
-});
-
-const restaurantBadgeStyle = css({
-  color: THEME.COLORS.BACKGROUND.WHITE,
-  fontFamily: "Bangers",
-  fontSize: 14,
-  fontWeight: 400,
-  lineHeight: 1.4,
-  letterSpacing: "5%",
 });
 
 const restaurantStatsStyle = css({
