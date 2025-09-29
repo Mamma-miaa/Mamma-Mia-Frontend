@@ -7,6 +7,7 @@ import TYPOGRAPHY from "@/constants/typography";
 import RemoveIcon from "./_assets/remove.svg?react";
 import ArrowDownIcon from "./_assets/arrow_down.svg?react";
 import { useState } from "react";
+import NewRestaurantSection from "./_components/NewRestaurantSection";
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ const SearchPage = () => {
           )}
         </div>
       </div>
+      <NewRestaurantSection />
     </div>
   );
 };
