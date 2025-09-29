@@ -3,17 +3,20 @@ import { useState } from "react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import SearchIcon from "@/@lib/assets/search.svg?react";
+import cancelButtonImage from "../_assets/cancel.webp";
 
 interface SearchInputProps {
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
+  onSearch?: (query: string) => void;
 }
 
 const SearchInput = ({
   placeholder = "매장명, 카테고리를 검색해 보세요.",
   value = "",
   onChange,
+  onSearch,
 }: SearchInputProps) => {
   const [inputValue, setInputValue] = useState(value);
 
@@ -27,7 +30,7 @@ const SearchInput = ({
     <div css={searchFieldStyle}>
       <SearchIcon css={searchIconStyle} />
       <input
-        type="text"
+        type="search"
         value={inputValue}
         onChange={handleChange}
         placeholder={placeholder}
@@ -65,6 +68,17 @@ const inputStyle = css(
 
     "&::placeholder": {
       color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
+    },
+
+    "&::-webkit-search-cancel-button": {
+      appearance: "none",
+      backgroundImage: `url(${cancelButtonImage})`,
+      backgroundSize: "20px 20px",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      width: "16px",
+      height: "16px",
+      cursor: "pointer",
     },
   },
   TYPOGRAPHY.BODY["14R"]
