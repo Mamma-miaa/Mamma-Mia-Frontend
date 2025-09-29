@@ -273,7 +273,7 @@ const floatingButtonStyle = css({
 // 레스토랑 배경 이미지 스타일
 const restaurantBackgroundImageStyle = css({
   width: "100%",
-  aspectRatio: 460,
+  height: 460,
   objectFit: "cover",
   filter: "blur(140px)",
   mask: "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
