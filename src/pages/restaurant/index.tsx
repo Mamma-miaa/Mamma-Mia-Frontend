@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
-import MammaMiaBadge from "./_assets/mamma_mia_badge.svg?react";
+import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react";
 import MammaMiaVoteButton from "./_assets/mamma_mia_vote_button.svg?react";
 import ClickToVoteButton from "./_assets/click_to_vote.svg?react";
 import locationImg from "@/assets/emoji/location.webp";
