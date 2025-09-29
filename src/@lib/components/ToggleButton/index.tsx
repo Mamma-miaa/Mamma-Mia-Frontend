@@ -40,19 +40,18 @@ const ToggleButton = ({
           { replace: true }
         )
       }
-      css={[containerStyle, isSecondItemActive && { justifyContent: "end" }]}
+      css={[
+        containerStyle,
+        isSecondItemActive && { justifyContent: "flex-end" },
+      ]}
     >
       <motion.button
         css={[optionStyle]}
         type="button"
-        layout
+        layout="position"
         transition={{
-          type: "spring",
+          type: "keyframes",
           duration: 0.3,
-          bounce: 0.1,
-        }}
-        whileTap={{
-          scale: isSecondItemActive ? 1 : 0.98,
         }}
       ></motion.button>
 
@@ -94,6 +93,7 @@ const ToggleButton = ({
 const containerStyle = css({
   display: "flex",
   alignItems: "center",
+  justifyContent: "flex-start",
   padding: 2,
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
   border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
