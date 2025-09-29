@@ -224,7 +224,7 @@ const RankingPage = () => {
         ))}
       </Swiper>
 
-      <div css={css({ padding: "0 20px" })}>
+      <div css={css({ padding: "0 20px", marginTop: 96 })}>
         {restaurants.map((restaurant) => (
           <ResponsiveSummaryCard
             restaurant={restaurant}
@@ -273,7 +273,7 @@ const floatingButtonStyle = css({
 // 레스토랑 배경 이미지 스타일
 const restaurantBackgroundImageStyle = css({
   width: "100%",
-  aspectRatio: "375/460",
+  aspectRatio: 460,
   objectFit: "cover",
   filter: "blur(140px)",
   mask: "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
