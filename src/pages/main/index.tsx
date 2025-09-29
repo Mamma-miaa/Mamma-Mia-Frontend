@@ -212,7 +212,10 @@ const MainPage = () => {
         <div css={topContainerStyle}>
           <div css={searchContainerStyle}>
             <img src={logoImg} alt="logo" width={95} height={40} />
-            <SearchInput css={searchInputStyle} type="button" />
+            <SearchInput
+              css={searchInputStyle}
+              onClick={() => navigate("/search")}
+            />
             <button css={locationButtonStyle}>
               <MyLocationIcon
                 onClick={() => {
