@@ -4,6 +4,8 @@ import { css } from "@emotion/react";
 import ArrowLeftIcon from "./_assets/arrow_left.svg?react";
 import ArrowRightIcon from "./_assets/arrow_right.svg?react";
 import NewRestaurantCard from "./_components/NewRestaurantCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import VIEWPORT from "@/constants/viewport";
 
 const NewRestaurantSection = () => {
   return (
@@ -20,7 +22,21 @@ const NewRestaurantSection = () => {
       </div>
 
       {/* 맛집 리스트 아이템 */}
-      <NewRestaurantCard />
+
+      <Swiper css={swiperStyle} loop centeredSlides>
+        <SwiperSlide>
+          <NewRestaurantCard />
+        </SwiperSlide>
+        <SwiperSlide>
+          <NewRestaurantCard />
+        </SwiperSlide>
+        <SwiperSlide>
+          <NewRestaurantCard />
+        </SwiperSlide>
+        <SwiperSlide>
+          <NewRestaurantCard />
+        </SwiperSlide>
+      </Swiper>
     </div>
   );
 };
@@ -69,4 +85,18 @@ const newRestaurantActionsStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 8,
+});
+
+const swiperStyle = css({
+  position: "relative",
+  right: 20,
+  overflow: "visible",
+  maxWidth: VIEWPORT.MAX_WIDTH,
+
+  "& .swiper-slide": {
+    width: "100%",
+    padding: 20,
+    display: "flex",
+    justifyContent: "center",
+  },
 });
