@@ -7,6 +7,7 @@ import NewRestaurantCard from "./_components/NewRestaurantCard";
 import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
 import VIEWPORT from "@/constants/viewport";
 import { useRef } from "react";
+import { Virtual } from "swiper/modules";
 
 const NewRestaurantSection = () => {
   const swiperRef = useRef<SwiperRef>(null);
@@ -30,17 +31,24 @@ const NewRestaurantSection = () => {
 
       {/* 맛집 리스트 아이템 */}
 
-      <Swiper css={swiperStyle} loop centeredSlides ref={swiperRef}>
-        <SwiperSlide>
+      <Swiper
+        css={swiperStyle}
+        loop
+        centeredSlides
+        ref={swiperRef}
+        modules={[Virtual]}
+        virtual
+      >
+        <SwiperSlide virtualIndex={0}>
           <NewRestaurantCard />
         </SwiperSlide>
-        <SwiperSlide>
+        <SwiperSlide virtualIndex={1}>
           <NewRestaurantCard />
         </SwiperSlide>
-        <SwiperSlide>
+        <SwiperSlide virtualIndex={2}>
           <NewRestaurantCard />
         </SwiperSlide>
-        <SwiperSlide>
+        <SwiperSlide virtualIndex={3}>
           <NewRestaurantCard />
         </SwiperSlide>
       </Swiper>
