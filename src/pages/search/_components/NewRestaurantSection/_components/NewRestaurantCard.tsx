@@ -2,25 +2,38 @@ import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import { css } from "@emotion/react";
 import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react";
+import type { components } from "@/apis/schema";
 
-const NewRestaurantCard = () => {
+const NewRestaurantCard = ({
+  restaurant,
+}: {
+  restaurant: components["schemas"]["GetNearByResponse"] & {
+    작성자이미지: string;
+    작성자이름: string;
+    코멘트: string;
+  };
+}) => {
   return (
     <div css={restaurantCardStyle}>
       <div css={restaurantCardHeaderStyle}>
         <div css={restaurantCardTitleSectionStyle}>
-          <span css={restaurantCategoryStyle}>고기구이</span>
-          <span css={restaurantNameStyle}>빠삼</span>
+          <span css={restaurantCategoryStyle}>{restaurant.category}</span>
+          <span css={restaurantNameStyle}>{restaurant.name}</span>
           <div css={restaurantBadgeContainerStyle}>
             <MammaMiaBadge />
             <div css={restaurantStatsStyle}>
               <div css={restaurantStatItemStyle}>
                 <span css={restaurantStatLabelStyle}>이번주</span>
-                <span css={restaurantStatValueStyle}>4</span>
+                <span css={restaurantStatValueStyle}>
+                  {restaurant.ranks?.WEEKLY ?? 0}
+                </span>
               </div>
               <span css={restaurantStatDividerStyle}>/</span>
               <div css={restaurantStatItemStyle}>
                 <span css={restaurantStatLabelStyle}>이번달</span>
-                <span css={restaurantStatValueStyle}>128</span>
+                <span css={restaurantStatValueStyle}>
+                  {restaurant.ranks?.MONTHLY ?? 0}
+                </span>
               </div>
             </div>
           </div>
@@ -29,17 +42,24 @@ const NewRestaurantCard = () => {
 
       <div css={restaurantCardBodyStyle}>
         <div css={restaurantImageContainerStyle}>
-          <div css={restaurantImageStyle}>{/* 이미지 플레이스홀더 */}</div>
+          <img
+            css={restaurantImageStyle}
+            src={restaurant.imageUrl ?? "https://placehold.co/240x240"}
+            alt={restaurant.name}
+          />
         </div>
         <div css={restaurantCommentSectionStyle}>
           <span css={restaurantCommentLabelStyle}>작성자의 한마디</span>
           <div css={restaurantCommentContentStyle}>
-            <div css={restaurantCommentAvatarStyle}></div>
-            <p css={restaurantCommentTextStyle}>
-              Nicole 빠삼은 숯불 향 가득한 삼겹살과 다양한 고기를 합리적인
-              가격에 즐길 수 있는 곳이에요. 직장인 회식이나 친구 모임에 딱
-              어울리는 맛집입니다.
-            </p>
+            <img
+              css={restaurantCommentAvatarStyle}
+              src={restaurant.작성자이미지 ?? "https://placehold.co/28x28"}
+              alt={restaurant.name}
+            />
+            <span css={restaurantCommentNameStyle}>
+              {restaurant.작성자이름}
+            </span>
+            <p css={restaurantCommentTextStyle}>{restaurant.코멘트}</p>
           </div>
         </div>
       </div>
@@ -147,6 +167,7 @@ const restaurantImageStyle = css({
     "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzM2IiBoZWlnaHQ9IjM4MiIgdmlld0JveD0iMCAwIDMzNiAzODIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMzYiIGhlaWdodD0iMzgyIiBmaWxsPSIjRjJGMkYyIi8+Cjwvc3ZnPgo=')",
   backgroundSize: "cover",
   backgroundPosition: "center",
+  objectFit: "cover",
 });
 
 const restaurantCommentSectionStyle = css({
@@ -190,3 +211,11 @@ const restaurantCommentTextStyle = css(
   },
   TYPOGRAPHY.SUB["12R"]
 );
+
+const restaurantCommentNameStyle = css({
+  color: THEME.COLORS.BACKGROUND.WHITE,
+  fontSize: 12,
+  fontWeight: 700,
+  lineHeight: 1.4,
+  letterSpacing: "-2%",
+});

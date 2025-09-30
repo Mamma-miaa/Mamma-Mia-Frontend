@@ -9,6 +9,89 @@ import VIEWPORT from "@/constants/viewport";
 import { useRef } from "react";
 import { Virtual } from "swiper/modules";
 
+const RESTAURANTS = [
+  {
+    storeId: 101,
+    name: "고녀석",
+    address: "서울 중구 퇴계로36길 9 지하 1층, 1층",
+    category: "한식/백반",
+    latitude: 37.56081813,
+    longitude: 126.9938475,
+    distanceMeters: 79.06215514019009,
+    totalLike: 0,
+    parking: false,
+    takeout: false,
+    delivery: false,
+    priceRange: "WON_1",
+    imageUrl: null,
+    ranks: null,
+
+    작성자이미지: "https://placehold.co/28x28",
+    코멘트: "맛있어요",
+    작성자이름: "홍길동",
+  },
+  {
+    storeId: 126,
+    name: "온의미반",
+    address: "서울 중구 퇴계로 210-27",
+    category: "한식/백반",
+    latitude: 37.56079927,
+    longitude: 126.9951321,
+    distanceMeters: 79.24109413026632,
+    totalLike: 0,
+    parking: false,
+    takeout: true,
+    delivery: true,
+    priceRange: "WON_1",
+    imageUrl: null,
+    ranks: null,
+
+    작성자이미지: "https://placehold.co/28x28",
+    코멘트: "맛있어요",
+    작성자이름: "홍길동",
+  },
+  {
+    storeId: 107,
+    name: "로스트템플",
+    address: "서울 중구 퇴계로39길 15",
+    category: "아시안",
+    latitude: 37.56208855,
+    longitude: 126.9942141,
+    distanceMeters: 90.591227004814,
+    totalLike: 0,
+    parking: false,
+    takeout: false,
+    delivery: false,
+    priceRange: "WON_2",
+    imageUrl: null,
+    ranks: null,
+
+    작성자이미지: "https://placehold.co/28x28",
+    코멘트: "맛있어요",
+    작성자이름: "홍길동",
+  },
+  {
+    storeId: 112,
+    name: "미분당",
+    address: "서울 중구 퇴계로36길 29 1층 102호",
+    category: "아시안",
+    latitude: 37.56050104,
+    longitude: 126.995071,
+    distanceMeters: 102.6877203713715,
+    totalLike: 0,
+    parking: false,
+    takeout: false,
+    delivery: false,
+    priceRange: "WON_1",
+    imageUrl: null,
+    ranks: null,
+
+    작성자이미지: "https://placehold.co/28x28",
+    코멘트: "맛있어요",
+    작성자이름: "홍길동",
+  },
+];
+
 const NewRestaurantSection = () => {
   const swiperRef = useRef<SwiperRef>(null);
 
@@ -39,18 +122,11 @@ const NewRestaurantSection = () => {
         modules={[Virtual]}
         virtual
       >
-        <SwiperSlide virtualIndex={0}>
-          <NewRestaurantCard />
-        </SwiperSlide>
-        <SwiperSlide virtualIndex={1}>
-          <NewRestaurantCard />
-        </SwiperSlide>
-        <SwiperSlide virtualIndex={2}>
-          <NewRestaurantCard />
-        </SwiperSlide>
-        <SwiperSlide virtualIndex={3}>
-          <NewRestaurantCard />
-        </SwiperSlide>
+        {RESTAURANTS.map((restaurant, index) => (
+          <SwiperSlide virtualIndex={index}>
+            <NewRestaurantCard restaurant={restaurant} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );
