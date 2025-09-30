@@ -4,10 +4,13 @@ import { css } from "@emotion/react";
 import ArrowLeftIcon from "./_assets/arrow_left.svg?react";
 import ArrowRightIcon from "./_assets/arrow_right.svg?react";
 import NewRestaurantCard from "./_components/NewRestaurantCard";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
 import VIEWPORT from "@/constants/viewport";
+import { useRef } from "react";
 
 const NewRestaurantSection = () => {
+  const swiperRef = useRef<SwiperRef>(null);
+
   return (
     <div css={newRestaurantSectionStyle}>
       <div css={newRestaurantHeaderStyle}>
@@ -16,14 +19,18 @@ const NewRestaurantSection = () => {
           <p css={newRestaurantSubtitleStyle}>새로 등록된 따끈따끈한 맛집!</p>
         </div>
         <div css={newRestaurantActionsStyle}>
-          <ArrowLeftIcon />
-          <ArrowRightIcon />
+          <ArrowLeftIcon
+            onClick={() => swiperRef.current?.swiper.slidePrev()}
+          />
+          <ArrowRightIcon
+            onClick={() => swiperRef.current?.swiper.slideNext()}
+          />
         </div>
       </div>
 
       {/* 맛집 리스트 아이템 */}
 
-      <Swiper css={swiperStyle} loop centeredSlides>
+      <Swiper css={swiperStyle} loop centeredSlides ref={swiperRef}>
         <SwiperSlide>
           <NewRestaurantCard />
         </SwiperSlide>
