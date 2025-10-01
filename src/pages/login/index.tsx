@@ -7,6 +7,7 @@ import kakaoLogoImg from "./_assets/kakao_logo.webp";
 import googleLogoImg from "./_assets/google_logo.webp";
 import ExitIcon from "./_assets/exit.svg?react";
 import { useNavigate } from "react-router-dom";
+import toast from "@/utils/toast";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -24,7 +25,12 @@ const LoginPage = () => {
       </div>
 
       {/* 소셜 로그인 버튼들 */}
-      <div css={buttonsContainerStyle}>
+      <div
+        css={buttonsContainerStyle}
+        onClick={() => {
+          toast({ message: "개발이 필요한 기능입니다." });
+        }}
+      >
         {/* 네이버 로그인 */}
         <button css={naverButtonStyle}>
           <img src={naverLogoImg} alt="naver" width={16} height={16} />
