@@ -120,6 +120,7 @@ const NewRestaurantSection = () => {
         centeredSlides
         ref={swiperRef}
         modules={[Virtual]}
+        spaceBetween={20}
         virtual
       >
         {RESTAURANTS.map((restaurant, index) => (
@@ -179,14 +180,12 @@ const newRestaurantActionsStyle = css({
 });
 
 const swiperStyle = css({
-  position: "relative",
-  right: 20,
   overflow: "visible",
+  width: "100%",
   maxWidth: VIEWPORT.MAX_WIDTH,
 
   "& .swiper-slide": {
     width: "100%",
-    padding: 20,
     display: "flex",
     justifyContent: "center",
   },
