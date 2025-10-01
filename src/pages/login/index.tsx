@@ -5,21 +5,17 @@ import logoImg from "./_assets/logo.webp";
 import naverLogoImg from "./_assets/naver_logo.webp";
 import kakaoLogoImg from "./_assets/kakao_logo.webp";
 import googleLogoImg from "./_assets/google_logo.webp";
+import ExitIcon from "./_assets/exit.svg?react";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div css={containerStyle}>
       {/* 닫기 버튼 */}
-      <button css={closeButtonStyle}>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path
-            d="M13 1L1 13M1 1L13 13"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+      <button css={closeButtonStyle} onClick={() => navigate(-1)}>
+        <ExitIcon />
       </button>
 
       {/* 로고 섹션 */}
@@ -67,15 +63,9 @@ const closeButtonStyle = css({
   position: "absolute",
   top: 20,
   right: 20,
-  width: 24,
-  height: 24,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
   backgroundColor: "transparent",
   border: "none",
   cursor: "pointer",
-  color: THEME.COLORS.GRAYSCALE.NORMAL,
 });
 
 const logoSectionStyle = css({
