@@ -1,35 +1,20 @@
 import { css } from "@emotion/react";
-import type { SerializedStyles } from "@emotion/react";
 import SearchIcon from "./_assets/search.svg?react";
 import type { ComponentProps } from "react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 
-interface SearchInputProps extends ComponentProps<"input"> {
-  placeholder?: string;
-  css?: SerializedStyles;
-}
-
-const SearchInput = ({
-  placeholder = "Text",
-  type = "text",
-  css: containerCss,
-  ...props
-}: SearchInputProps) => {
+const SearchInput = ({ ...props }: ComponentProps<"div">) => {
   return (
-    <div css={css(containerStyle, containerCss)}>
+    <div css={css(containerStyle)} {...props}>
       <SearchIcon />
-      <input
-        type={type}
-        placeholder={placeholder}
-        css={inputStyle}
-        {...props}
-      />
+      <div css={inputStyle}>맛집 검색</div>
     </div>
   );
 };
 
 const containerStyle = css({
+  flex: 1,
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -48,7 +33,7 @@ const inputStyle = css(
     border: "none",
     outline: "none",
     background: "transparent",
-    color: THEME.COLORS.GRAYSCALE.NORMAL,
+    color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
     "&::placeholder": {
       color: "rgba(55, 56, 60, 0.28)",
     },
