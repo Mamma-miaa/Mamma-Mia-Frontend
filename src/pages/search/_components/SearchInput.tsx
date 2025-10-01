@@ -60,7 +60,7 @@ const searchIconStyle = css({
 
 const inputStyle = css(
   {
-    flex: 1,
+    width: "100%",
     border: "none",
     outline: "none",
     backgroundColor: "transparent",
