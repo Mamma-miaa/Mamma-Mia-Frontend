@@ -6,6 +6,7 @@ import RestaurantDetailPage from "./pages/restaurant";
 import Provider from "./Provider";
 import RankingPage from "./pages/ranking";
 import SearchPage from "./pages/search";
+import LoginPage from "./pages/login";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <SearchPage />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
       },
     ],
   },
