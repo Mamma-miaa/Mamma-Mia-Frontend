@@ -8,6 +8,7 @@ import googleLogoImg from "./_assets/google_logo.webp";
 import ExitIcon from "./_assets/exit.svg?react";
 import { useNavigate } from "react-router-dom";
 import toast from "@/utils/toast";
+import VIEWPORT from "@/constants/viewport";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -61,8 +62,7 @@ const containerStyle = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  padding: 20,
-  paddingTop: 276,
+  paddingTop: "50%",
 });
 
 const closeButtonStyle = css({
@@ -80,14 +80,17 @@ const logoSectionStyle = css({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  marginBottom: 160,
 });
 
 const buttonsContainerStyle = css({
+  position: "absolute",
+  bottom: 80,
+  padding: 20,
+  maxWidth: VIEWPORT.MAX_WIDTH,
+  width: "100%",
   display: "flex",
   flexDirection: "column",
   gap: 12,
-  width: "100%",
 });
 
 const naverButtonStyle = css({
@@ -115,6 +118,7 @@ const kakaoButtonStyle = css({
   borderRadius: 8,
   border: "none",
   cursor: "pointer",
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
 });
 
 const googleButtonStyle = css({
@@ -128,6 +132,7 @@ const googleButtonStyle = css({
   borderRadius: 8,
   border: "none",
   cursor: "pointer",
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
 });
 
 const buttonTextStyle = css({

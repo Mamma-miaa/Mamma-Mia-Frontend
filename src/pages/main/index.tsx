@@ -238,7 +238,14 @@ const MainPage = () => {
           <Spacing size={12} />
           <button css={searchInAreaButtonStyle} onClick={() => refetch()}>
             <ResetIcon />
-            <span css={TYPOGRAPHY.BODY["14SB"]}>현재 지도에서 찾기</span>
+            <span
+              css={[
+                TYPOGRAPHY.BODY["14SB"],
+                { color: THEME.COLORS.GRAYSCALE.NORMAL },
+              ]}
+            >
+              현재 지도에서 찾기
+            </span>
           </button>
         </div>
 
