@@ -26,6 +26,8 @@ import {
 } from "./_constants";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
 import { AnimatePresence } from "motion/react";
+import TYPOGRAPHY from "@/constants/typography";
+import ResetIcon from "./_assets/reset.svg?react";
 
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -235,7 +237,8 @@ const MainPage = () => {
           <TopNavigation />
           <Spacing size={12} />
           <button css={searchInAreaButtonStyle} onClick={() => refetch()}>
-            이 지역에서 검색하기
+            <ResetIcon />
+            <span css={TYPOGRAPHY.BODY["14SB"]}>현재 지도에서 찾기</span>
           </button>
         </div>
 
@@ -349,18 +352,17 @@ const locationButtonStyle = css({
 
 const searchInAreaButtonStyle = css({
   height: 48,
-  backgroundColor: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
-  color: THEME.COLORS.BACKGROUND.WHITE,
+  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
   border: "none",
   borderRadius: 24,
   padding: "0 16px",
   cursor: "pointer",
+
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  fontWeight: 600,
-  fontSize: 16,
-  lineHeight: 1.4,
-  letterSpacing: "-2%",
+  gap: 4,
   margin: "0 auto",
+
+  boxShadow: THEME.SHADOWS.EMPHASIZED,
 });
