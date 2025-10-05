@@ -1,20 +1,30 @@
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import { usePostSocialLoginMutation } from "@/hooks/@server/auth";
+import toast from "@/utils/toast";
 
 const LoginRedirectPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { mutate: postSocialLogin } = usePostSocialLoginMutation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const code = searchParams.get("code");
     if (code) {
-      postSocialLogin({
-        socialType: "KAKAO",
-        code,
-      });
+      postSocialLogin(
+        {
+          socialType: "KAKAO",
+          code,
+        },
+        {
+          onSuccess: () => {
+            toast({ message: "로그인에 성공하였습니다." });
+            navigate("/");
+          },
+        }
+      );
     }
   }, [searchParams]);
 
