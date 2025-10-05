@@ -7,6 +7,7 @@ import Provider from "./Provider";
 import RankingPage from "./pages/ranking";
 import SearchPage from "./pages/search";
 import LoginPage from "./pages/login";
+import LoginRedirectPage from "./pages/login/oauth";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +36,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <LoginPage />,
+        children: [
+          {
+            index: true,
+            element: <LoginPage />,
+          },
+          {
+            path: "/login/oauth",
+            element: <LoginRedirectPage />,
+          },
+        ],
       },
     ],
   },
