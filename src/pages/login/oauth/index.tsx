@@ -23,6 +23,10 @@ const LoginRedirectPage = () => {
             toast({ message: "로그인에 성공하였습니다." });
             navigate("/");
           },
+          onError: () => {
+            toast({ message: "로그인에 실패하였습니다." });
+            navigate("/");
+          },
         }
       );
     }
