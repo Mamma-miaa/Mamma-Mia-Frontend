@@ -13,7 +13,7 @@ const LoginRedirectPage = () => {
     if (code) {
       postSocialLogin({
         socialType: "KAKAO",
-        idToken: code,
+        code,
       });
     }
   }, [searchParams]);
