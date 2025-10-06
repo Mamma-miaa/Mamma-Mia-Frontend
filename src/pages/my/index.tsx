@@ -5,9 +5,11 @@ import myTitleImage from "./_assets/my_text.png";
 import ProfileSection from "./_components/ProfileSection";
 import MyChallengeStatusSection from "./_components/MyChallengeStatusSection";
 import { useNavigate } from "react-router-dom";
+import { useGetMyPageQuery } from "@/hooks/@server/member";
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const {} = useGetMyPageQuery();
 
   return (
     <div css={css({ width: "100%", height: "100dvh" })}>
