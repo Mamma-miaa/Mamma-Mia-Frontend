@@ -8,6 +8,7 @@ import RankingPage from "./pages/ranking";
 import SearchPage from "./pages/search";
 import LoginPage from "./pages/login";
 import LoginRedirectPage from "./pages/login/oauth";
+import MyPage from "./pages/my";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
             element: <LoginRedirectPage />,
           },
         ],
+      },
+      {
+        path: "/my",
+        element: <MyPage />,
       },
     ],
   },
