@@ -1,4 +1,4 @@
-import api from "..";
+import { api } from "../instance";
 import type { components } from "../schema";
 
 export const getNearbyStore = async (
