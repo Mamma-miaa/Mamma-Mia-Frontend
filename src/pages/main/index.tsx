@@ -84,7 +84,7 @@ const MainPage = () => {
     lastDistance: 0,
     lastStoreId: 0,
     category: searchParams.getAll("categories").join(","),
-    isOpen: searchParams.has("isOpen"),
+    isOpen: searchParams.get("isOpen") === "true" ? true : undefined,
     minPrice: 0,
     maxPrice: 10000000,
   });
