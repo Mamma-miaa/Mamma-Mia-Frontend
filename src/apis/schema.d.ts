@@ -4,408 +4,556 @@
  */
 
 export interface paths {
-  "/api/v1/auth/social": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/auth/social": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 소셜 로그인 */
+        post: operations["join"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get?: never;
-    put?: never;
-    /** 소셜 로그인 */
-    post: operations["join"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/store/nearby": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/store/weekly": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listWeeklyRanking"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** 근처 가게 정보 */
-    get: operations["list"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/store/detail/{storeId}": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/store/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    /** 가게 상세 정보 */
-    get: operations["get"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
+    "/api/v1/store/nearby": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 근처 가게 정보 */
+        get: operations["list_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
     };
-    get: operations["healthCheck"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
+    "/api/v1/store/monthly": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMonthlyRanking"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/store/detail/{storeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 가게 상세 정보 */
+        get: operations["get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["healthCheck"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    AgreementRequest: {
-      type: string;
-      isAgreed: boolean;
+    schemas: {
+        /** @description 소셜 로그인 요청 DTO */
+        JoinSocialLoginRequest: {
+            /**
+             * @description 소셜 프로바이더
+             * @example KAKAO
+             */
+            socialType: string;
+            /**
+             * @description 인증 코드
+             * @example authorization_code
+             */
+            code: string;
+        };
+        /** @description 소셜 로그인 응답 DTO */
+        JoinSocialLoginResponse: {
+            /**
+             * Format: int64
+             * @description 회원 ID
+             */
+            memberId: number;
+            /** @description Access Token */
+            accessToken: string;
+            /** @description Refresh Token */
+            refreshToken: string;
+            /** @description 신규 회원 여부 */
+            isNew: boolean;
+        };
+        GetStoreRankingResponse: {
+            /** Format: int32 */
+            rank: number;
+            /** Format: int64 */
+            storeId: number;
+            name: string;
+            category: string;
+            /** Format: int32 */
+            likes: number;
+            mainImage: string;
+        };
+        GetStoreRankingResponses: {
+            stores: components["schemas"]["GetStoreRankingResponse"][];
+        };
+        GetSearchResultRequest: {
+            keyword: string;
+        };
+        GetSearchResultResponse: {
+            stores: components["schemas"]["Store"][];
+        };
+        Store: {
+            /** Format: int64 */
+            storeId: number;
+            name: string;
+            category: string;
+            imageUrl: string;
+            ranks: {
+                [key: string]: number;
+            };
+        };
+        GetNearByStoreRequest: {
+            /** Format: double */
+            userLatitude: number;
+            /** Format: double */
+            userLongitude: number;
+            /** Format: double */
+            minLatitude: number;
+            /** Format: double */
+            maxLatitude: number;
+            /** Format: double */
+            minLongitude: number;
+            /** Format: double */
+            maxLongitude: number;
+            /** Format: int32 */
+            size: number;
+            /** Format: double */
+            lastDistance: number;
+            /** Format: int64 */
+            lastStoreId: number;
+            isOpen: boolean;
+            /** Format: int32 */
+            minPrice: number;
+            /** Format: int32 */
+            maxPrice: number;
+            category: string;
+        };
+        GetNearByResponse: {
+            /**
+             * Format: int64
+             * @description 가게 ID
+             */
+            storeId: number;
+            /** @description 가게 이름 */
+            name: string;
+            /** @description 주소 */
+            address: string;
+            /** @description 카테고리 */
+            category: string;
+            /**
+             * Format: double
+             * @description 위도
+             */
+            latitude: number;
+            /**
+             * Format: double
+             * @description 경도
+             */
+            longitude: number;
+            /**
+             * Format: double
+             * @description 현재 위치로부터의 거리(미터)
+             */
+            distanceMeters: number;
+            /**
+             * Format: int32
+             * @description 전체 좋아요 수
+             */
+            totalLike?: number | null;
+            /** @description 주차 가능 여부 */
+            parking?: boolean | null;
+            /** @description 포장 가능 여부 */
+            takeout?: boolean | null;
+            /** @description 배달 가능 여부 */
+            delivery?: boolean | null;
+            /**
+             * @description 가격대
+             * @enum {string}
+             */
+            priceRange: "WON_1" | "WON_2" | "WON_3";
+            /** @description 대표 이미지 URL */
+            imageUrl?: string | null;
+            /**
+             * @description 랭킹 정보 (주간/월간)
+             * @example {
+             *       "WEEKLY": 10,
+             *       "MONTHLY": 5
+             *     }
+             */
+            ranks: {
+                [key: string]: number;
+            };
+        };
+        GetNearByStoreResponses: {
+            items: components["schemas"]["GetNearByResponse"][];
+            hasNext: boolean;
+            /** Format: int64 */
+            cursorId: number;
+            /** Format: double */
+            lastDistance: number;
+        };
+        /** @description 영업 시간 정보 */
+        BusinessHour: {
+            /**
+             * @description 요일
+             * @enum {string}
+             */
+            dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+            /**
+             * @description 오픈 시간
+             * @example 10:00
+             */
+            openTime?: string | null;
+            /**
+             * @description 마감 시간
+             * @example 22:00
+             */
+            closeTime?: string | null;
+            /**
+             * @description 휴게 시작 시간
+             * @example 15:00
+             */
+            breakStart?: string | null;
+            /**
+             * @description 휴게 종료 시간
+             * @example 17:00
+             */
+            breakEnd?: string | null;
+            /**
+             * @description 마지막 주문 시간
+             * @example 21:30
+             */
+            lastOrder?: string | null;
+            /** @description 휴무 여부 */
+            isClosed: boolean;
+        };
+        GetStoreDetailResponse: {
+            /**
+             * Format: int64
+             * @description 가게 ID
+             */
+            storeId: number;
+            /** @description 가게 이름 */
+            name: string;
+            /** @description 카테고리 */
+            category: string;
+            /** @description 주소 */
+            address: string;
+            /**
+             * Format: double
+             * @description 위도
+             */
+            latitude: number;
+            /**
+             * Format: double
+             * @description 경도
+             */
+            longitude: number;
+            /** @description 가게 이미지 URL 목록 */
+            images: string[];
+            /** @description 영업 시간 정보 */
+            businessHours: components["schemas"]["BusinessHour"][];
+            /** @description 주차 가능 여부 */
+            parking: boolean;
+            /** @description 배달 가능 여부 */
+            delivery: boolean;
+            /** @description 포장 가능 여부 */
+            takeout: boolean;
+            /**
+             * @description 가격대
+             * @enum {string}
+             */
+            priceRange: "WON_1" | "WON_2" | "WON_3";
+            station?: components["schemas"]["Station"];
+            likes?: components["schemas"]["Like"];
+            /** @description 메뉴 목록 */
+            menus: components["schemas"]["Menu"][];
+            /**
+             * @description 랭킹 정보 (주간/월간)
+             * @example {
+             *       "WEEKLY": 10,
+             *       "MONTHLY": 5
+             *     }
+             */
+            ranks: {
+                [key: string]: number;
+            };
+        };
+        /** @description 좋아요 집계 정보 */
+        Like: {
+            /**
+             * Format: int32
+             * @description 전체 좋아요 수
+             */
+            total: number | null;
+            /**
+             * Format: int32
+             * @description 주간 좋아요 수
+             */
+            weekly: number | null;
+            /**
+             * Format: int32
+             * @description 월간 좋아요 수
+             */
+            monthly: number | null;
+        } | null;
+        /** @description 메뉴 목록 */
+        Menu: {
+            /** @description 메뉴 이름 */
+            name: string;
+            /**
+             * Format: int32
+             * @description 가격
+             */
+            price: number;
+            /** @description 메뉴 이미지 URL */
+            imageUrl: string;
+        };
+        /** @description 가장 가까운 지하철 역 정보 */
+        Station: {
+            /** @description 지하철 역 이름 */
+            name: string;
+            /**
+             * Format: double
+             * @description 가게로부터의 거리(미터)
+             */
+            distanceMeters: number;
+        } | null;
     };
-    JoinSocialMemberWithIdTokenRequest: {
-      socialType: string;
-      idToken: string;
-      email: string;
-      agreements: components["schemas"]["AgreementRequest"][];
-    };
-    JoinSocialMemberWithIdTokenResponse: {
-      /** @description 유저 ID */
-      memberId: string;
-      /** @description 액세스 토큰 */
-      accessToken: string;
-      /** @description 리프레시 토큰 */
-      refreshToken: string;
-    };
-    GetNearByStoreRequest: {
-      /** Format: double */
-      userLatitude: number;
-      /** Format: double */
-      userLongitude: number;
-      /** Format: double */
-      minLatitude: number;
-      /** Format: double */
-      maxLatitude: number;
-      /** Format: double */
-      minLongitude: number;
-      /** Format: double */
-      maxLongitude: number;
-      /** Format: int32 */
-      size: number;
-      /** Format: double */
-      lastDistance: number;
-      /** Format: int64 */
-      lastStoreId: number;
-    };
-    GetNearByResponse: {
-      /**
-       * Format: int64
-       * @description 가게 ID
-       */
-      storeId: number;
-      /** @description 가게 이름 */
-      name: string;
-      /** @description 주소 */
-      address: string;
-      /** @description 카테고리 */
-      category: string;
-      /**
-       * Format: double
-       * @description 위도
-       */
-      latitude: number;
-      /**
-       * Format: double
-       * @description 경도
-       */
-      longitude: number;
-      /**
-       * Format: double
-       * @description 현재 위치로부터의 거리(미터)
-       */
-      distanceMeters: number;
-      /**
-       * Format: int32
-       * @description 전체 좋아요 수
-       */
-      totalLike?: number | null;
-      /** @description 주차 가능 여부 */
-      parking?: boolean | null;
-      /** @description 포장 가능 여부 */
-      takeout?: boolean | null;
-      /** @description 배달 가능 여부 */
-      delivery?: boolean | null;
-      /**
-       * @description 가격대
-       * @enum {string}
-       */
-      priceRange: "WON_1" | "WON_2" | "WON_3";
-      /** @description 대표 이미지 URL */
-      imageUrl?: string | null;
-      /**
-       * @description 랭킹 정보 (주간/월간)
-       * @example {
-       *       "WEEKLY": 10,
-       *       "MONTHLY": 5
-       *     }
-       */
-      ranks: {
-        [key: string]: number;
-      } | null;
-    };
-    GetNearByStoreResponses: {
-      items: components["schemas"]["GetNearByResponse"][];
-      hasNext: boolean;
-      /** Format: int64 */
-      cursorId: number;
-      /** Format: double */
-      lastDistance: number;
-    };
-    /** @description 영업 시간 정보 */
-    BusinessHour: {
-      /**
-       * @description 요일
-       * @enum {string}
-       */
-      dayOfWeek:
-        | "MONDAY"
-        | "TUESDAY"
-        | "WEDNESDAY"
-        | "THURSDAY"
-        | "FRIDAY"
-        | "SATURDAY"
-        | "SUNDAY";
-      /**
-       * @description 오픈 시간
-       * @example 10:00
-       */
-      openTime?: string | null;
-      /**
-       * @description 마감 시간
-       * @example 22:00
-       */
-      closeTime?: string | null;
-      /**
-       * @description 휴게 시작 시간
-       * @example 15:00
-       */
-      breakStart?: string | null;
-      /**
-       * @description 휴게 종료 시간
-       * @example 17:00
-       */
-      breakEnd?: string | null;
-      /**
-       * @description 마지막 주문 시간
-       * @example 21:30
-       */
-      lastOrder?: string | null;
-      /** @description 휴무 여부 */
-      isClosed: boolean;
-    };
-    GetStoreDetailResponse: {
-      /**
-       * Format: int64
-       * @description 가게 ID
-       */
-      storeId: number;
-      /** @description 가게 이름 */
-      name: string;
-      /** @description 카테고리 */
-      category: string;
-      /** @description 주소 */
-      address: string;
-      /**
-       * Format: double
-       * @description 위도
-       */
-      latitude: number;
-      /**
-       * Format: double
-       * @description 경도
-       */
-      longitude: number;
-      /** @description 가게 이미지 URL 목록 */
-      images: string[];
-      /** @description 영업 시간 정보 */
-      businessHours: components["schemas"]["BusinessHour"][];
-      /** @description 주차 가능 여부 */
-      parking: boolean;
-      /** @description 배달 가능 여부 */
-      delivery: boolean;
-      /** @description 포장 가능 여부 */
-      takeout: boolean;
-      /**
-       * @description 가격대
-       * @enum {string}
-       */
-      priceRange: "WON_1" | "WON_2" | "WON_3";
-      station?: components["schemas"]["Station"];
-      likes?: components["schemas"]["Like"];
-      /** @description 메뉴 목록 */
-      menus: components["schemas"]["Menu"][];
-      /**
-       * @description 랭킹 정보 (주간/월간)
-       * @example {
-       *       "WEEKLY": 10,
-       *       "MONTHLY": 5
-       *     }
-       */
-      ranks: {
-        [key: string]: number;
-      };
-    };
-    /** @description 좋아요 집계 정보 */
-    Like: {
-      /**
-       * Format: int32
-       * @description 전체 좋아요 수
-       */
-      total: number | null;
-      /**
-       * Format: int32
-       * @description 주간 좋아요 수
-       */
-      weekly: number | null;
-      /**
-       * Format: int32
-       * @description 월간 좋아요 수
-       */
-      monthly: number | null;
-    } | null;
-    /** @description 메뉴 목록 */
-    Menu: {
-      /** @description 메뉴 이름 */
-      name: string;
-      /**
-       * Format: int32
-       * @description 가격
-       */
-      price: number;
-      /** @description 메뉴 이미지 URL */
-      imageUrl: string;
-    };
-    /** @description 가장 가까운 지하철 역 정보 */
-    Station: {
-      /** @description 지하철 역 이름 */
-      name: string;
-      /**
-       * Format: double
-       * @description 가게로부터의 거리(미터)
-       */
-      distanceMeters: number;
-    } | null;
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  join: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["JoinSocialMemberWithIdTokenRequest"];
-      };
-    };
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    join: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "*/*": components["schemas"]["JoinSocialMemberWithIdTokenResponse"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["JoinSocialLoginRequest"];
+            };
         };
-      };
-    };
-  };
-  list: {
-    parameters: {
-      query: {
-        request: components["schemas"]["GetNearByStoreRequest"];
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["JoinSocialLoginResponse"];
+                };
+            };
         };
-        content: {
-          "*/*": components["schemas"]["GetNearByStoreResponses"];
-        };
-      };
     };
-  };
-  get: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        storeId: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    listWeeklyRanking: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "*/*": components["schemas"]["GetStoreDetailResponse"];
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetStoreRankingResponses"];
+                };
+            };
         };
-      };
     };
-  };
-  healthCheck: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
+    list: {
+        parameters: {
+            query: {
+                request: components["schemas"]["GetSearchResultRequest"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-        content: {
-          "*/*": string;
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetSearchResultResponse"];
+                };
+            };
         };
-      };
     };
-  };
+    list_1: {
+        parameters: {
+            query: {
+                request: components["schemas"]["GetNearByStoreRequest"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetNearByStoreResponses"];
+                };
+            };
+        };
+    };
+    listMonthlyRanking: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetStoreRankingResponses"];
+                };
+            };
+        };
+    };
+    get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetStoreDetailResponse"];
+                };
+            };
+        };
+    };
+    healthCheck: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": string;
+                };
+            };
+        };
+    };
 }

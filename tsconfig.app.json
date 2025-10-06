@@ -30,7 +30,7 @@
       "@/*": ["src/*"]
     },
 
-    "types": ["kakao.maps.d.ts"]
+    "types": ["kakao.maps.d.ts", "kakao-js-sdk"]
   },
   "include": ["src"]
 }

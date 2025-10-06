@@ -33,7 +33,7 @@ const TopNavigation = () => {
       <Button
         type="button"
         onClick={() => {
-          toast({ message: "개발이 필요한 기능입니다." });
+          navigate("/login");
         }}
       >
         <img src={personImg} alt="MY" width={20} height={20} /> MY
