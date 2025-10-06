@@ -19,7 +19,7 @@ const LoginRedirectPage = () => {
           code,
         },
         {
-          onSuccess: ({ data }) => {
+          onSuccess: (data) => {
             sessionStorage.setItem("accessToken", data.accessToken);
             sessionStorage.setItem("refreshToken", data.refreshToken);
             toast({ message: "로그인에 성공하였습니다." });

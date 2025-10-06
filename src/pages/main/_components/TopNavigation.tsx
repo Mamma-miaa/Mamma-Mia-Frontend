@@ -33,7 +33,7 @@ const TopNavigation = () => {
       <Button
         type="button"
         onClick={() => {
-          navigate("/login");
+          navigate("/my");
         }}
       >
         <img src={personImg} alt="MY" width={20} height={20} /> MY
