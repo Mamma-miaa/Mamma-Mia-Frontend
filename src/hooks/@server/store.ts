@@ -14,6 +14,8 @@ export const useGetNearbyStoreQuery = (
         params.minLongitude,
         params.maxLongitude,
       ].every(Boolean),
+      params.category,
+      params.isOpen,
     ],
     queryFn: () => getNearbyStore(params),
     placeholderData: {

@@ -54,19 +54,19 @@ const MainPage = () => {
     },
     option: { isPopupOpen: boolean } = { isPopupOpen: true }
   ) => {
-    setSearchParams(
-      (prev) => {
-        prev.set("minLatitude", bounds.minLatitude.toString());
-        prev.set("maxLatitude", bounds.maxLatitude.toString());
-        prev.set("minLongitude", bounds.minLongitude.toString());
-        prev.set("maxLongitude", bounds.maxLongitude.toString());
-        if (!option.isPopupOpen) {
-          prev.delete("isPopupOpen");
-        }
-        return prev;
-      },
-      { replace: true }
-    );
+    // 현재 URL의 모든 파라미터를 가져와서 새로운 URLSearchParams 생성
+    const newParams = new URLSearchParams(window.location.search);
+
+    newParams.set("minLatitude", bounds.minLatitude.toString());
+    newParams.set("maxLatitude", bounds.maxLatitude.toString());
+    newParams.set("minLongitude", bounds.minLongitude.toString());
+    newParams.set("maxLongitude", bounds.maxLongitude.toString());
+
+    if (!option.isPopupOpen) {
+      newParams.delete("isPopupOpen");
+    }
+
+    setSearchParams(newParams, { replace: true });
   };
 
   const {
@@ -80,9 +80,13 @@ const MainPage = () => {
     maxLatitude: 지도_모서리.maxLatitude,
     minLongitude: 지도_모서리.minLongitude,
     maxLongitude: 지도_모서리.maxLongitude,
-    size: 10,
+    size: 20,
     lastDistance: 0,
     lastStoreId: 0,
+    category: searchParams.getAll("categories").join(","),
+    isOpen: searchParams.get("isOpen") === "true" ? true : undefined,
+    // minPrice: 0,
+    // maxPrice: 10000000,
   });
 
   const navigate = useNavigate();
