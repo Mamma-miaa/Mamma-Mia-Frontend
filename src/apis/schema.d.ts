@@ -164,48 +164,117 @@ export interface components {
         GetStoreRankingResponses: {
             stores: components["schemas"]["GetStoreRankingResponse"][];
         };
+        /** @description 검색 요청 */
         GetSearchResultRequest: {
+            /**
+             * @description 검색 키워드
+             * @example 맛집
+             */
             keyword: string;
         };
+        /** @description 검색 결과 응답 */
         GetSearchResultResponse: {
+            /** @description 가게 목록 */
             stores: components["schemas"]["Store"][];
         };
+        /** @description 가게 정보 */
         Store: {
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @description 가게 ID
+             */
             storeId: number;
+            /** @description 가게 이름 */
             name: string;
+            /** @description 카테고리 */
             category: string;
-            imageUrl: string;
-            ranks: {
+            /** @description 대표 이미지 URL */
+            imageUrl?: string;
+            /** @description 랭킹 정보 (주간/월간) */
+            ranks?: {
                 [key: string]: number;
             };
         };
+        /** @description 근처 가게 조회 요청 */
         GetNearByStoreRequest: {
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 사용자 위도
+             * @example 37.123456
+             */
             userLatitude: number;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 사용자 경도
+             * @example 127.123456
+             */
             userLongitude: number;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 최소 위도
+             * @example 37
+             */
             minLatitude: number;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 최대 위도
+             * @example 37.2
+             */
             maxLatitude: number;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 최소 경도
+             * @example 127
+             */
             minLongitude: number;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 최대 경도
+             * @example 127.2
+             */
             maxLongitude: number;
-            /** Format: int32 */
-            size: number;
-            /** Format: double */
-            lastDistance: number;
-            /** Format: int64 */
-            lastStoreId: number;
-            isOpen: boolean;
-            /** Format: int32 */
-            minPrice: number;
-            /** Format: int32 */
-            maxPrice: number;
-            category: string;
+            /**
+             * Format: int32
+             * @description 페이지 크기
+             * @example 10
+             */
+            size?: number;
+            /**
+             * Format: double
+             * @description 마지막 가게와의 거리
+             * @example 1.234
+             */
+            lastDistance?: number;
+            /**
+             * Format: int64
+             * @description 마지막 가게 ID
+             * @example 123
+             */
+            lastStoreId?: number;
+            /**
+             * @description 영업 중 여부
+             * @example true
+             */
+            isOpen?: boolean;
+            /**
+             * Format: int32
+             * @description 최소 가격
+             * @example 10000
+             */
+            minPrice?: number;
+            /**
+             * Format: int32
+             * @description 최대 가격
+             * @example 20000
+             */
+            maxPrice?: number;
+            /**
+             * @description 카테고리 목록
+             * @example 한식,일식
+             */
+            category?: string[];
         };
+        /** @description 가게 목록 */
         GetNearByResponse: {
             /**
              * Format: int64
@@ -261,13 +330,32 @@ export interface components {
             ranks: {
                 [key: string]: number;
             };
+            /**
+             * @description 영업 중 여부
+             * @example true
+             */
+            isOpen?: boolean;
         };
+        /** @description 근처 가게 조회 응답 */
         GetNearByStoreResponses: {
+            /** @description 가게 목록 */
             items: components["schemas"]["GetNearByResponse"][];
+            /**
+             * @description 다음 페이지 여부
+             * @example true
+             */
             hasNext: boolean;
-            /** Format: int64 */
+            /**
+             * Format: int64
+             * @description 커서 ID
+             * @example 123
+             */
             cursorId: number;
-            /** Format: double */
+            /**
+             * Format: double
+             * @description 마지막 가게와의 거리
+             * @example 1.234
+             */
             lastDistance: number;
         };
         /** @description 영업 시간 정보 */
