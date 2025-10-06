@@ -80,9 +80,13 @@ const MainPage = () => {
     maxLatitude: 지도_모서리.maxLatitude,
     minLongitude: 지도_모서리.minLongitude,
     maxLongitude: 지도_모서리.maxLongitude,
-    size: 10,
+    size: 20,
     lastDistance: 0,
     lastStoreId: 0,
+    category: searchParams.getAll("categories").join(","),
+    isOpen: searchParams.has("isOpen"),
+    // minPrice: 0,
+    // maxPrice: 0,
   });
 
   const navigate = useNavigate();
