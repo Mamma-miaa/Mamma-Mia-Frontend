@@ -1,4 +1,4 @@
-import BackIcon from "@/@lib/assets/back_dark.svg?react";
+import BackIcon from "@/@lib/assets/back.svg?react";
 import Spacing from "@/@lib/components/Spacing";
 import { css } from "@emotion/react";
 import myTitleImage from "./_assets/my_text.png";

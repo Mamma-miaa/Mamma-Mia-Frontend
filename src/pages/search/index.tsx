@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import BackIcon from "@/@lib/assets/back_dark.svg?react";
+import BackIcon from "@/@lib/assets/back.svg?react";
 import SearchInput from "./_components/SearchInput";
 import { useNavigate } from "react-router-dom";
 import THEME from "@/constants/theme";
