@@ -58,7 +58,7 @@ const floatingButtonStyle = css(
     left: "50%",
     transform: "translateX(-50%)",
     zIndex: 9999,
-    height: 44,
+    height: 40,
     borderRadius: 1000,
     border: "none",
     cursor: "pointer",
