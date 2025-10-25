@@ -36,7 +36,7 @@ const LoginPage = () => {
       {/* 소셜 로그인 버튼들 */}
       <div css={buttonsContainerStyle}>
         {/* 네이버 로그인 */}
-        <button
+        {/* <button
           css={naverButtonStyle}
           onClick={() => {
             toast({ message: "개발이 필요한 기능입니다." });
@@ -44,7 +44,7 @@ const LoginPage = () => {
         >
           <img src={naverLogoImg} alt="naver" width={16} height={16} />
           <span css={buttonTextStyle}>네이버 로그인</span>
-        </button>
+        </button> */}
 
         {/* 카카오 로그인 */}
         <button css={kakaoButtonStyle} onClick={handleKakaoLogin}>
@@ -53,7 +53,7 @@ const LoginPage = () => {
         </button>
 
         {/* 구글 로그인 */}
-        <button
+        {/* <button
           css={googleButtonStyle}
           onClick={() => {
             toast({ message: "개발이 필요한 기능입니다." });
@@ -61,7 +61,7 @@ const LoginPage = () => {
         >
           <img src={googleLogoImg} alt="google" width={16} height={16} />
           <span css={googleButtonTextStyle}>Google 로그인</span>
-        </button>
+        </button> */}
       </div>
     </div>
   );
