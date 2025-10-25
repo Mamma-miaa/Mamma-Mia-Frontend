@@ -1,6 +1,6 @@
 import type { components } from "@/apis/schema";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { getNearbyStore, getStoreDetail } from "@/apis/store";
+import { getNearbyStore, getRanking, getStoreDetail } from "@/apis/store";
 
 export const useGetNearbyStoreQuery = (
   params: components["schemas"]["GetNearByStoreRequest"]
@@ -30,4 +30,10 @@ export const useGetStoreDetailQuery = (storeId: number) =>
   useSuspenseQuery({
     queryKey: ["getStoreDetail", storeId],
     queryFn: () => getStoreDetail(storeId),
+  });
+
+export const useGetRankingQuery = (params: Parameters<typeof getRanking>[0]) =>
+  useSuspenseQuery({
+    queryKey: ["getRanking", params.period],
+    queryFn: () => getRanking(params),
   });
