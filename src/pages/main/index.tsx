@@ -83,7 +83,7 @@ const MainPage = () => {
     size: 20,
     lastDistance: 0,
     lastStoreId: 0,
-    category: searchParams.getAll("categories").join(","),
+    category: searchParams.getAll("categories"),
     isOpen: searchParams.get("isOpen") === "true" ? true : undefined,
     // minPrice: 0,
     // maxPrice: 10000000,
@@ -172,7 +172,9 @@ const MainPage = () => {
           restaurant.latitude,
           restaurant.longitude
         ),
-        content: `<div id='overlay-mark${restaurant.storeId}' class='overlay-restaurant-mark'>${ReactDOMServer.renderToString(
+        content: `<div id='overlay-mark${
+          restaurant.storeId
+        }' class='overlay-restaurant-mark'>${ReactDOMServer.renderToString(
           <OverlayMarker>
             <img
               src={
@@ -362,7 +364,7 @@ const locationButtonStyle = css({
 });
 
 const searchInAreaButtonStyle = css({
-  height: 48,
+  height: 40,
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
   border: "none",
   borderRadius: 24,

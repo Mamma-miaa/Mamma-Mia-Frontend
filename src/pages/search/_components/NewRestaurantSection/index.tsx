@@ -154,7 +154,7 @@ const newRestaurantHeaderStyle = css({
 const newRestaurantTitleContainerStyle = css({
   display: "flex",
   flexDirection: "column",
-  gap: 6,
+  gap: 4,
 });
 
 const newRestaurantTitleStyle = css(
