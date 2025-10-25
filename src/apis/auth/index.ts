@@ -1,10 +1,8 @@
-import api from "..";
+import { api } from "../instance";
 import type { components } from "../schema";
 
-const postSocialLogin = async (
-  data: components["schemas"]["JoinSocialMemberWithIdTokenRequest"]
-) => {
+export const postSocialLogin = async (
+  data: components["schemas"]["JoinSocialLoginRequest"]
+): Promise<components["schemas"]["JoinSocialLoginResponse"]> => {
   return await api.post(`/auth/social`, data);
 };
-
-export default postSocialLogin;

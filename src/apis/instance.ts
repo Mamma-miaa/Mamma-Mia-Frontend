@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/v1`,
 });
 
 api.interceptors.response.use(({ data }) => data);
 
-const apiWithAuth = axios.create({
+export const apiWithAuth = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/v1`,
 });
 
@@ -23,5 +23,3 @@ apiWithAuth.interceptors.request.use((config) => {
 apiWithAuth.interceptors.response.use(({ data }) => {
   return data;
 });
-
-export default api;
