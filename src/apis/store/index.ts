@@ -12,3 +12,11 @@ export const getStoreDetail = async (
 ): Promise<components["schemas"]["GetStoreDetailResponse"]> => {
   return await api.get(`/store/detail/${storeId}`);
 };
+
+export const getRanking = async ({
+  period,
+}: {
+  period: "weekly" | "monthly";
+}): Promise<components["schemas"]["GetStoreRankingResponses"]> => {
+  return await api.get(`/store/${period}`);
+};
