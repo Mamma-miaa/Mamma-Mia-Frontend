@@ -1,6 +1,6 @@
 import THEME from "@/constants/theme";
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import BackIcon from "./_assets/back.svg?react";
 import RankingCard from "./_components/RankingCard";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,9 +11,13 @@ import { useGetRankingQuery } from "@/hooks/@server/store";
 
 const RankingPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const period = searchParams.has("period")
+    ? (searchParams.get("period") as "weekly" | "monthly")
+    : "weekly";
   const {
     data: { stores },
-  } = useGetRankingQuery({ period: "weekly" });
+  } = useGetRankingQuery({ period });
   return (
     <div css={pageContainerStyle}>
       {/* 뒤로가기 버튼 */}
