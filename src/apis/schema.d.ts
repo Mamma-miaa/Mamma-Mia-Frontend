@@ -4,6 +4,55 @@
  */
 
 export interface paths {
+  "/api/v1/store/{id}/bookmark": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["get_1"];
+    put?: never;
+    post: operations["check"];
+    delete: operations["uncheck"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/store/like": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** 가게 좋아요 생성 */
+    post: operations["apply"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/member/profile-update": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["patch"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/auth/social": {
     parameters: {
       query?: never;
@@ -21,6 +70,87 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/auth/logout": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** 로그아웃 */
+    post: operations["logout"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/auth/deactivate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["deactivate"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/likes": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/store/weekly": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["listWeeklyRanking"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/store/search": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["list"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/store/nearby": {
     parameters: {
       query?: never;
@@ -29,7 +159,23 @@ export interface paths {
       cookie?: never;
     };
     /** 근처 가게 정보 */
-    get: operations["list"];
+    get: operations["list_1"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/store/monthly": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["listMonthlyRanking"];
     put?: never;
     post?: never;
     delete?: never;
@@ -46,7 +192,7 @@ export interface paths {
       cookie?: never;
     };
     /** 가게 상세 정보 */
-    get: operations["get"];
+    get: operations["get_2"];
     put?: never;
     post?: never;
     delete?: never;
@@ -75,44 +221,184 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    AgreementRequest: {
-      type: string;
-      isAgreed: boolean;
+    /** @description 가게 좋아요 요청 DTO */
+    ApplyStoreLikeRequest: {
+      /**
+       * Format: int64
+       * @description 가게 ID
+       * @example 100
+       */
+      storeId: number;
     };
-    JoinSocialMemberWithIdTokenRequest: {
+    PatchProfileRequest: {
+      nickname: string;
+    };
+    /** @description 소셜 로그인 요청 DTO */
+    JoinSocialLoginRequest: {
+      /**
+       * @description 소셜 프로바이더
+       * @example KAKAO
+       */
       socialType: string;
-      idToken: string;
-      email: string;
-      agreements: components["schemas"]["AgreementRequest"][];
+      /**
+       * @description 인증 코드
+       * @example authorization_code
+       */
+      code: string;
     };
-    JoinSocialMemberWithIdTokenResponse: {
-      /** @description 유저 ID */
-      memberId: string;
-      /** @description 액세스 토큰 */
+    /** @description 소셜 로그인 응답 DTO */
+    JoinSocialLoginResponse: {
+      /**
+       * Format: int64
+       * @description 회원 ID
+       */
+      memberId: number;
+      /** @description Access Token */
       accessToken: string;
-      /** @description 리프레시 토큰 */
+      /** @description Refresh Token */
+      refreshToken: string;
+      /** @description 신규 회원 여부 */
+      isNew: boolean;
+    };
+    /** @description 로그아웃 */
+    LogoutRequest: {
+      accessToken: string;
       refreshToken: string;
     };
-    GetNearByStoreRequest: {
-      /** Format: double */
-      userLatitude: number;
-      /** Format: double */
-      userLongitude: number;
-      /** Format: double */
-      minLatitude: number;
-      /** Format: double */
-      maxLatitude: number;
-      /** Format: double */
-      minLongitude: number;
-      /** Format: double */
-      maxLongitude: number;
+    GetMammaMiaCountResponse: {
       /** Format: int32 */
-      size: number;
-      /** Format: double */
-      lastDistance: number;
-      /** Format: int64 */
-      lastStoreId: number;
+      mammaMiaCount: number;
+      /** Format: int32 */
+      cheerUpCount: number;
     };
+    GetStoreBookmarkResponse: {
+      isBookmark: boolean;
+    };
+    GetStoreRankingResponse: {
+      /** Format: int32 */
+      rank: number;
+      /** Format: int64 */
+      storeId: number;
+      name: string;
+      category: string;
+      /** Format: int32 */
+      likes: number;
+      mainImage: string;
+    };
+    GetStoreRankingResponses: {
+      stores: components["schemas"]["GetStoreRankingResponse"][];
+    };
+    /** @description 검색 요청 */
+    GetSearchResultRequest: {
+      /**
+       * @description 검색 키워드
+       * @example 맛집
+       */
+      keyword: string;
+    };
+    /** @description 검색 결과 응답 */
+    GetSearchResultResponse: {
+      /** @description 가게 목록 */
+      stores: components["schemas"]["Store"][];
+    };
+    /** @description 가게 정보 */
+    Store: {
+      /**
+       * Format: int64
+       * @description 가게 ID
+       */
+      storeId: number;
+      /** @description 가게 이름 */
+      name: string;
+      /** @description 카테고리 */
+      category: string;
+      /** @description 대표 이미지 URL */
+      imageUrl?: string;
+      /** @description 랭킹 정보 (주간/월간) */
+      ranks?: {
+        [key: string]: number;
+      };
+    };
+    /** @description 근처 가게 조회 요청 */
+    GetNearByStoreRequest: {
+      /**
+       * Format: double
+       * @description 사용자 위도
+       * @example 37.123456
+       */
+      userLatitude: number;
+      /**
+       * Format: double
+       * @description 사용자 경도
+       * @example 127.123456
+       */
+      userLongitude: number;
+      /**
+       * Format: double
+       * @description 최소 위도
+       * @example 37
+       */
+      minLatitude: number;
+      /**
+       * Format: double
+       * @description 최대 위도
+       * @example 37.2
+       */
+      maxLatitude: number;
+      /**
+       * Format: double
+       * @description 최소 경도
+       * @example 127
+       */
+      minLongitude: number;
+      /**
+       * Format: double
+       * @description 최대 경도
+       * @example 127.2
+       */
+      maxLongitude: number;
+      /**
+       * Format: int32
+       * @description 페이지 크기
+       * @example 10
+       */
+      size?: number;
+      /**
+       * Format: double
+       * @description 마지막 가게와의 거리
+       * @example 1.234
+       */
+      lastDistance?: number;
+      /**
+       * Format: int64
+       * @description 마지막 가게 ID
+       * @example 123
+       */
+      lastStoreId?: number;
+      /**
+       * @description 영업 중 여부
+       * @example true
+       */
+      isOpen?: boolean;
+      /**
+       * Format: int32
+       * @description 최소 가격
+       * @example 10000
+       */
+      minPrice?: number;
+      /**
+       * Format: int32
+       * @description 최대 가격
+       * @example 20000
+       */
+      maxPrice?: number;
+      /**
+       * @description 카테고리 목록
+       * @example 한식,일식
+       */
+      category?: string[];
+    };
+    /** @description 가게 목록 */
     GetNearByResponse: {
       /**
        * Format: int64
@@ -167,14 +453,33 @@ export interface components {
        */
       ranks: {
         [key: string]: number;
-      } | null;
+      };
+      /**
+       * @description 영업 중 여부
+       * @example true
+       */
+      isOpen?: boolean;
     };
+    /** @description 근처 가게 조회 응답 */
     GetNearByStoreResponses: {
+      /** @description 가게 목록 */
       items: components["schemas"]["GetNearByResponse"][];
+      /**
+       * @description 다음 페이지 여부
+       * @example true
+       */
       hasNext: boolean;
-      /** Format: int64 */
+      /**
+       * Format: int64
+       * @description 커서 ID
+       * @example 123
+       */
       cursorId: number;
-      /** Format: double */
+      /**
+       * Format: double
+       * @description 마지막 가게와의 거리
+       * @example 1.234
+       */
       lastDistance: number;
     };
     /** @description 영업 시간 정보 */
@@ -274,17 +579,17 @@ export interface components {
     /** @description 좋아요 집계 정보 */
     Like: {
       /**
-       * Format: int32
+       * Format: int64
        * @description 전체 좋아요 수
        */
       total: number | null;
       /**
-       * Format: int32
+       * Format: int64
        * @description 주간 좋아요 수
        */
       weekly: number | null;
       /**
-       * Format: int32
+       * Format: int64
        * @description 월간 좋아요 수
        */
       monthly: number | null;
@@ -320,16 +625,138 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-  join: {
+  get_1: {
     parameters: {
-      query?: never;
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["GetStoreBookmarkResponse"];
+        };
+      };
+    };
+  };
+  check: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  uncheck: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  apply: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
       header?: never;
       path?: never;
       cookie?: never;
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["JoinSocialMemberWithIdTokenRequest"];
+        "application/json": components["schemas"]["ApplyStoreLikeRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  patch: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        "multipart/form-data": {
+          /** Format: binary */
+          image: string;
+          nickname: components["schemas"]["PatchProfileRequest"];
+        };
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  join: {
+    parameters: {
+      query?: never;
+      header: {
+        Origin: string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["JoinSocialLoginRequest"];
       };
     };
     responses: {
@@ -339,12 +766,120 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "*/*": components["schemas"]["JoinSocialMemberWithIdTokenResponse"];
+          "*/*": components["schemas"]["JoinSocialLoginResponse"];
+        };
+      };
+    };
+  };
+  logout: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["LogoutRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deactivate: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  get: {
+    parameters: {
+      query: {
+        memberId: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["GetMammaMiaCountResponse"];
+        };
+      };
+    };
+  };
+  listWeeklyRanking: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["GetStoreRankingResponses"];
         };
       };
     };
   };
   list: {
+    parameters: {
+      query: {
+        request: components["schemas"]["GetSearchResultRequest"];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["GetSearchResultResponse"];
+        };
+      };
+    };
+  };
+  list_1: {
     parameters: {
       query: {
         request: components["schemas"]["GetNearByStoreRequest"];
@@ -366,7 +901,27 @@ export interface operations {
       };
     };
   };
-  get: {
+  listMonthlyRanking: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["GetStoreRankingResponses"];
+        };
+      };
+    };
+  };
+  get_2: {
     parameters: {
       query?: never;
       header?: never;
