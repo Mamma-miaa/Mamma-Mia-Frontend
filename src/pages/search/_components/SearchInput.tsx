@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { useState, type ComponentProps } from "react";
+import { type ComponentProps } from "react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import SearchIcon from "@/@lib/assets/search.svg?react";
@@ -8,17 +8,26 @@ import cancelButtonImage from "../_assets/cancel.webp";
 interface SearchInputProps extends ComponentProps<"input"> {
   placeholder?: string;
   onSearch?: (query: string) => void;
+  onSubmit: () => void;
 }
 
 const SearchInput = ({
   placeholder = "매장명, 카테고리를 검색해 보세요.",
   value = "",
   onChange,
-  onSearch,
+  onSubmit,
 }: SearchInputProps) => {
   return (
-    <div css={searchFieldStyle}>
-      <SearchIcon css={searchIconStyle} />
+    <form
+      css={searchFieldStyle}
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit();
+      }}
+    >
+      <button type="submit" css={searchIconButtonStyle}>
+        <SearchIcon width={24} height={24} />
+      </button>
       <input
         type="search"
         value={value}
@@ -26,7 +35,7 @@ const SearchInput = ({
         placeholder={placeholder}
         css={inputStyle}
       />
-    </div>
+    </form>
   );
 };
 
@@ -42,10 +51,14 @@ const searchFieldStyle = css({
   padding: "0 12px",
 });
 
-const searchIconStyle = css({
-  width: 24,
-  height: 24,
-  flexShrink: 0,
+const searchIconButtonStyle = css({
+  backgroundColor: "transparent",
+  border: "none",
+  cursor: "pointer",
+  width: "fit-content",
+  height: "fit-content",
+  padding: 0,
+  margin: 0,
 });
 
 const inputStyle = css(
