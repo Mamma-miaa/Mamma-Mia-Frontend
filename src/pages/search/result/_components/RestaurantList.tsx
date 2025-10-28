@@ -18,7 +18,7 @@ const RestaurantList = () => {
     <div css={listContainerStyle}>
       <div css={resultHeaderStyle}>
         <span css={resultCountStyle}>전체</span>
-        <span css={resultNumberStyle}>1</span>
+        <span css={resultNumberStyle}>{stores.length}</span>
       </div>
       <div css={listStyle}>
         {stores.map((store) => (
