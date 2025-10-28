@@ -12,3 +12,17 @@ export const getStoreDetail = async (
 ): Promise<components["schemas"]["GetStoreDetailResponse"]> => {
   return await api.get(`/store/detail/${storeId}`);
 };
+
+export const getRanking = async ({
+  period,
+}: {
+  period: "weekly" | "monthly";
+}): Promise<components["schemas"]["GetStoreRankingResponses"]> => {
+  return await api.get(`/store/${period}`);
+};
+
+export const getSearchedStores = async (
+  params: components["schemas"]["GetSearchResultRequest"]
+): Promise<components["schemas"]["GetSearchResultResponse"]> => {
+  return await api.get(`/store/search`, { params });
+};
