@@ -1,7 +1,7 @@
 import THEME from "@/constants/theme";
 import { css } from "@emotion/react";
 import NewIcon from "@/pages/main/_assets/new.svg?react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
 import VIEWPORT from "@/constants/viewport";
@@ -49,8 +49,6 @@ const RestaurantListPopup = ({
       { replace: true }
     );
   };
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     !isPresent && setTimeout(safeToRemove, 1000);
