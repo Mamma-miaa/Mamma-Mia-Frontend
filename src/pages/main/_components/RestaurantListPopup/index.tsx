@@ -98,7 +98,6 @@ const RestaurantListPopup = ({
           <ResponsiveSummaryCard
             restaurant={restaurant}
             key={restaurant.storeId}
-            onClick={() => navigate(`/restaurant?id=${restaurant.storeId}`)}
           />
         ))}
       </div>

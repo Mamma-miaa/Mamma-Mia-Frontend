@@ -4,6 +4,7 @@ import type { ComponentProps } from "react";
 import TYPOGRAPHY from "@/constants/typography";
 import THEME from "@/constants/theme";
 import type { components } from "@/apis/schema";
+import { useNavigate } from "react-router-dom";
 
 // Import Swiper styles
 interface SummaryCardProps extends ComponentProps<"div"> {
@@ -13,8 +14,14 @@ interface SummaryCardProps extends ComponentProps<"div"> {
 }
 
 const ResponsiveSummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
+  const navigate = useNavigate();
+
   return (
-    <div css={containerStyle} {...props}>
+    <div
+      css={containerStyle}
+      onClick={() => navigate(`/restaurant?id=${restaurant.storeId}`)}
+      {...props}
+    >
       <img
         src={restaurant.imageUrl ?? "https://placehold.co/78x78"}
         alt={restaurant.name}
