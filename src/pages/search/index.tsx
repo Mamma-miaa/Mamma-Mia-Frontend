@@ -8,10 +8,12 @@ import RemoveIcon from "./_assets/remove.svg?react";
 import ArrowDownIcon from "./_assets/arrow_down.svg?react";
 import { useState } from "react";
 import NewRestaurantSection from "./_components/NewRestaurantSection";
+import useSearchInput from "./_hooks/useSearchInput";
 
 const SearchPage = () => {
   const navigate = useNavigate();
-  const [isEmpty] = useState(false);
+  const [isEmpty] = useState(true);
+  const { inputValue, handleChange } = useSearchInput();
 
   return (
     <div css={css({ width: "100%", height: "100dvh" })}>
@@ -24,7 +26,13 @@ const SearchPage = () => {
         })}
       >
         <BackIcon onClick={() => navigate(-1)} />
-        <SearchInput />
+        <SearchInput
+          value={inputValue}
+          onChange={handleChange}
+          onSubmit={() => {
+            navigate(`/search/result?query=${inputValue}`);
+          }}
+        />
       </div>
 
       {/* 최근 검색어 섹션 */}
@@ -46,15 +54,15 @@ const SearchPage = () => {
             </p>
           ) : (
             <>
-              <div css={recentSearchItemStyle({ isLast: false })}>
+              <div css={recentSearchItemStyle}>
                 <span css={recentSearchTextStyle}>검색1</span>
                 <RemoveIcon />
               </div>
-              <div css={recentSearchItemStyle({ isLast: false })}>
+              <div css={recentSearchItemStyle}>
                 <span css={recentSearchTextStyle}>검색1</span>
                 <RemoveIcon />
               </div>
-              <div css={recentSearchItemStyle({ isLast: true })}>
+              <div css={recentSearchItemStyle}>
                 <span css={recentSearchTextStyle}>검색1</span>
                 <RemoveIcon />
               </div>
@@ -119,17 +127,14 @@ const recentSearchListStyle = css({
   width: "100%",
 });
 
-const recentSearchItemStyle = ({ isLast }: { isLast: boolean }) =>
-  css({
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    padding: "12px 0",
-    borderBottom: isLast
-      ? "none"
-      : `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
-  });
+const recentSearchItemStyle = css({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  width: "100%",
+  padding: "12px 0",
+  borderBottom: `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
+});
 
 const recentSearchTextStyle = css(
   {
