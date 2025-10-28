@@ -30,7 +30,7 @@ const SearchPage = () => {
           value={inputValue}
           onChange={handleChange}
           onSubmit={() => {
-            navigate(`/search/result?query=${inputValue}`, { replace: true });
+            navigate(`/search/result?query=${inputValue}`);
           }}
         />
       </div>
