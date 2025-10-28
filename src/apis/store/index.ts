@@ -24,6 +24,5 @@ export const getRanking = async ({
 export const getSearchedStores = async (
   params: components["schemas"]["GetSearchResultRequest"]
 ): Promise<components["schemas"]["GetSearchResultResponse"]> => {
-  const response = await api.get(`/store/search`, { params });
-  return response.data;
+  return await api.get(`/store/search`, { params });
 };
