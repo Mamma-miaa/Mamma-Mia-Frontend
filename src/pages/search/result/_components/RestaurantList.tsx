@@ -4,15 +4,19 @@ import TYPOGRAPHY from "@/constants/typography";
 import { useGetSearchedStoresQuery } from "@/hooks/@server/store";
 import { css } from "@emotion/react";
 import { useSearchParams } from "react-router-dom";
+import EmptyFallbackUI from "./EmptyFallbackUI";
 
 const RestaurantList = () => {
   const [searchParams] = useSearchParams();
-
   const query = searchParams.get("query") || "";
-
   const {
     data: { stores },
   } = useGetSearchedStoresQuery({ keyword: query });
+
+  // 검색 결과가 없는 경우 EmptyFallbackUI 표시
+  if (stores.length === 0) {
+    return <EmptyFallbackUI />;
+  }
 
   return (
     <div css={listContainerStyle}>
@@ -22,7 +26,7 @@ const RestaurantList = () => {
       </div>
       <div css={listStyle}>
         {stores.map((store) => (
-          <ResponsiveSummaryCard restaurant={store} />
+          <ResponsiveSummaryCard key={store.storeId} restaurant={store} />
         ))}
       </div>
     </div>
