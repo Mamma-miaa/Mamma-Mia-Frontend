@@ -1,14 +1,12 @@
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useState, type ComponentProps } from "react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import SearchIcon from "@/@lib/assets/search.svg?react";
 import cancelButtonImage from "../_assets/cancel.webp";
 
-interface SearchInputProps {
+interface SearchInputProps extends ComponentProps<"input"> {
   placeholder?: string;
-  value?: string;
-  onChange?: (value: string) => void;
   onSearch?: (query: string) => void;
 }
 
@@ -18,21 +16,13 @@ const SearchInput = ({
   onChange,
   onSearch,
 }: SearchInputProps) => {
-  const [inputValue, setInputValue] = useState(value);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
-    onChange?.(newValue);
-  };
-
   return (
     <div css={searchFieldStyle}>
       <SearchIcon css={searchIconStyle} />
       <input
         type="search"
-        value={inputValue}
-        onChange={handleChange}
+        value={value}
+        onChange={onChange}
         placeholder={placeholder}
         css={inputStyle}
       />
