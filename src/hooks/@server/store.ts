@@ -45,6 +45,6 @@ export const useGetSearchedStoresQuery = (
   params: components["schemas"]["GetSearchResultRequest"]
 ) =>
   useSuspenseQuery({
-    queryKey: ["getSearchedStores"],
+    queryKey: ["getSearchedStores", params.keyword],
     queryFn: () => getSearchedStores(params),
   });
