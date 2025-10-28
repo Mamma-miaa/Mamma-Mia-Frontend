@@ -20,3 +20,10 @@ export const getRanking = async ({
 }): Promise<components["schemas"]["GetStoreRankingResponses"]> => {
   return await api.get(`/store/${period}`);
 };
+
+export const getSearchedStores = async (
+  params: components["schemas"]["GetSearchResultRequest"]
+): Promise<components["schemas"]["GetSearchResultResponse"]> => {
+  const response = await api.get(`/store/search`, { params });
+  return response.data;
+};
