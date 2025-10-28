@@ -4,7 +4,9 @@ import type { components } from "../schema";
 export const getNearbyStore = async (
   params: components["schemas"]["GetNearByStoreRequest"]
 ): Promise<components["schemas"]["GetNearByStoreResponses"]> => {
-  return await api.get(`/store/nearby`, { params });
+  return await api.get(`/store/nearby`, {
+    params: { ...params, category: params.category?.join(",") },
+  });
 };
 
 export const getStoreDetail = async (
