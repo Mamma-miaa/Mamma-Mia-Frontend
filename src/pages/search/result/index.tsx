@@ -10,6 +10,7 @@ import { QueryErrorResetBoundary } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import RestaurantList from "./_components/RestaurantList";
 import Spacing from "@/@lib/components/Spacing";
+import Spinner from "@/@lib/components/Spinner";
 
 const SearchResultPage = () => {
   const navigate = useNavigate();
@@ -58,7 +59,20 @@ const SearchResultPage = () => {
               <div onClick={resetErrorBoundary}>다시 시도</div>
             )}
           >
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense
+              fallback={
+                <div
+                  css={css({
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                  })}
+                >
+                  <Spinner size="large" />
+                </div>
+              }
+            >
               <RestaurantList />
             </Suspense>
           </ErrorBoundary>
