@@ -1,16 +1,22 @@
-import api from "..";
+import { api } from "../instance";
 import type { components } from "../schema";
 
 export const getNearbyStore = async (
   params: components["schemas"]["GetNearByStoreRequest"]
 ): Promise<components["schemas"]["GetNearByStoreResponses"]> => {
-  const response = await api.get(`/store/nearby`, { params });
-  return response.data;
+  return await api.get(`/store/nearby`, { params });
 };
 
 export const getStoreDetail = async (
   storeId: number
 ): Promise<components["schemas"]["GetStoreDetailResponse"]> => {
-  const response = await api.get(`/store/detail/${storeId}`);
-  return response.data;
+  return await api.get(`/store/detail/${storeId}`);
+};
+
+export const getRanking = async ({
+  period,
+}: {
+  period: "weekly" | "monthly";
+}): Promise<components["schemas"]["GetStoreRankingResponses"]> => {
+  return await api.get(`/store/${period}`);
 };

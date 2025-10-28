@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import BackIcon from "./_assets/back.svg?react";
+import BackIcon from "@/@lib/assets/back.svg?react";
 import SearchInput from "./_components/SearchInput";
 import { useNavigate } from "react-router-dom";
 import THEME from "@/constants/theme";
@@ -11,7 +11,7 @@ import NewRestaurantSection from "./_components/NewRestaurantSection";
 
 const SearchPage = () => {
   const navigate = useNavigate();
-  const [isEmpty] = useState(true);
+  const [isEmpty] = useState(false);
 
   return (
     <div css={css({ width: "100%", height: "100dvh" })}>
@@ -46,15 +46,15 @@ const SearchPage = () => {
             </p>
           ) : (
             <>
-              <div css={recentSearchItemStyle}>
+              <div css={recentSearchItemStyle({ isLast: false })}>
                 <span css={recentSearchTextStyle}>검색1</span>
                 <RemoveIcon />
               </div>
-              <div css={recentSearchItemStyle}>
+              <div css={recentSearchItemStyle({ isLast: false })}>
                 <span css={recentSearchTextStyle}>검색1</span>
                 <RemoveIcon />
               </div>
-              <div css={recentSearchItemStyle}>
+              <div css={recentSearchItemStyle({ isLast: true })}>
                 <span css={recentSearchTextStyle}>검색1</span>
                 <RemoveIcon />
               </div>
@@ -119,14 +119,17 @@ const recentSearchListStyle = css({
   width: "100%",
 });
 
-const recentSearchItemStyle = css({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  width: "100%",
-  padding: "12px 0",
-  borderBottom: `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
-});
+const recentSearchItemStyle = ({ isLast }: { isLast: boolean }) =>
+  css({
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    padding: "12px 0",
+    borderBottom: isLast
+      ? "none"
+      : `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
+  });
 
 const recentSearchTextStyle = css(
   {

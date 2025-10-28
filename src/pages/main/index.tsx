@@ -54,19 +54,19 @@ const MainPage = () => {
     },
     option: { isPopupOpen: boolean } = { isPopupOpen: true }
   ) => {
-    setSearchParams(
-      (prev) => {
-        prev.set("minLatitude", bounds.minLatitude.toString());
-        prev.set("maxLatitude", bounds.maxLatitude.toString());
-        prev.set("minLongitude", bounds.minLongitude.toString());
-        prev.set("maxLongitude", bounds.maxLongitude.toString());
-        if (!option.isPopupOpen) {
-          prev.delete("isPopupOpen");
-        }
-        return prev;
-      },
-      { replace: true }
-    );
+    // 현재 URL의 모든 파라미터를 가져와서 새로운 URLSearchParams 생성
+    const newParams = new URLSearchParams(window.location.search);
+
+    newParams.set("minLatitude", bounds.minLatitude.toString());
+    newParams.set("maxLatitude", bounds.maxLatitude.toString());
+    newParams.set("minLongitude", bounds.minLongitude.toString());
+    newParams.set("maxLongitude", bounds.maxLongitude.toString());
+
+    if (!option.isPopupOpen) {
+      newParams.delete("isPopupOpen");
+    }
+
+    setSearchParams(newParams, { replace: true });
   };
 
   const {
@@ -80,9 +80,13 @@ const MainPage = () => {
     maxLatitude: 지도_모서리.maxLatitude,
     minLongitude: 지도_모서리.minLongitude,
     maxLongitude: 지도_모서리.maxLongitude,
-    size: 10,
+    size: 20,
     lastDistance: 0,
     lastStoreId: 0,
+    category: searchParams.getAll("categories"),
+    isOpen: searchParams.get("isOpen") === "true" ? true : undefined,
+    // minPrice: 0,
+    // maxPrice: 10000000,
   });
 
   const navigate = useNavigate();
@@ -168,7 +172,9 @@ const MainPage = () => {
           restaurant.latitude,
           restaurant.longitude
         ),
-        content: `<div id='overlay-mark${restaurant.storeId}' class='overlay-restaurant-mark'>${ReactDOMServer.renderToString(
+        content: `<div id='overlay-mark${
+          restaurant.storeId
+        }' class='overlay-restaurant-mark'>${ReactDOMServer.renderToString(
           <OverlayMarker>
             <img
               src={
@@ -238,7 +244,14 @@ const MainPage = () => {
           <Spacing size={12} />
           <button css={searchInAreaButtonStyle} onClick={() => refetch()}>
             <ResetIcon />
-            <span css={TYPOGRAPHY.BODY["14SB"]}>현재 지도에서 찾기</span>
+            <span
+              css={[
+                TYPOGRAPHY.BODY["14SB"],
+                { color: THEME.COLORS.GRAYSCALE.NORMAL },
+              ]}
+            >
+              현재 지도에서 찾기
+            </span>
           </button>
         </div>
 
@@ -351,7 +364,7 @@ const locationButtonStyle = css({
 });
 
 const searchInAreaButtonStyle = css({
-  height: 48,
+  height: 40,
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
   border: "none",
   borderRadius: 24,

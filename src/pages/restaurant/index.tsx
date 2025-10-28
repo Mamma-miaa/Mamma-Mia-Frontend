@@ -365,7 +365,7 @@ const infoCardStyle = css({
 const restaurantInfoSectionStyle = css({
   display: "flex",
   flexDirection: "column",
-  gap: 6,
+  gap: 4,
 });
 
 // 제목 섹션
@@ -384,14 +384,12 @@ const categoryStyle = css(
 );
 
 // 레스토랑 이름 스타일
-const restaurantNameStyle = css({
-  color: THEME.COLORS.GRAYSCALE.NORMAL,
-  margin: 0,
-  fontSize: 18,
-  fontWeight: 600,
-  lineHeight: 1.4,
-  letterSpacing: "-2%",
-});
+const restaurantNameStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.HEADERS["22B"]
+);
 
 // 맘마미아 섹션
 const mammaMiaSectionStyle = css({
@@ -584,7 +582,6 @@ const timeListStyle = css(
 const menuSectionStyle = css({
   display: "flex",
   flexDirection: "column",
-  gap: 12,
 });
 
 // 메뉴 리스트

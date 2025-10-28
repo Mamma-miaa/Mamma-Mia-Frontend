@@ -175,8 +175,8 @@ const FilterChip = styled.button(
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: "8px 16px",
-    height: 44,
+    padding: "8px 12px",
+    height: 32,
     backgroundColor: isSelected
       ? THEME.COLORS.GRAYSCALE.NORMAL
       : THEME.COLORS.BACKGROUND.WHITE,
@@ -191,7 +191,7 @@ const FilterChip = styled.button(
       fill: THEME.COLORS.BACKGROUND.WHITE,
     },
   }),
-  TYPOGRAPHY.BODY["14R"]
+  TYPOGRAPHY.SUB["12R"]
 );
 
 export default RestaurantListPopup;

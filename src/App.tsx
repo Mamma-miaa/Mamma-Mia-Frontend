@@ -6,6 +6,9 @@ import RestaurantDetailPage from "./pages/restaurant";
 import Provider from "./Provider";
 import RankingPage from "./pages/ranking";
 import SearchPage from "./pages/search";
+import LoginPage from "./pages/login";
+import LoginRedirectPage from "./pages/login/oauth";
+import MyPage from "./pages/my";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +34,23 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <SearchPage />,
+      },
+      {
+        path: "/login",
+        children: [
+          {
+            index: true,
+            element: <LoginPage />,
+          },
+          {
+            path: "/login/oauth",
+            element: <LoginRedirectPage />,
+          },
+        ],
+      },
+      {
+        path: "/my",
+        element: <MyPage />,
       },
     ],
   },
