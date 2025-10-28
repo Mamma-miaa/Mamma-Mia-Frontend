@@ -7,7 +7,7 @@ import type { components } from "@/apis/schema";
 import VIEWPORT from "@/constants/viewport";
 import styled from "@emotion/styled";
 import use필터링_바텀시트 from "./_hooks/use필터링_바텀시트";
-import EmptyIcon from "./_assets/emptyIcon.svg?react";
+import EmptyIcon from "@/assets/empty_icon.svg?react";
 import { motion, usePresence } from "motion/react";
 import { useEffect } from "react";
 import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard";
