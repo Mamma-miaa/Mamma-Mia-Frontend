@@ -5,6 +5,8 @@ import {
   getRanking,
   getSearchedStores,
   getStoreDetail,
+  postBookmark,
+  deleteBookmark,
   postMammaMia,
 } from "@/apis/store";
 
@@ -55,4 +57,14 @@ export const useGetSearchedStoresQuery = (
 export const usePostMammaMiaMutation = () =>
   useMutation({
     mutationFn: postMammaMia,
+  });
+
+export const usePostBookmarkMutation = () =>
+  useMutation({
+    mutationFn: postBookmark,
+  });
+
+export const useDeleteBookmarkMutation = () =>
+  useMutation({
+    mutationFn: deleteBookmark,
   });

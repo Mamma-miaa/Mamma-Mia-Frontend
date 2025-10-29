@@ -34,3 +34,11 @@ export const postMammaMia = async (
 ): Promise<components["schemas"]["ApplyStoreLikeRequest"]> => {
   return await api.post("/store/like", { data });
 };
+
+export const postBookmark = async ({ id }: { id: number }): Promise<void> => {
+  return await api.post(`/store/${id}/bookmark`);
+};
+
+export const deleteBookmark = async ({ id }: { id: number }): Promise<void> => {
+  return await api.delete(`/store/${id}/bookmark`);
+};
