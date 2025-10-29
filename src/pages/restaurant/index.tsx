@@ -17,8 +17,8 @@ import { useGetStoreDetailQuery } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
 import RestaurantBusinessHour from "./_components/RestaurantBusinessHour";
 import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
-import RestaurantDetailBackGround from "./_components/RestaurantDetailBackGround";
 import MammaMiaButton from "./_components/MammaMiaButton";
+import RestaurantDetailImages from "./_components/RestaurantDetailImages";
 
 export const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
   SUNDAY: { ko: "일", en: "SUNDAY" },
@@ -49,8 +49,8 @@ const RestaurantDetailPage = () => {
 
   return (
     <div css={pageContainerStyle}>
-      <RestaurantDetailBackGround storeDetail={storeDetail} />
       <RestaurantDetailHeader storeDetail={storeDetail} />
+      <RestaurantDetailImages storeDetail={storeDetail} />
 
       {/* 레스토랑 정보 카드 */}
       <div css={infoCardStyle}>
