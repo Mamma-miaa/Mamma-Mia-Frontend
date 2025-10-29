@@ -19,7 +19,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import BookmarkIcon from "./_assets/bookmark.svg?react";
 import {
+  useDeleteBookmarkMutation,
   useGetStoreDetailQuery,
+  usePostBookmarkMutation,
   usePostMammaMiaMutation,
 } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
@@ -45,10 +47,12 @@ const RestaurantDetailPage = () => {
   const { data: storeDetail } = useGetStoreDetailQuery(
     Number(searchParams.get("id"))
   );
-  const { mutate } = usePostMammaMiaMutation();
+  const { mutate: postMammaMia } = usePostMammaMiaMutation();
+  const { mutate: postBookmark } = usePostBookmarkMutation();
+  const { mutate: deleteBookmark } = useDeleteBookmarkMutation();
 
   const handlePostMammaMia = () => {
-    mutate(
+    postMammaMia(
       { storeId: storeDetail?.storeId },
       {
         onSuccess: () => {
@@ -60,6 +64,19 @@ const RestaurantDetailPage = () => {
       }
     );
   };
+
+  // TODO 응답에 맘마미아 상태 포함시키는 작업 완료되면 맘마미아 토글기능 작업
+  const handlePostBookmark = () => {
+    postBookmark(
+      { id: storeDetail?.storeId },
+      {
+        onSuccess: () => {
+          toast({ message: "북마크에 추가되었습니다." });
+        },
+      }
+    );
+  };
+
   const businessHours = storeDetail?.businessHours.map((businessHour) => {
     return {
       ...businessHour,
@@ -85,9 +102,7 @@ const RestaurantDetailPage = () => {
           css({ position: "absolute", top: 20, right: 76 })
         )}
         type="button"
-        onClick={() => {
-          toast({ message: "개발이 필요한 기능입니다." });
-        }}
+        onClick={handlePostBookmark}
       >
         <BookmarkIcon />
       </button>
