@@ -1,10 +1,11 @@
 import type { components } from "@/apis/schema";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
   getNearbyStore,
   getRanking,
   getSearchedStores,
   getStoreDetail,
+  postMammaMia,
 } from "@/apis/store";
 
 export const useGetNearbyStoreQuery = (
@@ -49,4 +50,9 @@ export const useGetSearchedStoresQuery = (
   useSuspenseQuery({
     queryKey: ["getSearchedStores", params.keyword],
     queryFn: () => getSearchedStores(params),
+  });
+
+export const usePostMammaMiaMutation = () =>
+  useMutation({
+    mutationFn: postMammaMia,
   });
