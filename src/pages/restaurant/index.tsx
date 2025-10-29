@@ -2,8 +2,6 @@ import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react";
-import MammaMiaVoteButton from "./_assets/mamma_mia_vote_button.svg?react";
-import ClickToVoteButton from "./_assets/click_to_vote.svg?react";
 import locationImg from "@/assets/emoji/location.webp";
 import ClipBoardIcon from "./_assets/clipboard.svg?react";
 import TranslateIcon from "./_assets/translate.svg?react";
@@ -15,14 +13,12 @@ import ArrowIcon from "./_assets/arrow.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
 import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
-import {
-  useGetStoreDetailQuery,
-  usePostMammaMiaMutation,
-} from "@/hooks/@server/store";
+import { useGetStoreDetailQuery } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
 import RestaurantBusinessHour from "./_components/RestaurantBusinessHour";
 import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
 import RestaurantDetailBackGround from "./_components/RestaurantDetailBackGround";
+import MammaMiaButton from "./_components/MammaMiaButton";
 
 export const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
   SUNDAY: { ko: "일", en: "SUNDAY" },
@@ -43,21 +39,6 @@ const RestaurantDetailPage = () => {
   const { data: storeDetail } = useGetStoreDetailQuery(
     Number(searchParams.get("id"))
   );
-  const { mutate: postMammaMia } = usePostMammaMiaMutation();
-
-  const handlePostMammaMia = () => {
-    postMammaMia(
-      { storeId: storeDetail?.storeId },
-      {
-        onSuccess: () => {
-          toast({ message: "맘마미아 투표에 성공하였습니다." });
-        },
-        onError: () => {
-          toast({ message: "맘마미아 투표에 실패하였습니다." });
-        },
-      }
-    );
-  };
 
   const businessHours = storeDetail?.businessHours.map((businessHour) => {
     return {
@@ -100,22 +81,7 @@ const RestaurantDetailPage = () => {
           </div>
         </div>
 
-        {/* 투표 완료 버튼 */}
-        <button
-          css={votingButtonStyle}
-          type="button"
-          onClick={handlePostMammaMia}
-        >
-          <MammaMiaVoteButton />
-          <ClickToVoteButton
-            css={css({
-              position: "absolute",
-              bottom: 7.5,
-              left: "75%",
-              transform: "translateX(-50%)",
-            })}
-          />
-        </button>
+        <MammaMiaButton storeId={storeDetail.storeId} />
 
         {/* 매장 정보 */}
         <div css={storeInfoSectionStyle}>
@@ -372,22 +338,6 @@ const separatorStyle = css({
   fontWeight: 400,
   lineHeight: 1.4,
   letterSpacing: "-2%",
-});
-
-// 투표 버튼
-const votingButtonStyle = css({
-  height: 56,
-  position: "relative",
-  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
-  borderRadius: 8,
-  border: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: 11,
-  "&:disabled": {
-    backgroundColor: THEME.COLORS.GRAYSCALE.DISABLE,
-  },
 });
 
 // 매장 정보 섹션
