@@ -18,7 +18,10 @@ import RestaurantLocationSection from "./_components/RestaurantLocationSection";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import BookmarkIcon from "./_assets/bookmark.svg?react";
-import { useGetStoreDetailQuery } from "@/hooks/@server/store";
+import {
+  useGetStoreDetailQuery,
+  usePostMammaMiaMutation,
+} from "@/hooks/@server/store";
 import toast from "@/utils/toast";
 import RestaurantBusinessHour from "./_components/RestaurantBusinessHour";
 
@@ -42,7 +45,21 @@ const RestaurantDetailPage = () => {
   const { data: storeDetail } = useGetStoreDetailQuery(
     Number(searchParams.get("id"))
   );
+  const { mutate } = usePostMammaMiaMutation();
 
+  const handlePostMammaMia = () => {
+    mutate(
+      { storeId: storeDetail?.storeId },
+      {
+        onSuccess: () => {
+          toast({ message: "맘마미아 투표에 성공하였습니다." });
+        },
+        onError: () => {
+          toast({ message: "맘마미아 투표에 실패하였습니다." });
+        },
+      }
+    );
+  };
   const businessHours = storeDetail?.businessHours.map((businessHour) => {
     return {
       ...businessHour,
@@ -147,9 +164,7 @@ const RestaurantDetailPage = () => {
         <button
           css={votingButtonStyle}
           type="button"
-          onClick={() => {
-            toast({ message: "개발이 필요한 기능입니다." });
-          }}
+          onClick={handlePostMammaMia}
         >
           <MammaMiaVoteButton />
           <ClickToVoteButton
