@@ -22,6 +22,7 @@ import {
 import toast from "@/utils/toast";
 import RestaurantBusinessHour from "./_components/RestaurantBusinessHour";
 import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
+import RestaurantDetailBackGround from "./_components/RestaurantDetailBackGround";
 
 export const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
   SUNDAY: { ko: "일", en: "SUNDAY" },
@@ -67,29 +68,8 @@ const RestaurantDetailPage = () => {
 
   return (
     <div css={pageContainerStyle}>
+      <RestaurantDetailBackGround storeDetail={storeDetail} />
       <RestaurantDetailHeader storeDetail={storeDetail} />
-      {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
-      <img
-        src={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
-        alt="레스토랑 배경 이미지"
-        css={restaurantBackgroundImageStyle}
-      />
-      <div
-        css={css({
-          position: "absolute",
-          top: 80,
-          left: "50%",
-          transform: "translateX(-50%)",
-          padding: "0 20px",
-          width: "100%",
-        })}
-      >
-        <img
-          src={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
-          alt="레스토랑 이미지"
-          css={restaurantImageStyle}
-        />
-      </div>
 
       {/* 레스토랑 정보 카드 */}
       <div css={infoCardStyle}>
@@ -297,25 +277,6 @@ const pageContainerStyle = css({
   minHeight: "100vh",
   position: "relative",
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
-});
-
-// 레스토랑 배경 이미지 스타일
-const restaurantBackgroundImageStyle = css({
-  width: "100%",
-  aspectRatio: "375/460",
-  objectFit: "cover",
-  filter: "blur(140px)",
-  mask: "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
-  WebkitMask:
-    "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
-});
-
-// 레스토랑 이미지 스타일
-const restaurantImageStyle = css({
-  width: "100%",
-  aspectRatio: "1/1",
-  borderRadius: 12,
-  objectFit: "cover",
 });
 
 // 정보 카드 스타일
