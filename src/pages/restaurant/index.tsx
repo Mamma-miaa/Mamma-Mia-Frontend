@@ -12,20 +12,16 @@ import carImg from "@/assets/emoji/car.webp";
 import deliveryImg from "@/assets/emoji/delivery.webp";
 import takeoutImg from "@/assets/emoji/takeout.webp";
 import ArrowIcon from "./_assets/arrow.svg?react";
-import BackIcon from "./_assets/back.svg?react";
-import ShareIcon from "./_assets/share.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
-import BookmarkIcon from "./_assets/bookmark.svg?react";
 import {
-  useDeleteBookmarkMutation,
   useGetStoreDetailQuery,
-  usePostBookmarkMutation,
   usePostMammaMiaMutation,
 } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
 import RestaurantBusinessHour from "./_components/RestaurantBusinessHour";
+import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
 
 export const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
   SUNDAY: { ko: "일", en: "SUNDAY" },
@@ -41,15 +37,12 @@ const TODAY = new Date().getDay();
 const TODAY_DAY_OF_WEEK = [...Object.values(DAY_OF_WEEK)][TODAY];
 
 const RestaurantDetailPage = () => {
-  const navigate = useNavigate();
   const [isTimeAccordionOpen, setIsTimeAccordionOpen] = useState(false);
   const [searchParams] = useSearchParams();
   const { data: storeDetail } = useGetStoreDetailQuery(
     Number(searchParams.get("id"))
   );
   const { mutate: postMammaMia } = usePostMammaMiaMutation();
-  const { mutate: postBookmark } = usePostBookmarkMutation();
-  const { mutate: deleteBookmark } = useDeleteBookmarkMutation();
 
   const handlePostMammaMia = () => {
     postMammaMia(
@@ -65,18 +58,6 @@ const RestaurantDetailPage = () => {
     );
   };
 
-  // TODO 응답에 맘마미아 상태 포함시키는 작업 완료되면 맘마미아 토글기능 작업
-  const handlePostBookmark = () => {
-    postBookmark(
-      { id: storeDetail?.storeId },
-      {
-        onSuccess: () => {
-          toast({ message: "북마크에 추가되었습니다." });
-        },
-      }
-    );
-  };
-
   const businessHours = storeDetail?.businessHours.map((businessHour) => {
     return {
       ...businessHour,
@@ -86,43 +67,7 @@ const RestaurantDetailPage = () => {
 
   return (
     <div css={pageContainerStyle}>
-      {/* 뒤로가기 버튼 */}
-      <button
-        css={css(
-          floatingButtonStyle,
-          css({ position: "absolute", top: 20, left: 20 })
-        )}
-        onClick={() => navigate(-1)}
-      >
-        <BackIcon />
-      </button>
-      <button
-        css={css(
-          floatingButtonStyle,
-          css({ position: "absolute", top: 20, right: 76 })
-        )}
-        type="button"
-        onClick={handlePostBookmark}
-      >
-        <BookmarkIcon />
-      </button>
-      <button
-        css={css(
-          floatingButtonStyle,
-          css({ position: "absolute", top: 20, right: 20 })
-        )}
-        type="button"
-        onClick={() => {
-          window.navigator.share({
-            title: storeDetail?.name,
-            text: storeDetail?.name,
-            url: window.location.href,
-          });
-        }}
-      >
-        <ShareIcon />
-      </button>
-
+      <RestaurantDetailHeader storeDetail={storeDetail} />
       {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
       <img
         src={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
@@ -745,29 +690,5 @@ const reportTextStyle = css(
   },
   TYPOGRAPHY.SUB["12R"]
 );
-
-// 뒤로가기 버튼 스타일
-const floatingButtonStyle = css({
-  width: 44,
-  height: 44,
-  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-  borderRadius: 28,
-  border: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  cursor: "pointer",
-  zIndex: 10,
-  boxShadow:
-    "0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.12)",
-
-  "&:hover": {
-    backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
-  },
-
-  "&:active": {
-    transform: "scale(0.95)",
-  },
-});
 
 export default RestaurantDetailPage;
