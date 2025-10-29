@@ -1,5 +1,5 @@
-import { apiWithAuth } from "../instance";
+import { api } from "../instance";
 
 export const getMyPage = async () => {
-  return await apiWithAuth.get(`/member/my-page`);
+  return await api.get(`/member/my-page`);
 };

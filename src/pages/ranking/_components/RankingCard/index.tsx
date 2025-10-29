@@ -8,13 +8,13 @@ import type { components } from "@/apis/schema";
 const RankingCard = ({
   restaurant,
 }: {
-  restaurant: components["schemas"]["GetNearByResponse"];
+  restaurant: components["schemas"]["GetStoreRankingResponses"]["stores"][number];
 }) => {
   return (
     <div css={cardContainerStyle}>
       {/* 배경 이미지 */}
       <img
-        src={restaurant.imageUrl ?? "https://placehold.co/260x335"}
+        src={restaurant.mainImage ?? "https://placehold.co/260x335"}
         alt={restaurant.name}
         css={backgroundImageStyle}
       />
@@ -46,14 +46,12 @@ const RankingCard = ({
           <div css={votesContainerStyle}>
             <div css={voteItemStyle}>
               <span css={voteLabelStyle}>이번주</span>
-              <span css={voteNumberStyle}>{restaurant.ranks?.WEEKLY ?? 0}</span>
+              <span css={voteNumberStyle}>{restaurant.rank ?? 0}</span>
             </div>
             <span css={separatorStyle}>/</span>
             <div css={voteItemStyle}>
               <span css={voteLabelStyle}>이번달</span>
-              <span css={voteNumberStyle}>
-                {restaurant.ranks?.MONTHLY ?? 0}
-              </span>
+              <span css={voteNumberStyle}>{restaurant.rank ?? 0}</span>
             </div>
           </div>
         </div>

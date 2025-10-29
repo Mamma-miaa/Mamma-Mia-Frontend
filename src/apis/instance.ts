@@ -4,22 +4,24 @@ export const api = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/v1`,
 });
 
-api.interceptors.response.use(({ data }) => data);
-
-export const apiWithAuth = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/v1`,
-});
-
-apiWithAuth.interceptors.request.use((config) => {
+api.interceptors.request.use((config) => {
   const accessToken = sessionStorage.getItem("accessToken");
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
-  } else {
-    window.location.href = "/login";
   }
   return config;
 });
 
-apiWithAuth.interceptors.response.use(({ data }) => {
-  return data;
-});
+api.interceptors.response.use(
+  ({ data }) => {
+    return data;
+  },
+  (error) => {
+    if (error.response.status === 401) {
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.removeItem("refreshToken");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);

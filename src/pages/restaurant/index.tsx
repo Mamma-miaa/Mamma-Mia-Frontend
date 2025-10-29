@@ -2,8 +2,6 @@ import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react";
-import MammaMiaVoteButton from "./_assets/mamma_mia_vote_button.svg?react";
-import ClickToVoteButton from "./_assets/click_to_vote.svg?react";
 import locationImg from "@/assets/emoji/location.webp";
 import ClipBoardIcon from "./_assets/clipboard.svg?react";
 import TranslateIcon from "./_assets/translate.svg?react";
@@ -12,15 +10,15 @@ import carImg from "@/assets/emoji/car.webp";
 import deliveryImg from "@/assets/emoji/delivery.webp";
 import takeoutImg from "@/assets/emoji/takeout.webp";
 import ArrowIcon from "./_assets/arrow.svg?react";
-import BackIcon from "./_assets/back.svg?react";
-import ShareIcon from "./_assets/share.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
-import BookmarkIcon from "./_assets/bookmark.svg?react";
 import { useGetStoreDetailQuery } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
 import RestaurantBusinessHour from "./_components/RestaurantBusinessHour";
+import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
+import MammaMiaButton from "./_components/MammaMiaButton";
+import RestaurantDetailImages from "./_components/RestaurantDetailImages";
 
 export const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
   SUNDAY: { ko: "일", en: "SUNDAY" },
@@ -36,7 +34,6 @@ const TODAY = new Date().getDay();
 const TODAY_DAY_OF_WEEK = [...Object.values(DAY_OF_WEEK)][TODAY];
 
 const RestaurantDetailPage = () => {
-  const navigate = useNavigate();
   const [isTimeAccordionOpen, setIsTimeAccordionOpen] = useState(false);
   const [searchParams] = useSearchParams();
   const { data: storeDetail } = useGetStoreDetailQuery(
@@ -52,67 +49,8 @@ const RestaurantDetailPage = () => {
 
   return (
     <div css={pageContainerStyle}>
-      {/* 뒤로가기 버튼 */}
-      <button
-        css={css(
-          floatingButtonStyle,
-          css({ position: "absolute", top: 20, left: 20 })
-        )}
-        onClick={() => navigate(-1)}
-      >
-        <BackIcon />
-      </button>
-      <button
-        css={css(
-          floatingButtonStyle,
-          css({ position: "absolute", top: 20, right: 76 })
-        )}
-        type="button"
-        onClick={() => {
-          toast({ message: "개발이 필요한 기능입니다." });
-        }}
-      >
-        <BookmarkIcon />
-      </button>
-      <button
-        css={css(
-          floatingButtonStyle,
-          css({ position: "absolute", top: 20, right: 20 })
-        )}
-        type="button"
-        onClick={() => {
-          window.navigator.share({
-            title: storeDetail?.name,
-            text: storeDetail?.name,
-            url: window.location.href,
-          });
-        }}
-      >
-        <ShareIcon />
-      </button>
-
-      {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
-      <img
-        src={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
-        alt="레스토랑 배경 이미지"
-        css={restaurantBackgroundImageStyle}
-      />
-      <div
-        css={css({
-          position: "absolute",
-          top: 80,
-          left: "50%",
-          transform: "translateX(-50%)",
-          padding: "0 20px",
-          width: "100%",
-        })}
-      >
-        <img
-          src={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
-          alt="레스토랑 이미지"
-          css={restaurantImageStyle}
-        />
-      </div>
+      <RestaurantDetailHeader storeDetail={storeDetail} />
+      <RestaurantDetailImages storeDetail={storeDetail} />
 
       {/* 레스토랑 정보 카드 */}
       <div css={infoCardStyle}>
@@ -143,24 +81,7 @@ const RestaurantDetailPage = () => {
           </div>
         </div>
 
-        {/* 투표 완료 버튼 */}
-        <button
-          css={votingButtonStyle}
-          type="button"
-          onClick={() => {
-            toast({ message: "개발이 필요한 기능입니다." });
-          }}
-        >
-          <MammaMiaVoteButton />
-          <ClickToVoteButton
-            css={css({
-              position: "absolute",
-              bottom: 7.5,
-              left: "75%",
-              transform: "translateX(-50%)",
-            })}
-          />
-        </button>
+        <MammaMiaButton storeId={storeDetail.storeId} />
 
         {/* 매장 정보 */}
         <div css={storeInfoSectionStyle}>
@@ -324,25 +245,6 @@ const pageContainerStyle = css({
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
 });
 
-// 레스토랑 배경 이미지 스타일
-const restaurantBackgroundImageStyle = css({
-  width: "100%",
-  aspectRatio: "375/460",
-  objectFit: "cover",
-  filter: "blur(140px)",
-  mask: "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
-  WebkitMask:
-    "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
-});
-
-// 레스토랑 이미지 스타일
-const restaurantImageStyle = css({
-  width: "100%",
-  aspectRatio: "1/1",
-  borderRadius: 12,
-  objectFit: "cover",
-});
-
 // 정보 카드 스타일
 const infoCardStyle = css({
   position: "relative",
@@ -365,7 +267,7 @@ const infoCardStyle = css({
 const restaurantInfoSectionStyle = css({
   display: "flex",
   flexDirection: "column",
-  gap: 6,
+  gap: 4,
 });
 
 // 제목 섹션
@@ -384,14 +286,12 @@ const categoryStyle = css(
 );
 
 // 레스토랑 이름 스타일
-const restaurantNameStyle = css({
-  color: THEME.COLORS.GRAYSCALE.NORMAL,
-  margin: 0,
-  fontSize: 18,
-  fontWeight: 600,
-  lineHeight: 1.4,
-  letterSpacing: "-2%",
-});
+const restaurantNameStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.HEADERS["22B"]
+);
 
 // 맘마미아 섹션
 const mammaMiaSectionStyle = css({
@@ -438,22 +338,6 @@ const separatorStyle = css({
   fontWeight: 400,
   lineHeight: 1.4,
   letterSpacing: "-2%",
-});
-
-// 투표 버튼
-const votingButtonStyle = css({
-  height: 56,
-  position: "relative",
-  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
-  borderRadius: 8,
-  border: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: 11,
-  "&:disabled": {
-    backgroundColor: THEME.COLORS.GRAYSCALE.DISABLE,
-  },
 });
 
 // 매장 정보 섹션
@@ -584,7 +468,6 @@ const timeListStyle = css(
 const menuSectionStyle = css({
   display: "flex",
   flexDirection: "column",
-  gap: 12,
 });
 
 // 메뉴 리스트
@@ -718,29 +601,5 @@ const reportTextStyle = css(
   },
   TYPOGRAPHY.SUB["12R"]
 );
-
-// 뒤로가기 버튼 스타일
-const floatingButtonStyle = css({
-  width: 44,
-  height: 44,
-  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-  borderRadius: 28,
-  border: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  cursor: "pointer",
-  zIndex: 10,
-  boxShadow:
-    "0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.12)",
-
-  "&:hover": {
-    backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
-  },
-
-  "&:active": {
-    transform: "scale(0.95)",
-  },
-});
 
 export default RestaurantDetailPage;

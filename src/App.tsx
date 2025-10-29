@@ -9,6 +9,7 @@ import SearchPage from "./pages/search";
 import LoginPage from "./pages/login";
 import LoginRedirectPage from "./pages/login/oauth";
 import MyPage from "./pages/my";
+import SearchResultPage from "./pages/search/result";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/search",
-        element: <SearchPage />,
+        children: [
+          {
+            index: true,
+            element: <SearchPage />,
+          },
+          {
+            path: "/search/result",
+            element: <SearchResultPage />,
+          },
+        ],
       },
       {
         path: "/login",
