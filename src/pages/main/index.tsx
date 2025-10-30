@@ -29,6 +29,10 @@ import { AnimatePresence } from "motion/react";
 import TYPOGRAPHY from "@/constants/typography";
 import ResetIcon from "./_assets/reset.svg?react";
 
+function isCategoryKey(key: string): key is keyof typeof 카테고리_이미지 {
+  return key in 카테고리_이미지;
+}
+
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const kakaoMap = useRef<kakao.maps.Map | null>(null);
@@ -165,6 +169,7 @@ const MainPage = () => {
       overlay.setMap(null);
     });
     customOverlays.current = nearbyStore.items.map((restaurant) => {
+      const { category } = restaurant;
       // 커스텀 오버레이 생성
       return new kakao.maps.CustomOverlay({
         map: kakaoMap.current!,
@@ -178,9 +183,9 @@ const MainPage = () => {
           <OverlayMarker>
             <img
               src={
-                카테고리_이미지[
-                  restaurant.category as keyof typeof 카테고리_이미지
-                ]
+                isCategoryKey(category)
+                  ? 카테고리_이미지[category]
+                  : 카테고리_이미지["한식/백반"]
               }
               style={{
                 width: "20px",
