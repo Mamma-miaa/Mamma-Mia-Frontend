@@ -1,10 +1,15 @@
 import type { components } from "@/apis/schema";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import {
   getNearbyStore,
   getRanking,
   getSearchedStores,
   getStoreDetail,
+  postBookmark,
+  deleteBookmark,
+  postMammaMia,
+  getMammaMia,
+  getBookmark,
 } from "@/apis/store";
 
 export const useGetNearbyStoreQuery = (
@@ -49,4 +54,35 @@ export const useGetSearchedStoresQuery = (
   useSuspenseQuery({
     queryKey: ["getSearchedStores", params.keyword],
     queryFn: () => getSearchedStores(params),
+  });
+
+export const useGetMammaMiaQuery = (
+  params: Parameters<typeof getMammaMia>[0]
+) =>
+  useSuspenseQuery({
+    queryKey: ["getMammaMia", params.storeId],
+    queryFn: () => getMammaMia(params),
+  });
+
+export const usePostMammaMiaMutation = () =>
+  useMutation({
+    mutationFn: postMammaMia,
+  });
+
+export const usePostBookmarkMutation = () =>
+  useMutation({
+    mutationFn: postBookmark,
+  });
+
+export const useDeleteBookmarkMutation = () =>
+  useMutation({
+    mutationFn: deleteBookmark,
+  });
+
+export const useGetBookmarkQuery = (
+  params: Parameters<typeof getBookmark>[0]
+) =>
+  useSuspenseQuery({
+    queryKey: ["getBookmark", params],
+    queryFn: () => getBookmark(params),
   });
