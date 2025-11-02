@@ -29,6 +29,12 @@ export const getSearchedStores = async (
   return await api.get("/store/search", { params });
 };
 
+export const getMammaMia = async (
+  params: paths["/api/v1/store/like"]["get"]["parameters"]["query"]["request"]
+): Promise<components["schemas"]["GetMammaMiaCountResponse"]> => {
+  return await api.get("/store/like", { params });
+};
+
 export const postMammaMia = async (
   data: paths["/api/v1/store/like"]["post"]["requestBody"]["content"]["application/json"]
 ): Promise<components["schemas"]["ApplyStoreLikeRequest"]> => {

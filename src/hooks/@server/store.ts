@@ -8,6 +8,7 @@ import {
   postBookmark,
   deleteBookmark,
   postMammaMia,
+  getMammaMia,
 } from "@/apis/store";
 
 export const useGetNearbyStoreQuery = (
@@ -67,4 +68,12 @@ export const usePostBookmarkMutation = () =>
 export const useDeleteBookmarkMutation = () =>
   useMutation({
     mutationFn: deleteBookmark,
+  });
+
+export const useGetMammaMiaQuery = (
+  params: Parameters<typeof getMammaMia>[0]
+) =>
+  useSuspenseQuery({
+    queryKey: ["getMammaMia", params.storeId],
+    queryFn: () => getMammaMia(params),
   });
