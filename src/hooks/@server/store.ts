@@ -8,6 +8,8 @@ import {
   postBookmark,
   deleteBookmark,
   postMammaMia,
+  getMammaMia,
+  getBookmark,
 } from "@/apis/store";
 
 export const useGetNearbyStoreQuery = (
@@ -54,6 +56,14 @@ export const useGetSearchedStoresQuery = (
     queryFn: () => getSearchedStores(params),
   });
 
+export const useGetMammaMiaQuery = (
+  params: Parameters<typeof getMammaMia>[0]
+) =>
+  useSuspenseQuery({
+    queryKey: ["getMammaMia", params.storeId],
+    queryFn: () => getMammaMia(params),
+  });
+
 export const usePostMammaMiaMutation = () =>
   useMutation({
     mutationFn: postMammaMia,
@@ -67,4 +77,12 @@ export const usePostBookmarkMutation = () =>
 export const useDeleteBookmarkMutation = () =>
   useMutation({
     mutationFn: deleteBookmark,
+  });
+
+export const useGetBookmarkQuery = (
+  params: Parameters<typeof getBookmark>[0]
+) =>
+  useSuspenseQuery({
+    queryKey: ["getBookmark", params],
+    queryFn: () => getBookmark(params),
   });

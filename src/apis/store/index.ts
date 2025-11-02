@@ -29,16 +29,32 @@ export const getSearchedStores = async (
   return await api.get("/store/search", { params });
 };
 
+export const getMammaMia = async (
+  params: paths["/api/v1/store/like"]["get"]["parameters"]["query"]["request"]
+): Promise<components["schemas"]["GetStoreLikeResponse"]> => {
+  return await api.get("/store/like", { params });
+};
+
 export const postMammaMia = async (
   data: paths["/api/v1/store/like"]["post"]["requestBody"]["content"]["application/json"]
 ): Promise<components["schemas"]["ApplyStoreLikeRequest"]> => {
-  return await api.post("/store/like", { data });
+  return await api.post("/store/like", data);
 };
 
-export const postBookmark = async ({ id }: { id: number }): Promise<void> => {
-  return await api.post(`/store/${id}/bookmark`);
+export const getBookmark = async (
+  params: paths["/api/v1/store/like"]["get"]["parameters"]["query"]["request"]
+): Promise<components["schemas"]["GetStoreBookmarkResponse"]> => {
+  return await api.get(`/store/${params.storeId}/bookmark`);
 };
 
-export const deleteBookmark = async ({ id }: { id: number }): Promise<void> => {
-  return await api.delete(`/store/${id}/bookmark`);
+export const postBookmark = async (
+  params: paths["/api/v1/store/like"]["get"]["parameters"]["query"]["request"]
+): Promise<void> => {
+  return await api.post(`/store/${params.storeId}/bookmark`);
+};
+
+export const deleteBookmark = async (
+  params: paths["/api/v1/store/like"]["get"]["parameters"]["query"]["request"]
+): Promise<void> => {
+  return await api.delete(`/store/${params.storeId}/bookmark`);
 };

@@ -1,11 +1,18 @@
 import THEME from "@/constants/theme";
-import MammaMiaVoteButton from "../_assets/mamma_mia_vote_button.svg?react";
-import ClickToVoteButton from "../_assets/click_to_vote.svg?react";
-import { usePostMammaMiaMutation } from "@/hooks/@server/store";
+import ClickToVote from "../_assets/click_to_vote.svg?react";
+import MammaMia from "../_assets/mamma_mia.svg?react";
+import VotingCompleted from "../_assets/voting_completed.svg?react";
+import {
+  useGetMammaMiaQuery,
+  usePostMammaMiaMutation,
+} from "@/hooks/@server/store";
 import { css } from "@emotion/react";
 import toast from "@/utils/toast";
 
 const MammaMiaButton = ({ storeId }: { storeId: number }) => {
+  const { data: mammaMiaData, refetch: refetchMammaMia } = useGetMammaMiaQuery({
+    storeId: storeId,
+  });
   const { mutate: postMammaMia } = usePostMammaMiaMutation();
 
   const handlePostMammaMia = () => {
@@ -14,6 +21,7 @@ const MammaMiaButton = ({ storeId }: { storeId: number }) => {
       {
         onSuccess: () => {
           toast({ message: "맘마미아 투표에 성공하였습니다." });
+          refetchMammaMia();
         },
         onError: () => {
           toast({ message: "맘마미아 투표에 실패하였습니다." });
@@ -23,16 +31,27 @@ const MammaMiaButton = ({ storeId }: { storeId: number }) => {
   };
 
   return (
-    <button css={votingButtonStyle} type="button" onClick={handlePostMammaMia}>
-      <MammaMiaVoteButton />
-      <ClickToVoteButton
-        css={css({
-          position: "absolute",
-          bottom: 7.5,
-          left: "75%",
-          transform: "translateX(-50%)",
-        })}
-      />
+    <button
+      css={votingButtonStyle}
+      type="button"
+      onClick={handlePostMammaMia}
+      disabled={mammaMiaData?.isLike}
+    >
+      {mammaMiaData?.isLike ? (
+        <VotingCompleted />
+      ) : (
+        <>
+          <MammaMia />
+          <ClickToVote
+            css={css({
+              position: "absolute",
+              bottom: 7.5,
+              left: "75%",
+              transform: "translateX(-50%)",
+            })}
+          />
+        </>
+      )}
     </button>
   );
 };
