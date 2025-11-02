@@ -31,7 +31,7 @@ export const getSearchedStores = async (
 
 export const getMammaMia = async (
   params: paths["/api/v1/store/like"]["get"]["parameters"]["query"]["request"]
-): Promise<components["schemas"]["GetMammaMiaCountResponse"]> => {
+): Promise<components["schemas"]["GetStoreLikeResponse"]> => {
   return await api.get("/store/like", { params });
 };
 
