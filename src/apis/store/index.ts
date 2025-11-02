@@ -32,7 +32,7 @@ export const getSearchedStores = async (
 export const postMammaMia = async (
   data: paths["/api/v1/store/like"]["post"]["requestBody"]["content"]["application/json"]
 ): Promise<components["schemas"]["ApplyStoreLikeRequest"]> => {
-  return await api.post("/store/like", { data });
+  return await api.post("/store/like", data);
 };
 
 export const postBookmark = async ({ id }: { id: number }): Promise<void> => {
