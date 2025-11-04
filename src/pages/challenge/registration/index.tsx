@@ -1,7 +1,4 @@
 import { css } from "@emotion/react";
-import ExitIcon from "./_assets/exit.svg?react";
-import registrationTitle from "./_assets/registration.webp";
-import { useNavigate } from "react-router-dom";
 import Spacing from "@/@lib/components/Spacing";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
@@ -9,33 +6,15 @@ import ArrowDownIcon from "./_assets/arrow_down.svg?react";
 import SearchIcon from "./_assets/search.svg?react";
 import PlusIcon from "./_assets/plus.svg?react";
 import { useState } from "react";
+import ChallengeRegistrationPageHeader from "./_components/ChallengeRegistrationPageHeader";
 
 const ChallengeRegistrationPage = () => {
-  const navigate = useNavigate();
   const [comment, setComment] = useState("");
   const [photoCount] = useState(0);
 
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
-      {/* 헤더 */}
-      <div css={css({ padding: "16px 20px" })}>
-        <ExitIcon onClick={() => navigate(-1)} />
-      </div>
-      {/* 제목 */}
-      <Spacing size={20} />
-      <div
-        css={css({
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        })}
-      >
-        <img
-          src={registrationTitle}
-          alt="registration title"
-          css={css({ width: 200, height: "auto" })}
-        />
-      </div>
+      <ChallengeRegistrationPageHeader />
       <Spacing size={20} />
       {/* 내용 */}
       <div css={contentContainerStyle}>
