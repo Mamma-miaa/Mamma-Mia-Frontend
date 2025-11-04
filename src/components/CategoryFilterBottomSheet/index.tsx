@@ -20,7 +20,7 @@ import 피자_패스트푸드 from "@/assets/graphics/피자_패스트푸드.web
 import 한식_백반 from "@/assets/graphics/한식_백반.webp";
 import 회_해산물 from "@/assets/graphics/회_해산물.webp";
 import styled from "@emotion/styled";
-import FilterBottomSheet from "./FilterBottomSheet";
+import FilterBottomSheet from "@/components/FilterBottomSheet";
 
 interface CategoryChipProps {
   id: string;
@@ -45,14 +45,16 @@ const CategoryChip = ({
   );
 };
 
-const 카테고리_필터링_바텀시트 = ({
+const CategoryFilteringBottomSheet = ({
   isOpen,
   onClose,
   initialSelectedCategories,
+  description,
 }: {
   isOpen: boolean;
   onClose: (param: string[] | null) => void;
   initialSelectedCategories: string[];
+  description: string;
 }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     initialSelectedCategories
@@ -102,7 +104,7 @@ const 카테고리_필터링_바텀시트 = ({
       onClose={() => onClose(null)}
       onApply={handleApply}
       title="카테고리"
-      description="먹고싶은 음식의 카테고리를 설정해주세요."
+      description={description}
       onReset={handleReset}
       isApplyButtonDisabled={isApplyButtonDisabled}
     >
@@ -153,4 +155,4 @@ const imageStyle = css({
   borderRadius: 2,
 });
 
-export default 카테고리_필터링_바텀시트;
+export default CategoryFilteringBottomSheet;

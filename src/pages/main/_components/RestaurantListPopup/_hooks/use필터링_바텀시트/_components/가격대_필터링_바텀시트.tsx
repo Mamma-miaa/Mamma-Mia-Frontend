@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
-import FilterBottomSheet from "./FilterBottomSheet";
+import FilterBottomSheet from "@/components/FilterBottomSheet";
 
 const 가격대_필터링_바텀시트 = ({
   isOpen,
