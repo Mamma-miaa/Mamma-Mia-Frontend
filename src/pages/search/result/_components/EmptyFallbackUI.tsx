@@ -3,8 +3,15 @@ import TYPOGRAPHY from "@/constants/typography";
 import { css } from "@emotion/react";
 import ArrowRightIcon from "../_assets/arrow_right.svg?react";
 import EmptyIcon from "@/assets/empty_icon.svg?react";
+import { useNavigate } from "react-router-dom";
 
 const EmptyFallbackUI = () => {
+  const navigate = useNavigate();
+
+  const handleRegisterButtonClick = () => {
+    navigate("/challenge/registration");
+  };
+
   return (
     <div css={containerStyle}>
       <div css={emptyStateSectionStyle}>
@@ -31,13 +38,7 @@ const EmptyFallbackUI = () => {
           </ul>
         </div>
 
-        <button
-          css={registerButtonStyle}
-          onClick={() => {
-            // TODO: 도전맛집 등록 페이지로 이동
-            console.log("도전맛집 등록하기 클릭");
-          }}
-        >
+        <button css={registerButtonStyle} onClick={handleRegisterButtonClick}>
           <span css={registerButtonSubTextStyle}>👉 찾는 맛집이 없다면</span>
           <div css={registerButtonMainContentStyle}>
             <span css={registerButtonMainTextStyle}>도전맛집 등록하기</span>
