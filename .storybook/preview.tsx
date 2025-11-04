@@ -1,7 +1,5 @@
 import React from "react";
 import type { Preview } from "@storybook/react-vite";
-import globalStyles from "../src/styles/globalStyles";
-import { Global } from "@emotion/react";
 import Provider from "../src/Provider";
 
 const preview: Preview = {
@@ -16,7 +14,6 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <Provider>
-        <Global styles={globalStyles} />
         <Story />
       </Provider>
     ),
