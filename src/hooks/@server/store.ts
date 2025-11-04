@@ -11,7 +11,7 @@ import {
   getMammaMia,
   getBookmark,
 } from "@/apis/store";
-import { isLoggedIn } from "@/utils/sessionStorage";
+import { getIsLoggedIn } from "@/utils/sessionStorage";
 
 export const useGetNearbyStoreQuery = (
   params: components["schemas"]["GetNearByStoreRequest"]
@@ -63,7 +63,7 @@ export const useGetMammaMiaQuery = (
   useQuery({
     queryKey: ["getMammaMia", params.storeId],
     queryFn: () => getMammaMia(params),
-    enabled: isLoggedIn,
+    enabled: getIsLoggedIn(),
   });
 
 export const usePostMammaMiaMutation = () =>
@@ -87,5 +87,5 @@ export const useGetBookmarkQuery = (
   useQuery({
     queryKey: ["getBookmark", params],
     queryFn: () => getBookmark(params),
-    enabled: isLoggedIn,
+    enabled: getIsLoggedIn(),
   });

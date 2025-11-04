@@ -8,7 +8,7 @@ import {
 } from "@/hooks/@server/store";
 import { css } from "@emotion/react";
 import toast from "@/utils/toast";
-import { isLoggedIn } from "@/utils/sessionStorage";
+import { getIsLoggedIn } from "@/utils/sessionStorage";
 
 const MammaMiaButton = ({ storeId }: { storeId: number }) => {
   const { data: mammaMiaData, refetch: refetchMammaMia } = useGetMammaMiaQuery({
@@ -18,7 +18,7 @@ const MammaMiaButton = ({ storeId }: { storeId: number }) => {
 
   const handlePostMammaMia = () => {
     // TODO 로그인 화면이동 컨펌팝업으로 고도화 필요
-    if (!isLoggedIn) {
+    if (!getIsLoggedIn()) {
       toast({ message: "로그인 후 이용해주세요." });
       return;
     }
