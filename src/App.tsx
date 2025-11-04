@@ -8,6 +8,7 @@ import LoginPage from "./pages/login";
 import LoginRedirectPage from "./pages/login/oauth";
 import MyPage from "./pages/my";
 import SearchResultPage from "./pages/search/result";
+import ChallengeRegistrationPage from "./pages/challenge/registration";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "/my",
         element: <MyPage />,
+      },
+      {
+        path: "/challenge/registration",
+        element: <ChallengeRegistrationPage />,
       },
     ],
   },
