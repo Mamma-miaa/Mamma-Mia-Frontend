@@ -7,9 +7,22 @@ import medalImg from "@/assets/emoji/medal.webp";
 import personImg from "@/assets/emoji/person.webp";
 import toast from "@/utils/toast";
 import { useNavigate } from "react-router-dom";
+import { getIsLoggedIn } from "@/utils/sessionStorage";
+import { openLoginModal } from "@/components/ConfirmModal/utils";
 
 const TopNavigation = () => {
   const navigate = useNavigate();
+
+  const handleClickMyButton = async () => {
+    if (!getIsLoggedIn()) {
+      const isOk = await openLoginModal();
+      if (isOk) {
+        navigate("/login");
+      }
+      return;
+    }
+    navigate("/my");
+  };
 
   return (
     <div css={buttonContainerStyle}>
@@ -30,12 +43,7 @@ const TopNavigation = () => {
       >
         <img src={medalImg} alt="랭킹" width={20} height={20} /> 랭킹
       </Button>
-      <Button
-        type="button"
-        onClick={() => {
-          navigate("/my");
-        }}
-      >
+      <Button type="button" onClick={handleClickMyButton}>
         <img src={personImg} alt="MY" width={20} height={20} /> MY
       </Button>
     </div>

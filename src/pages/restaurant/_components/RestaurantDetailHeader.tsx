@@ -12,7 +12,8 @@ import {
 } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
 import type { components } from "@/apis/schema";
-import { isLoggedIn } from "@/utils/sessionStorage";
+import { getIsLoggedIn } from "@/utils/sessionStorage";
+import { openLoginModal } from "@/components/ConfirmModal/utils";
 
 const RestaurantDetailHeader = ({
   storeDetail,
@@ -27,10 +28,12 @@ const RestaurantDetailHeader = ({
   const { mutate: deleteBookmark } = useDeleteBookmarkMutation();
 
   // TODO 응답에 맘마미아 상태 포함시키는 작업 완료되면 맘마미아 토글기능 작업
-  const handlePostBookmark = () => {
-    // TODO 로그인 화면이동 컨펌팝업으로 고도화 필요
-    if (!isLoggedIn) {
-      toast({ message: "로그인 후 이용해주세요." });
+  const handlePostBookmark = async () => {
+    if (!getIsLoggedIn()) {
+      const isOk = await openLoginModal();
+      if (isOk) {
+        navigate("/login");
+      }
       return;
     }
     postBookmark(

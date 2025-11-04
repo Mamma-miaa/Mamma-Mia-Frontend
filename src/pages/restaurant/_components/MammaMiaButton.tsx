@@ -8,20 +8,26 @@ import {
 } from "@/hooks/@server/store";
 import { css } from "@emotion/react";
 import toast from "@/utils/toast";
-import { isLoggedIn } from "@/utils/sessionStorage";
+import { getIsLoggedIn } from "@/utils/sessionStorage";
+import { openLoginModal } from "@/components/ConfirmModal/utils";
+import { useNavigate } from "react-router-dom";
 
 const MammaMiaButton = ({ storeId }: { storeId: number }) => {
   const { data: mammaMiaData, refetch: refetchMammaMia } = useGetMammaMiaQuery({
     storeId: storeId,
   });
   const { mutate: postMammaMia } = usePostMammaMiaMutation();
+  const navigate = useNavigate();
 
-  const handlePostMammaMia = () => {
-    // TODO 로그인 화면이동 컨펌팝업으로 고도화 필요
-    if (!isLoggedIn) {
-      toast({ message: "로그인 후 이용해주세요." });
+  const handlePostMammaMia = async () => {
+    if (!getIsLoggedIn()) {
+      const isOk = await openLoginModal();
+      if (isOk) {
+        navigate("/login");
+      }
       return;
     }
+
     postMammaMia(
       { storeId: storeId },
       {
