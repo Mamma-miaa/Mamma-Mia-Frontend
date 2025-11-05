@@ -88,7 +88,8 @@ const resetCSS = css`
   time,
   mark,
   audio,
-  video {
+  video,
+  button {
     margin: 0;
     padding: 0;
     border: 0;
