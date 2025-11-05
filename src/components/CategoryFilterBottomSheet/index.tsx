@@ -50,11 +50,13 @@ const CategoryFilteringBottomSheet = ({
   onClose,
   initialSelectedCategories,
   description,
+  isSingleSelect,
 }: {
   isOpen: boolean;
   onClose: (param: string[] | null) => void;
   initialSelectedCategories: string[];
   description: string;
+  isSingleSelect?: boolean;
 }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     initialSelectedCategories
@@ -79,6 +81,11 @@ const CategoryFilteringBottomSheet = ({
   ];
 
   const handleCategoryClick = (categoryId: string) => {
+    if (isSingleSelect) {
+      setSelectedCategories([categoryId]);
+      return;
+    }
+
     setSelectedCategories((prev) =>
       prev.includes(categoryId)
         ? prev.filter((id) => id !== categoryId)

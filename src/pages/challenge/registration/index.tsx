@@ -8,10 +8,23 @@ import PlusIcon from "./_assets/plus.svg?react";
 import { useState } from "react";
 import ChallengeRegistrationPageHeader from "./_components/ChallengeRegistrationPageHeader";
 import VIEWPORT from "@/constants/viewport";
+import { openCategoryFilteringBottomSheet } from "@/components/CategoryFilterBottomSheet/utils";
 
 const ChallengeRegistrationPage = () => {
   const [comment, setComment] = useState("");
   const [photoCount] = useState(0);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  const handleCategorySelect = async () => {
+    const categories = await openCategoryFilteringBottomSheet({
+      initialSelectedCategories: [],
+      description: "등록할 음식점의 음식 카테고리를 설정해주세요.",
+      isSingleSelect: true,
+    });
+    if (categories) {
+      setSelectedCategories(categories);
+    }
+  };
 
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
@@ -34,7 +47,7 @@ const ChallengeRegistrationPage = () => {
           <label css={[labelStyle, labelRequiredStyle]}>
             음식 카테고리 선택
           </label>
-          <div css={selectBoxStyle}>
+          <div css={selectBoxStyle} onClick={handleCategorySelect}>
             <span css={selectTextStyle}>카테고리를 선택해주세요.</span>
             <ArrowDownIcon css={iconStyle} />
           </div>
