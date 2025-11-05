@@ -7,6 +7,7 @@ import SearchIcon from "./_assets/search.svg?react";
 import PlusIcon from "./_assets/plus.svg?react";
 import { useState } from "react";
 import ChallengeRegistrationPageHeader from "./_components/ChallengeRegistrationPageHeader";
+import VIEWPORT from "@/constants/viewport";
 
 const ChallengeRegistrationPage = () => {
   const [comment, setComment] = useState("");
@@ -83,7 +84,11 @@ const ChallengeRegistrationPage = () => {
           </button>
         </div>
 
-        <button css={CTAButtonStyle}>다음</button>
+        <Spacing size={100} />
+
+        <div css={ctaButtonContainerStyle}>
+          <button css={CTAButtonStyle}>다음</button>
+        </div>
       </div>
     </div>
   );
@@ -286,5 +291,18 @@ const CTAButtonStyle = css(
   },
   TYPOGRAPHY.HEADERS["16SB"]
 );
+
+const ctaButtonContainerStyle = css({
+  maxWidth: VIEWPORT.MAX_WIDTH,
+  width: "100%",
+  position: "fixed",
+  bottom: 0,
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 1000,
+  padding: "20px 20px 24px 20px",
+  background:
+    "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 19%)",
+});
 
 export default ChallengeRegistrationPage;
