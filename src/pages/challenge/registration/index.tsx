@@ -48,7 +48,13 @@ const ChallengeRegistrationPage = () => {
             음식 카테고리 선택
           </label>
           <div css={selectBoxStyle} onClick={handleCategorySelect}>
-            <span css={selectTextStyle}>카테고리를 선택해주세요.</span>
+            {selectedCategories.length > 0 ? (
+              <span css={selectTextStyle}>{selectedCategories.join(", ")}</span>
+            ) : (
+              <span css={selectTextPlaceHolderStyle}>
+                카테고리를 선택해주세요.
+              </span>
+            )}
             <ArrowDownIcon css={iconStyle} />
           </div>
         </div>
@@ -189,6 +195,13 @@ const selectBoxStyle = css({
 });
 
 const selectTextStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+const selectTextPlaceHolderStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
     textAlign: "center",
