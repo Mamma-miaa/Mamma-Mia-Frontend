@@ -10,6 +10,7 @@ import ChallengeRegistrationPageHeader from "./_components/ChallengeRegistration
 import VIEWPORT from "@/constants/viewport";
 import { openCategoryFilteringBottomSheet } from "@/components/CategoryFilterBottomSheet/utils";
 import PhotoRemoveIcon from "./_assets/photo_remove.svg?react";
+import useTextInput from "@/hooks/useTextInput";
 
 interface PhotoFile {
   file: File;
@@ -17,10 +18,10 @@ interface PhotoFile {
 }
 
 const ChallengeRegistrationPage = () => {
-  const [comment, setComment] = useState("");
   const [photos, setPhotos] = useState<PhotoFile[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { value: comment, handleChange: handleCommentChange } = useTextInput();
 
   const handleCategorySelect = async () => {
     const categories = await openCategoryFilteringBottomSheet({
@@ -178,7 +179,7 @@ const ChallengeRegistrationPage = () => {
               css={textareaStyle}
               placeholder="이 매장을 맛집으로 추천하는 이유가 무엇인가요? 자유로운 의견을 남겨주세요."
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              onChange={handleCommentChange}
               maxLength={300}
             />
             <div css={commentCountStyle}>{comment.length}/300</div>
