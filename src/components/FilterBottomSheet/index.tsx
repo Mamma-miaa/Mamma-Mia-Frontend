@@ -14,6 +14,7 @@ interface FilterBottomSheetProps {
   description?: string;
   children?: React.ReactNode;
   isApplyButtonDisabled?: boolean;
+  ctaButtonText?: string;
 }
 
 const FilterBottomSheet = ({
@@ -25,6 +26,7 @@ const FilterBottomSheet = ({
   description,
   children,
   isApplyButtonDisabled,
+  ctaButtonText,
 }: FilterBottomSheetProps) => {
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>
@@ -58,7 +60,7 @@ const FilterBottomSheet = ({
           disabled={isApplyButtonDisabled}
           onClick={onApply}
         >
-          설정완료
+          {ctaButtonText || "설정완료"}
         </button>
       </div>
     </BottomSheet>

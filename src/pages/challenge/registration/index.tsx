@@ -11,6 +11,7 @@ import VIEWPORT from "@/constants/viewport";
 import { openCategoryFilteringBottomSheet } from "@/components/CategoryFilterBottomSheet/utils";
 import PhotoRemoveIcon from "./_assets/photo_remove.svg?react";
 import useTextInput from "@/hooks/useTextInput";
+import { openRecommendedMenuRegisterBottomSheet } from "./_components/RecommendedMenuRegisterBottomSheet";
 
 interface PhotoFile {
   file: File;
@@ -22,6 +23,7 @@ const ChallengeRegistrationPage = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { value: comment, handleChange: handleCommentChange } = useTextInput();
+  const [recommendedMenu, setRecommendedMenu] = useState<string[]>([]);
 
   const handleCategorySelect = async () => {
     const categories = await openCategoryFilteringBottomSheet({
@@ -69,6 +71,13 @@ const ChallengeRegistrationPage = () => {
       newPhotos.splice(index, 1);
       return newPhotos;
     });
+  };
+
+  const handleRecommendedMenuRegister = async () => {
+    const recommendedMenu = await openRecommendedMenuRegisterBottomSheet();
+    if (recommendedMenu) {
+      setRecommendedMenu(recommendedMenu as string[]);
+    }
   };
 
   // 컴포넌트 언마운트 시 메모리 정리
@@ -189,7 +198,7 @@ const ChallengeRegistrationPage = () => {
         {/* 05: 추천 메뉴 */}
         <div css={sectionContainerStyle}>
           <label css={[labelStyle, labelRequiredStyle]}>추천 메뉴</label>
-          <button css={buttonStyle}>
+          <button css={buttonStyle} onClick={handleRecommendedMenuRegister}>
             <PlusIcon css={iconStyle} />
             <span css={buttonTextStyle}>메뉴 등록하기</span>
           </button>
