@@ -5,15 +5,22 @@ import TYPOGRAPHY from "@/constants/typography";
 import ArrowDownIcon from "./_assets/arrow_down.svg?react";
 import SearchIcon from "./_assets/search.svg?react";
 import PlusIcon from "./_assets/plus.svg?react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import ChallengeRegistrationPageHeader from "./_components/ChallengeRegistrationPageHeader";
 import VIEWPORT from "@/constants/viewport";
 import { openCategoryFilteringBottomSheet } from "@/components/CategoryFilterBottomSheet/utils";
+import PhotoRemoveIcon from "./_assets/photo_remove.svg?react";
+
+interface PhotoFile {
+  file: File;
+  preview: string;
+}
 
 const ChallengeRegistrationPage = () => {
   const [comment, setComment] = useState("");
-  const [photoCount] = useState(0);
+  const [photos, setPhotos] = useState<PhotoFile[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleCategorySelect = async () => {
     const categories = await openCategoryFilteringBottomSheet({
@@ -25,6 +32,52 @@ const ChallengeRegistrationPage = () => {
       setSelectedCategories(categories);
     }
   };
+
+  const handlePhotoSelect = () => {
+    if (photos.length >= 3) {
+      return;
+    }
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const remainingSlots = 3 - photos.length;
+    const filesToAdd = Array.from(files).slice(0, remainingSlots);
+
+    const newPhotos: PhotoFile[] = filesToAdd.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+
+    setPhotos((prev) => [...prev, ...newPhotos]);
+
+    // input 초기화
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handlePhotoRemove = (index: number) => {
+    setPhotos((prev) => {
+      const newPhotos = [...prev];
+      // 이전 URL 해제
+      URL.revokeObjectURL(newPhotos[index].preview);
+      newPhotos.splice(index, 1);
+      return newPhotos;
+    });
+  };
+
+  // 컴포넌트 언마운트 시 메모리 정리
+  useEffect(() => {
+    return () => {
+      photos.forEach((photo) => {
+        URL.revokeObjectURL(photo.preview);
+      });
+    };
+  }, [photos]);
 
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
@@ -71,12 +124,50 @@ const ChallengeRegistrationPage = () => {
         {/* 03: 사진 */}
         <div css={photoSectionContainerStyle}>
           <label css={[labelStyle, labelRequiredStyle]}>사진</label>
-          <div css={photoUploadBoxStyle}>
-            <div css={photoUploadContentStyle}>
-              <PlusIcon css={iconStyle} />
-              <span css={photoCountStyle}>({photoCount}/3)</span>
-            </div>
+          <div css={photoListContainerStyle}>
+            {photos.map((photo, index) => (
+              <div key={index} css={photoItemStyle}>
+                <img
+                  src={photo.preview}
+                  alt={`사진 ${index + 1}`}
+                  css={photoImageStyle}
+                />
+                <PhotoRemoveIcon
+                  width={28}
+                  height={28}
+                  css={photoRemoveButtonStyle}
+                  onClick={() => handlePhotoRemove(index)}
+                />
+              </div>
+            ))}
+            {photos.length < 3 && (
+              <div
+                css={photoUploadBoxStyle}
+                onClick={handlePhotoSelect}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handlePhotoSelect();
+                  }
+                }}
+              >
+                <div css={photoUploadContentStyle}>
+                  <PlusIcon css={iconStyle} />
+                  <span css={photoCountStyle}>({photos.length}/3)</span>
+                </div>
+              </div>
+            )}
           </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleFileChange}
+            css={hiddenInputStyle}
+          />
         </div>
 
         {/* 04: 코멘트 */}
@@ -239,12 +330,12 @@ const photoSectionContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 12,
-  width: 92,
 });
 
 const photoUploadBoxStyle = css({
-  width: "100%",
+  width: 92,
   height: 92,
+  flexShrink: 0,
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
   border: `1px dashed ${THEME.COLORS.LINE.NORMAL}`,
   borderRadius: 8,
@@ -267,6 +358,43 @@ const photoCountStyle = css(
   },
   TYPOGRAPHY.BODY["14R"]
 );
+
+const photoListContainerStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  gap: 8,
+  overflowX: "auto",
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
+  scrollbarWidth: "none",
+});
+
+const photoItemStyle = css({
+  position: "relative",
+  flexShrink: 0,
+  width: 92,
+  height: 92,
+});
+
+const photoImageStyle = css({
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  borderRadius: 8,
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+});
+
+const photoRemoveButtonStyle = css({
+  position: "absolute",
+  top: 4,
+  right: 4,
+  borderRadius: "50%",
+});
+
+const hiddenInputStyle = css({
+  display: "none",
+});
 
 const commentContainerStyle = css({
   display: "flex",
