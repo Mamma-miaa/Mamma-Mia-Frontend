@@ -13,3 +13,26 @@ export const openLoginModal = () => {
     />
   ));
 };
+
+export const openConfirmModal = ({
+  title,
+  description,
+  cancelText,
+  confirmText,
+}: {
+  title: string;
+  description: string;
+  cancelText: string;
+  confirmText: string;
+}) => {
+  return overlay.openAsync<boolean>(({ isOpen, close }) => (
+    <ConfirmModal
+      isOpen={isOpen}
+      onClose={close}
+      title={title}
+      description={description}
+      cancelText={cancelText}
+      confirmText={confirmText}
+    />
+  ));
+};
