@@ -5,6 +5,7 @@ import TYPOGRAPHY from "@/constants/typography";
 import ArrowDownIcon from "./_assets/arrow_down.svg?react";
 import SearchIcon from "./_assets/search.svg?react";
 import PlusIcon from "./_assets/plus.svg?react";
+import ArrowRightIcon from "@/pages/search/result/_assets/arrow_right.svg?react";
 import { useState, useRef, useEffect } from "react";
 import ChallengeRegistrationPageHeader from "./_components/ChallengeRegistrationPageHeader";
 import VIEWPORT from "@/constants/viewport";
@@ -136,14 +137,31 @@ const ChallengeRegistrationPage = () => {
         {/* 02: 맛집 등록 */}
         <div css={sectionContainerStyle}>
           <label css={[labelStyle, labelRequiredStyle]}>맛집 등록</label>
-          <button css={buttonStyle} onClick={handleRestaurantSearch}>
-            <SearchIcon css={iconStyle} />
-            <span css={buttonTextStyle}>
-              {selectedRestaurant
-                ? selectedRestaurant.place_name
-                : "맛집 검색하기"}
-            </span>
-          </button>
+          {selectedRestaurant ? (
+            <div css={restaurantInfoBoxStyle} onClick={handleRestaurantSearch}>
+              <div css={restaurantInfoContentStyle}>
+                <div css={restaurantInfoRowStyle}>
+                  <span css={restaurantNameStyle}>
+                    {selectedRestaurant.place_name}
+                  </span>
+                </div>
+                <div css={restaurantInfoRowStyle}>
+                  <span css={restaurantAddressStyle}>
+                    {selectedRestaurant.road_address_name}
+                  </span>
+                  <span css={restaurantAddressDetailStyle}>
+                    {selectedRestaurant.address_name}
+                  </span>
+                </div>
+              </div>
+              <ArrowRightIcon css={iconStyle} />
+            </div>
+          ) : (
+            <button css={buttonStyle} onClick={handleRestaurantSearch}>
+              <SearchIcon css={iconStyle} />
+              <span css={buttonTextStyle}>맛집 검색하기</span>
+            </button>
+          )}
         </div>
 
         {/* 03: 사진 */}
@@ -420,6 +438,54 @@ const photoRemoveButtonStyle = css({
 const hiddenInputStyle = css({
   display: "none",
 });
+
+const restaurantInfoBoxStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: 12,
+  width: "100%",
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+  borderRadius: 8,
+  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+  cursor: "pointer",
+});
+
+const restaurantInfoContentStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 8,
+  flex: 1,
+});
+
+const restaurantInfoRowStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 2,
+  width: 198,
+});
+
+const restaurantNameStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.HEADERS["16SB"]
+);
+
+const restaurantAddressStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+const restaurantAddressDetailStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+  },
+  TYPOGRAPHY.SUB["12R"]
+);
 
 const commentContainerStyle = css({
   display: "flex",
