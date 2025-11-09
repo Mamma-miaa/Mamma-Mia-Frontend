@@ -24,7 +24,10 @@ import {
 } from "./_components/RecommendedMenuRegisterBottomSheet";
 import { openRestaurantSearchBottomSheet } from "./_components/RestaurantSearchBottomSheet";
 import type { RestaurantSearchResult } from "./_components/RestaurantSearchBottomSheet";
-import { openBusinessHoursBottomSheet } from "./_components/BusinessHoursBottomSheet";
+import {
+  openBusinessHoursBottomSheet,
+  type BusinessHoursData,
+} from "./_components/BusinessHoursBottomSheet";
 
 interface PhotoFile {
   file: File;
@@ -43,6 +46,9 @@ const ChallengeRegistrationPage = () => {
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<RestaurantSearchResult | null>(null);
   const [additionalOptions, setAdditionalOptions] = useState<string[]>([]);
+  const [businessHoursData, setBusinessHoursData] = useState<
+    BusinessHoursData[]
+  >([]);
 
   const handleCategorySelect = async () => {
     const categories = await openCategoryFilteringBottomSheet({
@@ -379,13 +385,81 @@ const ChallengeRegistrationPage = () => {
             {/* 01: 영업 시간 정보 */}
             <div css={sectionContainerStyle}>
               <label css={labelStyle}>영업 시간 정보</label>
+              {businessHoursData.length > 0 && (
+                <div css={businessHoursListStyle}>
+                  {businessHoursData.map((data, index) => {
+                    return data.selectedDays.map((day) => {
+                      const isClosed = data.options.isClosed;
+                      const is24Hours = data.options.is24Hours;
+                      const hasBreakTime =
+                        data.options.hasBreakTime && data.breakTime;
+                      const businessHours = data.businessHours;
+
+                      return (
+                        <div
+                          key={`${index}-${day}`}
+                          css={businessHoursItemStyle}
+                        >
+                          <div css={businessHoursItemContentStyle}>
+                            <span css={businessHoursDayStyle}>{day}</span>
+                            <div css={businessHoursInfoStyle}>
+                              {isClosed ? (
+                                <span css={businessHoursTextStyle}>
+                                  정기 휴무(매주 {day}요일)
+                                </span>
+                              ) : is24Hours ? (
+                                <span css={businessHoursTextStyle}>
+                                  24시 영업
+                                </span>
+                              ) : businessHours ? (
+                                <>
+                                  <span css={businessHoursTextStyle}>
+                                    {businessHours.startTime} ~{" "}
+                                    {businessHours.endTime}
+                                  </span>
+                                  {hasBreakTime && data.breakTime && (
+                                    <span css={businessHoursTextStyle}>
+                                      {data.breakTime.startTime} ~{" "}
+                                      {data.breakTime.endTime} 브레이크 타임
+                                    </span>
+                                  )}
+                                  {data.lastOrder && (
+                                    <span css={businessHoursTextStyle}>
+                                      라스트오더 {data.lastOrder}
+                                    </span>
+                                  )}
+                                </>
+                              ) : null}
+                            </div>
+                          </div>
+                          <button
+                            css={businessHoursEditButtonStyle}
+                            onClick={async () => {
+                              const result =
+                                await openBusinessHoursBottomSheet();
+                              if (result) {
+                                setBusinessHoursData((prev) => [
+                                  ...prev,
+                                  result,
+                                ]);
+                              }
+                            }}
+                            type="button"
+                          >
+                            수정
+                          </button>
+                        </div>
+                      );
+                    });
+                  })}
+                </div>
+              )}
               <button
                 css={buttonStyle}
                 onClick={async () => {
                   const result = await openBusinessHoursBottomSheet();
                   if (result) {
-                    // TODO: 영업시간 정보 저장
-                    console.log("Business hours:", result);
+                    setBusinessHoursData((prev) => [...prev, result]);
                   }
                 }}
               >
@@ -943,6 +1017,70 @@ const additionalInfoNoteStyle = css(
     color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
   },
   TYPOGRAPHY.SUB["12R"]
+);
+
+const businessHoursListStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 0,
+  width: "100%",
+  marginBottom: 12,
+});
+
+const businessHoursItemStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: 12,
+  padding: "12px 0",
+  width: "100%",
+});
+
+const businessHoursItemContentStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  gap: 4,
+  flex: 1,
+});
+
+const businessHoursDayStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+const businessHoursInfoStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 0,
+});
+
+const businessHoursTextStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+const businessHoursEditButtonStyle = css(
+  {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 4,
+    padding: "8px 4px",
+    width: 44,
+    height: 28,
+    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+    border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+    borderRadius: 4,
+    cursor: "pointer",
+    flexShrink: 0,
+  },
+  TYPOGRAPHY.SUB["12B"]
 );
 
 export default ChallengeRegistrationPage;
