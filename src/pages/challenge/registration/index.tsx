@@ -87,7 +87,7 @@ const ChallengeRegistrationPage = () => {
   const handleRestaurantSearch = async () => {
     const restaurant = await openRestaurantSearchBottomSheet();
     if (restaurant) {
-      setSelectedRestaurant(restaurant as RestaurantSearchResult);
+      setSelectedRestaurant(restaurant);
     }
   };
 

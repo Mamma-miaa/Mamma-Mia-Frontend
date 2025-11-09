@@ -18,15 +18,17 @@ export interface RestaurantSearchResult {
 }
 
 export const openRestaurantSearchBottomSheet = () => {
-  return overlay.openAsync(({ isOpen, close }) => {
-    return (
-      <RestaurantSearchBottomSheet
-        isOpen={isOpen}
-        onClose={() => close(null)}
-        onApply={(restaurant) => close(restaurant)}
-      />
-    );
-  });
+  return overlay.openAsync<RestaurantSearchResult | null>(
+    ({ isOpen, close }) => {
+      return (
+        <RestaurantSearchBottomSheet
+          isOpen={isOpen}
+          onClose={() => close(null)}
+          onApply={(restaurant) => close(restaurant)}
+        />
+      );
+    }
+  );
 };
 
 const RestaurantSearchBottomSheet = ({
