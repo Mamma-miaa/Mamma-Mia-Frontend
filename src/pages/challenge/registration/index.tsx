@@ -12,7 +12,10 @@ import VIEWPORT from "@/constants/viewport";
 import { openCategoryFilteringBottomSheet } from "@/components/CategoryFilterBottomSheet/utils";
 import PhotoRemoveIcon from "./_assets/photo_remove.svg?react";
 import useTextInput from "@/hooks/useTextInput";
-import { openRecommendedMenuRegisterBottomSheet } from "./_components/RecommendedMenuRegisterBottomSheet";
+import {
+  openRecommendedMenuRegisterBottomSheet,
+  type RecommendedMenuResult,
+} from "./_components/RecommendedMenuRegisterBottomSheet";
 import { openRestaurantSearchBottomSheet } from "./_components/RestaurantSearchBottomSheet";
 import type { RestaurantSearchResult } from "./_components/RestaurantSearchBottomSheet";
 
@@ -26,7 +29,9 @@ const ChallengeRegistrationPage = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { value: comment, handleChange: handleCommentChange } = useTextInput();
-  const [recommendedMenu, setRecommendedMenu] = useState<string[]>([]);
+  const [recommendedMenus, setRecommendedMenus] = useState<
+    RecommendedMenuResult[]
+  >([]);
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<RestaurantSearchResult | null>(null);
 
@@ -79,10 +84,15 @@ const ChallengeRegistrationPage = () => {
   };
 
   const handleRecommendedMenuRegister = async () => {
-    const recommendedMenu = await openRecommendedMenuRegisterBottomSheet();
-    if (recommendedMenu) {
-      setRecommendedMenu(recommendedMenu as string[]);
+    const result = await openRecommendedMenuRegisterBottomSheet();
+    if (result) {
+      setRecommendedMenus((prev) => [...prev, result]);
     }
+  };
+
+  const handleMenuEdit = (menuId: string) => {
+    // TODO: 메뉴 수정 기능 구현
+    console.log("Edit menu:", menuId);
   };
 
   const handleRestaurantSearch = async () => {
@@ -231,6 +241,40 @@ const ChallengeRegistrationPage = () => {
         {/* 05: 추천 메뉴 */}
         <div css={sectionContainerStyle}>
           <label css={[labelStyle, labelRequiredStyle]}>추천 메뉴</label>
+          {recommendedMenus.length > 0 && (
+            <div css={menuListContainerStyle}>
+              {recommendedMenus.map((menu) => (
+                <div key={menu.id} css={menuItemStyle}>
+                  <div css={menuImageContainerStyle}>
+                    {menu.image ? (
+                      <img
+                        src={menu.image.preview}
+                        alt={menu.name}
+                        css={menuImageStyle}
+                      />
+                    ) : (
+                      <div css={menuImagePlaceholderStyle} />
+                    )}
+                  </div>
+                  <div css={menuInfoStyle}>
+                    <div css={menuTitleContainerStyle}>
+                      <span css={menuNameStyle}>{menu.name}</span>
+                    </div>
+                    <span css={menuPriceStyle}>
+                      {Number(menu.price).toLocaleString()}원
+                    </span>
+                  </div>
+                  <button
+                    css={menuEditButtonStyle}
+                    onClick={() => handleMenuEdit(menu.id)}
+                    type="button"
+                  >
+                    수정
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
           <button css={buttonStyle} onClick={handleRecommendedMenuRegister}>
             <PlusIcon css={iconStyle} />
             <span css={buttonTextStyle}>메뉴 등록하기</span>
@@ -485,6 +529,88 @@ const restaurantAddressDetailStyle = css(
     color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
   },
   TYPOGRAPHY.SUB["12R"]
+);
+
+const menuListContainerStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 0,
+  width: "100%",
+});
+
+const menuItemStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  gap: 12,
+  padding: "12px 0",
+  width: "100%",
+});
+
+const menuImageContainerStyle = css({
+  width: 60,
+  height: 60,
+  flexShrink: 0,
+});
+
+const menuImageStyle = css({
+  width: "100%",
+  height: "100%",
+  borderRadius: 4,
+  objectFit: "cover",
+});
+
+const menuImagePlaceholderStyle = css({
+  width: "100%",
+  height: "100%",
+  borderRadius: 4,
+  backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
+});
+
+const menuInfoStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 4,
+  flex: 1,
+});
+
+const menuTitleContainerStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 2,
+});
+
+const menuNameStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.HEADERS["16SB"]
+);
+
+const menuPriceStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+const menuEditButtonStyle = css(
+  {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 4,
+    padding: "8px 4px",
+    width: 44,
+    height: 28,
+    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+    border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+    borderRadius: 4,
+    cursor: "pointer",
+    flexShrink: 0,
+  },
+  TYPOGRAPHY.SUB["12B"]
 );
 
 const commentContainerStyle = css({

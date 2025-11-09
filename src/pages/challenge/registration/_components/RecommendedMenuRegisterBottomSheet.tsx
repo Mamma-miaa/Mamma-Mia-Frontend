@@ -7,16 +7,28 @@ import useTextInput from "@/hooks/useTextInput";
 import PlusIcon from "../_assets/plus.svg?react";
 import { useRef, useState } from "react";
 
+export interface RecommendedMenuResult {
+  id: string;
+  name: string;
+  price: string;
+  image?: {
+    file: File;
+    preview: string;
+  };
+}
+
 export const openRecommendedMenuRegisterBottomSheet = () => {
-  return overlay.openAsync(({ isOpen, close }) => {
-    return (
-      <RecommendedMenuRegisterBottomSheet
-        isOpen={isOpen}
-        onClose={() => close(null)}
-        onApply={() => close(null)}
-      />
-    );
-  });
+  return overlay.openAsync<RecommendedMenuResult | null>(
+    ({ isOpen, close }) => {
+      return (
+        <RecommendedMenuRegisterBottomSheet
+          isOpen={isOpen}
+          onClose={() => close(null)}
+          onApply={(menu) => close(menu)}
+        />
+      );
+    }
+  );
 };
 
 interface PhotoFile {
@@ -31,7 +43,7 @@ const RecommendedMenuRegisterBottomSheet = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  onApply: () => void;
+  onApply: (menu: RecommendedMenuResult | null) => void;
 }) => {
   const { value: menuName, handleChange: handleMenuNameChange } =
     useTextInput();
@@ -67,11 +79,24 @@ const RecommendedMenuRegisterBottomSheet = ({
     }
   };
 
+  const handleApply = () => {
+    if (!menuName.trim()) {
+      return;
+    }
+    const menu: RecommendedMenuResult = {
+      id: Date.now().toString(),
+      name: menuName,
+      price: menuPrice || "0",
+      image: photo || undefined,
+    };
+    onApply(menu);
+  };
+
   return (
     <FilterBottomSheet
       isOpen={isOpen}
       onClose={onClose}
-      onApply={onApply}
+      onApply={handleApply}
       title="추천 메뉴 등록"
       ctaButtonText="메뉴 등록"
     >
