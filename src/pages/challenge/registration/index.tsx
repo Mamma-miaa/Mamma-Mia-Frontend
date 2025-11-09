@@ -454,18 +454,20 @@ const ChallengeRegistrationPage = () => {
                   })}
                 </div>
               )}
-              <button
-                css={buttonStyle}
-                onClick={async () => {
-                  const result = await openBusinessHoursBottomSheet();
-                  if (result) {
-                    setBusinessHoursData((prev) => [...prev, result]);
-                  }
-                }}
-              >
-                <PlusIcon css={iconStyle} />
-                <span css={buttonTextStyle}>영업시간 정보 등록하기</span>
-              </button>
+              {businessHoursData.length < 7 && (
+                <button
+                  css={buttonStyle}
+                  onClick={async () => {
+                    const result = await openBusinessHoursBottomSheet();
+                    if (result) {
+                      setBusinessHoursData((prev) => [...prev, result]);
+                    }
+                  }}
+                >
+                  <PlusIcon css={iconStyle} />
+                  <span css={buttonTextStyle}>영업시간 정보 등록하기</span>
+                </button>
+              )}
             </div>
 
             {/* 02: 부가 정보 */}
