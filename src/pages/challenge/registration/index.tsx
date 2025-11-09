@@ -12,6 +12,8 @@ import { openCategoryFilteringBottomSheet } from "@/components/CategoryFilterBot
 import PhotoRemoveIcon from "./_assets/photo_remove.svg?react";
 import useTextInput from "@/hooks/useTextInput";
 import { openRecommendedMenuRegisterBottomSheet } from "./_components/RecommendedMenuRegisterBottomSheet";
+import { openRestaurantSearchBottomSheet } from "./_components/RestaurantSearchBottomSheet";
+import type { RestaurantSearchResult } from "./_components/RestaurantSearchBottomSheet";
 
 interface PhotoFile {
   file: File;
@@ -24,6 +26,8 @@ const ChallengeRegistrationPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { value: comment, handleChange: handleCommentChange } = useTextInput();
   const [recommendedMenu, setRecommendedMenu] = useState<string[]>([]);
+  const [selectedRestaurant, setSelectedRestaurant] =
+    useState<RestaurantSearchResult | null>(null);
 
   const handleCategorySelect = async () => {
     const categories = await openCategoryFilteringBottomSheet({
@@ -80,6 +84,13 @@ const ChallengeRegistrationPage = () => {
     }
   };
 
+  const handleRestaurantSearch = async () => {
+    const restaurant = await openRestaurantSearchBottomSheet();
+    if (restaurant) {
+      setSelectedRestaurant(restaurant as RestaurantSearchResult);
+    }
+  };
+
   // 컴포넌트 언마운트 시 메모리 정리
   useEffect(() => {
     return () => {
@@ -125,9 +136,13 @@ const ChallengeRegistrationPage = () => {
         {/* 02: 맛집 등록 */}
         <div css={sectionContainerStyle}>
           <label css={[labelStyle, labelRequiredStyle]}>맛집 등록</label>
-          <button css={buttonStyle}>
+          <button css={buttonStyle} onClick={handleRestaurantSearch}>
             <SearchIcon css={iconStyle} />
-            <span css={buttonTextStyle}>맛집 검색하기</span>
+            <span css={buttonTextStyle}>
+              {selectedRestaurant
+                ? selectedRestaurant.place_name
+                : "맛집 검색하기"}
+            </span>
           </button>
         </div>
 
