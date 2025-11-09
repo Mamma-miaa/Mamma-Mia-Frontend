@@ -7,6 +7,12 @@ import SearchIcon from "./_assets/search.svg?react";
 import PlusIcon from "./_assets/plus.svg?react";
 import ArrowRightIcon from "@/pages/search/result/_assets/arrow_right.svg?react";
 import { useState, useRef, useEffect } from "react";
+import carImg from "@/assets/emoji/car.webp";
+import deliveryImg from "@/assets/emoji/delivery.webp";
+import takeoutImg from "@/assets/emoji/takeout.webp";
+import indoorToiletImg from "@/assets/emoji/indoor_toilet.webp";
+import outdoorToiletImg from "@/assets/emoji/outdoor_toilet.webp";
+import groupingImg from "@/assets/emoji/grouping.webp";
 import ChallengeRegistrationPageHeader from "./_components/ChallengeRegistrationPageHeader";
 import VIEWPORT from "@/constants/viewport";
 import { openCategoryFilteringBottomSheet } from "@/components/CategoryFilterBottomSheet/utils";
@@ -25,6 +31,7 @@ interface PhotoFile {
 }
 
 const ChallengeRegistrationPage = () => {
+  const [step, setStep] = useState<1 | 2>(1);
   const [photos, setPhotos] = useState<PhotoFile[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -34,6 +41,7 @@ const ChallengeRegistrationPage = () => {
   >([]);
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<RestaurantSearchResult | null>(null);
+  const [additionalOptions, setAdditionalOptions] = useState<string[]>([]);
 
   const handleCategorySelect = async () => {
     const categories = await openCategoryFilteringBottomSheet({
@@ -112,12 +120,27 @@ const ChallengeRegistrationPage = () => {
   }, [photos]);
 
   // 모든 필드가 채워졌는지 확인
-  const isAllFieldsFilled =
-    selectedCategories.length > 0 &&
-    selectedRestaurant !== null &&
-    photos.length > 0 &&
-    comment.trim().length > 0 &&
-    recommendedMenus.length > 0;
+  //   const isAllFieldsFilled =
+  //     selectedCategories.length > 0 &&
+  //     selectedRestaurant !== null &&
+  //     photos.length > 0 &&
+  //     comment.trim().length > 0 &&
+  //     recommendedMenus.length > 0;
+  const isAllFieldsFilled = true;
+
+  const handleNextStep = () => {
+    if (isAllFieldsFilled && step === 1) {
+      setStep(2);
+    }
+  };
+
+  const handleAdditionalOptionToggle = (option: string) => {
+    setAdditionalOptions((prev) =>
+      prev.includes(option)
+        ? prev.filter((item) => item !== option)
+        : [...prev, option]
+    );
+  };
 
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
@@ -127,178 +150,300 @@ const ChallengeRegistrationPage = () => {
       <div css={contentContainerStyle}>
         {/* Step 배지 */}
         <div css={stepContainerStyle}>
-          <div css={stepBadgeActiveStyle}>
-            <span css={stepNumberStyle}>1</span>
-          </div>
-          <div css={stepBadgeDisabledStyle}>
-            <span css={stepNumberDisabledStyle}>2</span>
-          </div>
-        </div>
-
-        {/* 01: 음식 카테고리 선택 */}
-        <div css={sectionContainerStyle}>
-          <label css={[labelStyle, labelRequiredStyle]}>
-            음식 카테고리 선택
-          </label>
-          <div css={selectBoxStyle} onClick={handleCategorySelect}>
-            {selectedCategories.length > 0 ? (
-              <span css={selectTextStyle}>{selectedCategories.join(", ")}</span>
-            ) : (
-              <span css={selectTextPlaceHolderStyle}>
-                카테고리를 선택해주세요.
-              </span>
-            )}
-            <ArrowDownIcon css={iconStyle} />
-          </div>
-        </div>
-
-        {/* 02: 맛집 등록 */}
-        <div css={sectionContainerStyle}>
-          <label css={[labelStyle, labelRequiredStyle]}>맛집 등록</label>
-          {selectedRestaurant ? (
-            <div css={restaurantInfoBoxStyle} onClick={handleRestaurantSearch}>
-              <div css={restaurantInfoContentStyle}>
-                <div css={restaurantInfoRowStyle}>
-                  <span css={restaurantNameStyle}>
-                    {selectedRestaurant.place_name}
-                  </span>
-                </div>
-                <div css={restaurantInfoRowStyle}>
-                  <span css={restaurantAddressStyle}>
-                    {selectedRestaurant.road_address_name}
-                  </span>
-                  <span css={restaurantAddressDetailStyle}>
-                    {selectedRestaurant.address_name}
-                  </span>
-                </div>
-              </div>
-              <ArrowRightIcon css={iconStyle} />
-            </div>
-          ) : (
-            <button css={buttonStyle} onClick={handleRestaurantSearch}>
-              <SearchIcon css={iconStyle} />
-              <span css={buttonTextStyle}>맛집 검색하기</span>
-            </button>
-          )}
-        </div>
-
-        {/* 03: 사진 */}
-        <div css={photoSectionContainerStyle}>
-          <label css={[labelStyle, labelRequiredStyle]}>사진</label>
-          <div css={photoListContainerStyle}>
-            {photos.map((photo, index) => (
-              <div key={index} css={photoItemStyle}>
-                <img
-                  src={photo.preview}
-                  alt={`사진 ${index + 1}`}
-                  css={photoImageStyle}
-                />
-                <PhotoRemoveIcon
-                  width={28}
-                  height={28}
-                  css={photoRemoveButtonStyle}
-                  onClick={() => handlePhotoRemove(index)}
-                />
-              </div>
-            ))}
-            {photos.length < 3 && (
-              <div
-                css={photoUploadBoxStyle}
-                onClick={handlePhotoSelect}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handlePhotoSelect();
-                  }
-                }}
-              >
-                <div css={photoUploadContentStyle}>
-                  <PlusIcon css={iconStyle} />
-                  <span css={photoCountStyle}>({photos.length}/3)</span>
-                </div>
-              </div>
-            )}
-          </div>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleFileChange}
-            css={hiddenInputStyle}
-          />
-        </div>
-
-        {/* 04: 코멘트 */}
-        <div css={sectionContainerStyle}>
-          <label css={[labelStyle, labelRequiredStyle]}>코멘트</label>
-          <div css={commentContainerStyle}>
-            <textarea
-              css={textareaStyle}
-              placeholder="이 매장을 맛집으로 추천하는 이유가 무엇인가요? 자유로운 의견을 남겨주세요."
-              value={comment}
-              onChange={handleCommentChange}
-              maxLength={300}
-            />
-            <div css={commentCountStyle}>{comment.length}/300</div>
-          </div>
-        </div>
-
-        {/* 05: 추천 메뉴 */}
-        <div css={sectionContainerStyle}>
-          <label css={[labelStyle, labelRequiredStyle]}>추천 메뉴</label>
-          {recommendedMenus.length > 0 && (
-            <div css={menuListContainerStyle}>
-              {recommendedMenus.map((menu) => (
-                <div key={menu.id} css={menuItemStyle}>
-                  <div css={menuImageContainerStyle}>
-                    {menu.image ? (
-                      <img
-                        src={menu.image.preview}
-                        alt={menu.name}
-                        css={menuImageStyle}
-                      />
-                    ) : (
-                      <div css={menuImagePlaceholderStyle} />
-                    )}
-                  </div>
-                  <div css={menuInfoStyle}>
-                    <div css={menuTitleContainerStyle}>
-                      <span css={menuNameStyle}>{menu.name}</span>
+          {(() => {
+            switch (step) {
+              case 1:
+                return (
+                  <>
+                    <div css={stepBadgeActiveStyle}>
+                      <span css={stepNumberStyle}>1</span>
                     </div>
-                    <span css={menuPriceStyle}>
-                      {Number(menu.price).toLocaleString()}원
-                    </span>
+                    <div css={stepBadgeDisabledStyle}>
+                      <span css={stepNumberDisabledStyle}>2</span>
+                    </div>
+                  </>
+                );
+              case 2:
+                return (
+                  <>
+                    <div css={stepBadgeDisabledStyle}>
+                      <span css={stepNumberDisabledStyle}>
+                        <svg
+                          width="11"
+                          height="8"
+                          viewBox="0 0 11 8"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M3.74386 8L0 4.37559L0.984211 3.39906L3.74386 6.08451L10.0158 0L11 0.957747L3.74386 8Z"
+                            fill="#37383C"
+                            fill-opacity="0.28"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                    <div css={stepBadgeActiveStyle}>
+                      <span css={stepNumberStyle}>2</span>
+                    </div>
+                  </>
+                );
+            }
+          })()}
+        </div>
+
+        {step === 1 ? (
+          <>
+            {/* 01: 음식 카테고리 선택 */}
+            <div css={sectionContainerStyle}>
+              <label css={[labelStyle, labelRequiredStyle]}>
+                음식 카테고리 선택
+              </label>
+              <div css={selectBoxStyle} onClick={handleCategorySelect}>
+                {selectedCategories.length > 0 ? (
+                  <span css={selectTextStyle}>
+                    {selectedCategories.join(", ")}
+                  </span>
+                ) : (
+                  <span css={selectTextPlaceHolderStyle}>
+                    카테고리를 선택해주세요.
+                  </span>
+                )}
+                <ArrowDownIcon css={iconStyle} />
+              </div>
+            </div>
+
+            {/* 02: 맛집 등록 */}
+            <div css={sectionContainerStyle}>
+              <label css={[labelStyle, labelRequiredStyle]}>맛집 등록</label>
+              {selectedRestaurant ? (
+                <div
+                  css={restaurantInfoBoxStyle}
+                  onClick={handleRestaurantSearch}
+                >
+                  <div css={restaurantInfoContentStyle}>
+                    <div css={restaurantInfoRowStyle}>
+                      <span css={restaurantNameStyle}>
+                        {selectedRestaurant.place_name}
+                      </span>
+                    </div>
+                    <div css={restaurantInfoRowStyle}>
+                      <span css={restaurantAddressStyle}>
+                        {selectedRestaurant.road_address_name}
+                      </span>
+                      <span css={restaurantAddressDetailStyle}>
+                        {selectedRestaurant.address_name}
+                      </span>
+                    </div>
                   </div>
+                  <ArrowRightIcon css={iconStyle} />
+                </div>
+              ) : (
+                <button css={buttonStyle} onClick={handleRestaurantSearch}>
+                  <SearchIcon css={iconStyle} />
+                  <span css={buttonTextStyle}>맛집 검색하기</span>
+                </button>
+              )}
+            </div>
+
+            {/* 03: 사진 */}
+            <div css={photoSectionContainerStyle}>
+              <label css={[labelStyle, labelRequiredStyle]}>사진</label>
+              <div css={photoListContainerStyle}>
+                {photos.map((photo, index) => (
+                  <div key={index} css={photoItemStyle}>
+                    <img
+                      src={photo.preview}
+                      alt={`사진 ${index + 1}`}
+                      css={photoImageStyle}
+                    />
+                    <PhotoRemoveIcon
+                      width={28}
+                      height={28}
+                      css={photoRemoveButtonStyle}
+                      onClick={() => handlePhotoRemove(index)}
+                    />
+                  </div>
+                ))}
+                {photos.length < 3 && (
+                  <div
+                    css={photoUploadBoxStyle}
+                    onClick={handlePhotoSelect}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handlePhotoSelect();
+                      }
+                    }}
+                  >
+                    <div css={photoUploadContentStyle}>
+                      <PlusIcon css={iconStyle} />
+                      <span css={photoCountStyle}>({photos.length}/3)</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFileChange}
+                css={hiddenInputStyle}
+              />
+            </div>
+
+            {/* 04: 코멘트 */}
+            <div css={sectionContainerStyle}>
+              <label css={[labelStyle, labelRequiredStyle]}>코멘트</label>
+              <div css={commentContainerStyle}>
+                <textarea
+                  css={textareaStyle}
+                  placeholder="이 매장을 맛집으로 추천하는 이유가 무엇인가요? 자유로운 의견을 남겨주세요."
+                  value={comment}
+                  onChange={handleCommentChange}
+                  maxLength={300}
+                />
+                <div css={commentCountStyle}>{comment.length}/300</div>
+              </div>
+            </div>
+
+            {/* 05: 추천 메뉴 */}
+            <div css={sectionContainerStyle}>
+              <label css={[labelStyle, labelRequiredStyle]}>추천 메뉴</label>
+              {recommendedMenus.length > 0 && (
+                <div css={menuListContainerStyle}>
+                  {recommendedMenus.map((menu) => (
+                    <div key={menu.id} css={menuItemStyle}>
+                      <div css={menuImageContainerStyle}>
+                        {menu.image ? (
+                          <img
+                            src={menu.image.preview}
+                            alt={menu.name}
+                            css={menuImageStyle}
+                          />
+                        ) : (
+                          <div css={menuImagePlaceholderStyle} />
+                        )}
+                      </div>
+                      <div css={menuInfoStyle}>
+                        <div css={menuTitleContainerStyle}>
+                          <span css={menuNameStyle}>{menu.name}</span>
+                        </div>
+                        <span css={menuPriceStyle}>
+                          {Number(menu.price).toLocaleString()}원
+                        </span>
+                      </div>
+                      <button
+                        css={menuEditButtonStyle}
+                        onClick={() => handleMenuEdit(menu.id)}
+                        type="button"
+                      >
+                        수정
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <button css={buttonStyle} onClick={handleRecommendedMenuRegister}>
+                <PlusIcon css={iconStyle} />
+                <span css={buttonTextStyle}>메뉴 등록하기</span>
+              </button>
+            </div>
+
+            <Spacing size={100} />
+
+            <div css={ctaButtonContainerStyle}>
+              <button
+                css={isAllFieldsFilled ? CTAButtonActiveStyle : CTAButtonStyle}
+                disabled={!isAllFieldsFilled}
+                onClick={handleNextStep}
+              >
+                다음
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* 안내 메시지 */}
+            <div css={infoBoxStyle}>
+              <span css={infoTextStyle}>
+                선택정보를 입력하지 않고 바로 도전맛집에 등록할수 있지만,
+                추가하면 다른 맘마 미아에게 많은 도움이 될 수 있어요! 👍
+              </span>
+            </div>
+
+            {/* 01: 영업 시간 정보 */}
+            <div css={sectionContainerStyle}>
+              <label css={labelStyle}>영업 시간 정보</label>
+              <button css={buttonStyle}>
+                <PlusIcon css={iconStyle} />
+                <span css={buttonTextStyle}>영업시간 정보 등록하기</span>
+              </button>
+            </div>
+
+            {/* 02: 부가 정보 */}
+            <div css={sectionContainerStyle}>
+              <div css={additionalInfoHeaderStyle}>
+                <label css={labelStyle}>부가 정보</label>
+                <span css={additionalInfoSubTextStyle}>
+                  해당 매장이 제공하는 옵션이 있다면 선택해주세요.
+                </span>
+              </div>
+              <div css={additionalOptionsGridStyle}>
+                {[
+                  { id: "parking", label: "주차 가능", icon: carImg },
+                  { id: "delivery", label: "배달 가능", icon: deliveryImg },
+                  { id: "takeout", label: "포장 가능", icon: takeoutImg },
+                  {
+                    id: "indoor_toilet",
+                    label: "내부 화장실",
+                    icon: indoorToiletImg,
+                  },
+                  {
+                    id: "outdoor_toilet",
+                    label: "외부 화장실",
+                    icon: outdoorToiletImg,
+                  },
+                  {
+                    id: "group_seating",
+                    label: "단체석 가능",
+                    icon: groupingImg,
+                  },
+                ].map((option) => (
                   <button
-                    css={menuEditButtonStyle}
-                    onClick={() => handleMenuEdit(menu.id)}
+                    key={option.id}
+                    css={[
+                      additionalOptionButtonStyle,
+                      additionalOptions.includes(option.id) &&
+                        additionalOptionButtonActiveStyle,
+                    ]}
+                    onClick={() => handleAdditionalOptionToggle(option.id)}
                     type="button"
                   >
-                    수정
+                    <img
+                      src={option.icon}
+                      alt={option.label}
+                      css={additionalOptionIconStyle}
+                    />
+                    <span css={additionalOptionTextStyle}>{option.label}</span>
                   </button>
-                </div>
-              ))}
+                ))}
+              </div>
+              <span css={additionalInfoNoteStyle}>
+                *단체석은 10인이상 수용가능할 경우 선택해주세요.
+              </span>
             </div>
-          )}
-          <button css={buttonStyle} onClick={handleRecommendedMenuRegister}>
-            <PlusIcon css={iconStyle} />
-            <span css={buttonTextStyle}>메뉴 등록하기</span>
-          </button>
-        </div>
 
-        <Spacing size={100} />
+            <Spacing size={100} />
 
-        <div css={ctaButtonContainerStyle}>
-          <button
-            css={isAllFieldsFilled ? CTAButtonActiveStyle : CTAButtonStyle}
-            disabled={!isAllFieldsFilled}
-          >
-            다음
-          </button>
-        </div>
+            <div css={ctaButtonContainerStyle}>
+              <button css={CTAButtonActiveStyle}>도전맛집 등록하기</button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -707,5 +852,87 @@ const ctaButtonContainerStyle = css({
   background:
     "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 19%)",
 });
+
+const infoBoxStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 12,
+  padding: 12,
+  backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
+  borderRadius: 8,
+  width: "100%",
+});
+
+const infoTextStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+  },
+  TYPOGRAPHY.SUB["12R"]
+);
+
+const additionalInfoHeaderStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 4,
+});
+
+const additionalInfoSubTextStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+  },
+  TYPOGRAPHY.SUB["12R"]
+);
+
+const additionalOptionsGridStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "stretch",
+  alignItems: "stretch",
+  flexWrap: "wrap",
+  gap: 8,
+  width: "100%",
+});
+
+const additionalOptionButtonStyle = css(
+  {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 6,
+    padding: 12,
+    width: "100%",
+    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+    border: `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
+    borderRadius: 8,
+    cursor: "pointer",
+    flex: "1 1 calc(33.333% - 6px)",
+    minWidth: 0,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+const additionalOptionButtonActiveStyle = css({
+  border: `1px solid ${THEME.COLORS.GRAYSCALE.NORMAL}`,
+});
+
+const additionalOptionIconStyle = css({
+  width: 24,
+  height: 24,
+});
+
+const additionalOptionTextStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
+const additionalInfoNoteStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
+  },
+  TYPOGRAPHY.SUB["12R"]
+);
 
 export default ChallengeRegistrationPage;
