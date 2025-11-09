@@ -24,6 +24,7 @@ import {
 } from "./_components/RecommendedMenuRegisterBottomSheet";
 import { openRestaurantSearchBottomSheet } from "./_components/RestaurantSearchBottomSheet";
 import type { RestaurantSearchResult } from "./_components/RestaurantSearchBottomSheet";
+import { openBusinessHoursBottomSheet } from "./_components/BusinessHoursBottomSheet";
 
 interface PhotoFile {
   file: File;
@@ -378,7 +379,16 @@ const ChallengeRegistrationPage = () => {
             {/* 01: 영업 시간 정보 */}
             <div css={sectionContainerStyle}>
               <label css={labelStyle}>영업 시간 정보</label>
-              <button css={buttonStyle}>
+              <button
+                css={buttonStyle}
+                onClick={async () => {
+                  const result = await openBusinessHoursBottomSheet();
+                  if (result) {
+                    // TODO: 영업시간 정보 저장
+                    console.log("Business hours:", result);
+                  }
+                }}
+              >
                 <PlusIcon css={iconStyle} />
                 <span css={buttonTextStyle}>영업시간 정보 등록하기</span>
               </button>
