@@ -111,6 +111,14 @@ const ChallengeRegistrationPage = () => {
     };
   }, [photos]);
 
+  // 모든 필드가 채워졌는지 확인
+  const isAllFieldsFilled =
+    selectedCategories.length > 0 &&
+    selectedRestaurant !== null &&
+    photos.length > 0 &&
+    comment.trim().length > 0 &&
+    recommendedMenus.length > 0;
+
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
       <ChallengeRegistrationPageHeader />
@@ -284,7 +292,12 @@ const ChallengeRegistrationPage = () => {
         <Spacing size={100} />
 
         <div css={ctaButtonContainerStyle}>
-          <button css={CTAButtonStyle}>다음</button>
+          <button
+            css={isAllFieldsFilled ? CTAButtonActiveStyle : CTAButtonStyle}
+            disabled={!isAllFieldsFilled}
+          >
+            다음
+          </button>
         </div>
       </div>
     </div>
@@ -657,8 +670,27 @@ const CTAButtonStyle = css(
     backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
     border: "none",
     borderRadius: 8,
-    cursor: "pointer",
+    cursor: "not-allowed",
     color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
+  },
+  TYPOGRAPHY.HEADERS["16SB"]
+);
+
+const CTAButtonActiveStyle = css(
+  {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 6,
+    padding: "12px 0",
+    width: "100%",
+    height: 56,
+    backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
+    border: "none",
+    borderRadius: 8,
+    cursor: "pointer",
+    color: THEME.COLORS.BACKGROUND.WHITE,
   },
   TYPOGRAPHY.HEADERS["16SB"]
 );
