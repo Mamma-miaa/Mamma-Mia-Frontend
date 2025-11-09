@@ -999,7 +999,11 @@ const additionalOptionButtonStyle = css(
 );
 
 const additionalOptionButtonActiveStyle = css({
+  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
   border: `1px solid ${THEME.COLORS.GRAYSCALE.NORMAL}`,
+  "& span": {
+    color: THEME.COLORS.BACKGROUND.WHITE,
+  },
 });
 
 const additionalOptionIconStyle = css({
