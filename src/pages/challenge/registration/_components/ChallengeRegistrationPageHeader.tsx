@@ -15,9 +15,7 @@ const ChallengeRegistrationPageHeader = () => {
       cancelText: "나가기",
       confirmText: "계속 등록하기",
     });
-    if (isOk) {
-      navigate(-1);
-    }
+    if (!isOk) navigate(-1);
   };
 
   return (

@@ -9,6 +9,7 @@ import LoginRedirectPage from "./pages/login/oauth";
 import MyPage from "./pages/my";
 import SearchResultPage from "./pages/search/result";
 import ChallengeRegistrationPage from "./pages/challenge/registration";
+import ChallengePage from "./pages/challenge";
 
 const router = createBrowserRouter([
   {
@@ -62,8 +63,17 @@ const router = createBrowserRouter([
         element: <MyPage />,
       },
       {
-        path: "/challenge/registration",
-        element: <ChallengeRegistrationPage />,
+        path: "/challenge",
+        children: [
+          {
+            index: true,
+            element: <ChallengePage />,
+          },
+          {
+            path: "/challenge/registration",
+            element: <ChallengeRegistrationPage />,
+          },
+        ],
       },
     ],
   },
