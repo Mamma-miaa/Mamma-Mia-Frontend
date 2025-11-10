@@ -45,7 +45,7 @@ export const useGetStoreDetailQuery = (storeId: number) =>
 
 export const useGetRankingQuery = (params: Parameters<typeof getRanking>[0]) =>
   useSuspenseQuery({
-    queryKey: ["getRanking", params.period],
+    queryKey: ["getRanking", params.status, params.type],
     queryFn: () => getRanking(params),
   });
 

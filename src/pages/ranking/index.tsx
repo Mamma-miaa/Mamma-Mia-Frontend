@@ -9,15 +9,22 @@ import ToggleButton from "@/@lib/components/ToggleButton";
 import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard";
 import { useGetRankingQuery } from "@/hooks/@server/store";
 
+const PERIOD_TYPE = {
+  WEEKLY: "WEEKLY",
+  MONTHLY: "MONTHLY",
+} as const;
+
+type PeriodType = (typeof PERIOD_TYPE)[keyof typeof PERIOD_TYPE];
+
 const RankingPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const period = searchParams.has("period")
-    ? (searchParams.get("period") as "weekly" | "monthly")
-    : "weekly";
+    ? (searchParams.get("period") as PeriodType)
+    : PERIOD_TYPE.WEEKLY;
   const {
     data: { stores },
-  } = useGetRankingQuery({ period });
+  } = useGetRankingQuery({ status: "NORMAL", type: period });
   return (
     <div css={pageContainerStyle}>
       {/* 뒤로가기 버튼 */}
@@ -36,8 +43,8 @@ const RankingPage = () => {
       >
         <ToggleButton
           paramKey="period"
-          firstItem={{ label: "주간", value: "weekly" }}
-          secondItem={{ label: "월간", value: "monthly" }}
+          firstItem={{ label: "주간", value: PERIOD_TYPE.WEEKLY }}
+          secondItem={{ label: "월간", value: PERIOD_TYPE.MONTHLY }}
         />
       </div>
 

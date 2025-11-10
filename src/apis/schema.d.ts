@@ -37,7 +37,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/member/profile-update": {
+    "/api/v1/store/challenge-application": {
         parameters: {
             query?: never;
             header?: never;
@@ -46,7 +46,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["patch"];
+        /** 도전 맛집 등록 */
+        post: operations["register"];
         delete?: never;
         options?: never;
         head?: never;
@@ -103,20 +104,20 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/store/weekly": {
+    "/api/v1/member/profile-update": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["listWeeklyRanking"];
+        get?: never;
         put?: never;
         post?: never;
         delete?: never;
         options?: never;
         head?: never;
-        patch?: never;
+        patch: operations["patch"];
         trace?: never;
     };
     "/api/v1/store/search": {
@@ -135,14 +136,13 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/store/nearby": {
+    "/api/v1/store/rankings": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** 근처 가게 정보 */
         get: operations["list_1"];
         put?: never;
         post?: never;
@@ -152,14 +152,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/store/monthly": {
+    "/api/v1/store/nearby": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["listMonthlyRanking"];
+        /** 근처 가게 정보 */
+        get: operations["list_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -192,7 +193,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_2"];
+        get: operations["list_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -217,6 +218,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/member/challenge-store": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/member/bookmark-store": {
         parameters: {
             query?: never;
@@ -224,7 +241,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["list_3"];
+        get: operations["list_5"];
         put?: never;
         post?: never;
         delete?: never;
@@ -262,8 +279,94 @@ export interface components {
              */
             storeId: number;
         };
-        PatchProfileRequest: {
-            nickname: string;
+        /** @description 도전 맛집 등록 */
+        RegisterChallengeStoreRequest: {
+            /** @description 가게 이름 */
+            name: string;
+            /** @description 주소 */
+            address: string;
+            /** @description 카테고리 */
+            category: string;
+            /** @description 추천 코멘트 */
+            comment?: string;
+            /**
+             * Format: double
+             * @description 위도
+             */
+            latitude: number;
+            /**
+             * Format: double
+             * @description 경도
+             */
+            longitude: number;
+            /** @description 메뉴 목록 */
+            registerChallengeStoreMenus?: components["schemas"]["RegisterChallengeStoreRequestMenu"][];
+            /** @description 편의시설 정보 */
+            facilities?: components["schemas"]["RegisterChallengeStoreRequestFacility"];
+            /** @description 요일별 영업시간(최대 7개) */
+            registerChallengeStoreBusinessHours?: components["schemas"]["RegisterChallengeStoreRequestBusinessHour"][];
+        };
+        RegisterChallengeStoreRequestBusinessHour: {
+            /**
+             * @description 요일
+             * @enum {string}
+             */
+            dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+            /** @description 영업 모드(CLOSED/OPEN_24H/OPEN_RANGE) */
+            mode: string;
+            /** @description 브레이크 타임 여부 */
+            hasBreak?: boolean;
+            /**
+             * @description 오픈 시간 (OPEN_RANGE일 때 필수)
+             * @example 11:00
+             */
+            openTime?: string;
+            /**
+             * @description 마감 시간 (OPEN_RANGE일 때 필수)
+             * @example 22:00
+             */
+            closeTime?: string;
+            /** @description 익일 마감 여부 (예: 18:00~02:00) */
+            closesNextDay?: boolean;
+            /**
+             * @description 브레이크 시작 (hasBreak=true일 때 필수)
+             * @example 15:00
+             */
+            breakStart?: string;
+            /**
+             * @description 브레이크 종료 (hasBreak=true일 때 필수)
+             * @example 17:00
+             */
+            breakEnd?: string;
+            /**
+             * @description 라스트 오더(선택, close 이전)
+             * @example 21:30
+             */
+            lastOrder?: string;
+        };
+        RegisterChallengeStoreRequestFacility: {
+            /** @description 주차 가능 여부 */
+            parking: boolean;
+            /** @description 포장 가능 여부 */
+            takeout: boolean;
+            /** @description 배달 가능 여부 */
+            delivery: boolean;
+            /** @description 내부 화장실 보유 */
+            indoorRestroom: boolean;
+            /** @description 외부 화장실 보유 */
+            outdoorRestroom: boolean;
+            /** @description 단체석 보유 */
+            groupSeating: boolean;
+        };
+        RegisterChallengeStoreRequestMenu: {
+            /** @description 메뉴 이름 */
+            name: string;
+            /**
+             * Format: int32
+             * @description 가격
+             * @example 12000
+             */
+            price: number;
         };
         /** @description 소셜 로그인 요청 DTO */
         JoinSocialLoginRequest: {
@@ -297,22 +400,11 @@ export interface components {
             accessToken: string;
             refreshToken: string;
         };
+        PatchProfileRequest: {
+            nickname: string;
+        };
         GetStoreBookmarkResponse: {
             isBookmark: boolean;
-        };
-        GetStoreRankingResponse: {
-            /** Format: int32 */
-            rank: number;
-            /** Format: int64 */
-            storeId: number;
-            name: string;
-            category: string;
-            /** Format: int32 */
-            likes: number;
-            mainImage: string;
-        };
-        GetStoreRankingResponses: {
-            stores: components["schemas"]["GetStoreRankingResponse"][];
         };
         /** @description 검색 요청 */
         GetSearchResultRequest: {
@@ -344,6 +436,24 @@ export interface components {
             ranks?: {
                 [key: string]: number;
             };
+        };
+        GetStoreRankingRequest: {
+            status: string;
+            type: string;
+        };
+        GetStoreRankingResponse: {
+            /** Format: int32 */
+            rank: number;
+            /** Format: int64 */
+            storeId: number;
+            name: string;
+            category: string;
+            /** Format: int32 */
+            likes: number;
+            mainImage: string;
+        };
+        GetStoreRankingResponses: {
+            stores: components["schemas"]["GetStoreRankingResponse"][];
         };
         /** @description 근처 가게 조회 요청 */
         GetNearByStoreRequest: {
@@ -424,7 +534,6 @@ export interface components {
              */
             category?: string[];
         };
-        /** @description 가게 목록 */
         GetNearByResponse: {
             /**
              * Format: int64
@@ -456,20 +565,15 @@ export interface components {
              * Format: int32
              * @description 전체 좋아요 수
              */
-            totalLike?: number | null;
+            totalLike?: number;
             /** @description 주차 가능 여부 */
-            parking?: boolean | null;
+            parking?: boolean;
             /** @description 포장 가능 여부 */
-            takeout?: boolean | null;
+            takeout?: boolean;
             /** @description 배달 가능 여부 */
-            delivery?: boolean | null;
-            /**
-             * @description 가격대
-             * @enum {string}
-             */
-            priceRange: "WON_1" | "WON_2" | "WON_3";
+            delivery?: boolean;
             /** @description 대표 이미지 URL */
-            imageUrl?: string | null;
+            imageUrl?: string;
             /**
              * @description 랭킹 정보 (주간/월간)
              * @example {
@@ -515,47 +619,14 @@ export interface components {
         GetStoreLikeResponse: {
             isLike: boolean;
         };
-        /** @description 영업 시간 정보 */
-        BusinessHour: {
-            /**
-             * @description 요일
-             * @enum {string}
-             */
-            dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
-            /**
-             * @description 오픈 시간
-             * @example 10:00
-             */
-            openTime?: string | null;
-            /**
-             * @description 마감 시간
-             * @example 22:00
-             */
-            closeTime?: string | null;
-            /**
-             * @description 휴게 시작 시간
-             * @example 15:00
-             */
-            breakStart?: string | null;
-            /**
-             * @description 휴게 종료 시간
-             * @example 17:00
-             */
-            breakEnd?: string | null;
-            /**
-             * @description 마지막 주문 시간
-             * @example 21:30
-             */
-            lastOrder?: string | null;
-            /** @description 휴무 여부 */
-            isClosed: boolean;
-        };
         GetStoreDetailResponse: {
             /**
              * Format: int64
              * @description 가게 ID
              */
             storeId: number;
+            /** @description 가게 상태 */
+            status: string;
             /** @description 가게 이름 */
             name: string;
             /** @description 카테고리 */
@@ -575,22 +646,20 @@ export interface components {
             /** @description 가게 이미지 URL 목록 */
             images: string[];
             /** @description 영업 시간 정보 */
-            businessHours: components["schemas"]["BusinessHour"][];
-            /** @description 주차 가능 여부 */
-            parking: boolean;
-            /** @description 배달 가능 여부 */
-            delivery: boolean;
-            /** @description 포장 가능 여부 */
-            takeout: boolean;
+            businessHours: components["schemas"]["GetStoreDetailResponseBusinessHour"][];
+            /** @description 편의 시설 여부 */
+            facilities: components["schemas"]["GetStoreDetailResponseFacility"];
             /**
              * @description 가격대
              * @enum {string}
              */
             priceRange: "WON_1" | "WON_2" | "WON_3";
-            station?: components["schemas"]["Station"];
-            likes?: components["schemas"]["Like"];
+            /** @description 가장 가까운 지하철 역 정보 */
+            station?: components["schemas"]["GetStoreDetailResponseStation"];
+            /** @description 좋아요 집계 정보 */
+            likes?: components["schemas"]["GetStoreDetailResponseLike"];
             /** @description 메뉴 목록 */
-            menus: components["schemas"]["Menu"][];
+            menus: components["schemas"]["GetStoreDetailResponseMenu"][];
             /**
              * @description 랭킹 정보 (주간/월간)
              * @example {
@@ -602,26 +671,66 @@ export interface components {
                 [key: string]: number;
             };
         };
-        /** @description 좋아요 집계 정보 */
-        Like: {
+        GetStoreDetailResponseBusinessHour: {
+            /**
+             * @description 요일
+             * @enum {string}
+             */
+            dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+            /**
+             * @description 오픈 시간
+             * @example 10:00
+             */
+            openTime?: string;
+            /**
+             * @description 마감 시간
+             * @example 22:00
+             */
+            closeTime?: string;
+            /**
+             * @description 휴게 시작 시간
+             * @example 15:00
+             */
+            breakStart?: string;
+            /**
+             * @description 휴게 종료 시간
+             * @example 17:00
+             */
+            breakEnd?: string;
+            /**
+             * @description 마지막 주문 시간
+             * @example 21:30
+             */
+            lastOrder?: string;
+            /** @description 휴무 여부 */
+            isClosed: boolean;
+        };
+        GetStoreDetailResponseFacility: {
+            parking: boolean;
+            takeout: boolean;
+            delivery: boolean;
+            indoorRestroom: boolean;
+            outdoorRestroom: boolean;
+            groupSeating: boolean;
+        };
+        GetStoreDetailResponseLike: {
             /**
              * Format: int64
              * @description 전체 좋아요 수
              */
-            total: number | null;
+            total: number;
             /**
              * Format: int64
              * @description 주간 좋아요 수
              */
-            weekly: number | null;
+            weekly: number;
             /**
              * Format: int64
              * @description 월간 좋아요 수
              */
-            monthly: number | null;
-        } | null;
-        /** @description 메뉴 목록 */
-        Menu: {
+            monthly: number;
+        };
+        GetStoreDetailResponseMenu: {
             /** @description 메뉴 이름 */
             name: string;
             /**
@@ -632,8 +741,7 @@ export interface components {
             /** @description 메뉴 이미지 URL */
             imageUrl: string;
         };
-        /** @description 가장 가까운 지하철 역 정보 */
-        Station: {
+        GetStoreDetailResponseStation: {
             /** @description 지하철 역 이름 */
             name: string;
             /**
@@ -641,7 +749,7 @@ export interface components {
              * @description 가게로부터의 거리(미터)
              */
             distanceMeters: number;
-        } | null;
+        };
         GetMyMammaMiaStoreRequest: {
             /** Format: int32 */
             size: number;
@@ -670,6 +778,14 @@ export interface components {
             mammaMiaCount: number;
             /** Format: int32 */
             cheerUpCount: number;
+        };
+        GetMyRegisteredChallengeStoreResponse: {
+            /** Format: int64 */
+            storeId: number;
+            name: string;
+            status: string;
+            category: string;
+            imageUrl: string;
         };
         GetMyBookmarkStoreRequest: {
             /** Format: int32 */
@@ -818,21 +934,19 @@ export interface operations {
             };
         };
     };
-    patch: {
+    register: {
         parameters: {
-            query: {
-                memberId: number;
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: {
+        requestBody: {
             content: {
                 "multipart/form-data": {
-                    /** Format: binary */
-                    image: string;
-                    nickname: components["schemas"]["PatchProfileRequest"];
+                    request: components["schemas"]["RegisterChallengeStoreRequest"];
+                    storeImages: string[];
+                    menuImages: string[];
                 };
             };
         };
@@ -916,23 +1030,28 @@ export interface operations {
             };
         };
     };
-    listWeeklyRanking: {
+    patch: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "multipart/form-data": {
+                    request: components["schemas"]["PatchProfileRequest"];
+                    profileImage: string[];
+                };
+            };
+        };
         responses: {
             /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "*/*": components["schemas"]["GetStoreRankingResponses"];
-                };
+                content?: never;
             };
         };
     };
@@ -961,6 +1080,28 @@ export interface operations {
     list_1: {
         parameters: {
             query: {
+                request: components["schemas"]["GetStoreRankingRequest"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetStoreRankingResponses"];
+                };
+            };
+        };
+    };
+    list_2: {
+        parameters: {
+            query: {
                 request: components["schemas"]["GetNearByStoreRequest"];
             };
             header?: never;
@@ -976,26 +1117,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["GetNearByStoreResponses"];
-                };
-            };
-        };
-    };
-    listMonthlyRanking: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["GetStoreRankingResponses"];
                 };
             };
         };
@@ -1022,7 +1143,7 @@ export interface operations {
             };
         };
     };
-    list_2: {
+    list_3: {
         parameters: {
             query: {
                 memberId: number;
@@ -1067,7 +1188,29 @@ export interface operations {
             };
         };
     };
-    list_3: {
+    list_4: {
+        parameters: {
+            query: {
+                memberId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetMyRegisteredChallengeStoreResponse"][];
+                };
+            };
+        };
+    };
+    list_5: {
         parameters: {
             query: {
                 memberId: number;
