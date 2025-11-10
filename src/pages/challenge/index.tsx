@@ -4,11 +4,13 @@ import { css } from "@emotion/react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import BackIcon from "./_assets/back.svg?react";
 import challengeText from "./_assets/challenge_text.webp";
-import ArrowDownIcon from "./registration/_assets/arrow_down.svg?react";
+import TopIcon from "./_assets/top.svg?react";
+import WriteIcon from "./_assets/write.svg?react";
 import ToggleButton from "@/@lib/components/ToggleButton";
 import ChallengeSummaryCard from "./_components/ChallengeSummaryCard";
 import { useGetRankingQuery } from "@/hooks/@server/store";
 import Spacing from "@/@lib/components/Spacing";
+import VIEWPORT from "@/constants/viewport";
 
 const PERIOD_TYPE = {
   WEEKLY: "WEEKLY",
@@ -81,6 +83,23 @@ const ChallengePage = () => {
           />
         ))}
       </div>
+
+      <div css={floatingButtonsContainerStyle}>
+        <button
+          type="button"
+          css={css(floatingButtonBaseStyle, floatingButtonTopStyle)}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          <TopIcon css={floatingButtonIconStyle} />
+        </button>
+        <button
+          type="button"
+          css={css(floatingButtonBaseStyle, floatingButtonWriteStyle)}
+          onClick={() => navigate("/challenge/registration")}
+        >
+          <WriteIcon css={floatingButtonIconStyle} />
+        </button>
+      </div>
     </div>
   );
 };
@@ -145,26 +164,52 @@ const listHeaderCountStyle = css(
   TYPOGRAPHY.HEADERS["16SB"]
 );
 
-const orderButtonStyle = css({
-  height: 28,
-  padding: "8px 2px 8px 6px",
+const floatingButtonsContainerStyle = css({
+  position: "fixed",
+  left: "50%",
+  transform: "translateX(-50%)",
+  bottom: 81,
+
   display: "flex",
-  alignItems: "center",
-  gap: 2,
-  borderRadius: 4,
-  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
-  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-  cursor: "pointer",
+  flexDirection: "column",
+  alignItems: "end",
+  padding: "0 20px",
+  gap: 12,
+
+  maxWidth: VIEWPORT.MAX_WIDTH,
+  width: "100%",
+  zIndex: 10,
 });
 
-const orderButtonTextStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
-  },
-  TYPOGRAPHY.BODY["14R"]
-);
+const floatingButtonBaseStyle = css({
+  width: 44,
+  height: 44,
+  borderRadius: 28,
+  border: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+  boxShadow: THEME.SHADOWS.EMPHASIZED,
 
-const orderButtonIconStyle = css({
-  width: 20,
-  height: 20,
+  "&:hover": {
+    opacity: 0.9,
+  },
+
+  "&:active": {
+    transform: "scale(0.95)",
+  },
+});
+
+const floatingButtonTopStyle = css({
+  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+});
+
+const floatingButtonWriteStyle = css({
+  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
+});
+
+const floatingButtonIconStyle = css({
+  width: 24,
+  height: 24,
 });
