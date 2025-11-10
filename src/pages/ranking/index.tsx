@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import BackIcon from "./_assets/back.svg?react";
 import RankingCard from "./_components/RankingCard";
 import { Swiper, SwiperSlide } from "swiper/react";
-import RankingText from "./_assets/ranking_text.svg?react";
+import rankingText from "./_assets/ranking_text.webp";
 import ToggleButton from "@/@lib/components/ToggleButton";
 import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard";
 import { useGetRankingQuery } from "@/hooks/@server/store";
@@ -55,7 +55,12 @@ const RankingPage = () => {
         css={restaurantBackgroundImageStyle}
       />
 
-      <RankingText css={rankingTextStyle} />
+      <img
+        src={rankingText}
+        alt="ranking text"
+        width={135}
+        css={rankingTextStyle}
+      />
       {/* 랭킹 카드 섹션 */}
       <Swiper
         css={rankingSectionStyle}
