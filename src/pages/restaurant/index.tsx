@@ -184,25 +184,27 @@ const RestaurantDetailPage = () => {
         </div>
 
         {/* 부가 정보 */}
-        {[storeDetail.parking, storeDetail.delivery, storeDetail.takeout].some(
-          Boolean
-        ) && (
+        {[
+          storeDetail.facilities.parking,
+          storeDetail.facilities.delivery,
+          storeDetail.facilities.takeout,
+        ].some(Boolean) && (
           <div css={additionalInfoSectionStyle}>
             <h2 css={sectionTitleStyle}>부가 정보</h2>
             <div css={additionalInfoGridStyle}>
-              {storeDetail.parking && (
+              {storeDetail.facilities.parking && (
                 <div css={additionalInfoItemStyle}>
                   <img css={additionalEmojiStyle} src={carImg} />
                   <span css={additionalTextStyle}>주차 가능</span>
                 </div>
               )}
-              {storeDetail.delivery && (
+              {storeDetail.facilities.delivery && (
                 <div css={additionalInfoItemStyle}>
                   <img css={additionalEmojiStyle} src={deliveryImg} />
                   <span css={additionalTextStyle}>배달 가능</span>
                 </div>
               )}
-              {storeDetail.takeout && (
+              {storeDetail.facilities.takeout && (
                 <div css={additionalInfoItemStyle}>
                   <img css={additionalEmojiStyle} src={takeoutImg} />
                   <span css={additionalTextStyle}>포장 가능</span>
