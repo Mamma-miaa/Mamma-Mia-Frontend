@@ -88,7 +88,8 @@ const resetCSS = css`
   time,
   mark,
   audio,
-  video {
+  video,
+  button {
     margin: 0;
     padding: 0;
     border: 0;
@@ -130,6 +131,11 @@ const resetCSS = css`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+  button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
   }
 `;
 
