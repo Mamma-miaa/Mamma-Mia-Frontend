@@ -15,12 +15,15 @@ export const getStoreDetail = async (
   return await api.get(`/store/detail/${storeId}`);
 };
 
-export const getRanking = async ({
-  period,
-}: {
-  period: "weekly" | "monthly";
-}): Promise<components["schemas"]["GetStoreRankingResponses"]> => {
-  return await api.get(`/store/${period}`);
+type GetRankingParams = Omit<
+  components["schemas"]["GetStoreRankingRequest"],
+  "status" | "type"
+> & { status: "NORMAL" | "CHALLENGE"; type: "WEEKLY" | "MONTHLY" };
+
+export const getRanking = async (
+  params: GetRankingParams
+): Promise<components["schemas"]["GetStoreRankingResponses"]> => {
+  return await api.get("/store/rankings", { params });
 };
 
 export const getSearchedStores = async (
