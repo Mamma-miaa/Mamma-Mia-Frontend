@@ -6,9 +6,6 @@ import locationImg from "@/assets/emoji/location.webp";
 import ClipBoardIcon from "./_assets/clipboard.svg?react";
 import TranslateIcon from "./_assets/translate.svg?react";
 import timeImg from "@/assets/emoji/time.webp";
-import carImg from "@/assets/emoji/car.webp";
-import deliveryImg from "@/assets/emoji/delivery.webp";
-import takeoutImg from "@/assets/emoji/takeout.webp";
 import ArrowIcon from "./_assets/arrow.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
 import { useSearchParams } from "react-router-dom";
@@ -19,6 +16,7 @@ import RestaurantBusinessHour from "./_components/RestaurantBusinessHour";
 import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
 import MammaMiaButton from "./_components/MammaMiaButton";
 import RestaurantDetailImages from "./_components/RestaurantDetailImages";
+import RestaurantFacilities from "./_components/RestaurantFacilities";
 
 export const DAY_OF_WEEK: Record<string, { ko: string; en: string }> = {
   SUNDAY: { ko: "일", en: "SUNDAY" },
@@ -184,35 +182,7 @@ const RestaurantDetailPage = () => {
         </div>
 
         {/* 부가 정보 */}
-        {[
-          storeDetail.facilities.parking,
-          storeDetail.facilities.delivery,
-          storeDetail.facilities.takeout,
-        ].some(Boolean) && (
-          <div css={additionalInfoSectionStyle}>
-            <h2 css={sectionTitleStyle}>부가 정보</h2>
-            <div css={additionalInfoGridStyle}>
-              {storeDetail.facilities.parking && (
-                <div css={additionalInfoItemStyle}>
-                  <img css={additionalEmojiStyle} src={carImg} />
-                  <span css={additionalTextStyle}>주차 가능</span>
-                </div>
-              )}
-              {storeDetail.facilities.delivery && (
-                <div css={additionalInfoItemStyle}>
-                  <img css={additionalEmojiStyle} src={deliveryImg} />
-                  <span css={additionalTextStyle}>배달 가능</span>
-                </div>
-              )}
-              {storeDetail.facilities.takeout && (
-                <div css={additionalInfoItemStyle}>
-                  <img css={additionalEmojiStyle} src={takeoutImg} />
-                  <span css={additionalTextStyle}>포장 가능</span>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+        <RestaurantFacilities facilities={storeDetail.facilities} />
 
         {/* 매장 위치 */}
         <RestaurantLocationSection
@@ -538,45 +508,6 @@ const menuImageStyle = css({
   objectFit: "cover",
   margin: "-2.5px",
 });
-
-// 부가 정보 섹션
-const additionalInfoSectionStyle = css({
-  display: "flex",
-  flexDirection: "column",
-  gap: 12,
-});
-
-// 부가 정보 그리드
-const additionalInfoGridStyle = css({
-  display: "flex",
-  alignItems: "stretch",
-  gap: 24,
-});
-
-// 부가 정보 아이템
-const additionalInfoItemStyle = css({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  gap: 6,
-  flex: 1 / 3,
-});
-
-// 부가 정보 이모지
-const additionalEmojiStyle = css({
-  width: 24,
-  height: 24,
-});
-
-// 부가 정보 텍스트
-const additionalTextStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.NORMAL,
-    textAlign: "center",
-    whiteSpace: "nowrap",
-  },
-  TYPOGRAPHY.BODY["14R"]
-);
 
 // 제보 섹션
 const reportSectionStyle = css({
