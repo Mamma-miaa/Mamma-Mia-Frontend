@@ -102,8 +102,8 @@ const ChallengePage = () => {
             <WriteIcon css={floatingButtonIconStyle} />
           </button>
         </div>
+        <Spacing size={64} />
       </div>
-      <Spacing size={64} />
       <BottomGNB />
     </>
   );
