@@ -11,6 +11,7 @@ import ChallengeSummaryCard from "./_components/ChallengeSummaryCard";
 import { useGetRankingQuery } from "@/hooks/@server/store";
 import Spacing from "@/@lib/components/Spacing";
 import VIEWPORT from "@/constants/viewport";
+import BottomGNB from "@/components/BottomGNB";
 
 const PERIOD_TYPE = {
   WEEKLY: "WEEKLY",
@@ -29,78 +30,82 @@ const ChallengePage = () => {
     data: { stores },
   } = useGetRankingQuery({ status: "CHALLENGE", type: period });
   return (
-    <div css={pageContainerStyle}>
-      {/* 뒤로가기 버튼 */}
-      <button
-        css={css(
-          floatingButtonStyle,
-          css({ position: "absolute", top: 20, left: 20 })
-        )}
-        onClick={() => navigate(-1)}
-      >
-        <BackIcon />
-      </button>
-      <div
-        css={css({ position: "absolute", top: 20, right: 20, zIndex: 1000 })}
-      >
-        <ToggleButton
-          paramKey="period"
-          firstItem={{ label: "주간", value: PERIOD_TYPE.WEEKLY }}
-          secondItem={{ label: "월간", value: PERIOD_TYPE.MONTHLY }}
-        />
-      </div>
-
-      <Spacing size={56} />
-      <div
-        css={css({
-          display: "flex",
-          justifyContent: "center",
-          padding: "20px 0",
-        })}
-      >
-        <img src={challengeText} alt="challenge text" width={164} />
-      </div>
-      <Spacing size={20} />
-
-      <div css={listHeaderContainerStyle}>
-        <div css={listHeaderTitleWrapperStyle}>
-          <span css={listHeaderLabelStyle}>전체</span>
-          <span css={listHeaderCountStyle}>{stores.length}</span>
+    <>
+      <div css={pageContainerStyle}>
+        {/* 뒤로가기 버튼 */}
+        <button
+          css={css(
+            floatingButtonStyle,
+            css({ position: "absolute", top: 20, left: 20 })
+          )}
+          onClick={() => navigate(-1)}
+        >
+          <BackIcon />
+        </button>
+        <div
+          css={css({ position: "absolute", top: 20, right: 20, zIndex: 1000 })}
+        >
+          <ToggleButton
+            paramKey="period"
+            firstItem={{ label: "주간", value: PERIOD_TYPE.WEEKLY }}
+            secondItem={{ label: "월간", value: PERIOD_TYPE.MONTHLY }}
+          />
         </div>
-        {/* <button type="button" css={orderButtonStyle}>
+
+        <Spacing size={56} />
+        <div
+          css={css({
+            display: "flex",
+            justifyContent: "center",
+            padding: "20px 0",
+          })}
+        >
+          <img src={challengeText} alt="challenge text" width={164} />
+        </div>
+        <Spacing size={20} />
+
+        <div css={listHeaderContainerStyle}>
+          <div css={listHeaderTitleWrapperStyle}>
+            <span css={listHeaderLabelStyle}>전체</span>
+            <span css={listHeaderCountStyle}>{stores.length}</span>
+          </div>
+          {/* <button type="button" css={orderButtonStyle}>
           <span css={orderButtonTextStyle}>최신순</span>
           <ArrowDownIcon css={orderButtonIconStyle} />
         </button> */}
-      </div>
-      <Spacing size={12} />
+        </div>
+        <Spacing size={12} />
 
-      {/* 전체 // 나열 */}
-      <div css={css({ padding: "0 20px" })}>
-        {stores.map((restaurant) => (
-          <ChallengeSummaryCard
-            restaurant={restaurant}
-            key={restaurant.storeId}
-          />
-        ))}
-      </div>
+        {/* 전체 // 나열 */}
+        <div css={css({ padding: "0 20px" })}>
+          {stores.map((restaurant) => (
+            <ChallengeSummaryCard
+              restaurant={restaurant}
+              key={restaurant.storeId}
+            />
+          ))}
+        </div>
 
-      <div css={floatingButtonsContainerStyle}>
-        <button
-          type="button"
-          css={css(floatingButtonBaseStyle, floatingButtonTopStyle)}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        >
-          <TopIcon css={floatingButtonIconStyle} />
-        </button>
-        <button
-          type="button"
-          css={css(floatingButtonBaseStyle, floatingButtonWriteStyle)}
-          onClick={() => navigate("/challenge/registration")}
-        >
-          <WriteIcon css={floatingButtonIconStyle} />
-        </button>
+        <div css={floatingButtonsContainerStyle}>
+          <button
+            type="button"
+            css={css(floatingButtonBaseStyle, floatingButtonTopStyle)}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          >
+            <TopIcon css={floatingButtonIconStyle} />
+          </button>
+          <button
+            type="button"
+            css={css(floatingButtonBaseStyle, floatingButtonWriteStyle)}
+            onClick={() => navigate("/challenge/registration")}
+          >
+            <WriteIcon css={floatingButtonIconStyle} />
+          </button>
+        </div>
       </div>
-    </div>
+      <Spacing size={64} />
+      <BottomGNB />
+    </>
   );
 };
 
