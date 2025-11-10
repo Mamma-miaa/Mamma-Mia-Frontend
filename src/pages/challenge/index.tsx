@@ -69,6 +69,8 @@ const ChallengePage = () => {
             <span css={listHeaderLabelStyle}>전체</span>
             <span css={listHeaderCountStyle}>{stores.length}</span>
           </div>
+
+          {/* TODO 정렬 기능 */}
           {/* <button type="button" css={orderButtonStyle}>
           <span css={orderButtonTextStyle}>최신순</span>
           <ArrowDownIcon css={orderButtonIconStyle} />
@@ -76,7 +78,7 @@ const ChallengePage = () => {
         </div>
         <Spacing size={12} />
 
-        {/* 전체 // 나열 */}
+        {/* TODO Empty 케이스 추가 */}
         <div css={css({ padding: "0 20px" })}>
           {stores.map((restaurant) => (
             <ChallengeSummaryCard
