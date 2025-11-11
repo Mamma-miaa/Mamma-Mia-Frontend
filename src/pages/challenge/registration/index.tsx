@@ -28,6 +28,7 @@ import {
   openBusinessHoursBottomSheet,
   type BusinessHoursData,
 } from "./_components/BusinessHoursBottomSheet";
+import { usePostChallengeApplicationMutation } from "@/hooks/@server/store";
 
 interface PhotoFile {
   file: File;
@@ -49,6 +50,8 @@ const ChallengeRegistrationPage = () => {
   const [businessHoursData, setBusinessHoursData] = useState<
     BusinessHoursData[]
   >([]);
+  const { mutate: postChallengeApplication } =
+    usePostChallengeApplicationMutation();
 
   const handleCategorySelect = async () => {
     const categories = await openCategoryFilteringBottomSheet({
@@ -126,14 +129,14 @@ const ChallengeRegistrationPage = () => {
     };
   }, [photos]);
 
-  // 모든 필드가 채워졌는지 확인
-  //   const isAllFieldsFilled =
-  //     selectedCategories.length > 0 &&
-  //     selectedRestaurant !== null &&
-  //     photos.length > 0 &&
-  //     comment.trim().length > 0 &&
-  //     recommendedMenus.length > 0;
-  const isAllFieldsFilled = true;
+  //   모든 필드가 채워졌는지 확인
+  const isAllFieldsFilled =
+    selectedCategories.length > 0 &&
+    selectedRestaurant !== null &&
+    photos.length > 0 &&
+    comment.trim().length > 0 &&
+    recommendedMenus.length > 0;
+  //   const isAllFieldsFilled = true;
 
   const handleNextStep = () => {
     if (isAllFieldsFilled && step === 1) {
@@ -147,6 +150,75 @@ const ChallengeRegistrationPage = () => {
         ? prev.filter((item) => item !== option)
         : [...prev, option]
     );
+  };
+
+  const handleChallengeApplication = () => {
+    postChallengeApplication({
+      request: {
+        facilities: {
+          parking: additionalOptions.includes("parking"),
+          takeout: additionalOptions.includes("takeout"),
+          delivery: additionalOptions.includes("delivery"),
+          indoorRestroom: additionalOptions.includes("indoor_toilet"),
+          outdoorRestroom: additionalOptions.includes("outdoor_toilet"),
+          groupSeating: additionalOptions.includes("group_seating"),
+        },
+        name: selectedRestaurant?.place_name ?? "",
+        latitude: Number(selectedRestaurant?.y),
+        longitude: Number(selectedRestaurant?.x),
+        registerChallengeStoreBusinessHours: (() => {
+          // 한글 요일을 영문 요일로 변환
+          const dayMap: Record<
+            string,
+            | "MONDAY"
+            | "TUESDAY"
+            | "WEDNESDAY"
+            | "THURSDAY"
+            | "FRIDAY"
+            | "SATURDAY"
+            | "SUNDAY"
+          > = {
+            월: "MONDAY",
+            화: "TUESDAY",
+            수: "WEDNESDAY",
+            목: "THURSDAY",
+            금: "FRIDAY",
+            토: "SATURDAY",
+            일: "SUNDAY",
+          };
+
+          // businessHoursData를 평탄화하여 각 요일마다 별도의 객체 생성
+          return businessHoursData.flatMap((data) => {
+            const mode = data.options.isClosed
+              ? "CLOSED"
+              : data.options.is24Hours
+              ? "OPEN_24H"
+              : "OPEN_RANGE";
+
+            return data.selectedDays.map((day) => ({
+              dayOfWeek: dayMap[day],
+              mode,
+              hasBreak: !!data.breakTime,
+              openTime: data.businessHours?.startTime,
+              closeTime: data.businessHours?.endTime,
+              closesNextDay: false, // TODO: 실제 로직에 맞게 수정 필요
+              breakStart: data.breakTime?.startTime,
+              breakEnd: data.breakTime?.endTime,
+              lastOrder: data.lastOrder,
+            }));
+          });
+        })(),
+        address: selectedRestaurant?.address_name ?? "",
+        category: selectedCategories[0],
+        comment: comment,
+        registerChallengeStoreMenus: recommendedMenus.map((menu) => ({
+          name: menu.name,
+          price: Number(menu.price),
+        })),
+      },
+      storeImages: photos.map((photo) => photo.file),
+      menuImages: recommendedMenus.map((menu) => menu.image?.file ?? null),
+    });
   };
 
   return (
@@ -526,7 +598,12 @@ const ChallengeRegistrationPage = () => {
             <Spacing size={100} />
 
             <div css={ctaButtonContainerStyle}>
-              <button css={CTAButtonActiveStyle}>도전맛집 등록하기</button>
+              <button
+                css={CTAButtonActiveStyle}
+                onClick={handleChallengeApplication}
+              >
+                도전맛집 등록하기
+              </button>
             </div>
           </>
         )}
