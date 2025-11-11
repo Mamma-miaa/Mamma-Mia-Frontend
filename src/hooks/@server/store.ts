@@ -10,6 +10,7 @@ import {
   postMammaMia,
   getMammaMia,
   getBookmark,
+  postChallengeApplication,
 } from "@/apis/store";
 import { getIsLoggedIn } from "@/utils/sessionStorage";
 
@@ -88,4 +89,9 @@ export const useGetBookmarkQuery = (
     queryKey: ["getBookmark", params],
     queryFn: () => getBookmark(params),
     enabled: getIsLoggedIn(),
+  });
+
+export const usePostChallengeApplicationMutation = () =>
+  useMutation({
+    mutationFn: postChallengeApplication,
   });
