@@ -221,6 +221,10 @@ const ChallengeRegistrationPage = () => {
     });
   };
 
+  const handlePreviousStep = () => {
+    setStep(1);
+  };
+
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
       <ChallengeRegistrationPageHeader />
@@ -245,7 +249,10 @@ const ChallengeRegistrationPage = () => {
               case 2:
                 return (
                   <>
-                    <div css={stepBadgeDisabledStyle}>
+                    <div
+                      css={stepBadgeDisabledStyle}
+                      onClick={handlePreviousStep}
+                    >
                       <span css={stepNumberDisabledStyle}>
                         <svg
                           width="11"
