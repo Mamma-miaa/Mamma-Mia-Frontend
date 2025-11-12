@@ -153,76 +153,60 @@ const ChallengeRegistrationPage = () => {
   };
 
   const handleChallengeApplication = () => {
-    postChallengeApplication({
-      request: {
-        facilities: {
-          parking: additionalOptions.includes("parking"),
-          takeout: additionalOptions.includes("takeout"),
-          delivery: additionalOptions.includes("delivery"),
-          indoorRestroom: additionalOptions.includes("indoor_toilet"),
-          outdoorRestroom: additionalOptions.includes("outdoor_toilet"),
-          groupSeating: additionalOptions.includes("group_seating"),
-        },
-        name: selectedRestaurant?.place_name ?? "",
-        latitude: Number(selectedRestaurant?.y),
-        longitude: Number(selectedRestaurant?.x),
-        registerChallengeStoreBusinessHours: (() => {
-          // 한글 요일을 영문 요일로 변환
-          const dayMap: Record<
-            string,
-            | "MONDAY"
-            | "TUESDAY"
-            | "WEDNESDAY"
-            | "THURSDAY"
-            | "FRIDAY"
-            | "SATURDAY"
-            | "SUNDAY"
-          > = {
-            월: "MONDAY",
-            화: "TUESDAY",
-            수: "WEDNESDAY",
-            목: "THURSDAY",
-            금: "FRIDAY",
-            토: "SATURDAY",
-            일: "SUNDAY",
-          };
-
-          // businessHoursData를 평탄화하여 각 요일마다 별도의 객체 생성
-          return businessHoursData.flatMap((data) => {
-            const mode = data.options.isClosed
-              ? "CLOSED"
-              : data.options.is24Hours
-              ? "OPEN_24H"
-              : "OPEN_RANGE";
-
-            return data.selectedDays.map((day) => ({
-              dayOfWeek: dayMap[day],
-              mode,
-              hasBreak: !!data.breakTime,
-              openTime: data.businessHours?.startTime,
-              closeTime: data.businessHours?.endTime,
-              closesNextDay: false, // TODO: 실제 로직에 맞게 수정 필요
-              breakStart: data.breakTime?.startTime,
-              breakEnd: data.breakTime?.endTime,
-              lastOrder: data.lastOrder,
-            }));
-          });
-        })(),
-        address: selectedRestaurant?.address_name ?? "",
-        category: selectedCategories[0],
-        comment: comment,
-        registerChallengeStoreMenus: recommendedMenus.map((menu) => ({
-          name: menu.name,
-          price: Number(menu.price),
-        })),
-      },
-      storeImages: photos.map((photo) => photo.file),
-      menuImages: recommendedMenus.map((menu) => menu.image?.file ?? null),
+    const formData = new FormData();
+    formData.append(
+      "request",
+      new Blob(
+        [
+          JSON.stringify({
+            facilities: {
+              parking: additionalOptions.includes("parking"),
+              takeout: additionalOptions.includes("takeout"),
+              delivery: additionalOptions.includes("delivery"),
+              indoorRestroom: additionalOptions.includes("indoor_toilet"),
+              outdoorRestroom: additionalOptions.includes("outdoor_toilet"),
+              groupSeating: additionalOptions.includes("group_seating"),
+            },
+            name: selectedRestaurant?.place_name ?? "",
+            latitude: 0.1,
+            longitude: 0.1,
+            registerChallengeStoreBusinessHours: businessHoursData.map(
+              (data) => ({
+                mode: "string",
+                breakStart: "15:00",
+                closeTime: "22:00",
+                hasBreak: true,
+                dayOfWeek: "MONDAY",
+                closesNextDay: true,
+                openTime: "11:00",
+                lastOrder: "21:30",
+                breakEnd: "17:00",
+              })
+            ),
+            address: selectedRestaurant?.address_name ?? "",
+            category: selectedCategories[0],
+            comment: comment,
+            registerChallengeStoreMenus: recommendedMenus.map((menu) => ({
+              name: menu.name,
+              price: Number(menu.price),
+            })),
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      )
+    );
+    photos.forEach((photo) => {
+      formData.append("storeImages", photo.file);
     });
-  };
 
-  const handlePreviousStep = () => {
-    setStep(1);
+    recommendedMenus.forEach((menu) => {
+      if (menu.image?.file) {
+        formData.append("menuImages", menu.image.file);
+      }
+    });
+    postChallengeApplication(formData);
   };
 
   return (
@@ -249,10 +233,7 @@ const ChallengeRegistrationPage = () => {
               case 2:
                 return (
                   <>
-                    <div
-                      css={stepBadgeDisabledStyle}
-                      onClick={handlePreviousStep}
-                    >
+                    <div css={stepBadgeDisabledStyle}>
                       <span css={stepNumberDisabledStyle}>
                         <svg
                           width="11"

@@ -62,33 +62,9 @@ export const deleteBookmark = async (
   return await api.delete(`/store/${params.storeId}/bookmark`);
 };
 
-type PostChallengeApplicationData = Pick<
-  paths["/api/v1/store/challenge-application"]["post"]["requestBody"]["content"]["multipart/form-data"],
-  "request"
-> & {
-  storeImages: File[];
-  menuImages: (File | null)[];
-};
-
 export const postChallengeApplication = async (
-  data: PostChallengeApplicationData
+  data: paths["/api/v1/store/challenge-application"]["post"]["requestBody"]["content"]["multipart/form-data"]
 ): Promise<void> => {
-  const formData = new FormData();
-  formData.append(
-    "request",
-    new Blob([JSON.stringify(data.request)], {
-      type: "application/json",
-    })
-  );
-  data.storeImages.forEach((storeImage) => {
-    formData.append("storeImages", storeImage);
-  });
-
-  data.menuImages.forEach((menuImage) => {
-    if (menuImage) {
-      formData.append("menuImages", menuImage);
-    }
-  });
   return await api.post("/store/challenge-application", data, {
     headers: {
       "Content-Type": "multipart/form-data",
