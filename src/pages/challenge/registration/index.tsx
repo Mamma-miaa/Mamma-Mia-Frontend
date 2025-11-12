@@ -29,6 +29,7 @@ import {
   type BusinessHoursData,
 } from "./_components/BusinessHoursBottomSheet";
 import { usePostChallengeApplicationMutation } from "@/hooks/@server/store";
+import { useNavigate } from "react-router-dom";
 
 interface PhotoFile {
   file: File;
@@ -52,6 +53,7 @@ const ChallengeRegistrationPage = () => {
   >([]);
   const { mutate: postChallengeApplication } =
     usePostChallengeApplicationMutation();
+  const navigate = useNavigate();
 
   const handleCategorySelect = async () => {
     const categories = await openCategoryFilteringBottomSheet({
@@ -231,7 +233,15 @@ const ChallengeRegistrationPage = () => {
         formData.append("menuImages", menu.image.file);
       }
     });
-    postChallengeApplication(formData);
+    postChallengeApplication(formData, {
+      onSuccess: (data) => {
+        // TODO 도전 맛집 등록 성공 시 처리
+        navigate("/", { replace: true });
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
   };
 
   return (
