@@ -246,7 +246,7 @@ const ChallengeRegistrationPage = () => {
 
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
-      <ChallengeRegistrationPageHeader />
+      <ChallengeRegistrationPageHeader step={step} setStep={setStep} />
       <Spacing size={20} />
       {/* 내용 */}
       <div css={contentContainerStyle}>
