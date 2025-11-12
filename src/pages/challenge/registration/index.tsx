@@ -31,6 +31,16 @@ import {
 import { usePostChallengeApplicationMutation } from "@/hooks/@server/store";
 import { useNavigate } from "react-router-dom";
 
+const DAYS_MAP = {
+  월: "MONDAY",
+  화: "TUESDAY",
+  수: "WEDNESDAY",
+  목: "THURSDAY",
+  금: "FRIDAY",
+  토: "SATURDAY",
+  일: "SUNDAY",
+} as const;
+
 interface PhotoFile {
   file: File;
   preview: string;
@@ -202,7 +212,7 @@ const ChallengeRegistrationPage = () => {
                 breakStart: data.breakTime?.startTime ?? null,
                 closeTime: data.breakTime?.endTime ?? null,
                 hasBreak: data.options.hasBreakTime ?? false,
-                dayOfWeek: data.selectedDays[0],
+                dayOfWeek: DAYS_MAP[data.selectedDay],
                 closesNextDay: false,
                 openTime: data.businessHours?.startTime ?? null,
                 lastOrder: data.options.hasLastOrder
@@ -483,60 +493,52 @@ const ChallengeRegistrationPage = () => {
               {businessHoursData.length > 0 && (
                 <div css={businessHoursListStyle}>
                   {businessHoursData.map((data, index) => {
-                    return data.selectedDays.map((day) => {
-                      const isClosed = data.options.isClosed;
-                      const is24Hours = data.options.is24Hours;
-                      const hasBreakTime =
-                        data.options.hasBreakTime && data.breakTime;
-                      const businessHours = data.businessHours;
-
-                      return (
-                        <div
-                          key={`${index}-${day}`}
-                          css={businessHoursItemStyle}
-                        >
-                          <div css={businessHoursItemContentStyle}>
-                            <span css={businessHoursDayStyle}>{day}</span>
-                            <div css={businessHoursInfoStyle}>
-                              {isClosed ? (
+                    return (
+                      <div css={businessHoursItemStyle}>
+                        <div css={businessHoursItemContentStyle}>
+                          <span css={businessHoursDayStyle}>
+                            {data.selectedDay}
+                          </span>
+                          <div css={businessHoursInfoStyle}>
+                            {data.options.isClosed ? (
+                              <span css={businessHoursTextStyle}>
+                                정기 휴무(매주 {data.selectedDay}요일)
+                              </span>
+                            ) : data.options.is24Hours ? (
+                              <span css={businessHoursTextStyle}>
+                                24시 영업
+                              </span>
+                            ) : data.businessHours ? (
+                              <>
                                 <span css={businessHoursTextStyle}>
-                                  정기 휴무(매주 {day}요일)
+                                  {data.businessHours.startTime} ~{" "}
+                                  {data.businessHours.endTime}
                                 </span>
-                              ) : is24Hours ? (
-                                <span css={businessHoursTextStyle}>
-                                  24시 영업
-                                </span>
-                              ) : businessHours ? (
-                                <>
-                                  <span css={businessHoursTextStyle}>
-                                    {businessHours.startTime} ~{" "}
-                                    {businessHours.endTime}
-                                  </span>
-                                  {hasBreakTime && data.breakTime && (
+                                {data.options.hasBreakTime &&
+                                  data.breakTime && (
                                     <span css={businessHoursTextStyle}>
                                       {data.breakTime.startTime} ~{" "}
                                       {data.breakTime.endTime} 브레이크 타임
                                     </span>
                                   )}
-                                  {data.lastOrder && (
-                                    <span css={businessHoursTextStyle}>
-                                      라스트오더 {data.lastOrder}
-                                    </span>
-                                  )}
-                                </>
-                              ) : null}
-                            </div>
+                                {data.lastOrder && (
+                                  <span css={businessHoursTextStyle}>
+                                    라스트오더 {data.lastOrder}
+                                  </span>
+                                )}
+                              </>
+                            ) : null}
                           </div>
-                          <button
-                            css={businessHoursEditButtonStyle}
-                            onClick={handleBusinessHoursEdit}
-                            type="button"
-                          >
-                            수정
-                          </button>
                         </div>
-                      );
-                    });
+                        <button
+                          css={businessHoursEditButtonStyle}
+                          onClick={handleBusinessHoursEdit}
+                          type="button"
+                        >
+                          수정
+                        </button>
+                      </div>
+                    );
                   })}
                 </div>
               )}
