@@ -6,7 +6,7 @@ import TYPOGRAPHY from "@/constants/typography";
 import { useState } from "react";
 
 export interface BusinessHoursData {
-  selectedDays: string[];
+  selectedDay: (typeof DAYS)[number];
   options: {
     isClosed: boolean;
     is24Hours: boolean;
@@ -37,15 +37,6 @@ export const openBusinessHoursBottomSheet = () => {
 };
 
 const DAYS = ["월", "화", "수", "목", "금", "토", "일"] as const;
-const DAYS_MAP = {
-  월: "MONDAY",
-  화: "TUESDAY",
-  수: "WEDNESDAY",
-  목: "THURSDAY",
-  금: "FRIDAY",
-  토: "SATURDAY",
-  일: "SUNDAY",
-} as const;
 
 // 시간 옵션 생성 (00:00 ~ 23:30, 30분 단위)
 const generateTimeOptions = () => {
@@ -71,7 +62,9 @@ const BusinessHoursBottomSheet = ({
   onClose: () => void;
   onApply: (data: BusinessHoursData | null) => void;
 }) => {
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [selectedDay, setSelectedDay] = useState<(typeof DAYS)[number] | null>(
+    null
+  );
   const [options, setOptions] = useState({
     isClosed: false,
     is24Hours: false,
@@ -89,11 +82,7 @@ const BusinessHoursBottomSheet = ({
   const [lastOrder, setLastOrder] = useState("");
 
   const handleDayToggle = (day: (typeof DAYS)[number]) => {
-    setSelectedDays((prev) =>
-      prev.includes(day)
-        ? prev.filter((d) => d !== day)
-        : [...prev, DAYS_MAP[day]]
-    );
+    setSelectedDay(day);
   };
 
   const handleOptionToggle = (option: keyof typeof options) => {
@@ -104,8 +93,10 @@ const BusinessHoursBottomSheet = ({
   };
 
   const handleApply = () => {
+    if (!selectedDay) return;
+
     onApply({
-      selectedDays,
+      selectedDay,
       options,
       businessHours:
         businessHours.startTime && businessHours.endTime
@@ -136,7 +127,7 @@ const BusinessHoursBottomSheet = ({
               key={day}
               css={[
                 dayButtonStyle,
-                selectedDays.includes(day) && dayButtonActiveStyle,
+                selectedDay === day && dayButtonActiveStyle,
               ]}
               onClick={() => handleDayToggle(day)}
               type="button"
