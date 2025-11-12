@@ -36,7 +36,16 @@ export const openBusinessHoursBottomSheet = () => {
   });
 };
 
-const DAYS = ["월", "화", "수", "목", "금", "토", "일"];
+const DAYS = ["월", "화", "수", "목", "금", "토", "일"] as const;
+const DAYS_MAP = {
+  월: "MONDAY",
+  화: "TUESDAY",
+  수: "WEDNESDAY",
+  목: "THURSDAY",
+  금: "FRIDAY",
+  토: "SATURDAY",
+  일: "SUNDAY",
+} as const;
 
 // 시간 옵션 생성 (00:00 ~ 23:30, 30분 단위)
 const generateTimeOptions = () => {
@@ -79,9 +88,11 @@ const BusinessHoursBottomSheet = ({
   });
   const [lastOrder, setLastOrder] = useState("");
 
-  const handleDayToggle = (day: string) => {
+  const handleDayToggle = (day: (typeof DAYS)[number]) => {
     setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+      prev.includes(day)
+        ? prev.filter((d) => d !== day)
+        : [...prev, DAYS_MAP[day]]
     );
   };
 
