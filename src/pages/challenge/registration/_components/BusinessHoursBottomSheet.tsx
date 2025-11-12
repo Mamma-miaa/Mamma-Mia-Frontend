@@ -135,170 +135,125 @@ const BusinessHoursBottomSheet = ({
           ))}
         </div>
 
-        {/* 옵션 선택 */}
-        <div css={optionsContainerStyle}>
-          <button
-            css={optionButtonStyle}
-            onClick={() => handleOptionToggle("isClosed")}
-            type="button"
-          >
-            <div css={[checkboxStyle, options.isClosed && checkboxActiveStyle]}>
-              {options.isClosed && (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+        {/* 영업 시간 섹션 */}
+        <div css={hoursContainerStyle}>
+          {/* 영업 시간 */}
+          <div css={timeSectionStyle}>
+            <div css={timeLabelRowStyle}>
+              <label css={timeLabelStyle}>영업 시간*</label>
+              <div css={timeOptionsStyle}>
+                <button
+                  css={timeOptionButtonStyle}
+                  onClick={() => handleOptionToggle("is24Hours")}
+                  type="button"
                 >
-                  <path
-                    d="M16.6667 5L7.50004 14.1667L3.33337 10"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
-            </div>
-            <span css={optionTextStyle}>휴무</span>
-          </button>
-          <button
-            css={optionButtonStyle}
-            onClick={() => handleOptionToggle("is24Hours")}
-            type="button"
-          >
-            <div
-              css={[checkboxStyle, options.is24Hours && checkboxActiveStyle]}
-            >
-              {options.is24Hours && (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                  <div
+                    css={[
+                      checkboxIconStyle,
+                      options.is24Hours && checkboxIconActiveStyle,
+                    ]}
+                  >
+                    {options.is24Hours && (
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16.6667 5L7.50004 14.1667L3.33337 10"
+                          stroke="white"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                  <span css={timeOptionTextStyle}>24시 영업</span>
+                </button>
+                <button
+                  css={timeOptionButtonStyle}
+                  onClick={() => handleOptionToggle("isClosed")}
+                  type="button"
                 >
-                  <path
-                    d="M16.6667 5L7.50004 14.1667L3.33337 10"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
+                  <div
+                    css={[
+                      checkboxIconStyle,
+                      options.isClosed && checkboxIconActiveStyle,
+                    ]}
+                  >
+                    {options.isClosed && (
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16.6667 5L7.50004 14.1667L3.33337 10"
+                          stroke="white"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                  <span css={timeOptionTextStyle}>휴무</span>
+                </button>
+              </div>
             </div>
-            <span css={optionTextStyle}>24시 영업</span>
-          </button>
-          <button
-            css={optionButtonStyle}
-            onClick={() => handleOptionToggle("hasBreakTime")}
-            type="button"
-          >
-            <div
-              css={[checkboxStyle, options.hasBreakTime && checkboxActiveStyle]}
-            >
-              {options.hasBreakTime && (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M16.6667 5L7.50004 14.1667L3.33337 10"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
+            <div css={timeSelectContainerStyle}>
+              <select
+                css={[
+                  timeSelectStyle,
+                  !businessHours.startTime && timeSelectPlaceholderStyle,
+                ]}
+                value={businessHours.startTime}
+                onChange={(e) =>
+                  setBusinessHours((prev) => ({
+                    ...prev,
+                    startTime: e.target.value,
+                  }))
+                }
+                disabled={options.is24Hours || options.isClosed}
+              >
+                <option value="">선택</option>
+                {TIME_OPTIONS.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
+              <span css={timeSeparatorStyle}>~</span>
+              <select
+                css={[
+                  timeSelectStyle,
+                  !businessHours.endTime && timeSelectPlaceholderStyle,
+                ]}
+                value={businessHours.endTime}
+                onChange={(e) =>
+                  setBusinessHours((prev) => ({
+                    ...prev,
+                    endTime: e.target.value,
+                  }))
+                }
+                disabled={options.is24Hours || options.isClosed}
+              >
+                <option value="">선택</option>
+                {TIME_OPTIONS.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
             </div>
-            <span css={optionTextStyle}>브레이크 타임 있음</span>
-          </button>
-          <button
-            css={optionButtonStyle}
-            onClick={() => handleOptionToggle("hasLastOrder")}
-            type="button"
-          >
-            <div
-              css={[checkboxStyle, options.hasLastOrder && checkboxActiveStyle]}
-            >
-              {options.hasLastOrder && (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M16.6667 5L7.50004 14.1667L3.33337 10"
-                    stroke="white"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              )}
-            </div>
-            <span css={optionTextStyle}>라스트오더</span>
-          </button>
-        </div>
-
-        {/* 영업 시간 */}
-        <div css={timeSectionStyle}>
-          <label css={timeLabelStyle}>영업 시간</label>
-          <div css={timeSelectContainerStyle}>
-            <select
-              css={[
-                timeSelectStyle,
-                !businessHours.startTime && timeSelectPlaceholderStyle,
-              ]}
-              value={businessHours.startTime}
-              onChange={(e) =>
-                setBusinessHours((prev) => ({
-                  ...prev,
-                  startTime: e.target.value,
-                }))
-              }
-            >
-              <option value="">선택</option>
-              {TIME_OPTIONS.map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
-            <span css={timeSeparatorStyle}>~</span>
-            <select
-              css={[
-                timeSelectStyle,
-                !businessHours.endTime && timeSelectPlaceholderStyle,
-              ]}
-              value={businessHours.endTime}
-              onChange={(e) =>
-                setBusinessHours((prev) => ({
-                  ...prev,
-                  endTime: e.target.value,
-                }))
-              }
-            >
-              <option value="">선택</option>
-              {TIME_OPTIONS.map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
           </div>
-        </div>
 
-        {/* 브레이크 타임 */}
-        {options.hasBreakTime && (
+          {/* 브레이크 타임 */}
           <div css={timeSectionStyle}>
             <label css={timeLabelStyle}>브레이크 타임</label>
             <div css={timeSelectContainerStyle}>
@@ -345,23 +300,28 @@ const BusinessHoursBottomSheet = ({
               </select>
             </div>
           </div>
-        )}
 
-        {/* 라스트오더 */}
-        <div css={timeSectionStyle}>
-          <label css={timeLabelStyle}>라스트오더</label>
-          <select
-            css={[timeSelectStyle, !lastOrder && timeSelectPlaceholderStyle]}
-            value={lastOrder}
-            onChange={(e) => setLastOrder(e.target.value)}
-          >
-            <option value="">선택</option>
-            {TIME_OPTIONS.map((time) => (
-              <option key={time} value={time}>
-                {time}
-              </option>
-            ))}
-          </select>
+          {/* 라스트오더 */}
+          <div css={timeSectionStyle}>
+            <label css={timeLabelStyle}>라스트오더</label>
+            <div css={timeSelectContainerStyle}>
+              <select
+                css={[
+                  timeSelectStyle,
+                  !lastOrder && timeSelectPlaceholderStyle,
+                ]}
+                value={lastOrder}
+                onChange={(e) => setLastOrder(e.target.value)}
+              >
+                <option value="">선택</option>
+                {TIME_OPTIONS.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
       </div>
     </FilterBottomSheet>
@@ -390,7 +350,7 @@ const dayButtonStyle = css(
     justifyContent: "center",
     alignItems: "center",
     gap: 10,
-    width: 40,
+    flex: 1,
     height: 40,
     backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
     border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
@@ -415,48 +375,25 @@ const dayTextStyle = css(
   TYPOGRAPHY.BODY["14R"]
 );
 
-const optionsContainerStyle = css({
+const hoursContainerStyle = css({
   display: "flex",
-  flexDirection: "row",
-  flexWrap: "wrap",
-  gap: 12,
+  flexDirection: "column",
+  gap: 16,
   width: "100%",
 });
-
-const optionButtonStyle = css({
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  gap: 4,
-  cursor: "pointer",
-});
-
-const checkboxStyle = css({
-  width: 24,
-  height: 24,
-  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
-  borderRadius: 4,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-});
-
-const checkboxActiveStyle = css({
-  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
-  border: `1px solid ${THEME.COLORS.GRAYSCALE.NORMAL}`,
-});
-
-const optionTextStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.NORMAL,
-  },
-  TYPOGRAPHY.BODY["14R"]
-);
 
 const timeSectionStyle = css({
   display: "flex",
   flexDirection: "column",
+  gap: 12,
+  width: "100%",
+});
+
+const timeLabelRowStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "flex-end",
   gap: 12,
   width: "100%",
 });
@@ -468,6 +405,46 @@ const timeLabelStyle = css(
   TYPOGRAPHY.BODY["14SB"]
 );
 
+const timeOptionsStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  gap: 12,
+});
+
+const timeOptionButtonStyle = css({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  gap: 4,
+  cursor: "pointer",
+  background: "none",
+  border: "none",
+  padding: 0,
+});
+
+const checkboxIconStyle = css({
+  width: 24,
+  height: 24,
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+  borderRadius: 4,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+});
+
+const checkboxIconActiveStyle = css({
+  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
+  border: `1px solid ${THEME.COLORS.GRAYSCALE.NORMAL}`,
+});
+
+const timeOptionTextStyle = css(
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+  TYPOGRAPHY.BODY["14R"]
+);
+
 const timeSelectContainerStyle = css({
   display: "flex",
   flexDirection: "row",
@@ -475,6 +452,9 @@ const timeSelectContainerStyle = css({
   alignItems: "center",
   gap: 12,
   width: "100%",
+  "& > select": {
+    flex: 1,
+  },
 });
 
 const timeSelectStyle = css(
@@ -484,7 +464,7 @@ const timeSelectStyle = css(
     justifyContent: "space-between",
     alignItems: "center",
     padding: 12,
-    width: "100%",
+    flex: 1,
     height: 44,
     border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
     borderRadius: 8,
@@ -497,6 +477,11 @@ const timeSelectStyle = css(
     paddingRight: 40,
     color: THEME.COLORS.GRAYSCALE.NORMAL,
     cursor: "pointer",
+    "&:disabled": {
+      backgroundColor: THEME.COLORS.BACKGROUND.DISABLE,
+      color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
+      cursor: "not-allowed",
+    },
   },
   TYPOGRAPHY.BODY["14R"]
 );

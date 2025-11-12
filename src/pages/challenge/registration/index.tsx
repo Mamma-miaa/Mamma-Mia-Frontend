@@ -130,13 +130,13 @@ const ChallengeRegistrationPage = () => {
   }, [photos]);
 
   //   모든 필드가 채워졌는지 확인
-  const isAllFieldsFilled =
-    selectedCategories.length > 0 &&
-    selectedRestaurant !== null &&
-    photos.length > 0 &&
-    comment.trim().length > 0 &&
-    recommendedMenus.length > 0;
-  //   const isAllFieldsFilled = true;
+  //   const isAllFieldsFilled =
+  //     selectedCategories.length > 0 &&
+  //     selectedRestaurant !== null &&
+  //     photos.length > 0 &&
+  //     comment.trim().length > 0 &&
+  //     recommendedMenus.length > 0;
+  const isAllFieldsFilled = true;
 
   const handleNextStep = () => {
     if (isAllFieldsFilled && step === 1) {
@@ -168,11 +168,12 @@ const ChallengeRegistrationPage = () => {
               groupSeating: additionalOptions.includes("group_seating"),
             },
             name: selectedRestaurant?.place_name ?? "",
-            latitude: 0.1,
-            longitude: 0.1,
+            latitude: Number(selectedRestaurant?.y),
+            longitude: Number(selectedRestaurant?.x),
             registerChallengeStoreBusinessHours: businessHoursData.map(
               (data) => ({
-                mode: "string",
+                /** @description 영업 모드(CLOSED/OPEN_24H/OPEN_RANGE) */
+                mode: "OPEN_RANGE",
                 breakStart: "15:00",
                 closeTime: "22:00",
                 hasBreak: true,
@@ -200,7 +201,6 @@ const ChallengeRegistrationPage = () => {
     photos.forEach((photo) => {
       formData.append("storeImages", photo.file);
     });
-
     recommendedMenus.forEach((menu) => {
       if (menu.image?.file) {
         formData.append("menuImages", menu.image.file);

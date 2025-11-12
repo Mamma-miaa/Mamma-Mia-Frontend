@@ -62,8 +62,16 @@ export const deleteBookmark = async (
   return await api.delete(`/store/${params.storeId}/bookmark`);
 };
 
+type PostChallengeApplicationData = Pick<
+  paths["/api/v1/store/challenge-application"]["post"]["requestBody"]["content"]["multipart/form-data"],
+  "request"
+> & {
+  storeImages: File[];
+  menuImages: (File | null)[];
+};
+
 export const postChallengeApplication = async (
-  data: paths["/api/v1/store/challenge-application"]["post"]["requestBody"]["content"]["multipart/form-data"]
+  data: FormData
 ): Promise<void> => {
   return await api.post("/store/challenge-application", data, {
     headers: {
