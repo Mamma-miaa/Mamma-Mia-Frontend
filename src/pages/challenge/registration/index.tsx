@@ -152,6 +152,20 @@ const ChallengeRegistrationPage = () => {
     );
   };
 
+  const handleBusinessHoursAdd = async () => {
+    const result = await openBusinessHoursBottomSheet();
+    if (result) {
+      setBusinessHoursData((prev) => [...prev, result]);
+    }
+  };
+
+  const handleBusinessHoursEdit = async () => {
+    const result = await openBusinessHoursBottomSheet();
+    if (result) {
+      setBusinessHoursData((prev) => [...prev, result]);
+    }
+  };
+
   const handleChallengeApplication = () => {
     const formData = new FormData();
     formData.append(
@@ -494,16 +508,7 @@ const ChallengeRegistrationPage = () => {
                           </div>
                           <button
                             css={businessHoursEditButtonStyle}
-                            onClick={async () => {
-                              const result =
-                                await openBusinessHoursBottomSheet();
-                              if (result) {
-                                setBusinessHoursData((prev) => [
-                                  ...prev,
-                                  result,
-                                ]);
-                              }
-                            }}
+                            onClick={handleBusinessHoursEdit}
                             type="button"
                           >
                             수정
@@ -515,15 +520,7 @@ const ChallengeRegistrationPage = () => {
                 </div>
               )}
               {businessHoursData.length < 7 && (
-                <button
-                  css={buttonStyle}
-                  onClick={async () => {
-                    const result = await openBusinessHoursBottomSheet();
-                    if (result) {
-                      setBusinessHoursData((prev) => [...prev, result]);
-                    }
-                  }}
-                >
+                <button css={buttonStyle} onClick={handleBusinessHoursAdd}>
                   <PlusIcon css={iconStyle} />
                   <span css={buttonTextStyle}>영업시간 정보 등록하기</span>
                 </button>
