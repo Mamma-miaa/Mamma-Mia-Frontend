@@ -187,20 +187,31 @@ const ChallengeRegistrationPage = () => {
             registerChallengeStoreBusinessHours: businessHoursData.map(
               (data) => ({
                 /** @description 영업 모드(CLOSED/OPEN_24H/OPEN_RANGE) */
-                mode: "OPEN_RANGE",
-                breakStart: "15:00",
-                closeTime: "22:00",
-                hasBreak: true,
-                dayOfWeek: "MONDAY",
-                closesNextDay: true,
-                openTime: "11:00",
-                lastOrder: "21:30",
-                breakEnd: "17:00",
+                mode: (() => {
+                  switch (true) {
+                    case data.options.isClosed:
+                      return "CLOSED";
+                    case data.options.is24Hours:
+                      return "OPEN_24H";
+                    case data.options.hasBreakTime:
+                      return "OPEN_RANGE";
+                  }
+                })(),
+                breakStart: data.breakTime?.startTime ?? null,
+                closeTime: data.breakTime?.endTime ?? null,
+                hasBreak: data.options.hasBreakTime ?? false,
+                dayOfWeek: data.selectedDays[0],
+                closesNextDay: false,
+                openTime: data.businessHours?.startTime ?? null,
+                lastOrder: data.options.hasLastOrder
+                  ? data.lastOrder ?? null
+                  : null,
+                breakEnd: data.breakTime?.endTime ?? null,
               })
             ),
             address: selectedRestaurant?.address_name ?? "",
             category: selectedCategories[0],
-            comment: comment,
+            comment,
             registerChallengeStoreMenus: recommendedMenus.map((menu) => ({
               name: menu.name,
               price: Number(menu.price),
