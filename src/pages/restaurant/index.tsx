@@ -67,7 +67,7 @@ const RestaurantDetailPage = () => {
                 <div css={menuImageContainerStyle}>
                   <img
                     src={menu.imageUrl ?? "https://placehold.co/60x60"}
-                    alt="빠다 숙성 삼겹 세트"
+                    alt={menu.name}
                     css={menuImageStyle}
                   />
                 </div>

@@ -12,6 +12,7 @@ import { useGetRankingQuery } from "@/hooks/@server/store";
 import Spacing from "@/@lib/components/Spacing";
 import VIEWPORT from "@/constants/viewport";
 import BottomGNB from "@/components/BottomGNB";
+import { getIsLoggedIn } from "@/utils/sessionStorage";
 
 const PERIOD_TYPE = {
   WEEKLY: "WEEKLY",
@@ -96,13 +97,15 @@ const ChallengePage = () => {
           >
             <TopIcon css={floatingButtonIconStyle} />
           </button>
-          <button
-            type="button"
-            css={css(floatingButtonBaseStyle, floatingButtonWriteStyle)}
-            onClick={() => navigate("/challenge/registration")}
-          >
-            <WriteIcon css={floatingButtonIconStyle} />
-          </button>
+          {getIsLoggedIn() && (
+            <button
+              type="button"
+              css={css(floatingButtonBaseStyle, floatingButtonWriteStyle)}
+              onClick={() => navigate("/challenge/registration")}
+            >
+              <WriteIcon css={floatingButtonIconStyle} />
+            </button>
+          )}
         </div>
         <Spacing size={64} />
       </div>

@@ -6,6 +6,7 @@ import TYPOGRAPHY from "@/constants/typography";
 import useTextInput from "@/hooks/useTextInput";
 import PlusIcon from "../_assets/plus.svg?react";
 import { useRef, useState } from "react";
+import useNumberInput from "@/hooks/useNumberInput";
 
 export interface RecommendedMenuResult {
   id: string;
@@ -48,7 +49,7 @@ const RecommendedMenuRegisterBottomSheet = ({
   const { value: menuName, handleChange: handleMenuNameChange } =
     useTextInput();
   const { value: menuPrice, handleChange: handleMenuPriceChange } =
-    useTextInput();
+    useNumberInput();
   const [photo, setPhoto] = useState<PhotoFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -86,7 +87,7 @@ const RecommendedMenuRegisterBottomSheet = ({
     const menu: RecommendedMenuResult = {
       id: Date.now().toString(),
       name: menuName,
-      price: menuPrice || "0",
+      price: menuPrice.toString(),
       image: photo || undefined,
     };
     onApply(menu);
@@ -99,6 +100,7 @@ const RecommendedMenuRegisterBottomSheet = ({
       onApply={handleApply}
       title="추천 메뉴 등록"
       ctaButtonText="메뉴 등록"
+      isApplyButtonDisabled={!menuName.trim() || !menuPrice || !photo}
     >
       <div css={containerStyle}>
         {/* 메뉴 제목 */}
@@ -229,7 +231,6 @@ const inputStyle = css(
     color: THEME.COLORS.GRAYSCALE.NORMAL,
     "&::placeholder": {
       color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
-      textAlign: "center",
     },
   },
   TYPOGRAPHY.BODY["14R"]

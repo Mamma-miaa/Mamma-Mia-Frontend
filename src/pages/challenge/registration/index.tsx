@@ -28,6 +28,18 @@ import {
   openBusinessHoursBottomSheet,
   type BusinessHoursData,
 } from "./_components/BusinessHoursBottomSheet";
+import { usePostChallengeApplicationMutation } from "@/hooks/@server/store";
+import { useNavigate } from "react-router-dom";
+
+const DAYS_MAP = {
+  월: "MONDAY",
+  화: "TUESDAY",
+  수: "WEDNESDAY",
+  목: "THURSDAY",
+  금: "FRIDAY",
+  토: "SATURDAY",
+  일: "SUNDAY",
+} as const;
 
 interface PhotoFile {
   file: File;
@@ -49,6 +61,9 @@ const ChallengeRegistrationPage = () => {
   const [businessHoursData, setBusinessHoursData] = useState<
     BusinessHoursData[]
   >([]);
+  const { mutate: postChallengeApplication } =
+    usePostChallengeApplicationMutation();
+  const navigate = useNavigate();
 
   const handleCategorySelect = async () => {
     const categories = await openCategoryFilteringBottomSheet({
@@ -126,7 +141,7 @@ const ChallengeRegistrationPage = () => {
     };
   }, [photos]);
 
-  // 모든 필드가 채워졌는지 확인
+  //   모든 필드가 채워졌는지 확인
   //   const isAllFieldsFilled =
   //     selectedCategories.length > 0 &&
   //     selectedRestaurant !== null &&
@@ -149,9 +164,99 @@ const ChallengeRegistrationPage = () => {
     );
   };
 
+  const handleBusinessHoursAdd = async () => {
+    const result = await openBusinessHoursBottomSheet();
+    if (result) {
+      setBusinessHoursData((prev) => [...prev, result]);
+    }
+  };
+
+  const handleBusinessHoursEdit = async () => {
+    const result = await openBusinessHoursBottomSheet();
+    if (result) {
+      setBusinessHoursData((prev) => [...prev, result]);
+    }
+  };
+
+  const handleChallengeApplication = () => {
+    const formData = new FormData();
+    formData.append(
+      "request",
+      new Blob(
+        [
+          JSON.stringify({
+            facilities: {
+              parking: additionalOptions.includes("parking"),
+              takeout: additionalOptions.includes("takeout"),
+              delivery: additionalOptions.includes("delivery"),
+              indoorRestroom: additionalOptions.includes("indoor_toilet"),
+              outdoorRestroom: additionalOptions.includes("outdoor_toilet"),
+              groupSeating: additionalOptions.includes("group_seating"),
+            },
+            name: selectedRestaurant?.place_name ?? "",
+            latitude: Number(selectedRestaurant?.y),
+            longitude: Number(selectedRestaurant?.x),
+            registerChallengeStoreBusinessHours: businessHoursData.map(
+              (data) => ({
+                /** @description 영업 모드(CLOSED/OPEN_24H/OPEN_RANGE) */
+                mode: (() => {
+                  switch (true) {
+                    case data.options.isClosed:
+                      return "CLOSED";
+                    case data.options.is24Hours:
+                      return "OPEN_24H";
+                    case data.options.hasBreakTime:
+                      return "OPEN_RANGE";
+                  }
+                })(),
+                breakStart: data.breakTime?.startTime ?? null,
+                closeTime: data.breakTime?.endTime ?? null,
+                hasBreak: data.options.hasBreakTime ?? false,
+                dayOfWeek: DAYS_MAP[data.selectedDay],
+                closesNextDay: false,
+                openTime: data.businessHours?.startTime ?? null,
+                lastOrder: data.options.hasLastOrder
+                  ? data.lastOrder ?? null
+                  : null,
+                breakEnd: data.breakTime?.endTime ?? null,
+              })
+            ),
+            address: selectedRestaurant?.address_name ?? "",
+            category: selectedCategories[0],
+            comment,
+            registerChallengeStoreMenus: recommendedMenus.map((menu) => ({
+              name: menu.name,
+              price: Number(menu.price),
+            })),
+          }),
+        ],
+        {
+          type: "application/json",
+        }
+      )
+    );
+    photos.forEach((photo) => {
+      formData.append("storeImages", photo.file);
+    });
+    recommendedMenus.forEach((menu) => {
+      if (menu.image?.file) {
+        formData.append("menuImages", menu.image.file);
+      }
+    });
+    postChallengeApplication(formData, {
+      onSuccess: (data) => {
+        // TODO 도전 맛집 등록 성공 시 처리
+        navigate("/", { replace: true });
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
+  };
+
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
-      <ChallengeRegistrationPageHeader />
+      <ChallengeRegistrationPageHeader step={step} setStep={setStep} />
       <Spacing size={20} />
       {/* 내용 */}
       <div css={contentContainerStyle}>
@@ -388,82 +493,57 @@ const ChallengeRegistrationPage = () => {
               {businessHoursData.length > 0 && (
                 <div css={businessHoursListStyle}>
                   {businessHoursData.map((data, index) => {
-                    return data.selectedDays.map((day) => {
-                      const isClosed = data.options.isClosed;
-                      const is24Hours = data.options.is24Hours;
-                      const hasBreakTime =
-                        data.options.hasBreakTime && data.breakTime;
-                      const businessHours = data.businessHours;
-
-                      return (
-                        <div
-                          key={`${index}-${day}`}
-                          css={businessHoursItemStyle}
-                        >
-                          <div css={businessHoursItemContentStyle}>
-                            <span css={businessHoursDayStyle}>{day}</span>
-                            <div css={businessHoursInfoStyle}>
-                              {isClosed ? (
+                    return (
+                      <div css={businessHoursItemStyle}>
+                        <div css={businessHoursItemContentStyle}>
+                          <span css={businessHoursDayStyle}>
+                            {data.selectedDay}
+                          </span>
+                          <div css={businessHoursInfoStyle}>
+                            {data.options.isClosed ? (
+                              <span css={businessHoursTextStyle}>
+                                정기 휴무(매주 {data.selectedDay}요일)
+                              </span>
+                            ) : data.options.is24Hours ? (
+                              <span css={businessHoursTextStyle}>
+                                24시 영업
+                              </span>
+                            ) : data.businessHours ? (
+                              <>
                                 <span css={businessHoursTextStyle}>
-                                  정기 휴무(매주 {day}요일)
+                                  {data.businessHours.startTime} ~{" "}
+                                  {data.businessHours.endTime}
                                 </span>
-                              ) : is24Hours ? (
-                                <span css={businessHoursTextStyle}>
-                                  24시 영업
-                                </span>
-                              ) : businessHours ? (
-                                <>
-                                  <span css={businessHoursTextStyle}>
-                                    {businessHours.startTime} ~{" "}
-                                    {businessHours.endTime}
-                                  </span>
-                                  {hasBreakTime && data.breakTime && (
+                                {data.options.hasBreakTime &&
+                                  data.breakTime && (
                                     <span css={businessHoursTextStyle}>
                                       {data.breakTime.startTime} ~{" "}
                                       {data.breakTime.endTime} 브레이크 타임
                                     </span>
                                   )}
-                                  {data.lastOrder && (
-                                    <span css={businessHoursTextStyle}>
-                                      라스트오더 {data.lastOrder}
-                                    </span>
-                                  )}
-                                </>
-                              ) : null}
-                            </div>
+                                {data.lastOrder && (
+                                  <span css={businessHoursTextStyle}>
+                                    라스트오더 {data.lastOrder}
+                                  </span>
+                                )}
+                              </>
+                            ) : null}
                           </div>
-                          <button
-                            css={businessHoursEditButtonStyle}
-                            onClick={async () => {
-                              const result =
-                                await openBusinessHoursBottomSheet();
-                              if (result) {
-                                setBusinessHoursData((prev) => [
-                                  ...prev,
-                                  result,
-                                ]);
-                              }
-                            }}
-                            type="button"
-                          >
-                            수정
-                          </button>
                         </div>
-                      );
-                    });
+                        <button
+                          css={businessHoursEditButtonStyle}
+                          onClick={handleBusinessHoursEdit}
+                          type="button"
+                        >
+                          수정
+                        </button>
+                      </div>
+                    );
                   })}
                 </div>
               )}
               {businessHoursData.length < 7 && (
-                <button
-                  css={buttonStyle}
-                  onClick={async () => {
-                    const result = await openBusinessHoursBottomSheet();
-                    if (result) {
-                      setBusinessHoursData((prev) => [...prev, result]);
-                    }
-                  }}
-                >
+                <button css={buttonStyle} onClick={handleBusinessHoursAdd}>
                   <PlusIcon css={iconStyle} />
                   <span css={buttonTextStyle}>영업시간 정보 등록하기</span>
                 </button>
@@ -526,7 +606,12 @@ const ChallengeRegistrationPage = () => {
             <Spacing size={100} />
 
             <div css={ctaButtonContainerStyle}>
-              <button css={CTAButtonActiveStyle}>도전맛집 등록하기</button>
+              <button
+                css={CTAButtonActiveStyle}
+                onClick={handleChallengeApplication}
+              >
+                도전맛집 등록하기
+              </button>
             </div>
           </>
         )}
