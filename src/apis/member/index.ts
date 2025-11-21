@@ -6,3 +6,9 @@ export const getMyBookmarkStore = async (): Promise<
 > => {
   return await api.get("/member/bookmark-store");
 };
+
+export const getMyMammaMiaStore = async (): Promise<
+  components["schemas"]["GetMyMammaMiaStoreResponses"]
+> => {
+  return await api.get("/member/mamma-mia-store");
+};

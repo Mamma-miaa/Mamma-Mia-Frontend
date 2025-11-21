@@ -3,15 +3,17 @@ import { useState } from "react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard";
-import type { components } from "@/apis/schema";
+import {
+  useGetMyBookmarkStoreQuery,
+  useGetMyMammaMiaStoreQuery,
+} from "@/hooks/@server/member";
 
 type TabType = "mamma-mia" | "bookmark";
 
 const BottomSection = () => {
   const [selectedTab, setSelectedTab] = useState<TabType>("mamma-mia");
-
-  // TODO: API 연동 후 실제 데이터로 교체
-  const mockRestaurants: components["schemas"]["GetNearByResponse"][] = [];
+  const { data: mammaMiaData } = useGetMyMammaMiaStoreQuery();
+  const { data: bookmarkData } = useGetMyBookmarkStoreQuery();
 
   return (
     <section css={containerStyle}>
@@ -51,30 +53,54 @@ const BottomSection = () => {
       </div>
 
       <div css={listContainerStyle}>
-        {mockRestaurants.length === 0 ? (
-          <div css={emptyStateStyle}>
-            {selectedTab === "mamma-mia" ? (
-              <>
-                아직 투표한 맛집이 없어요.
-                <br />
-                좋아하는 맛집에 ‘맘마미아’를 눌러보세요
-              </>
-            ) : (
-              <>
-                아직 북마크한 식당이 없어요.
-                <br />
-                좋아하는 맛집에 ‘북마크’를 눌러보세요
-              </>
-            )}
-          </div>
-        ) : (
-          mockRestaurants.map((restaurant) => (
-            <ResponsiveSummaryCard
-              key={restaurant.storeId}
-              restaurant={restaurant}
-            />
-          ))
-        )}
+        {(() => {
+          switch (selectedTab) {
+            case "mamma-mia":
+              if (mammaMiaData.items.length === 0) {
+                return (
+                  <div css={emptyStateStyle}>
+                    <span>아직 투표한 맛집이 없어요.</span>
+                    <span>좋아하는 맛집에 ‘맘마미아’를 눌러보세요</span>
+                  </div>
+                );
+              }
+              return mammaMiaData.items.map((restaurant) => (
+                <ResponsiveSummaryCard
+                  key={restaurant.storeId}
+                  restaurant={{
+                    storeId: restaurant.storeId,
+                    name: restaurant.storeName,
+                    category: restaurant.categoryName,
+                    imageUrl: restaurant.imageUrl,
+                    distanceMeters: restaurant.distanceToStationMeters,
+                    totalLike: 0,
+                  }}
+                />
+              ));
+            case "bookmark":
+              if (bookmarkData.items.length === 0) {
+                return (
+                  <div css={emptyStateStyle}>
+                    <span>아직 북마크한 식당이 없어요.</span>
+                    <span>좋아하는 맛집에 ‘북마크’를 눌러보세요</span>
+                  </div>
+                );
+              }
+              return bookmarkData.items.map((restaurant) => (
+                <ResponsiveSummaryCard
+                  key={restaurant.storeId}
+                  restaurant={{
+                    storeId: restaurant.storeId,
+                    name: restaurant.storeName,
+                    category: restaurant.categoryName,
+                    imageUrl: restaurant.imageUrl,
+                    distanceMeters: restaurant.distanceToStationMeters,
+                    totalLike: 0,
+                  }}
+                />
+              ));
+          }
+        })()}
       </div>
     </section>
   );
