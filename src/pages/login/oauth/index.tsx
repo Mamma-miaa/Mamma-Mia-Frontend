@@ -2,12 +2,18 @@ import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
-import { usePostSocialLoginMutation } from "@/hooks/@server/auth";
+import {
+  usePostSocialLoginMutation,
+  usePostSocialLoginWithAgreementsMutation,
+} from "@/hooks/@server/auth";
 import toast from "@/utils/toast";
+import { openServiceAgreementPopup } from "@/components/ServiceAgreementPopup/utils";
 
 const LoginRedirectPage = () => {
   const [searchParams] = useSearchParams();
   const { mutate: postSocialLogin } = usePostSocialLoginMutation();
+  const { mutate: postSocialLoginWithAgreements } =
+    usePostSocialLoginWithAgreementsMutation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,14 +25,33 @@ const LoginRedirectPage = () => {
           code,
         },
         {
-          onSuccess: (data) => {
+          onSuccess: async (data) => {
+            if (data.needAdditionalAgreements) {
+              const result = await openServiceAgreementPopup();
+              if (result) {
+                postSocialLoginWithAgreements({
+                  memberId: data.memberId.toString(),
+                  agreements: [
+                    {
+                      type: "TERMS_OF_SERVICE",
+                      isAgreed: true,
+                    },
+                    {
+                      type: "PRIVACY_POLICY",
+                      isAgreed: true,
+                    },
+                    {
+                      type: "LOCATION_SERVICE",
+                      isAgreed: true,
+                    },
+                  ],
+                });
+              }
+              return;
+            }
             sessionStorage.setItem("accessToken", data.accessToken);
             sessionStorage.setItem("refreshToken", data.refreshToken);
             toast({ message: "로그인에 성공하였습니다." });
-            navigate("/");
-          },
-          onError: () => {
-            toast({ message: "로그인에 실패하였습니다." });
             navigate("/");
           },
         }
