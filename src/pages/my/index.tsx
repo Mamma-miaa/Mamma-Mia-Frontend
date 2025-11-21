@@ -5,6 +5,7 @@ import myTitleImage from "./_assets/my_text.png";
 import ProfileSection from "./_components/ProfileSection";
 import MyChallengeStatusSection from "./_components/MyChallengeStatusSection";
 import { useNavigate } from "react-router-dom";
+import BottomSection from "./_components/BottomSection";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ const MyPage = () => {
       <ProfileSection />
       <Spacing size={20} />
       <MyChallengeStatusSection />
+      <Spacing size={20} />
+      <BottomSection />
     </div>
   );
 };
