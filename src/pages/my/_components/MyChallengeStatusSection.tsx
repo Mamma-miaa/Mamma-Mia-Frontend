@@ -2,11 +2,11 @@ import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import ArrowRightIcon from "../_assets/arrow_right.svg?react";
-import { useGetMyBookmarkStoreQuery } from "@/hooks/@server/member";
+import { useGetMyChallengeStoreQuery } from "@/hooks/@server/member";
 import { useNavigate } from "react-router-dom";
 
 const MyChallengeStatusSection = () => {
-  const { data: bookmarkStoreData } = useGetMyBookmarkStoreQuery();
+  const { data: challengeStoreData } = useGetMyChallengeStoreQuery();
   const navigate = useNavigate();
 
   return (
@@ -14,7 +14,7 @@ const MyChallengeStatusSection = () => {
       <h2 css={titleStyle}>내 도전맛집 현황</h2>
 
       <div css={listRowStyle}>
-        {bookmarkStoreData.items.map((item) => (
+        {challengeStoreData.map((item) => (
           <div
             css={cardStyle}
             key={item.storeId}

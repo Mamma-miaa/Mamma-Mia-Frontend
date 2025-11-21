@@ -12,3 +12,9 @@ export const getMyMammaMiaStore = async (): Promise<
 > => {
   return await api.get("/member/mamma-mia-store");
 };
+
+export const getMyChallengeStore = async (): Promise<
+  components["schemas"]["GetMyRegisteredChallengeStoreResponse"][]
+> => {
+  return await api.get("/member/challenge-store");
+};

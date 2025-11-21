@@ -1,5 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getMyBookmarkStore, getMyMammaMiaStore } from "@/apis/member";
+import {
+  getMyBookmarkStore,
+  getMyChallengeStore,
+  getMyMammaMiaStore,
+} from "@/apis/member";
 
 export const useGetMyBookmarkStoreQuery = () => {
   return useSuspenseQuery({
@@ -12,5 +16,12 @@ export const useGetMyMammaMiaStoreQuery = () => {
   return useSuspenseQuery({
     queryKey: ["getMyMammaMiaStore"],
     queryFn: getMyMammaMiaStore,
+  });
+};
+
+export const useGetMyChallengeStoreQuery = () => {
+  return useSuspenseQuery({
+    queryKey: ["getMyChallengeStore"],
+    queryFn: getMyChallengeStore,
   });
 };
