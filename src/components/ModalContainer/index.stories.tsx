@@ -74,4 +74,3 @@ const buttonStyle = css(
   },
   TYPOGRAPHY.BODY["14SB"]
 );
-
