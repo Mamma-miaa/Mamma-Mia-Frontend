@@ -24,23 +24,23 @@ const ConfirmModal = ({
     <ModalContainer isOpen={isOpen} onClose={() => onClose(false)}>
       {/* Content */}
       <div css={contentStyle}>
-              <div css={titleContainerStyle}>
-                <h2 css={titleStyle}>{title}</h2>
-              </div>
-              <div css={descriptionContainerStyle}>
-                <p css={descriptionStyle}>{description}</p>
-              </div>
-            </div>
+        <div css={titleContainerStyle}>
+          <h2 css={titleStyle}>{title}</h2>
+        </div>
+        <div css={descriptionContainerStyle}>
+          <p css={descriptionStyle}>{description}</p>
+        </div>
+      </div>
 
-            {/* Buttons */}
-            <div css={buttonsStyle}>
-              <button css={cancelButtonStyle} onClick={() => onClose(false)}>
-                {cancelText}
-              </button>
-              <button css={confirmButtonStyle} onClick={() => onClose(true)}>
-                {confirmText}
-              </button>
-            </div>
+      {/* Buttons */}
+      <div css={buttonsStyle}>
+        <button css={cancelButtonStyle} onClick={() => onClose(false)}>
+          {cancelText}
+        </button>
+        <button css={confirmButtonStyle} onClick={() => onClose(true)}>
+          {confirmText}
+        </button>
+      </div>
     </ModalContainer>
   );
 };
