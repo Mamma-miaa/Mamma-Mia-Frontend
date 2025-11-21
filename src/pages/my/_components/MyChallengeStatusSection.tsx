@@ -2,42 +2,38 @@ import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import ArrowRightIcon from "../_assets/arrow_right.svg?react";
+import { useGetMyBookmarkStoreQuery } from "@/hooks/@server/member";
+import { useNavigate } from "react-router-dom";
 
 const MyChallengeStatusSection = () => {
+  const { data: bookmarkStoreData } = useGetMyBookmarkStoreQuery();
+  const navigate = useNavigate();
+
   return (
     <section css={sectionStyle}>
       <h2 css={titleStyle}>내 도전맛집 현황</h2>
 
       <div css={listRowStyle}>
-        <div css={cardStyle}>
-          <div css={thumbnailStyle} />
-          <div css={cardContentStyle}>
-            <div css={statusBadgeStyle}>
-              <span css={statusTextStyle}>검수 중</span>
-            </div>
-            <div css={cardTextsStyle}>
-              <div css={categoryTextStyle}>국밥·탕/찌개</div>
-              <div css={cardTitleTextStyle}>
-                충무로의 김치찌개는 여기밖에없다
+        {bookmarkStoreData.items.map((item) => (
+          <div
+            css={cardStyle}
+            key={item.storeId}
+            onClick={() => navigate(`/restaurant?id=${item.storeId}`)}
+          >
+            <div css={thumbnailStyle} />
+            <div css={cardContentStyle}>
+              <div css={statusBadgeStyle}>
+                <span css={statusTextStyle}>검수 중</span>
+              </div>
+              <div css={cardTextsStyle}>
+                <div css={categoryTextStyle}>국밥·탕/찌개</div>
+                <div css={cardTitleTextStyle}>
+                  충무로의 김치찌개는 여기밖에없다
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div css={cardStyle}>
-          <div css={thumbnailStyle} />
-          <div css={cardContentStyle}>
-            <div css={statusBadgeStyleAlt}>
-              <span css={statusTextStyle}>검수 중</span>
-            </div>
-            <div css={cardTextsStyle}>
-              <div css={categoryTextStyle}>국밥·탕/찌개</div>
-              <div css={cardTitleTextStyle}>
-                충무로의 김치찌개는 여기밖에없다
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
       <div css={ctaRowStyle}>
@@ -54,7 +50,6 @@ const MyChallengeStatusSection = () => {
 export default MyChallengeStatusSection;
 
 const sectionStyle = css({
-  padding: "0 20px",
   display: "flex",
   flexDirection: "column",
   gap: 12,
@@ -62,6 +57,7 @@ const sectionStyle = css({
 
 const titleStyle = css(
   {
+    padding: "0 20px",
     color: THEME.COLORS.GRAYSCALE.STRONG,
   },
   TYPOGRAPHY.HEADERS["16SB"]
@@ -72,6 +68,8 @@ const listRowStyle = css({
   flexDirection: "row",
   alignItems: "center",
   gap: 12,
+  overflowX: "scroll",
+  padding: "0 20px",
 });
 
 const cardStyle = css({
@@ -155,6 +153,7 @@ const ctaRowStyle = css({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
+  margin: "0 20px",
 });
 
 const ctaLeftTextStyle = css(

@@ -1,9 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getMyPage } from "@/apis/member";
+import { getMyBookmarkStore } from "@/apis/member";
 
-export const useGetMyPageQuery = () => {
+export const useGetMyBookmarkStoreQuery = () => {
   return useSuspenseQuery({
-    queryKey: ["getMyPage"],
-    queryFn: getMyPage,
+    queryKey: ["getMyBookmarkStore"],
+    queryFn: getMyBookmarkStore,
   });
 };
