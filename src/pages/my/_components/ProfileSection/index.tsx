@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
-import WriteIcon from "../_assets/write.svg?react";
-import LogoutIcon from "../_assets/logout.svg?react";
+import WriteIcon from "../../_assets/write.svg?react";
+import LogoutIcon from "../../_assets/logout.svg?react";
 
 const ProfileSection = () => {
   return (
