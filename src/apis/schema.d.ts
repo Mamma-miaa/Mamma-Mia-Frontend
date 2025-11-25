@@ -51,6 +51,22 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
+        patch: operations["patch"];
+        trace?: never;
+    };
+    "/api/v1/member/agreements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["save"];
+        delete?: never;
+        options?: never;
+        head?: never;
         patch?: never;
         trace?: never;
     };
@@ -117,7 +133,7 @@ export interface paths {
         delete?: never;
         options?: never;
         head?: never;
-        patch: operations["patch"];
+        patch: operations["patch_1"];
         trace?: never;
     };
     "/api/v1/store/search": {
@@ -152,6 +168,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/store/pending/{reviewStoreId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/store/nearby": {
         parameters: {
             query?: never;
@@ -177,7 +209,7 @@ export interface paths {
             cookie?: never;
         };
         /** 가게 상세 정보 */
-        get: operations["get_2"];
+        get: operations["get_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -209,7 +241,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_3"];
+        get: operations["get_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -368,6 +400,19 @@ export interface components {
              */
             price: number;
         };
+        RegisterChallengeStoreResponse: {
+            /** Format: int64 */
+            reviewStoreId: number;
+        };
+        SaveAgreementRequest: {
+            memberId: string;
+            agreements: components["schemas"]["SaveAgreementRequestAgreement"][];
+        };
+        SaveAgreementRequestAgreement: {
+            /** @enum {string} */
+            type: "TERMS_OF_SERVICE" | "PRIVACY_POLICY" | "LOCATION_SERVICE";
+            isAgreed: boolean;
+        };
         /** @description 소셜 로그인 요청 DTO */
         JoinSocialLoginRequest: {
             /**
@@ -394,6 +439,8 @@ export interface components {
             refreshToken: string;
             /** @description 신규 회원 여부 */
             isNew: boolean;
+            /** @description 약관 동의 여부 */
+            needAdditionalAgreements: boolean;
         };
         /** @description 로그아웃 */
         LogoutRequest: {
@@ -454,6 +501,105 @@ export interface components {
         };
         GetStoreRankingResponses: {
             stores: components["schemas"]["GetStoreRankingResponse"][];
+        };
+        GetUnderReviewChallengeStoreDetailResponse: {
+            /**
+             * Format: int64
+             * @description 가게 ID
+             */
+            reviewStoreId: number;
+            /** @description 가게 상태 */
+            reviewStatus: string;
+            /** @description 가게 이름 */
+            name: string;
+            /** @description 코멘트 */
+            comment: string;
+            /** @description 카테고리 */
+            category: string;
+            /** @description 주소 */
+            address: string;
+            /**
+             * Format: double
+             * @description 위도
+             */
+            latitude: number;
+            /**
+             * Format: double
+             * @description 경도
+             */
+            longitude: number;
+            /** @description 가게 이미지 URL 목록 */
+            images: string[];
+            /** @description 영업 시간 정보 */
+            businessHours: components["schemas"]["GetUnderReviewChallengeStoreDetailResponseBusinessHour"][];
+            /** @description 편의 시설 여부 */
+            facilities: components["schemas"]["GetUnderReviewChallengeStoreDetailResponseFacility"];
+            /** @description 가장 가까운 지하철 역 정보 */
+            station?: components["schemas"]["GetUnderReviewChallengeStoreDetailResponseStation"];
+            /** @description 메뉴 목록 */
+            menus: components["schemas"]["GetUnderReviewChallengeStoreDetailResponseMenu"][];
+        };
+        GetUnderReviewChallengeStoreDetailResponseBusinessHour: {
+            /**
+             * @description 요일
+             * @enum {string}
+             */
+            dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+            /**
+             * @description 오픈 시간
+             * @example 10:00
+             */
+            openTime?: string;
+            /**
+             * @description 마감 시간
+             * @example 22:00
+             */
+            closeTime?: string;
+            /**
+             * @description 휴게 시작 시간
+             * @example 15:00
+             */
+            breakStart?: string;
+            /**
+             * @description 휴게 종료 시간
+             * @example 17:00
+             */
+            breakEnd?: string;
+            /**
+             * @description 마지막 주문 시간
+             * @example 21:30
+             */
+            lastOrder?: string;
+            /** @description 휴무 여부 */
+            isClosed: boolean;
+        };
+        GetUnderReviewChallengeStoreDetailResponseFacility: {
+            parking: boolean;
+            takeout: boolean;
+            delivery: boolean;
+            indoorRestroom: boolean;
+            outdoorRestroom: boolean;
+            groupSeating: boolean;
+        };
+        GetUnderReviewChallengeStoreDetailResponseMenu: {
+            /** @description 메뉴 이름 */
+            name: string;
+            /**
+             * Format: int32
+             * @description 가격
+             */
+            price: number;
+            /** @description 메뉴 이미지 URL */
+            imageUrl: string;
+        };
+        GetUnderReviewChallengeStoreDetailResponseStation: {
+            /** @description 지하철 역 이름 */
+            name: string;
+            /**
+             * Format: double
+             * @description 가게로부터의 거리(미터)
+             */
+            distanceMeters: number;
         };
         /** @description 근처 가게 조회 요청 */
         GetNearByStoreRequest: {
@@ -629,6 +775,8 @@ export interface components {
             status: string;
             /** @description 가게 이름 */
             name: string;
+            /** @description 코멘트 */
+            comment: string;
             /** @description 카테고리 */
             category: string;
             /** @description 주소 */
@@ -956,6 +1104,54 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
+                content: {
+                    "*/*": components["schemas"]["RegisterChallengeStoreResponse"];
+                };
+            };
+        };
+    };
+    patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": {
+                    request: components["schemas"]["RegisterChallengeStoreRequest"];
+                    storeImages: string[];
+                    menuImages: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    save: {
+        parameters: {
+            query: {
+                request: components["schemas"]["SaveAgreementRequest"];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content?: never;
             };
         };
@@ -1030,7 +1226,7 @@ export interface operations {
             };
         };
     };
-    patch: {
+    patch_1: {
         parameters: {
             query?: never;
             header?: never;
@@ -1099,6 +1295,30 @@ export interface operations {
             };
         };
     };
+    get_2: {
+        parameters: {
+            query: {
+                memberId: number;
+            };
+            header?: never;
+            path: {
+                reviewStoreId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetUnderReviewChallengeStoreDetailResponse"];
+                };
+            };
+        };
+    };
     list_2: {
         parameters: {
             query: {
@@ -1121,7 +1341,7 @@ export interface operations {
             };
         };
     };
-    get_2: {
+    get_3: {
         parameters: {
             query?: never;
             header?: never;
@@ -1166,7 +1386,7 @@ export interface operations {
             };
         };
     };
-    get_3: {
+    get_4: {
         parameters: {
             query: {
                 memberId: number;
