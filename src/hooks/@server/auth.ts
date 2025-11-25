@@ -1,5 +1,5 @@
+import { postSocialLogin, postSocialLoginWithAgreements } from "@/apis/member";
 import { useMutation } from "@tanstack/react-query";
-import { postSocialLogin, postSocialLoginWithAgreements } from "@/apis/auth";
 
 export const usePostSocialLoginMutation = () => {
   return useMutation({
