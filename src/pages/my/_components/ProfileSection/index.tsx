@@ -3,8 +3,15 @@ import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import WriteIcon from "../../_assets/write.svg?react";
 import LogoutIcon from "../../_assets/logout.svg?react";
+import { openProfileUpdateBottomSheet } from "./_components/ProfileUpdateBottomSheet";
 
 const ProfileSection = () => {
+  const handleProfileEdit = () => {
+    openProfileUpdateBottomSheet({
+      currentNickname: "Nickname",
+    });
+  };
+
   return (
     <section css={css({ padding: "0 20px" })}>
       <div css={containerStyle}>
@@ -19,7 +26,7 @@ const ProfileSection = () => {
         </div>
 
         <div css={bottomSectionStyle}>
-          <button css={actionButtonStyle}>
+          <button css={actionButtonStyle} onClick={handleProfileEdit}>
             <WriteIcon width={20} height={20} />
             <span css={buttonTextStyle}>프로필 편집</span>
           </button>
