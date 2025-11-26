@@ -12,6 +12,7 @@ import MammaMiaButton from "./_components/MammaMiaButton";
 import RestaurantDetailImages from "./_components/RestaurantDetailImages";
 import RestaurantFacilities from "./_components/RestaurantFacilities";
 import RestaurantInformation from "./_components/RestaurantInformation";
+import RestaurantLikeSection from "./_components/RestaurantLikeSection";
 
 const ChallengeRestaurantDetailPage = () => {
   const [searchParams] = useSearchParams();
@@ -32,25 +33,12 @@ const ChallengeRestaurantDetailPage = () => {
             <span css={categoryStyle}>{storeDetail.category}</span>
             <h1 css={restaurantNameStyle}>{storeDetail.name}</h1>
           </div>
-
-          <div css={mammaMiaSectionStyle}>
-            <MammaMiaBadge />
-            <div css={votingInfoStyle}>
-              <div css={votingItemStyle}>
-                <span css={votingLabelStyle}>이번주</span>
-                <span css={votingNumberStyle}>
-                  {/* {(storeDetail.ranks?.weekly ?? 0).toLocaleString()} */}
-                </span>
-              </div>
-              <span css={separatorStyle}>/</span>
-              <div css={votingItemStyle}>
-                <span css={votingLabelStyle}>이번달</span>
-                <span css={votingNumberStyle}>
-                  {/* {(storeDetail.ranks?.monthly ?? 0).toLocaleString()} */}
-                </span>
-              </div>
+          {searchParams.get("status") === "APPROVED" && (
+            <div css={mammaMiaSectionStyle}>
+              <MammaMiaBadge />
+              <RestaurantLikeSection />
             </div>
-          </div>
+          )}
         </div>
 
         {searchParams.get("status") === "APPROVED" && (
@@ -175,46 +163,6 @@ const mammaMiaSectionStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 8,
-});
-
-// 투표 정보
-const votingInfoStyle = css({
-  display: "flex",
-  alignItems: "center",
-  gap: 6,
-});
-
-// 투표 아이템
-const votingItemStyle = css({
-  display: "flex",
-  alignItems: "center",
-  gap: 4,
-});
-
-// 투표 라벨
-const votingLabelStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.NEUTRAL,
-  },
-  TYPOGRAPHY.BODY["14R"]
-);
-
-// 투표 숫자
-const votingNumberStyle = css(
-  {
-    color: THEME.COLORS.PRIMARY.RED,
-  },
-  TYPOGRAPHY.BODY["14SB"]
-);
-
-// 구분자
-const separatorStyle = css({
-  color: THEME.COLORS.GRAYSCALE.NEUTRAL,
-  opacity: 0.6,
-  fontSize: 8,
-  fontWeight: 400,
-  lineHeight: 1.4,
-  letterSpacing: "-2%",
 });
 
 // 섹션 제목
