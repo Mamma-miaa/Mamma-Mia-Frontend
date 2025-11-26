@@ -46,7 +46,7 @@ const ResponsiveSummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
           </div>
           {"distanceMeters" in restaurant && (
             <span css={distanceStyle}>
-              {Math.round(restaurant.distanceMeters)}m
+              {Math.round(restaurant.distanceMeters).toLocaleString()}m
             </span>
           )}
           {"isOpen" in restaurant && restaurant.isOpen && (
