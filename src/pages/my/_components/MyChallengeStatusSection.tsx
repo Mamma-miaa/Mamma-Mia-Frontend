@@ -33,7 +33,9 @@ const MyChallengeStatusSection = () => {
               <div
                 css={cardStyle}
                 key={item.storeId}
-                onClick={() => navigate(`/restaurant?id=${item.storeId}`)}
+                onClick={() =>
+                  navigate(`/challenge/restaurant?id=${item.storeId}`)
+                }
               >
                 <div css={thumbnailStyle} />
                 <div css={cardContentStyle}>
