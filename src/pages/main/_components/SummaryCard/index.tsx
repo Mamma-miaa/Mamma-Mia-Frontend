@@ -36,7 +36,7 @@ const SummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
             <span css={locationTextStyle}>충무로 역으로부터</span>
           </div>
           <span css={distanceStyle}>
-            {Math.round(restaurant.distanceMeters)}m
+            {Math.round(restaurant.distanceMeters).toLocaleString()}m
           </span>
           {restaurant.isOpen && (
             <>

@@ -53,7 +53,9 @@ const ChallengeRestaurantDetailPage = () => {
           </div>
         </div>
 
-        <MammaMiaButton storeId={storeDetail.reviewStoreId} />
+        {searchParams.get("status") === "APPROVED" && (
+          <MammaMiaButton storeId={storeDetail.reviewStoreId} />
+        )}
 
         {/* 매장 정보 */}
         <RestaurantInformation storeDetail={storeDetail} />

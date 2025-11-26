@@ -64,7 +64,10 @@ const RestaurantInformation = ({ storeDetail }: RestaurantInformationProps) => {
             <div css={distanceRowStyle}>
               <span css={distanceTextStyle}>충무로 역으로부터</span>
               <span css={distanceValueStyle}>
-                {Math.round(storeDetail.station?.distanceMeters ?? 0)}m
+                {Math.round(
+                  storeDetail.station?.distanceMeters ?? 0
+                ).toLocaleString()}
+                m
               </span>
               <TranslateIcon
                 onClick={() => {
