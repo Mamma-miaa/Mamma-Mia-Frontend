@@ -56,10 +56,8 @@ const MyChallengeStatusSection = () => {
                     </span>
                   </div>
                   <div css={cardTextsStyle}>
-                    <div css={categoryTextStyle}>국밥·탕/찌개</div>
-                    <div css={cardTitleTextStyle}>
-                      충무로의 김치찌개는 여기밖에없다
-                    </div>
+                    <div css={categoryTextStyle}>{item.category}</div>
+                    <div css={cardTitleTextStyle}>{item.name}</div>
                   </div>
                 </div>
               </div>
@@ -172,20 +170,11 @@ const getStatusTextStyle = (status: string) => {
         TYPOGRAPHY.SUB["12B"]
       );
     case "REVISION_REQUIRED":
-      return css(
-        { ...baseStyleObj, color: "#FFA825" },
-        TYPOGRAPHY.SUB["12B"]
-      );
+      return css({ ...baseStyleObj, color: "#FFA825" }, TYPOGRAPHY.SUB["12B"]);
     case "REJECTED":
-      return css(
-        { ...baseStyleObj, color: "#FB3F11" },
-        TYPOGRAPHY.SUB["12B"]
-      );
+      return css({ ...baseStyleObj, color: "#FB3F11" }, TYPOGRAPHY.SUB["12B"]);
     case "APPROVED":
-      return css(
-        { ...baseStyleObj, color: "#1F96F5" },
-        TYPOGRAPHY.SUB["12B"]
-      );
+      return css({ ...baseStyleObj, color: "#1F96F5" }, TYPOGRAPHY.SUB["12B"]);
     default:
       return css(
         { ...baseStyleObj, color: "rgba(55, 56, 60, 0.61)" },
