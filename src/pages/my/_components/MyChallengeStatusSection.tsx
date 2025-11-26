@@ -38,7 +38,20 @@ const MyChallengeStatusSection = () => {
                 <div css={thumbnailStyle} />
                 <div css={cardContentStyle}>
                   <div css={statusBadgeStyle}>
-                    <span css={statusTextStyle}>검수 중</span>
+                    <span css={statusTextStyle}>
+                      {(() => {
+                        switch (item.status) {
+                          case "PENDING":
+                            return "검수 중";
+                          case "REVISION_REQUIRED":
+                            return "보완 요청";
+                          case "REJECTED":
+                            return "반려";
+                          case "APPROVED":
+                            return "승인";
+                        }
+                      })()}
+                    </span>
                   </div>
                   <div css={cardTextsStyle}>
                     <div css={categoryTextStyle}>국밥·탕/찌개</div>
