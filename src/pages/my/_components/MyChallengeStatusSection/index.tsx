@@ -1,10 +1,11 @@
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
-import ArrowRightIcon from "../_assets/arrow_right.svg?react";
-import WriteIcon from "../_assets/write_icon.svg?react";
+import ArrowRightIcon from "../../_assets/arrow_right.svg?react";
+import WriteIcon from "../../_assets/write_icon.svg?react";
 import { useGetMyChallengeStoreQuery } from "@/hooks/@server/member";
 import { useNavigate } from "react-router-dom";
+import { openReviewStandardsGuideBottomSheet } from "./_components/ReviewStandardsGuideBottomSheet";
 
 const MyChallengeStatusSection = () => {
   const { data: challengeStoreData } = useGetMyChallengeStoreQuery();
@@ -37,7 +38,7 @@ const MyChallengeStatusSection = () => {
                   navigate(`/challenge/restaurant?id=${item.storeId}`)
                 }
               >
-                <div css={thumbnailStyle} />
+                <img src={item.imageUrl} alt={item.name} css={thumbnailStyle} />
                 <div css={cardContentStyle}>
                   <div css={getStatusBadgeStyle(item.status)}>
                     <span css={getStatusTextStyle(item.status)}>
@@ -68,7 +69,11 @@ const MyChallengeStatusSection = () => {
             <span css={ctaLeftTextStyle}>
               👉 도전맛집 검수 기준이 궁금하다면?
             </span>
-            <button type="button" css={ctaButtonStyle}>
+            <button
+              type="button"
+              css={ctaButtonStyle}
+              onClick={openReviewStandardsGuideBottomSheet}
+            >
               <span css={ctaButtonTextStyle}>검수 기준 확인</span>
               <ArrowRightIcon width={20} height={20} />
             </button>
