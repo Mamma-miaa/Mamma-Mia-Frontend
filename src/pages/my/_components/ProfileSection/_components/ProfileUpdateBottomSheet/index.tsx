@@ -2,9 +2,11 @@ import { css } from "@emotion/react";
 import BottomSheet from "@/@lib/components/BottomSheet";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { overlay } from "overlay-kit";
 import ImageIcon from "./_assets/image_icon.svg?react";
+import { usePatchProfileMutation } from "@/hooks/@server/member";
+import RemoveIcon from "./_assets/remove.svg?react";
 
 export const openProfileUpdateBottomSheet = ({
   currentNickname,
@@ -31,11 +33,59 @@ const ProfileUpdateBottomSheet = ({
   onClose,
   currentNickname,
 }: ProfileUpdateBottomSheetProps) => {
-  const [nickname, setNickname] = useState(currentNickname);
+  const [nickname, setNickname] = useState("");
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const { mutate: patchProfile } = usePatchProfileMutation();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
-    onClose();
+    const formData = new FormData();
+    if (nickname) {
+      formData.append(
+        "nickname",
+        new Blob([JSON.stringify({ nickname })], { type: "application/json" })
+      );
+    } else {
+      formData.append(
+        "nickname",
+        new Blob([JSON.stringify({ nickname: currentNickname })], {
+          type: "application/json",
+        })
+      );
+    }
+    if (profileImage) {
+      formData.append("profileImage", profileImage);
+    }
+
+    patchProfile(formData, {
+      onSuccess: () => {
+        onClose();
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
   };
+
+  const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfileImage(file);
+    }
+  };
+
+  const handleRemoveImage = (e) => {
+    e.stopPropagation();
+    setProfileImage(null);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (profileImage) {
+        URL.revokeObjectURL(URL.createObjectURL(profileImage));
+      }
+    };
+  }, [profileImage]);
 
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose}>
@@ -52,9 +102,35 @@ const ProfileUpdateBottomSheet = ({
         <div css={bodyStyle}>
           {/* Profile Image Placeholder */}
           <div css={imageContainerStyle}>
-            <div css={imagePlaceholderStyle}>
-              <ImageIcon />
+            <div
+              css={imagePlaceholderStyle}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {profileImage ? (
+                <>
+                  <img
+                    src={URL.createObjectURL(profileImage)}
+                    alt="profile image"
+                    width={82}
+                    height={82}
+                    css={imageStyle}
+                  />
+                  <RemoveIcon
+                    css={removeImageIconStyle}
+                    onClick={handleRemoveImage}
+                  />
+                </>
+              ) : (
+                <ImageIcon />
+              )}
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleProfileImageChange}
+              css={hiddenInputStyle}
+            />
           </div>
 
           {/* Nickname Input */}
@@ -65,7 +141,7 @@ const ProfileUpdateBottomSheet = ({
               type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
-              placeholder="닉네임을 입력하세요"
+              placeholder={currentNickname}
             />
           </div>
         </div>
@@ -142,6 +218,26 @@ const imagePlaceholderStyle = css({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+
+  position: "relative",
+});
+
+const imageStyle = css({
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  overflow: "hidden",
+  borderRadius: "50%",
+});
+
+const removeImageIconStyle = css({
+  position: "absolute",
+  top: 0,
+  right: 0,
+});
+
+const hiddenInputStyle = css({
+  display: "none",
 });
 
 const inputSectionStyle = css({
