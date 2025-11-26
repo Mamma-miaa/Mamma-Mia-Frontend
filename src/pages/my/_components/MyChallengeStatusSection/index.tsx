@@ -1,17 +1,15 @@
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
-import ArrowRightIcon from "../_assets/arrow_right.svg?react";
-import WriteIcon from "../_assets/write_icon.svg?react";
+import ArrowRightIcon from "../../_assets/arrow_right.svg?react";
+import WriteIcon from "../../_assets/write_icon.svg?react";
 import { useGetMyChallengeStoreQuery } from "@/hooks/@server/member";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import ReviewStandardsGuideBottomSheet from "./_components/ReviewStandardsGuideBottomSheet";
+import { openReviewStandardsGuideBottomSheet } from "./_components/ReviewStandardsGuideBottomSheet";
 
 const MyChallengeStatusSection = () => {
   const { data: challengeStoreData } = useGetMyChallengeStoreQuery();
   const navigate = useNavigate();
-  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   return (
     <section css={sectionStyle}>
@@ -74,17 +72,12 @@ const MyChallengeStatusSection = () => {
             <button
               type="button"
               css={ctaButtonStyle}
-              onClick={() => setIsBottomSheetOpen(true)}
+              onClick={openReviewStandardsGuideBottomSheet}
             >
               <span css={ctaButtonTextStyle}>검수 기준 확인</span>
               <ArrowRightIcon width={20} height={20} />
             </button>
           </div>
-
-          <ReviewStandardsGuideBottomSheet
-            isOpen={isBottomSheetOpen}
-            onClose={() => setIsBottomSheetOpen(false)}
-          />
         </>
       )}
     </section>
