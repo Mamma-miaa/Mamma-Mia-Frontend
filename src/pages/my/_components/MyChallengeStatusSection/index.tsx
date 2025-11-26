@@ -38,7 +38,7 @@ const MyChallengeStatusSection = () => {
                   navigate(`/challenge/restaurant?id=${item.storeId}`)
                 }
               >
-                <div css={thumbnailStyle} />
+                <img src={item.imageUrl} alt={item.name} css={thumbnailStyle} />
                 <div css={cardContentStyle}>
                   <div css={getStatusBadgeStyle(item.status)}>
                     <span css={getStatusTextStyle(item.status)}>
