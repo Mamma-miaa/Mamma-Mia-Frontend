@@ -5,10 +5,13 @@ import ArrowRightIcon from "../_assets/arrow_right.svg?react";
 import WriteIcon from "../_assets/write_icon.svg?react";
 import { useGetMyChallengeStoreQuery } from "@/hooks/@server/member";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import ReviewStandardsGuideBottomSheet from "./_components/ReviewStandardsGuideBottomSheet";
 
 const MyChallengeStatusSection = () => {
   const { data: challengeStoreData } = useGetMyChallengeStoreQuery();
   const navigate = useNavigate();
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   return (
     <section css={sectionStyle}>
@@ -68,11 +71,20 @@ const MyChallengeStatusSection = () => {
             <span css={ctaLeftTextStyle}>
               👉 도전맛집 검수 기준이 궁금하다면?
             </span>
-            <button type="button" css={ctaButtonStyle}>
+            <button
+              type="button"
+              css={ctaButtonStyle}
+              onClick={() => setIsBottomSheetOpen(true)}
+            >
               <span css={ctaButtonTextStyle}>검수 기준 확인</span>
               <ArrowRightIcon width={20} height={20} />
             </button>
           </div>
+
+          <ReviewStandardsGuideBottomSheet
+            isOpen={isBottomSheetOpen}
+            onClose={() => setIsBottomSheetOpen(false)}
+          />
         </>
       )}
     </section>
