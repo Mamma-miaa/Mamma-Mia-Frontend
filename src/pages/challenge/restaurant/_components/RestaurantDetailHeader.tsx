@@ -28,6 +28,7 @@ const RestaurantDetailHeader = ({
   };
 
   const handleDelete = () => {
+    // TODO: 삭제 기능 구현
     toast({ message: "아직 구현되지 않은 기능입니다." });
   };
 
