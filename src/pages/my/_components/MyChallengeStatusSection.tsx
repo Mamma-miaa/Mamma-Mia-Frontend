@@ -33,18 +33,31 @@ const MyChallengeStatusSection = () => {
               <div
                 css={cardStyle}
                 key={item.storeId}
-                onClick={() => navigate(`/restaurant?id=${item.storeId}`)}
+                onClick={() =>
+                  navigate(`/challenge/restaurant?id=${item.storeId}`)
+                }
               >
                 <div css={thumbnailStyle} />
                 <div css={cardContentStyle}>
-                  <div css={statusBadgeStyle}>
-                    <span css={statusTextStyle}>검수 중</span>
+                  <div css={getStatusBadgeStyle(item.status)}>
+                    <span css={getStatusTextStyle(item.status)}>
+                      {(() => {
+                        switch (item.status) {
+                          case "PENDING":
+                            return "검수 중";
+                          case "REVISION_REQUIRED":
+                            return "보완 요청";
+                          case "REJECTED":
+                            return "반려";
+                          case "APPROVED":
+                            return "승인";
+                        }
+                      })()}
+                    </span>
                   </div>
                   <div css={cardTextsStyle}>
-                    <div css={categoryTextStyle}>국밥·탕/찌개</div>
-                    <div css={cardTitleTextStyle}>
-                      충무로의 김치찌개는 여기밖에없다
-                    </div>
+                    <div css={categoryTextStyle}>{item.category}</div>
+                    <div css={cardTitleTextStyle}>{item.name}</div>
                   </div>
                 </div>
               </div>
@@ -119,25 +132,56 @@ const cardContentStyle = css({
   width: 183,
 });
 
-const statusBadgeStyle = css({
-  display: "inline-flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: 10,
-  padding: 10,
-  backgroundColor: THEME.COLORS.BACKGROUND.DISABLE,
-  borderRadius: 4,
-  width: 52,
-  height: 20,
-});
+const getStatusBadgeStyle = (status: string) => {
+  const baseStyle = {
+    display: "inline-flex" as const,
+    justifyContent: "center" as const,
+    alignItems: "center" as const,
+    gap: 10,
+    padding: 10,
+    borderRadius: 4,
+    width: 52,
+    height: 20,
+  };
 
-const statusTextStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+  switch (status) {
+    case "PENDING":
+      return css({ ...baseStyle, backgroundColor: "#F4F4F5" });
+    case "REVISION_REQUIRED":
+      return css({ ...baseStyle, backgroundColor: "#FAF6DB" });
+    case "REJECTED":
+      return css({ ...baseStyle, backgroundColor: "#FBEFEF" });
+    case "APPROVED":
+      return css({ ...baseStyle, backgroundColor: "#E5F3FE" });
+    default:
+      return css({ ...baseStyle, backgroundColor: "#F4F4F5" });
+  }
+};
+
+const getStatusTextStyle = (status: string) => {
+  const baseStyleObj = {
     flex: "none",
-  },
-  TYPOGRAPHY.SUB["12B"]
-);
+  };
+
+  switch (status) {
+    case "PENDING":
+      return css(
+        { ...baseStyleObj, color: "rgba(55, 56, 60, 0.61)" },
+        TYPOGRAPHY.SUB["12B"]
+      );
+    case "REVISION_REQUIRED":
+      return css({ ...baseStyleObj, color: "#FFA825" }, TYPOGRAPHY.SUB["12B"]);
+    case "REJECTED":
+      return css({ ...baseStyleObj, color: "#FB3F11" }, TYPOGRAPHY.SUB["12B"]);
+    case "APPROVED":
+      return css({ ...baseStyleObj, color: "#1F96F5" }, TYPOGRAPHY.SUB["12B"]);
+    default:
+      return css(
+        { ...baseStyleObj, color: "rgba(55, 56, 60, 0.61)" },
+        TYPOGRAPHY.SUB["12B"]
+      );
+  }
+};
 
 const cardTextsStyle = css({
   display: "flex",
