@@ -2,8 +2,10 @@ import { css } from "@emotion/react";
 
 import BackIcon from "../_assets/back.svg?react";
 import ShareIcon from "../_assets/share.svg?react";
-import { useNavigate } from "react-router-dom";
+import TrashIcon from "../_assets/trash.svg?react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import type { components } from "@/apis/schema";
+import toast from "@/utils/toast";
 
 const RestaurantDetailHeader = ({
   storeDetail,
@@ -12,6 +14,9 @@ const RestaurantDetailHeader = ({
     | components["schemas"]["GetStoreDetailResponse"]
     | components["schemas"]["GetUnderReviewChallengeStoreDetailResponse"];
 }) => {
+  const [searchParams] = useSearchParams();
+  const isApproved =
+    !searchParams.get("status") || searchParams.get("status") === "APPROVED";
   const navigate = useNavigate();
 
   const handleShare = () => {
@@ -20,6 +25,11 @@ const RestaurantDetailHeader = ({
       text: storeDetail?.name,
       url: window.location.href,
     });
+  };
+
+  const handleDelete = () => {
+    // TODO: 삭제 기능 구현
+    toast({ message: "아직 구현되지 않은 기능입니다." });
   };
 
   return (
@@ -33,16 +43,18 @@ const RestaurantDetailHeader = ({
       >
         <BackIcon />
       </button>
-      <button
+      <div
         css={css(
           floatingButtonStyle,
           css({ position: "absolute", top: 20, right: 20 })
         )}
-        type="button"
-        onClick={handleShare}
       >
-        <ShareIcon />
-      </button>
+        {isApproved ? (
+          <ShareIcon onClick={handleShare} />
+        ) : (
+          <TrashIcon onClick={handleDelete} />
+        )}
+      </div>
     </>
   );
 };

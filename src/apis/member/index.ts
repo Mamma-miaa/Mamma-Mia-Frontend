@@ -34,3 +34,14 @@ export const postSocialLoginWithAgreements = async (
     data
   );
 };
+
+export const patchProfile = async (data: {
+  nickname?: string;
+  profileImage?: string;
+}) => {
+  return await api.patch("/member/profile-update", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
