@@ -196,31 +196,32 @@ const ChallengeRegistrationPage = () => {
             name: selectedRestaurant?.place_name ?? "",
             latitude: Number(selectedRestaurant?.y),
             longitude: Number(selectedRestaurant?.x),
-            registerChallengeStoreBusinessHours: businessHoursData.map(
-              (data) => ({
-                /** @description 영업 모드(CLOSED/OPEN_24H/OPEN_RANGE) */
-                mode: (() => {
-                  switch (true) {
-                    case data.options.isClosed:
-                      return "CLOSED";
-                    case data.options.is24Hours:
-                      return "OPEN_24H";
-                    case data.options.hasBreakTime:
-                      return "OPEN_RANGE";
-                  }
-                })(),
-                breakStart: data.breakTime?.startTime ?? null,
-                closeTime: data.breakTime?.endTime ?? null,
-                hasBreak: data.options.hasBreakTime ?? false,
-                dayOfWeek: DAYS_MAP[data.selectedDay],
-                closesNextDay: false,
-                openTime: data.businessHours?.startTime ?? null,
-                lastOrder: data.options.hasLastOrder
-                  ? data.lastOrder ?? null
-                  : null,
-                breakEnd: data.breakTime?.endTime ?? null,
-              })
-            ),
+            registerChallengeStoreBusinessHours:
+              businessHoursData.length > 0
+                ? businessHoursData.map((data) => ({
+                    /** @description 영업 모드(CLOSED/OPEN_24H/OPEN_RANGE) */
+                    mode: (() => {
+                      switch (true) {
+                        case data.options.isClosed:
+                          return "CLOSED";
+                        case data.options.is24Hours:
+                          return "OPEN_24H";
+                        case data.options.hasBreakTime:
+                          return "OPEN_RANGE";
+                      }
+                    })(),
+                    breakStart: data.breakTime?.startTime ?? null,
+                    closeTime: data.breakTime?.endTime ?? null,
+                    hasBreak: data.options.hasBreakTime ?? false,
+                    dayOfWeek: DAYS_MAP[data.selectedDay],
+                    closesNextDay: false,
+                    openTime: data.businessHours?.startTime ?? null,
+                    lastOrder: data.options.hasLastOrder
+                      ? data.lastOrder ?? null
+                      : null,
+                    breakEnd: data.breakTime?.endTime ?? null,
+                  }))
+                : undefined,
             address: selectedRestaurant?.address_name ?? "",
             category: selectedCategories[0],
             comment,

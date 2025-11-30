@@ -11,6 +11,7 @@ import {
   getMammaMia,
   getBookmark,
   postChallengeApplication,
+  getChallengeStoreDetail,
 } from "@/apis/store";
 import { getIsLoggedIn } from "@/utils/sessionStorage";
 
@@ -94,4 +95,10 @@ export const useGetBookmarkQuery = (
 export const usePostChallengeApplicationMutation = () =>
   useMutation({
     mutationFn: postChallengeApplication,
+  });
+
+export const useGetChallengeStoreDetailQuery = (storeId: number) =>
+  useSuspenseQuery({
+    queryKey: ["getChallengeStoreDetail", storeId],
+    queryFn: () => getChallengeStoreDetail(storeId),
   });

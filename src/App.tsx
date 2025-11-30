@@ -10,6 +10,7 @@ import MyPage from "./pages/my";
 import SearchResultPage from "./pages/search/result";
 import ChallengeRegistrationPage from "./pages/challenge/registration";
 import ChallengePage from "./pages/challenge";
+import ChallengeRestaurantDetailPage from "./pages/challenge/restaurant";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
           {
             path: "/challenge/registration",
             element: <ChallengeRegistrationPage />,
+          },
+          {
+            path: "/challenge/restaurant",
+            element: <ChallengeRestaurantDetailPage />,
           },
         ],
       },

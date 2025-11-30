@@ -31,7 +31,9 @@ const TODAY = new Date().getDay();
 const TODAY_DAY_OF_WEEK = [...Object.values(DAY_OF_WEEK)][TODAY];
 
 type RestaurantInformationProps = {
-  storeDetail: components["schemas"]["GetStoreDetailResponse"];
+  storeDetail:
+    | components["schemas"]["GetStoreDetailResponse"]
+    | components["schemas"]["GetUnderReviewChallengeStoreDetailResponse"];
 };
 
 const RestaurantInformation = ({ storeDetail }: RestaurantInformationProps) => {
