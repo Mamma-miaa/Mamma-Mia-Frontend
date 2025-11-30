@@ -8,7 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import { useGetChallengeStoreDetailQuery } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
 import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
-import MammaMiaButton from "./_components/MammaMiaButton";
+import CheerUpButton from "./_components/CheerUpButton";
 import RestaurantDetailImages from "./_components/RestaurantDetailImages";
 import RestaurantFacilities from "./_components/RestaurantFacilities";
 import RestaurantInformation from "./_components/RestaurantInformation";
@@ -46,7 +46,7 @@ const ChallengeRestaurantDetailPage = () => {
         </div>
 
         {searchParams.get("status") === "APPROVED" && (
-          <MammaMiaButton storeId={storeDetail.reviewStoreId} />
+          <CheerUpButton storeId={storeDetail.reviewStoreId} />
         )}
 
         {/* 매장 정보 */}

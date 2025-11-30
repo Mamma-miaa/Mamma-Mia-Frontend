@@ -12,7 +12,7 @@ import { getIsLoggedIn } from "@/utils/sessionStorage";
 import { openLoginModal } from "@/components/ConfirmModal/utils";
 import { useNavigate } from "react-router-dom";
 
-const MammaMiaButton = ({ storeId }: { storeId: number }) => {
+const CheerUpButton = ({ storeId }: { storeId: number }) => {
   const { data: mammaMiaData, refetch: refetchMammaMia } = useGetMammaMiaQuery({
     storeId: storeId,
   });
@@ -68,7 +68,7 @@ const MammaMiaButton = ({ storeId }: { storeId: number }) => {
   );
 };
 
-export default MammaMiaButton;
+export default CheerUpButton;
 
 // 투표 버튼
 const votingButtonStyle = css({
