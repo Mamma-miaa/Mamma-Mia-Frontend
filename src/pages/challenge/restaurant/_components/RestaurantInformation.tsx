@@ -80,42 +80,46 @@ const RestaurantInformation = ({ storeDetail }: RestaurantInformationProps) => {
           </div>
         </div>
 
-        <div css={timeInfoStyle}>
-          <div css={infoItemStyle}>
-            <img src={timeImg} css={emojiIconStyle} />
-            <div css={timeContentStyle}>
-              <button
-                css={timeRowButtonStyle}
-                onClick={() => setIsTimeAccordionOpen(!isTimeAccordionOpen)}
-              >
-                <span css={timeTextStyle}>
-                  <RestaurantBusinessHour
-                    businessHour={businessHours?.find(({ isToday }) => isToday)}
+        {!!businessHours.length && (
+          <div css={timeInfoStyle}>
+            <div css={infoItemStyle}>
+              <img src={timeImg} css={emojiIconStyle} />
+              <div css={timeContentStyle}>
+                <button
+                  css={timeRowButtonStyle}
+                  onClick={() => setIsTimeAccordionOpen(!isTimeAccordionOpen)}
+                >
+                  <span css={timeTextStyle}>
+                    <RestaurantBusinessHour
+                      businessHour={businessHours?.find(
+                        ({ isToday }) => isToday
+                      )}
+                    />
+                  </span>
+                  <ArrowIcon
+                    css={css({
+                      transform: isTimeAccordionOpen
+                        ? "rotate(270deg)"
+                        : "rotate(90deg)",
+                      transition: "transform 0.2s ease",
+                    })}
                   />
-                </span>
-                <ArrowIcon
-                  css={css({
-                    transform: isTimeAccordionOpen
-                      ? "rotate(270deg)"
-                      : "rotate(90deg)",
-                    transition: "transform 0.2s ease",
-                  })}
-                />
-              </button>
-              {isTimeAccordionOpen && (
-                <ul css={timeListStyle}>
-                  {businessHours
-                    .filter((businessHour) => !businessHour.isToday)
-                    .map((businessHour) => (
-                      <li key={businessHour.dayOfWeek}>
-                        <RestaurantBusinessHour businessHour={businessHour} />
-                      </li>
-                    ))}
-                </ul>
-              )}
+                </button>
+                {isTimeAccordionOpen && (
+                  <ul css={timeListStyle}>
+                    {businessHours
+                      .filter((businessHour) => !businessHour.isToday)
+                      .map((businessHour) => (
+                        <li key={businessHour.dayOfWeek}>
+                          <RestaurantBusinessHour businessHour={businessHour} />
+                        </li>
+                      ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
