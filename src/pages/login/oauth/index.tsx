@@ -29,23 +29,33 @@ const LoginRedirectPage = () => {
             if (data.needAdditionalAgreements) {
               const result = await openServiceAgreementPopup();
               if (result) {
-                postSocialLoginWithAgreements({
-                  memberId: data.memberId.toString(),
-                  agreements: [
-                    {
-                      type: "TERMS_OF_SERVICE",
-                      isAgreed: true,
+                postSocialLoginWithAgreements(
+                  {
+                    memberId: data.memberId.toString(),
+                    agreements: [
+                      {
+                        type: "TERMS_OF_SERVICE",
+                        isAgreed: true,
+                      },
+                      {
+                        type: "PRIVACY_POLICY",
+                        isAgreed: true,
+                      },
+                      {
+                        type: "LOCATION_SERVICE",
+                        isAgreed: true,
+                      },
+                    ],
+                  },
+                  {
+                    onSuccess: () => {
+                      sessionStorage.setItem("accessToken", data.accessToken);
+                      sessionStorage.setItem("refreshToken", data.refreshToken);
+                      toast({ message: "로그인에 성공하였습니다." });
+                      navigate("/");
                     },
-                    {
-                      type: "PRIVACY_POLICY",
-                      isAgreed: true,
-                    },
-                    {
-                      type: "LOCATION_SERVICE",
-                      isAgreed: true,
-                    },
-                  ],
-                });
+                  }
+                );
               }
               return;
             }
