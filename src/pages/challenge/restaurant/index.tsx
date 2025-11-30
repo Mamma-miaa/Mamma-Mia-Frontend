@@ -13,6 +13,7 @@ import RestaurantDetailImages from "./_components/RestaurantDetailImages";
 import RestaurantFacilities from "./_components/RestaurantFacilities";
 import RestaurantInformation from "./_components/RestaurantInformation";
 import RestaurantLikeSection from "./_components/RestaurantLikeSection";
+import RestaurantComment from "@/components/RestaurantComment";
 
 const ChallengeRestaurantDetailPage = () => {
   const [searchParams] = useSearchParams();
@@ -24,6 +25,9 @@ const ChallengeRestaurantDetailPage = () => {
     <div css={pageContainerStyle}>
       <RestaurantDetailHeader storeDetail={storeDetail} />
       <RestaurantDetailImages storeDetail={storeDetail} />
+      <div css={commentContainerStyle}>
+        <RestaurantComment storeDetail={storeDetail} />
+      </div>
 
       {/* 레스토랑 정보 카드 */}
       <div css={infoCardStyle}>
@@ -272,5 +276,13 @@ const reportTextStyle = css(
   },
   TYPOGRAPHY.SUB["12R"]
 );
+
+// 댓글 컨테이너 스타일
+const commentContainerStyle = css({
+  position: "relative",
+  top: -33,
+  left: 0,
+  margin: "0 20px",
+});
 
 export default ChallengeRestaurantDetailPage;
