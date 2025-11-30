@@ -74,7 +74,7 @@ export default MammaMiaButton;
 const votingButtonStyle = css({
   height: 56,
   position: "relative",
-  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
+  backgroundColor: THEME.COLORS.PRIMARY.RED,
   borderRadius: 8,
   border: "none",
   display: "flex",
