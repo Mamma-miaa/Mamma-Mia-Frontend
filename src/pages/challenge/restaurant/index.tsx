@@ -9,13 +9,13 @@ import { useGetChallengeStoreDetailQuery } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
 import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
 import CheerUpButton from "./_components/CheerUpButton";
-import RestaurantDetailImages from "./_components/RestaurantDetailImages";
+import RestaurantDetailImages from "@/components/RestaurantDetailImages";
 import RestaurantFacilities from "./_components/RestaurantFacilities";
 import RestaurantInformation from "./_components/RestaurantInformation";
 import RestaurantLikeSection from "./_components/RestaurantLikeSection";
 import RestaurantComment from "@/components/RestaurantComment";
 import ReviewStatusSection from "./_components/ReviewStatusSection";
-import RestaurantDetailBackground from "./_components/RestaurantDetailBackground";
+import RestaurantDetailBackground from "@/components/RestaurantDetailBackground";
 
 const ChallengeRestaurantDetailPage = () => {
   const [searchParams] = useSearchParams();
@@ -31,7 +31,7 @@ const ChallengeRestaurantDetailPage = () => {
       />
       <div css={containerStyle}>
         <ReviewStatusSection storeDetail={storeDetail} />
-        <RestaurantDetailImages storeDetail={storeDetail} />
+        <RestaurantDetailImages imgUrls={storeDetail?.images ?? []} />
         <RestaurantComment storeDetail={storeDetail} />
 
         {/* 레스토랑 정보 카드 */}
