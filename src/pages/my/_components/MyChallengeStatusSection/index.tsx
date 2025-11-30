@@ -6,6 +6,7 @@ import WriteIcon from "../../_assets/write_icon.svg?react";
 import { useGetMyChallengeStoreQuery } from "@/hooks/@server/member";
 import { useNavigate } from "react-router-dom";
 import { openReviewStandardsGuideBottomSheet } from "./_components/ReviewStandardsGuideBottomSheet";
+import ReviewStatusBadge from "@/components/ReviewStatusBadge";
 
 const MyChallengeStatusSection = () => {
   const { data: challengeStoreData } = useGetMyChallengeStoreQuery();
@@ -42,22 +43,7 @@ const MyChallengeStatusSection = () => {
               >
                 <img src={item.imageUrl} alt={item.name} css={thumbnailStyle} />
                 <div css={cardContentStyle}>
-                  <div css={getStatusBadgeStyle(item.status)}>
-                    <span css={getStatusTextStyle(item.status)}>
-                      {(() => {
-                        switch (item.status) {
-                          case "PENDING":
-                            return "검수 중";
-                          case "REVISION_REQUIRED":
-                            return "보완 요청";
-                          case "REJECTED":
-                            return "반려";
-                          case "APPROVED":
-                            return "승인";
-                        }
-                      })()}
-                    </span>
-                  </div>
+                  <ReviewStatusBadge status={item.status} />
                   <div css={cardTextsStyle}>
                     <div css={categoryTextStyle}>{item.category}</div>
                     <div css={cardTitleTextStyle}>{item.name}</div>
