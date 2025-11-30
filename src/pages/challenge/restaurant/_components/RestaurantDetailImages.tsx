@@ -9,43 +9,15 @@ const RestaurantDetailBackGround = ({
     | components["schemas"]["GetUnderReviewChallengeStoreDetailResponse"];
 }) => {
   return (
-    <>
-      <img
-        src={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
-        alt="레스토랑 배경 이미지"
-        css={restaurantBackgroundImageStyle}
-      />
-      <div
-        css={css({
-          position: "absolute",
-          top: 80,
-          left: "50%",
-          transform: "translateX(-50%)",
-          padding: "0 20px",
-          width: "100%",
-        })}
-      >
-        <img
-          src={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
-          alt="레스토랑 이미지"
-          css={restaurantImageStyle}
-        />
-      </div>
-    </>
+    <img
+      src={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
+      alt="레스토랑 이미지"
+      css={restaurantImageStyle}
+    />
   );
 };
 
 export default RestaurantDetailBackGround;
-
-const restaurantBackgroundImageStyle = css({
-  width: "100%",
-  aspectRatio: "375/460",
-  objectFit: "cover",
-  filter: "blur(140px)",
-  mask: "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
-  WebkitMask:
-    "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
-});
 
 const restaurantImageStyle = css({
   width: "100%",
