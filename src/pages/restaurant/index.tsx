@@ -12,6 +12,7 @@ import MammaMiaButton from "./_components/MammaMiaButton";
 import RestaurantDetailImages from "./_components/RestaurantDetailImages";
 import RestaurantFacilities from "./_components/RestaurantFacilities";
 import RestaurantInformation from "./_components/RestaurantInformation";
+import RestaurantComment from "@/components/RestaurantComment";
 
 const RestaurantDetailPage = () => {
   const [searchParams] = useSearchParams();
@@ -23,7 +24,9 @@ const RestaurantDetailPage = () => {
     <div css={pageContainerStyle}>
       <RestaurantDetailHeader storeDetail={storeDetail} />
       <RestaurantDetailImages storeDetail={storeDetail} />
-
+      <div css={commentContainerStyle}>
+        <RestaurantComment storeDetail={storeDetail} />
+      </div>
       {/* 레스토랑 정보 카드 */}
       <div css={infoCardStyle}>
         {/* 레스토랑 기본 정보 */}
@@ -322,5 +325,13 @@ const reportTextStyle = css(
   },
   TYPOGRAPHY.SUB["12R"]
 );
+
+// 댓글 컨테이너 스타일
+const commentContainerStyle = css({
+  position: "relative",
+  top: -33,
+  left: 0,
+  margin: "0 20px",
+});
 
 export default RestaurantDetailPage;
