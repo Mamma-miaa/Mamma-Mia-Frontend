@@ -33,27 +33,6 @@ const ChallengePage = () => {
   return (
     <>
       <div css={pageContainerStyle}>
-        {/* 뒤로가기 버튼 */}
-        <button
-          css={css(
-            floatingButtonStyle,
-            css({ position: "absolute", top: 20, left: 20 })
-          )}
-          onClick={() => navigate(-1)}
-        >
-          <BackIcon />
-        </button>
-        <div
-          css={css({ position: "absolute", top: 20, right: 20, zIndex: 1000 })}
-        >
-          <ToggleButton
-            paramKey="period"
-            firstItem={{ label: "주간", value: PERIOD_TYPE.WEEKLY }}
-            secondItem={{ label: "월간", value: PERIOD_TYPE.MONTHLY }}
-          />
-        </div>
-
-        <Spacing size={56} />
         <div
           css={css({
             display: "flex",
@@ -63,7 +42,6 @@ const ChallengePage = () => {
         >
           <img src={challengeText} alt="challenge text" width={164} />
         </div>
-        <Spacing size={20} />
 
         <div css={listHeaderContainerStyle}>
           <div css={listHeaderTitleWrapperStyle}>
