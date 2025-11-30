@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
-import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react";
+import CheerUpBadge from "@/assets/cheer_up_badge.svg?react";
 import ArrowIcon from "./_assets/arrow.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
 import { useSearchParams } from "react-router-dom";
@@ -39,7 +39,7 @@ const ChallengeRestaurantDetailPage = () => {
           </div>
           {searchParams.get("status") === "APPROVED" && (
             <div css={mammaMiaSectionStyle}>
-              <MammaMiaBadge />
+              <CheerUpBadge />
               <RestaurantLikeSection />
             </div>
           )}
