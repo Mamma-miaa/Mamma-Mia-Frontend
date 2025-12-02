@@ -28,7 +28,7 @@ export const postSocialLogin = async (
 
 export const postSocialLoginWithAgreements = async (
   data: components["schemas"]["SaveAgreementRequest"]
-) => {
+): Promise<{ accessToken: string; refreshToken: string }> => {
   return await axios.post(
     `${import.meta.env.VITE_API_URL}/api/v1/member/agreements`,
     data
