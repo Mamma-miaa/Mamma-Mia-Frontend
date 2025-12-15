@@ -3,6 +3,7 @@ import {
   getMyBookmarkStore,
   getMyChallengeStore,
   getMyMammaMiaStore,
+  getProfile,
   patchProfile,
 } from "@/apis/member";
 
@@ -24,6 +25,13 @@ export const useGetMyChallengeStoreQuery = () => {
   return useSuspenseQuery({
     queryKey: ["getMyChallengeStore"],
     queryFn: getMyChallengeStore,
+  });
+};
+
+export const useGetProfileQuery = () => {
+  return useSuspenseQuery({
+    queryKey: ["getProfile"],
+    queryFn: getProfile,
   });
 };
 
