@@ -1,20 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import ExitIcon from "../_assets/exit.svg?react";
-import BackIcon from "../_assets/back.svg?react";
+
 import registrationTitle from "../_assets/registration.webp";
 import Spacing from "@/@lib/components/Spacing";
 import { css } from "@emotion/react";
 import { openConfirmModal } from "@/components/ConfirmModal/utils";
 
-interface ChallengeRegistrationPageHeaderProps {
-  step: 1 | 2;
-  setStep: (step: 1 | 2) => void;
-}
-
-const ChallengeRegistrationPageHeader = ({
-  step,
-  setStep,
-}: ChallengeRegistrationPageHeaderProps) => {
+const ChallengeRegistrationPageHeader = () => {
   const navigate = useNavigate();
 
   const handleExit = async () => {
@@ -27,22 +19,11 @@ const ChallengeRegistrationPageHeader = ({
     if (!isOk) navigate(-1);
   };
 
-  const handleBack = () => {
-    setStep(1);
-  };
-
   return (
     <>
       {/* 헤더 */}
       <div css={css({ padding: "16px 20px" })}>
-        {(() => {
-          switch (step) {
-            case 1:
-              return <ExitIcon onClick={handleExit} />;
-            case 2:
-              return <BackIcon onClick={handleBack} />;
-          }
-        })()}
+        <ExitIcon onClick={handleExit} />
       </div>
       {/* 제목 */}
       <Spacing size={20} />
