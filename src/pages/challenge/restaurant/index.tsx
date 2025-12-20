@@ -9,11 +9,13 @@ import { useGetChallengeStoreDetailQuery } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
 import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
 import CheerUpButton from "./_components/CheerUpButton";
-import RestaurantDetailImages from "./_components/RestaurantDetailImages";
+import RestaurantDetailImages from "@/components/RestaurantDetailImages";
 import RestaurantFacilities from "./_components/RestaurantFacilities";
 import RestaurantInformation from "./_components/RestaurantInformation";
 import RestaurantLikeSection from "./_components/RestaurantLikeSection";
 import RestaurantComment from "@/components/RestaurantComment";
+import ReviewStatusSection from "./_components/ReviewStatusSection";
+import RestaurantDetailBackground from "@/components/RestaurantDetailBackground";
 
 const ChallengeRestaurantDetailPage = () => {
   const [searchParams] = useSearchParams();
@@ -24,82 +26,86 @@ const ChallengeRestaurantDetailPage = () => {
   return (
     <div css={pageContainerStyle}>
       <RestaurantDetailHeader storeDetail={storeDetail} />
-      <RestaurantDetailImages storeDetail={storeDetail} />
-      <div css={commentContainerStyle}>
+      <RestaurantDetailBackground
+        imgUrl={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
+      />
+      <div css={containerStyle}>
+        <ReviewStatusSection storeDetail={storeDetail} />
+        <RestaurantDetailImages imgUrls={storeDetail?.images ?? []} />
         <RestaurantComment storeDetail={storeDetail} />
-      </div>
 
-      {/* 레스토랑 정보 카드 */}
-      <div css={infoCardStyle}>
-        {/* 레스토랑 기본 정보 */}
-        <div css={restaurantInfoSectionStyle}>
-          <div css={titleSectionStyle}>
-            <span css={categoryStyle}>{storeDetail.category}</span>
-            <h1 css={restaurantNameStyle}>{storeDetail.name}</h1>
-          </div>
-          {searchParams.get("status") === "APPROVED" && (
-            <div css={mammaMiaSectionStyle}>
-              <CheerUpBadge />
-              <RestaurantLikeSection />
+        {/* 레스토랑 정보 카드 */}
+        <div css={infoCardStyle}>
+          {/* 레스토랑 기본 정보 */}
+          <div css={restaurantInfoSectionStyle}>
+            <div css={titleSectionStyle}>
+              <span css={categoryStyle}>{storeDetail.category}</span>
+              <h1 css={restaurantNameStyle}>{storeDetail.name}</h1>
             </div>
-          )}
-        </div>
-
-        {searchParams.get("status") === "APPROVED" && (
-          <CheerUpButton storeId={storeDetail.reviewStoreId} />
-        )}
-
-        {/* 매장 정보 */}
-        <RestaurantInformation storeDetail={storeDetail} />
-
-        {/* 메뉴 섹션 */}
-        <div css={menuSectionStyle}>
-          <h2 css={sectionTitleStyle}>메뉴</h2>
-          <div css={menuListStyle}>
-            {storeDetail.menus.map((menu) => (
-              <div css={menuItemStyle} key={menu.name}>
-                <div css={menuImageContainerStyle}>
-                  <img
-                    src={menu.imageUrl ?? "https://placehold.co/60x60"}
-                    alt={menu.name}
-                    css={menuImageStyle}
-                  />
-                </div>
-                <div css={menuInfoStyle}>
-                  <div css={menuTitleStyle}>
-                    <span css={menuNameStyle}>{menu.name}</span>
-                  </div>
-                  <span css={menuPriceStyle}>
-                    {menu.price.toLocaleString()}원
-                  </span>
-                </div>
+            {searchParams.get("status") === "APPROVED" && (
+              <div css={mammaMiaSectionStyle}>
+                <CheerUpBadge />
+                <RestaurantLikeSection />
               </div>
-            ))}
+            )}
           </div>
-        </div>
 
-        {/* 부가 정보 */}
-        <RestaurantFacilities facilities={storeDetail.facilities} />
+          {searchParams.get("status") === "APPROVED" && (
+            <CheerUpButton storeId={storeDetail.reviewStoreId} />
+          )}
 
-        {/* 매장 위치 */}
-        <RestaurantLocationSection
-          latitude={storeDetail.latitude}
-          longitude={storeDetail.longitude}
-          restaurantName={storeDetail.name}
-        />
+          {/* 매장 정보 */}
+          <RestaurantInformation storeDetail={storeDetail} />
 
-        {/* 제보 버튼 */}
-        <div css={reportSectionStyle}>
-          <button
-            css={reportButtonStyle}
-            type="button"
-            onClick={() => {
-              toast({ message: "개발이 필요한 기능입니다." });
-            }}
-          >
-            <span css={reportTextStyle}>잘못된 정보 제보하기</span>
-            <ArrowIcon />
-          </button>
+          {/* 메뉴 섹션 */}
+          <div css={menuSectionStyle}>
+            <h2 css={sectionTitleStyle}>메뉴</h2>
+            <div css={menuListStyle}>
+              {storeDetail.menus.map((menu) => (
+                <div css={menuItemStyle} key={menu.name}>
+                  <div css={menuImageContainerStyle}>
+                    <img
+                      src={menu.imageUrl ?? "https://placehold.co/60x60"}
+                      alt={menu.name}
+                      css={menuImageStyle}
+                    />
+                  </div>
+                  <div css={menuInfoStyle}>
+                    <div css={menuTitleStyle}>
+                      <span css={menuNameStyle}>{menu.name}</span>
+                    </div>
+                    <span css={menuPriceStyle}>
+                      {menu.price.toLocaleString()}원
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 부가 정보 */}
+          <RestaurantFacilities facilities={storeDetail.facilities} />
+
+          {/* 매장 위치 */}
+          <RestaurantLocationSection
+            latitude={storeDetail.latitude}
+            longitude={storeDetail.longitude}
+            restaurantName={storeDetail.name}
+          />
+
+          {/* 제보 버튼 */}
+          <div css={reportSectionStyle}>
+            <button
+              css={reportButtonStyle}
+              type="button"
+              onClick={() => {
+                toast({ message: "개발이 필요한 기능입니다." });
+              }}
+            >
+              <span css={reportTextStyle}>잘못된 정보 제보하기</span>
+              <ArrowIcon />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -116,10 +122,6 @@ const pageContainerStyle = css({
 
 // 정보 카드 스타일
 const infoCardStyle = css({
-  position: "relative",
-  top: -33,
-  left: 0,
-  margin: "0 20px",
   backgroundColor: "rgba(255, 255, 255, 0.6)",
   border: "1px solid #FFFFFF",
   borderRadius: 12,
@@ -277,12 +279,17 @@ const reportTextStyle = css(
   TYPOGRAPHY.SUB["12R"]
 );
 
-// 댓글 컨테이너 스타일
-const commentContainerStyle = css({
-  position: "relative",
-  top: -33,
-  left: 0,
-  margin: "0 20px",
+const containerStyle = css({
+  position: "absolute",
+  top: 80,
+  left: "50%",
+  transform: "translateX(-50%)",
+  padding: "0 20px",
+  width: "100%",
+
+  display: "flex",
+  flexDirection: "column",
+  gap: 20,
 });
 
 export default ChallengeRestaurantDetailPage;

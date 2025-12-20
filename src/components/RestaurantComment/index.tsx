@@ -2,7 +2,6 @@ import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import type { components } from "@/apis/schema";
-import Spacing from "@/@lib/components/Spacing";
 
 const RestaurantComment = ({
   storeDetail,
@@ -15,28 +14,25 @@ const RestaurantComment = ({
     return null;
   }
   return (
-    <>
-      <div css={containerStyle}>
-        <div css={headerStyle}>
-          <div css={avatarStyle}>
-            {storeDetail.images?.[0] ? (
-              <img
-                src={storeDetail.images?.[0]}
-                alt={storeDetail.name}
-                css={avatarImageStyle}
-              />
-            ) : (
-              <div css={avatarPlaceholderStyle} />
-            )}
-          </div>
-          {/* TODO: 닉네임 추가 */}
-          <p css={nicknameStyle}>NickName님의 Comment</p>
+    <div css={containerStyle}>
+      <div css={headerStyle}>
+        <div css={avatarStyle}>
+          {storeDetail.images?.[0] ? (
+            <img
+              src={storeDetail.images?.[0]}
+              alt={storeDetail.name}
+              css={avatarImageStyle}
+            />
+          ) : (
+            <div css={avatarPlaceholderStyle} />
+          )}
         </div>
-        <p css={commentStyle}>{storeDetail.comment}</p>
-        <div css={innerShadowStyle} />
+        {/* TODO: 닉네임 추가 */}
+        <p css={nicknameStyle}>NickName님의 Comment</p>
       </div>
-      <Spacing size={20} />
-    </>
+      <p css={commentStyle}>{storeDetail.comment}</p>
+      <div css={innerShadowStyle} />
+    </div>
   );
 };
 

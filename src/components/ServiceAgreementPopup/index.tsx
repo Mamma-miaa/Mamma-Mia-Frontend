@@ -6,6 +6,10 @@ import ModalContainer from "@/components/ModalContainer";
 import CheckboxOffIcon from "./_assets/checkbox_off.svg?react";
 import CheckboxOnIcon from "./_assets/checkbox_on.svg?react";
 import ArrowRightIcon from "./_assets/arrow_right.svg?react";
+import TermsOfService from "@/view/TermsOfService";
+import { openPopup } from "@/@lib/components/Popup";
+import PrivacyPolicy from "@/view/PrivacyPolicy";
+import LocationInformationUseTerms from "@/view/LocationInformationUseTerms";
 
 interface ServiceAgreementPopupProps {
   isOpen: boolean;
@@ -57,8 +61,17 @@ const ServiceAgreementPopup = ({
   };
 
   const handleOpenTerms = (type: "terms" | "location" | "privacy") => {
-    // TODO: 약관 상세 페이지 열기
-    console.log("Open terms:", type);
+    switch (type) {
+      case "terms":
+        openPopup(<TermsOfService />);
+        break;
+      case "location":
+        openPopup(<LocationInformationUseTerms />);
+        break;
+      case "privacy":
+        openPopup(<PrivacyPolicy />);
+        break;
+    }
   };
 
   return (
