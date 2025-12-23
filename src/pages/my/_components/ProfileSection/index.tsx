@@ -5,6 +5,7 @@ import WriteIcon from "../../_assets/write.svg?react";
 import LogoutIcon from "../../_assets/logout.svg?react";
 import { openProfileUpdateBottomSheet } from "./_components/ProfileUpdateBottomSheet";
 import { usePostLogoutMutation } from "@/hooks/@server/auth";
+import { openConfirmModal } from "@/components/ConfirmModal/utils";
 
 const ProfileSection = () => {
   const { mutate: postLogout } = usePostLogoutMutation();
@@ -15,11 +16,20 @@ const ProfileSection = () => {
     });
   };
 
-  const handleLogout = () => {
-    postLogout({
-      refreshToken: sessionStorage.getItem("refreshToken") ?? "",
-      accessToken: sessionStorage.getItem("accessToken") ?? "",
+  const handleLogout = async () => {
+    const confirmed = await openConfirmModal({
+      title: "로그아웃",
+      description: "정말 로그아웃 하시겠습니까?",
+      cancelText: "취소",
+      confirmText: "로그아웃",
     });
+
+    if (confirmed) {
+      postLogout({
+        refreshToken: sessionStorage.getItem("refreshToken") ?? "",
+        accessToken: sessionStorage.getItem("accessToken") ?? "",
+      });
+    }
   };
 
   return (
