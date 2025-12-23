@@ -29,5 +29,16 @@ export const usePostLogoutMutation = () => {
       toast({ message: "로그아웃에 성공하였습니다." });
       navigate("/");
     },
+    onError: (error: unknown) => {
+      const errorMessage =
+        error && typeof error === "object" && "response" in error
+          ? (error.response as { data?: { message?: string } })?.data?.message
+          : undefined;
+
+      toast({
+        message:
+          errorMessage || "로그아웃에 실패하였습니다. 다시 시도해주세요.",
+      });
+    },
   });
 };
