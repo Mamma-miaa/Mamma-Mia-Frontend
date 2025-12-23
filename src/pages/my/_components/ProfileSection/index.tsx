@@ -4,12 +4,32 @@ import TYPOGRAPHY from "@/constants/typography";
 import WriteIcon from "../../_assets/write.svg?react";
 import LogoutIcon from "../../_assets/logout.svg?react";
 import { openProfileUpdateBottomSheet } from "./_components/ProfileUpdateBottomSheet";
+import { usePostLogoutMutation } from "@/hooks/@server/auth";
+import { openConfirmModal } from "@/components/ConfirmModal/utils";
 
 const ProfileSection = () => {
+  const { mutate: postLogout } = usePostLogoutMutation();
+
   const handleProfileEdit = () => {
     openProfileUpdateBottomSheet({
       currentNickname: "Nickname",
     });
+  };
+
+  const handleLogout = async () => {
+    const confirmed = await openConfirmModal({
+      title: "로그아웃",
+      description: "정말 로그아웃 하시겠습니까?",
+      cancelText: "취소",
+      confirmText: "로그아웃",
+    });
+
+    if (confirmed) {
+      postLogout({
+        refreshToken: sessionStorage.getItem("refreshToken") ?? "",
+        accessToken: sessionStorage.getItem("accessToken") ?? "",
+      });
+    }
   };
 
   return (
@@ -30,7 +50,10 @@ const ProfileSection = () => {
             <WriteIcon width={20} height={20} />
             <span css={buttonTextStyle}>프로필 편집</span>
           </button>
-          <button css={[actionButtonStyle, logoutButtonStyle]}>
+          <button
+            css={[actionButtonStyle, logoutButtonStyle]}
+            onClick={handleLogout}
+          >
             <LogoutIcon width={20} height={20} />
             <span css={buttonTextStyle}>로그아웃</span>
           </button>
