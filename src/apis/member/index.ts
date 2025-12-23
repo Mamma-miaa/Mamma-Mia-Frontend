@@ -26,6 +26,12 @@ export const postSocialLogin = async (
   return await api.post("/member/social", data);
 };
 
+export const postLogout = async (
+  data: components["schemas"]["LogoutRequest"]
+): Promise<void> => {
+  return await api.post("/member/logout", data);
+};
+
 export const postSocialLoginWithAgreements = async (
   data: components["schemas"]["SaveAgreementRequest"]
 ): Promise<{ accessToken: string; refreshToken: string }> => {

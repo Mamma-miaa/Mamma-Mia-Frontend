@@ -4,11 +4,21 @@ import TYPOGRAPHY from "@/constants/typography";
 import WriteIcon from "../../_assets/write.svg?react";
 import LogoutIcon from "../../_assets/logout.svg?react";
 import { openProfileUpdateBottomSheet } from "./_components/ProfileUpdateBottomSheet";
+import { usePostLogoutMutation } from "@/hooks/@server/auth";
 
 const ProfileSection = () => {
+  const { mutate: postLogout } = usePostLogoutMutation();
+
   const handleProfileEdit = () => {
     openProfileUpdateBottomSheet({
       currentNickname: "Nickname",
+    });
+  };
+
+  const handleLogout = () => {
+    postLogout({
+      refreshToken: sessionStorage.getItem("refreshToken") ?? "",
+      accessToken: sessionStorage.getItem("accessToken") ?? "",
     });
   };
 
@@ -30,7 +40,10 @@ const ProfileSection = () => {
             <WriteIcon width={20} height={20} />
             <span css={buttonTextStyle}>프로필 편집</span>
           </button>
-          <button css={[actionButtonStyle, logoutButtonStyle]}>
+          <button
+            css={[actionButtonStyle, logoutButtonStyle]}
+            onClick={handleLogout}
+          >
             <LogoutIcon width={20} height={20} />
             <span css={buttonTextStyle}>로그아웃</span>
           </button>
