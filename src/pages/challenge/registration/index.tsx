@@ -192,7 +192,13 @@ const ChallengeRegistrationPage = () => {
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
       {/* 헤더 */}
-      <div css={css({ padding: "16px 20px" })}>
+      <div
+        css={css({
+          padding: "16px 20px",
+          display: "flex",
+          justifyContent: "flex-end",
+        })}
+      >
         <ExitIcon onClick={handleExit} />
       </div>
       {/* 제목 */}
