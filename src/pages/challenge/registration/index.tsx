@@ -48,6 +48,7 @@ const ChallengeRegistrationPage = () => {
       initialSelectedCategories: [],
       description: "등록할 음식점의 음식 카테고리를 설정해주세요.",
       isSingleSelect: true,
+      enableReset: false,
     });
     if (categories) {
       setSelectedCategories(categories);
