@@ -182,7 +182,7 @@ const ChallengeRegistrationPage = () => {
   const handleExit = async () => {
     const isOk = await openConfirmModal({
       title: "등록을 중단하시겠습니까?",
-      description: "등록을 중단하면 작성한 내용이 모두 사라집니다.",
+      description: `아직 등록이 완료되지 않았고,\n작성한 내용이 사라질 수 있습니다.\n계속 등록을 진행하시겠습니까?`,
       cancelText: "나가기",
       confirmText: "계속 등록하기",
     });
