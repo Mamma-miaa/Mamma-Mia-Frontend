@@ -17,7 +17,7 @@ const use필터링_바텀시트 = () => {
     return await openCategoryFilteringBottomSheet({
       initialSelectedCategories:
         searchParams.get("categories")?.split(",") || [],
-      description: "먹고싶은 음식의 카테고리를 설정해주세요.",
+      description: "먹고 싶은 음식 카테고리를 골라주세요.",
     });
   };
 
