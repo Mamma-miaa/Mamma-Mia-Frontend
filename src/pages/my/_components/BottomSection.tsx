@@ -60,7 +60,7 @@ const BottomSection = () => {
                 return (
                   <div css={emptyStateStyle}>
                     <span>아직 투표한 맛집이 없어요.</span>
-                    <span>좋아하는 맛집에 ‘맘마미아’를 눌러보세요</span>
+                    <span>좋아하는 맛집에 ‘맘마미아’를 눌러보세요.</span>
                   </div>
                 );
               }
