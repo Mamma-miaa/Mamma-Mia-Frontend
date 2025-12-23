@@ -315,7 +315,7 @@ const ChallengeRegistrationPage = () => {
           <div css={commentContainerStyle}>
             <textarea
               css={textareaStyle}
-              placeholder="이 매장을 맛집으로 추천하는 이유가 무엇인가요? 자유로운 의견을 남겨주세요."
+              placeholder={`이 매장을 추천하는 이유를 10자 이상 작성해주세요.\n특별한 메뉴, 공간에 대한 설명을 적어보세요.`}
               value={comment}
               onChange={handleCommentChange}
               maxLength={300}
