@@ -1,7 +1,5 @@
-import THEME from "@/constants/theme";
 import { css } from "@emotion/react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import BackIcon from "./_assets/back.svg?react";
+import { useSearchParams } from "react-router-dom";
 import RankingCard from "./_components/RankingCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import rankingText from "./_assets/ranking_text.webp";
@@ -18,7 +16,6 @@ const PERIOD_TYPE = {
 type PeriodType = (typeof PERIOD_TYPE)[keyof typeof PERIOD_TYPE];
 
 const RankingPage = () => {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const period = searchParams.has("period")
     ? (searchParams.get("period") as PeriodType)
@@ -29,17 +26,6 @@ const RankingPage = () => {
   return (
     <>
       <div css={pageContainerStyle}>
-        {/* 뒤로가기 버튼 */}
-        <button
-          css={css(
-            floatingButtonStyle,
-            css({ position: "absolute", top: 20, left: 20 })
-          )}
-          onClick={() => navigate(-1)}
-        >
-          <BackIcon />
-        </button>
-
         <div
           css={css({ position: "absolute", top: 20, right: 20, zIndex: 1000 })}
         >
@@ -99,30 +85,6 @@ const pageContainerStyle = css({
   width: "100%",
   minHeight: "100vh",
   position: "relative",
-});
-
-// 뒤로가기 버튼 스타일
-const floatingButtonStyle = css({
-  width: 44,
-  height: 44,
-  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-  borderRadius: 28,
-  border: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  cursor: "pointer",
-  zIndex: 10,
-  boxShadow:
-    "0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.12)",
-
-  "&:hover": {
-    backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
-  },
-
-  "&:active": {
-    transform: "scale(0.95)",
-  },
 });
 
 // 레스토랑 배경 이미지 스타일
