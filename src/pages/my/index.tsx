@@ -6,6 +6,7 @@ import ProfileSection from "./_components/ProfileSection";
 import MyChallengeStatusSection from "./_components/MyChallengeStatusSection";
 import { useNavigate } from "react-router-dom";
 import BottomSection from "./_components/BottomSection";
+import BottomGNB from "@/components/BottomGNB";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ const MyPage = () => {
       <MyChallengeStatusSection />
       <Spacing size={20} />
       <BottomSection />
+      <BottomGNB />
     </div>
   );
 };
