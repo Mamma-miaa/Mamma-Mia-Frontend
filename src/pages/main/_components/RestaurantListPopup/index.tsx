@@ -158,6 +158,7 @@ const filterContainerStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 8,
+  zIndex: 10,
 });
 
 const totalCountContainerStyle = css(

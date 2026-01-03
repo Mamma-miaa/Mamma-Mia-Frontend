@@ -179,7 +179,6 @@ const rankingBadgeStyle = css({
   left: 0,
 
   pointerEvents: "none",
-  zIndex: 1000,
 });
 
 const contentContainerStyle = css({
