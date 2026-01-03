@@ -3,16 +3,15 @@ import TYPOGRAPHY from "@/constants/typography";
 import { css } from "@emotion/react";
 import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react";
 import type { components } from "@/apis/schema";
+import { useGetStoreDetailQuery } from "@/hooks/@server/store";
 
 const NewRestaurantCard = ({
   restaurant,
 }: {
-  restaurant: components["schemas"]["GetNearByResponse"] & {
-    작성자이미지: string;
-    작성자이름: string;
-    코멘트: string;
-  };
+  restaurant: components["schemas"]["GetNearByResponse"];
 }) => {
+  const { data: storeDetail } = useGetStoreDetailQuery(restaurant.storeId);
+
   return (
     <div css={restaurantCardStyle}>
       <div css={restaurantCardHeaderStyle}>
@@ -53,13 +52,13 @@ const NewRestaurantCard = ({
           <div css={restaurantCommentContentStyle}>
             <img
               css={restaurantCommentAvatarStyle}
-              src={restaurant.작성자이미지 ?? "https://placehold.co/28x28"}
+              src={restaurant.imageUrl ?? "https://placehold.co/28x28"}
               alt={restaurant.name}
             />
             <span css={restaurantCommentNameStyle}>
-              {restaurant.작성자이름}
+              {storeDetail?.commentAuthor?.nickname}
             </span>
-            <p css={restaurantCommentTextStyle}>{restaurant.코멘트}</p>
+            <p css={restaurantCommentTextStyle}>{storeDetail?.comment}</p>
           </div>
         </div>
       </div>

@@ -73,7 +73,9 @@ const RestaurantInformation = ({ storeDetail }: RestaurantInformationProps) => {
               </span>
               <TranslateIcon
                 onClick={() => {
-                  toast({ message: "개발이 필요한 기능입니다." });
+                  navigator.geolocation.getCurrentPosition((position) => {
+                    console.log(position);
+                  });
                 }}
               />
             </div>

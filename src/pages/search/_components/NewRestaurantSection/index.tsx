@@ -8,91 +8,22 @@ import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
 import VIEWPORT from "@/constants/viewport";
 import { useRef } from "react";
 import { Virtual } from "swiper/modules";
-
-const RESTAURANTS = [
-  {
-    storeId: 101,
-    name: "고녀석",
-    address: "서울 중구 퇴계로36길 9 지하 1층, 1층",
-    category: "한식/백반",
-    latitude: 37.56081813,
-    longitude: 126.9938475,
-    distanceMeters: 79.06215514019009,
-    totalLike: 0,
-    parking: false,
-    takeout: false,
-    delivery: false,
-    priceRange: "WON_1",
-    imageUrl: null,
-    ranks: null,
-
-    작성자이미지: "https://placehold.co/28x28",
-    코멘트: "맛있어요",
-    작성자이름: "홍길동",
-  },
-  {
-    storeId: 126,
-    name: "온의미반",
-    address: "서울 중구 퇴계로 210-27",
-    category: "한식/백반",
-    latitude: 37.56079927,
-    longitude: 126.9951321,
-    distanceMeters: 79.24109413026632,
-    totalLike: 0,
-    parking: false,
-    takeout: true,
-    delivery: true,
-    priceRange: "WON_1",
-    imageUrl: null,
-    ranks: null,
-
-    작성자이미지: "https://placehold.co/28x28",
-    코멘트: "맛있어요",
-    작성자이름: "홍길동",
-  },
-  {
-    storeId: 107,
-    name: "로스트템플",
-    address: "서울 중구 퇴계로39길 15",
-    category: "아시안",
-    latitude: 37.56208855,
-    longitude: 126.9942141,
-    distanceMeters: 90.591227004814,
-    totalLike: 0,
-    parking: false,
-    takeout: false,
-    delivery: false,
-    priceRange: "WON_2",
-    imageUrl: null,
-    ranks: null,
-
-    작성자이미지: "https://placehold.co/28x28",
-    코멘트: "맛있어요",
-    작성자이름: "홍길동",
-  },
-  {
-    storeId: 112,
-    name: "미분당",
-    address: "서울 중구 퇴계로36길 29 1층 102호",
-    category: "아시안",
-    latitude: 37.56050104,
-    longitude: 126.995071,
-    distanceMeters: 102.6877203713715,
-    totalLike: 0,
-    parking: false,
-    takeout: false,
-    delivery: false,
-    priceRange: "WON_1",
-    imageUrl: null,
-    ranks: null,
-
-    작성자이미지: "https://placehold.co/28x28",
-    코멘트: "맛있어요",
-    작성자이름: "홍길동",
-  },
-];
+import { 충무로역_좌표 } from "@/pages/main/_constants";
+import { useGetNearbyStoreQuery } from "@/hooks/@server/store";
 
 const NewRestaurantSection = () => {
+  const { data } = useGetNearbyStoreQuery({
+    minLatitude: 33.0,
+    maxLatitude: 38.7,
+    minLongitude: 124.5,
+    maxLongitude: 131.9,
+    userLatitude: 충무로역_좌표.lat,
+    userLongitude: 충무로역_좌표.lng,
+    size: 6,
+    lastDistance: 0,
+    lastStoreId: 0,
+    isNew: true,
+  });
   const swiperRef = useRef<SwiperRef>(null);
 
   return (
@@ -115,16 +46,14 @@ const NewRestaurantSection = () => {
       {/* 맛집 리스트 아이템 */}
 
       <Swiper
+        ref={swiperRef}
         css={swiperStyle}
         loop
         centeredSlides
-        ref={swiperRef}
-        modules={[Virtual]}
         spaceBetween={20}
-        virtual
       >
-        {RESTAURANTS.map((restaurant, index) => (
-          <SwiperSlide virtualIndex={index}>
+        {data?.items.map((restaurant) => (
+          <SwiperSlide key={restaurant.storeId}>
             <NewRestaurantCard restaurant={restaurant} />
           </SwiperSlide>
         ))}
