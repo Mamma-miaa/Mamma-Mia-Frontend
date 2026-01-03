@@ -14,8 +14,10 @@ import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard";
 
 const RestaurantListPopup = ({
   data,
+  totalCount, // 총 맛집 수
 }: {
   data: components["schemas"]["GetNearByResponse"][];
+  totalCount: number;
 }) => {
   const {
     handleClickCategoryChip,
@@ -95,6 +97,14 @@ const RestaurantListPopup = ({
           {getPriceRangeChipLabel()}
         </FilterChip>
       </div>
+
+      {!!totalCount && (
+        <div css={totalCountContainerStyle}>
+          <span css={totalCountLabelStyle}>전체</span>
+          <span css={totalCountNumberStyle}>{totalCount}</span>
+        </div>
+      )}
+
       <div
         css={css({
           display: "flex",
@@ -148,6 +158,24 @@ const filterContainerStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 8,
+});
+
+const totalCountContainerStyle = css(
+  {
+    display: "flex",
+    alignItems: "center",
+    gap: 2,
+    padding: "0 20px 4px 20px",
+  },
+  TYPOGRAPHY.HEADERS["16SB"]
+);
+
+const totalCountLabelStyle = css({
+  color: THEME.COLORS.GRAYSCALE.NORMAL,
+});
+
+const totalCountNumberStyle = css({
+  color: THEME.COLORS.PRIMARY.RED,
 });
 
 const emptyStateContainerStyle = css({

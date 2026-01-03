@@ -312,7 +312,10 @@ const MainPage = () => {
       </div>
       <AnimatePresence>
         {searchParams.has("isPopupOpen") && (
-          <RestaurantListPopup data={nearbyStore?.items || []} />
+          <RestaurantListPopup
+            data={nearbyStore?.items || []}
+            totalCount={nearbyStore?.totalCount || 0}
+          />
         )}
       </AnimatePresence>
     </>
