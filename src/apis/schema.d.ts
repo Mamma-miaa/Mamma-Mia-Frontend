@@ -178,7 +178,7 @@ export interface paths {
         get: operations["get_2"];
         put?: never;
         post?: never;
-        delete?: never;
+        delete: operations["delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -537,6 +537,8 @@ export interface components {
             name: string;
             /** @description 코멘트 */
             comment: string;
+            /** @description 코멘트 작성자 정보 */
+            commentAuthor?: components["schemas"]["GetUnderReviewChallengeStoreDetailResponseCommentAuthor"];
             /** @description 카테고리 */
             category: string;
             /** @description 주소 */
@@ -595,6 +597,12 @@ export interface components {
             lastOrder?: string;
             /** @description 휴무 여부 */
             isClosed: boolean;
+        };
+        GetUnderReviewChallengeStoreDetailResponseCommentAuthor: {
+            /** @description 닉네임 */
+            nickname: string;
+            /** @description 프로필 이미지 URL */
+            profileImage?: string;
         };
         GetUnderReviewChallengeStoreDetailResponseFacility: {
             parking: boolean;
@@ -685,6 +693,11 @@ export interface components {
              * @example true
              */
             isOpen?: boolean;
+            /**
+             * @description 신규 가게 여부(일주일 이내 생성)
+             * @example true
+             */
+            isNew?: boolean;
             /**
              * Format: int32
              * @description 최소 가격
@@ -800,6 +813,8 @@ export interface components {
             name: string;
             /** @description 코멘트 */
             comment: string;
+            /** @description 코멘트 작성자 정보 */
+            commentAuthor?: components["schemas"]["GetStoreDetailResponseCommentAuthor"];
             /** @description 카테고리 */
             category: string;
             /** @description 주소 */
@@ -875,6 +890,12 @@ export interface components {
             lastOrder?: string;
             /** @description 휴무 여부 */
             isClosed: boolean;
+        };
+        GetStoreDetailResponseCommentAuthor: {
+            /** @description 닉네임 */
+            nickname: string;
+            /** @description 프로필 이미지 URL */
+            profileImage?: string;
         };
         GetStoreDetailResponseFacility: {
             parking: boolean;
@@ -960,6 +981,7 @@ export interface components {
             storeId: number;
             name: string;
             status: string;
+            statusReason: string;
             category: string;
             imageUrl: string;
         };
@@ -1348,6 +1370,28 @@ export interface operations {
                 content: {
                     "*/*": components["schemas"]["GetUnderReviewChallengeStoreDetailResponse"];
                 };
+            };
+        };
+    };
+    delete: {
+        parameters: {
+            query: {
+                memberId: number;
+            };
+            header?: never;
+            path: {
+                reviewStoreId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

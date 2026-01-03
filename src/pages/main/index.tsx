@@ -88,6 +88,7 @@ const MainPage = () => {
     lastStoreId: 0,
     category: searchParams.getAll("categories"),
     isOpen: searchParams.get("isOpen") === "true" ? true : undefined,
+    isNew: searchParams.get("isNew") === "true" ? true : undefined,
     minPrice: searchParams.has("minPrice")
       ? Number(searchParams.get("minPrice"))
       : undefined,

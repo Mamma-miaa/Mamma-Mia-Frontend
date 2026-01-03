@@ -29,6 +29,7 @@ export const useGetNearbyStoreQuery = (
       ].every(Boolean),
       params.category,
       params.isOpen,
+      params.isNew,
       params.minPrice,
       params.maxPrice,
     ],
