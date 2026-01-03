@@ -71,13 +71,6 @@ const RestaurantInformation = ({ storeDetail }: RestaurantInformationProps) => {
                 ).toLocaleString()}
                 m
               </span>
-              <TranslateIcon
-                onClick={() => {
-                  navigator.geolocation.getCurrentPosition((position) => {
-                    console.log(position);
-                  });
-                }}
-              />
             </div>
           </div>
         </div>
