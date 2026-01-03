@@ -88,6 +88,7 @@ const RankingPage = () => {
           {stores.map((restaurant) => (
             <ResponsiveSummaryCard
               restaurant={restaurant}
+              rankingType={period}
               key={restaurant.storeId}
             />
           ))}

@@ -30,8 +30,10 @@ const RankingCard = ({
       {/* 랭킹 배지 */}
       <img
         src={(() => {
+          const ranks = (restaurant as any).ranks || {};
+          const rank = ranks[rankingType];
           if (rankingType === "WEEKLY") {
-            switch (restaurant.rank) {
+            switch (rank) {
               case 1:
                 return ranking_weekly_1st_badge;
               case 2:
@@ -41,7 +43,7 @@ const RankingCard = ({
             }
           }
           if (rankingType === "MONTHLY") {
-            switch (restaurant.rank) {
+            switch (rank) {
               case 1:
                 return ranking_1st_badge;
               case 2:
@@ -75,12 +77,16 @@ const RankingCard = ({
           <div css={votesContainerStyle}>
             <div css={voteItemStyle}>
               <span css={voteLabelStyle}>이번주</span>
-              <span css={voteNumberStyle}>{restaurant.rank ?? 0}</span>
+              <span css={voteNumberStyle}>
+                {(restaurant as any).ranks?.WEEKLY ?? 0}
+              </span>
             </div>
             <span css={separatorStyle}>/</span>
             <div css={voteItemStyle}>
               <span css={voteLabelStyle}>이번달</span>
-              <span css={voteNumberStyle}>{restaurant.rank ?? 0}</span>
+              <span css={voteNumberStyle}>
+                {(restaurant as any).ranks?.MONTHLY ?? 0}
+              </span>
             </div>
           </div>
         </div>
