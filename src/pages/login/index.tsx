@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
-import logoImg from "./_assets/logo.webp";
+import logoImg from "./_assets/graphic_mamma_mia.webp";
 import naverLogoImg from "./_assets/naver_logo.webp";
 import kakaoLogoImg from "./_assets/kakao_logo.webp";
 import googleLogoImg from "./_assets/google_logo.webp";
