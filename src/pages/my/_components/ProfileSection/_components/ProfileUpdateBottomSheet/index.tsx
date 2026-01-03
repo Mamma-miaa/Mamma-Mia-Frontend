@@ -49,7 +49,7 @@ const ProfileUpdateBottomSheet = ({
       );
     }
     if (profileImage) {
-      formData.append("profileImage", profileImage);
+      formData.append("image", profileImage);
     }
 
     patchProfile(formData, {

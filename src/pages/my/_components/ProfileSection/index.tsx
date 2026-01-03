@@ -100,6 +100,7 @@ const profileRowStyle = css({
 
 const avatarStyle = css({
   borderRadius: 48,
+  objectFit: "cover",
 });
 
 const profileInfoStyle = css({
