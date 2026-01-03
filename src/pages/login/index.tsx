@@ -89,7 +89,6 @@ const closeButtonStyle = css({
 
 const logoSectionStyle = css({
   width: "66.66%",
-  aspectRatio: "233/104",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
