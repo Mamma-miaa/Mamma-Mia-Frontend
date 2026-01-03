@@ -44,12 +44,16 @@ const FilterBottomSheet = ({
 
       {/* Action Buttons */}
       <div css={actionButtonsStyle}>
-        <div css={resetButtonGroupStyle}>
-          <button css={resetButtonStyle} onClick={onReset}>
-            <ResetIcon />
-          </button>
-          <div css={dividerStyle} />
-        </div>
+        {onReset && (
+          <>
+            <div css={resetButtonGroupStyle}>
+              <button css={resetButtonStyle} onClick={onReset}>
+                <ResetIcon />
+              </button>
+              <div css={dividerStyle} />
+            </div>
+          </>
+        )}
 
         <button css={css(closeButtonStyle)} onClick={onClose}>
           닫기

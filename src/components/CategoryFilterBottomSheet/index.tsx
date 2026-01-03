@@ -28,6 +28,7 @@ interface CategoryChipProps {
   image: string;
   isSelected: boolean;
   onClick: (id: string) => void;
+  enableReset?: boolean;
 }
 
 const CategoryChip = ({
@@ -51,12 +52,14 @@ const CategoryFilteringBottomSheet = ({
   initialSelectedCategories,
   description,
   isSingleSelect,
+  enableReset = true,
 }: {
   isOpen: boolean;
   onClose: (param: string[] | null) => void;
   initialSelectedCategories: string[];
   description: string;
   isSingleSelect?: boolean;
+  enableReset?: boolean;
 }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     initialSelectedCategories
@@ -112,7 +115,7 @@ const CategoryFilteringBottomSheet = ({
       onApply={handleApply}
       title="카테고리"
       description={description}
-      onReset={handleReset}
+      onReset={enableReset ? handleReset : undefined}
       isApplyButtonDisabled={isApplyButtonDisabled}
     >
       <div css={categoriesContainerStyle}>

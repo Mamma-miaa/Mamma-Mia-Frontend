@@ -16,58 +16,54 @@ const MyChallengeStatusSection = () => {
     <section css={sectionStyle}>
       <h2 css={titleStyle}>내 도전맛집 현황</h2>
 
-      {challengeStoreData.length === 0 ? (
-        <div css={emptyStateContainerStyle}>
-          <p css={emptyStateTextStyle}>
-            아직 도전한 맛집이 없어요.
+      <div css={listRowStyle}>
+        {challengeStoreData.map((item) => (
+          <div
+            css={cardStyle}
+            key={item.storeId}
+            onClick={() =>
+              navigate(
+                `/challenge/restaurant?id=${item.storeId}&status=${item.status}`
+              )
+            }
+          >
+            <img src={item.imageUrl} alt={item.name} css={thumbnailStyle} />
+            <div css={cardContentStyle}>
+              <ReviewStatusBadge status={item.status} />
+              <div css={cardTextsStyle}>
+                <div css={categoryTextStyle}>{item.category}</div>
+                <div css={cardTitleTextStyle}>{item.name}</div>
+              </div>
+            </div>
+          </div>
+        ))}
+        <div
+          css={emptyCardStyle}
+          onClick={() => navigate("/challenge/registration")}
+        >
+          <p css={emptyCardTextStyle}>
+            도전은 이제 시작이에요!
             <br />
-            주변의 숨은 맛집을 알려주세요!
+            다음 맛집도 추천해서 더 많은 응원을 받아보세요.
           </p>
-          <button type="button" css={emptyStateButtonStyle}>
+          <button css={emptyCardButtonStyle}>
             <WriteIcon width={20} height={20} />
-            <span css={emptyStateButtonTextStyle}>도전맛집 등록하기</span>
+            <span css={emptyCardButtonTextStyle}>도전맛집 등록하기</span>
           </button>
         </div>
-      ) : (
-        <>
-          <div css={listRowStyle}>
-            {challengeStoreData.map((item) => (
-              <div
-                css={cardStyle}
-                key={item.storeId}
-                onClick={() =>
-                  navigate(
-                    `/challenge/restaurant?id=${item.storeId}&status=${item.status}`
-                  )
-                }
-              >
-                <img src={item.imageUrl} alt={item.name} css={thumbnailStyle} />
-                <div css={cardContentStyle}>
-                  <ReviewStatusBadge status={item.status} />
-                  <div css={cardTextsStyle}>
-                    <div css={categoryTextStyle}>{item.category}</div>
-                    <div css={cardTitleTextStyle}>{item.name}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+      </div>
 
-          <div css={ctaRowStyle}>
-            <span css={ctaLeftTextStyle}>
-              👉 도전맛집 검수 기준이 궁금하다면?
-            </span>
-            <button
-              type="button"
-              css={ctaButtonStyle}
-              onClick={openReviewStandardsGuideBottomSheet}
-            >
-              <span css={ctaButtonTextStyle}>검수 기준 확인</span>
-              <ArrowRightIcon width={20} height={20} />
-            </button>
-          </div>
-        </>
-      )}
+      <div css={ctaRowStyle}>
+        <span css={ctaLeftTextStyle}>👉 도전맛집 검수 기준이 궁금하다면?</span>
+        <button
+          type="button"
+          css={ctaButtonStyle}
+          onClick={openReviewStandardsGuideBottomSheet}
+        >
+          <span css={ctaButtonTextStyle}>검수 기준 확인</span>
+          <ArrowRightIcon width={20} height={20} />
+        </button>
+      </div>
     </section>
   );
 };
@@ -107,6 +103,7 @@ const cardStyle = css({
   alignItems: "center",
   gap: 12,
   width: 311,
+  height: 116,
   flex: "none",
 });
 
@@ -124,57 +121,6 @@ const cardContentStyle = css({
   gap: 4,
   width: 183,
 });
-
-const getStatusBadgeStyle = (status: string) => {
-  const baseStyle = {
-    display: "inline-flex" as const,
-    justifyContent: "center" as const,
-    alignItems: "center" as const,
-    gap: 10,
-    padding: 10,
-    borderRadius: 4,
-    width: 52,
-    height: 20,
-  };
-
-  switch (status) {
-    case "PENDING":
-      return css({ ...baseStyle, backgroundColor: "#F4F4F5" });
-    case "REVISION_REQUIRED":
-      return css({ ...baseStyle, backgroundColor: "#FAF6DB" });
-    case "REJECTED":
-      return css({ ...baseStyle, backgroundColor: "#FBEFEF" });
-    case "APPROVED":
-      return css({ ...baseStyle, backgroundColor: "#E5F3FE" });
-    default:
-      return css({ ...baseStyle, backgroundColor: "#F4F4F5" });
-  }
-};
-
-const getStatusTextStyle = (status: string) => {
-  const baseStyleObj = {
-    flex: "none",
-  };
-
-  switch (status) {
-    case "PENDING":
-      return css(
-        { ...baseStyleObj, color: "rgba(55, 56, 60, 0.61)" },
-        TYPOGRAPHY.SUB["12B"]
-      );
-    case "REVISION_REQUIRED":
-      return css({ ...baseStyleObj, color: "#FFA825" }, TYPOGRAPHY.SUB["12B"]);
-    case "REJECTED":
-      return css({ ...baseStyleObj, color: "#FB3F11" }, TYPOGRAPHY.SUB["12B"]);
-    case "APPROVED":
-      return css({ ...baseStyleObj, color: "#1F96F5" }, TYPOGRAPHY.SUB["12B"]);
-    default:
-      return css(
-        { ...baseStyleObj, color: "rgba(55, 56, 60, 0.61)" },
-        TYPOGRAPHY.SUB["12B"]
-      );
-  }
-};
 
 const cardTextsStyle = css({
   display: "flex",
@@ -234,7 +180,7 @@ const ctaButtonTextStyle = css(
   TYPOGRAPHY.BODY["14SB"]
 );
 
-const emptyStateContainerStyle = css({
+const emptyCardStyle = css({
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
   border: `1px dashed ${THEME.COLORS.LINE.NORMAL}`,
   borderRadius: 8,
@@ -244,21 +190,22 @@ const emptyStateContainerStyle = css({
   alignItems: "center",
   justifyContent: "center",
   gap: 12,
-  minHeight: 116,
-  margin: "0 20px",
+  width: 311,
+  height: 116,
+  flex: "none",
+  cursor: "pointer",
 });
 
-const emptyStateTextStyle = css(
+const emptyCardTextStyle = css(
   {
-    color: THEME.COLORS.GRAYSCALE.NEUTRAL,
+    color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
     textAlign: "center",
   },
   TYPOGRAPHY.SUB["12R"]
 );
 
-const emptyStateButtonStyle = css({
+const emptyCardButtonStyle = css({
   display: "flex",
-  flexDirection: "row",
   alignItems: "center",
   gap: 4,
   background: "transparent",
@@ -267,7 +214,7 @@ const emptyStateButtonStyle = css({
   cursor: "pointer",
 });
 
-const emptyStateButtonTextStyle = css(
+const emptyCardButtonTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
   },

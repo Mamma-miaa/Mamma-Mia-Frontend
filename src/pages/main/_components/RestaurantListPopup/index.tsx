@@ -106,7 +106,9 @@ const RestaurantListPopup = ({
               <EmptyIcon />
             </div>
             <div css={emptyStateTextStyle}>
-              맘마 미아....(밥을 잃어버렸다는 뜻)
+              조건에 맞는 맛집이 없어요.
+              <br />
+              필터를 변경하거나 지도를 이동해 보세요.
             </div>
           </div>
         </div>

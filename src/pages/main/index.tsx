@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
 import MyLocationIcon from "./_assets/my_location.svg?react";
-import logoImg from "@/assets/logo.png";
 import THEME from "@/constants/theme";
 import Spacing from "@/@lib/components/Spacing";
 import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
@@ -224,7 +223,6 @@ const MainPage = () => {
       <div ref={mapRef} css={css({ width: "100%", height: "100dvh" })}>
         <div css={topContainerStyle}>
           <div css={searchContainerStyle}>
-            <img src={logoImg} alt="logo" width={95} height={40} />
             <SearchInput
               css={searchInputStyle}
               onClick={() => navigate("/search")}

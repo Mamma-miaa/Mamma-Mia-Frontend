@@ -19,21 +19,10 @@ import {
 } from "./_components/RecommendedMenuRegisterBottomSheet";
 import { openRestaurantSearchBottomSheet } from "./_components/RestaurantSearchBottomSheet";
 import type { RestaurantSearchResult } from "./_components/RestaurantSearchBottomSheet";
-import { type BusinessHoursData } from "./_components/BusinessHoursBottomSheet";
 import { usePostChallengeApplicationMutation } from "@/hooks/@server/store";
 import { useNavigate } from "react-router-dom";
 import { openConfirmModal } from "@/components/ConfirmModal/utils";
 import toast from "@/utils/toast";
-
-const DAYS_MAP = {
-  월: "MONDAY",
-  화: "TUESDAY",
-  수: "WEDNESDAY",
-  목: "THURSDAY",
-  금: "FRIDAY",
-  토: "SATURDAY",
-  일: "SUNDAY",
-} as const;
 
 interface PhotoFile {
   file: File;
@@ -50,10 +39,6 @@ const ChallengeRegistrationPage = () => {
   >([]);
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<RestaurantSearchResult | null>(null);
-  const [additionalOptions, setAdditionalOptions] = useState<string[]>([]);
-  const [businessHoursData, setBusinessHoursData] = useState<
-    BusinessHoursData[]
-  >([]);
   const { mutate: postChallengeApplication } =
     usePostChallengeApplicationMutation();
   const navigate = useNavigate();
@@ -63,6 +48,7 @@ const ChallengeRegistrationPage = () => {
       initialSelectedCategories: [],
       description: "등록할 음식점의 음식 카테고리를 설정해주세요.",
       isSingleSelect: true,
+      enableReset: false,
     });
     if (categories) {
       setSelectedCategories(categories);
@@ -149,42 +135,17 @@ const ChallengeRegistrationPage = () => {
         [
           JSON.stringify({
             facilities: {
-              parking: additionalOptions.includes("parking"),
-              takeout: additionalOptions.includes("takeout"),
-              delivery: additionalOptions.includes("delivery"),
-              indoorRestroom: additionalOptions.includes("indoor_toilet"),
-              outdoorRestroom: additionalOptions.includes("outdoor_toilet"),
-              groupSeating: additionalOptions.includes("group_seating"),
+              parking: false,
+              takeout: false,
+              delivery: false,
+              indoorRestroom: false,
+              outdoorRestroom: false,
+              groupSeating: false,
             },
             name: selectedRestaurant?.place_name ?? "",
             latitude: Number(selectedRestaurant?.y),
             longitude: Number(selectedRestaurant?.x),
-            registerChallengeStoreBusinessHours:
-              businessHoursData.length > 0
-                ? businessHoursData.map((data) => ({
-                    /** @description 영업 모드(CLOSED/OPEN_24H/OPEN_RANGE) */
-                    mode: (() => {
-                      switch (true) {
-                        case data.options.isClosed:
-                          return "CLOSED";
-                        case data.options.is24Hours:
-                          return "OPEN_24H";
-                        case data.options.hasBreakTime:
-                          return "OPEN_RANGE";
-                      }
-                    })(),
-                    breakStart: data.breakTime?.startTime ?? null,
-                    closeTime: data.breakTime?.endTime ?? null,
-                    hasBreak: data.options.hasBreakTime ?? false,
-                    dayOfWeek: DAYS_MAP[data.selectedDay],
-                    closesNextDay: false,
-                    openTime: data.businessHours?.startTime ?? null,
-                    lastOrder: data.options.hasLastOrder
-                      ? data.lastOrder ?? null
-                      : null,
-                    breakEnd: data.breakTime?.endTime ?? null,
-                  }))
-                : undefined,
+            registerChallengeStoreBusinessHours: undefined,
             address: selectedRestaurant?.address_name ?? "",
             category: selectedCategories[0],
             comment,
@@ -222,7 +183,7 @@ const ChallengeRegistrationPage = () => {
   const handleExit = async () => {
     const isOk = await openConfirmModal({
       title: "등록을 중단하시겠습니까?",
-      description: "등록을 중단하면 작성한 내용이 모두 사라집니다.",
+      description: `아직 등록이 완료되지 않았고,\n작성한 내용이 사라질 수 있습니다.\n계속 등록을 진행하시겠습니까?`,
       cancelText: "나가기",
       confirmText: "계속 등록하기",
     });
@@ -232,7 +193,13 @@ const ChallengeRegistrationPage = () => {
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
       {/* 헤더 */}
-      <div css={css({ padding: "16px 20px" })}>
+      <div
+        css={css({
+          padding: "16px 20px",
+          display: "flex",
+          justifyContent: "flex-end",
+        })}
+      >
         <ExitIcon onClick={handleExit} />
       </div>
       {/* 제목 */}
@@ -355,7 +322,7 @@ const ChallengeRegistrationPage = () => {
           <div css={commentContainerStyle}>
             <textarea
               css={textareaStyle}
-              placeholder="이 매장을 맛집으로 추천하는 이유가 무엇인가요? 자유로운 의견을 남겨주세요."
+              placeholder={`이 매장을 추천하는 이유를 10자 이상 작성해주세요.\n특별한 메뉴, 공간에 대한 설명을 적어보세요.`}
               value={comment}
               onChange={handleCommentChange}
               maxLength={300}
@@ -429,46 +396,6 @@ const contentContainerStyle = css({
   gap: 16,
   padding: "0 20px",
 });
-
-const stepContainerStyle = css({
-  display: "flex",
-  flexDirection: "row",
-  gap: 6,
-});
-
-const stepBadgeActiveStyle = css({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  width: 20,
-  height: 20,
-  borderRadius: 40,
-  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
-});
-
-const stepBadgeDisabledStyle = css({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  width: 20,
-  height: 20,
-  borderRadius: 40,
-  backgroundColor: THEME.COLORS.BACKGROUND.DISABLE,
-});
-
-const stepNumberStyle = css(
-  {
-    color: THEME.COLORS.BACKGROUND.WHITE,
-  },
-  TYPOGRAPHY.SUB["12B"]
-);
-
-const stepNumberDisabledStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
-  },
-  TYPOGRAPHY.SUB["12B"]
-);
 
 const sectionContainerStyle = css({
   display: "flex",
@@ -826,155 +753,5 @@ const ctaButtonContainerStyle = css({
   background:
     "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 19%)",
 });
-
-const infoBoxStyle = css({
-  display: "flex",
-  flexDirection: "column",
-  gap: 12,
-  padding: 12,
-  backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
-  borderRadius: 8,
-  width: "100%",
-});
-
-const infoTextStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
-  },
-  TYPOGRAPHY.SUB["12R"]
-);
-
-const additionalInfoHeaderStyle = css({
-  display: "flex",
-  flexDirection: "column",
-  gap: 4,
-});
-
-const additionalInfoSubTextStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
-  },
-  TYPOGRAPHY.SUB["12R"]
-);
-
-const additionalOptionsGridStyle = css({
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "stretch",
-  alignItems: "stretch",
-  flexWrap: "wrap",
-  gap: 8,
-  width: "100%",
-});
-
-const additionalOptionButtonStyle = css(
-  {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 6,
-    padding: 12,
-    width: "100%",
-    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-    border: `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
-    borderRadius: 8,
-    cursor: "pointer",
-    flex: "1 1 calc(33.333% - 6px)",
-    minWidth: 0,
-  },
-  TYPOGRAPHY.BODY["14R"]
-);
-
-const additionalOptionButtonActiveStyle = css({
-  backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
-  border: `1px solid ${THEME.COLORS.GRAYSCALE.NORMAL}`,
-  "& span": {
-    color: THEME.COLORS.BACKGROUND.WHITE,
-  },
-});
-
-const additionalOptionIconStyle = css({
-  width: 24,
-  height: 24,
-});
-
-const additionalOptionTextStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.NORMAL,
-  },
-  TYPOGRAPHY.BODY["14R"]
-);
-
-const additionalInfoNoteStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
-  },
-  TYPOGRAPHY.SUB["12R"]
-);
-
-const businessHoursListStyle = css({
-  display: "flex",
-  flexDirection: "column",
-  gap: 0,
-  width: "100%",
-  marginBottom: 12,
-});
-
-const businessHoursItemStyle = css({
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  gap: 12,
-  padding: "12px 0",
-  width: "100%",
-});
-
-const businessHoursItemContentStyle = css({
-  display: "flex",
-  flexDirection: "row",
-  gap: 4,
-  flex: 1,
-});
-
-const businessHoursDayStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.NORMAL,
-  },
-  TYPOGRAPHY.BODY["14R"]
-);
-
-const businessHoursInfoStyle = css({
-  display: "flex",
-  flexDirection: "column",
-  gap: 0,
-});
-
-const businessHoursTextStyle = css(
-  {
-    color: THEME.COLORS.GRAYSCALE.NORMAL,
-  },
-  TYPOGRAPHY.BODY["14R"]
-);
-
-const businessHoursEditButtonStyle = css(
-  {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 4,
-    padding: "8px 4px",
-    width: 44,
-    height: 28,
-    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-    border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
-    borderRadius: 4,
-    cursor: "pointer",
-    flexShrink: 0,
-  },
-  TYPOGRAPHY.SUB["12B"]
-);
 
 export default ChallengeRegistrationPage;
