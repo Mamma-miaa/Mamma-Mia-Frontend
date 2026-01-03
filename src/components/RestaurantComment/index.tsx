@@ -28,7 +28,9 @@ const RestaurantComment = ({
           )}
         </div>
         {/* TODO: 닉네임 추가 */}
-        <p css={nicknameStyle}>NickName님의 Comment</p>
+        <p css={nicknameStyle}>
+          {storeDetail.commentAuthor?.nickname}님의 Comment
+        </p>
       </div>
       <p css={commentStyle}>{storeDetail.comment}</p>
       <div css={innerShadowStyle} />
