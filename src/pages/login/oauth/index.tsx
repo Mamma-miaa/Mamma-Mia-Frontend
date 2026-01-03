@@ -80,7 +80,7 @@ const LoginRedirectPage = () => {
     login(code);
   }, [searchParams]);
 
-  return <div css={containerStyle}>로그인 중입니다...</div>;
+  return <div css={containerStyle}></div>;
 };
 
 export default LoginRedirectPage;
@@ -88,5 +88,5 @@ export default LoginRedirectPage;
 const containerStyle = css({
   width: "100%",
   height: "100vh",
-  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+  backgroundColor: THEME.COLORS.BACKGROUND.DISABLE,
 });
