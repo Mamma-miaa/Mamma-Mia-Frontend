@@ -43,7 +43,7 @@ const TopNavigation = () => {
         <img src={medalImg} alt="랭킹" width={20} height={20} /> 랭킹
       </Button>
       <Button type="button" onClick={handleClickMyButton}>
-        <img src={personImg} alt="MY" width={20} height={20} /> MY
+        <img src={personImg} alt="MY" width={20} height={20} /> 마이
       </Button>
     </div>
   );

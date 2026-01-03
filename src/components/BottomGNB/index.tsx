@@ -5,8 +5,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import VIEWPORT from "@/constants/viewport";
 import HomeIcon from "./_assets/home.svg?react";
 import RankingIcon from "./_assets/ranking.svg?react";
-import ChallengeFillIcon from "./_assets/challenge_fill.svg?react";
+import RankingActiveIcon from "./_assets/ranking_active.svg?react";
+import ChallengeActiveIcon from "./_assets/challenge_active.svg?react";
 import MyIcon from "./_assets/my.svg?react";
+import MyActiveIcon from "./_assets/my_active.svg?react";
+import ChallengeIcon from "./_assets/challenge.svg?react";
 
 const BottomGNB = () => {
   const navigate = useNavigate();
@@ -24,7 +27,7 @@ const BottomGNB = () => {
       <div css={bottomNavContentStyle}>
         <button
           type="button"
-          css={css(navItemStyle, isActive("/") && navItemActiveStyle)}
+          css={css(navItemStyle)}
           onClick={() => navigate("/")}
         >
           <HomeIcon css={navIconStyle} />
@@ -32,26 +35,38 @@ const BottomGNB = () => {
         </button>
         <button
           type="button"
-          css={css(navItemStyle, isActive("/ranking") && navItemActiveStyle)}
+          css={css(navItemStyle)}
           onClick={() => navigate("/ranking")}
         >
-          <RankingIcon css={navIconStyle} />
+          {isActive("/ranking") ? (
+            <RankingActiveIcon css={navIconStyle} />
+          ) : (
+            <RankingIcon css={navIconStyle} />
+          )}
           <span css={navTextStyle}>랭킹</span>
         </button>
         <button
           type="button"
-          css={css(navItemStyle, isActive("/challenge") && navItemActiveStyle)}
+          css={css(navItemStyle)}
           onClick={() => navigate("/challenge")}
         >
-          <ChallengeFillIcon css={navIconStyle} />
+          {isActive("/challenge") ? (
+            <ChallengeActiveIcon css={navIconStyle} />
+          ) : (
+            <ChallengeIcon css={navIconStyle} />
+          )}
           <span css={navTextStyle}>도전맛집</span>
         </button>
         <button
           type="button"
-          css={css(navItemStyle, isActive("/my") && navItemActiveStyle)}
+          css={css(navItemStyle)}
           onClick={() => navigate("/my")}
         >
-          <MyIcon css={navIconStyle} />
+          {isActive("/my") ? (
+            <MyActiveIcon css={navIconStyle} />
+          ) : (
+            <MyIcon css={navIconStyle} />
+          )}
           <span css={navTextStyle}>마이</span>
         </button>
       </div>

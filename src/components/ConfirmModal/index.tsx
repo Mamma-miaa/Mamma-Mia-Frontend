@@ -80,6 +80,7 @@ const descriptionStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
     textAlign: "center",
+    whiteSpace: "pre-wrap",
   },
   TYPOGRAPHY.BODY["14R"]
 );

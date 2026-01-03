@@ -4,13 +4,14 @@ import type { ComponentProps } from "react";
 
 type OpenCategoryFilteringBottomSheetProps = Pick<
   ComponentProps<typeof CategoryFilteringBottomSheet>,
-  "initialSelectedCategories" | "description" | "isSingleSelect"
+  "initialSelectedCategories" | "description" | "isSingleSelect" | "enableReset"
 >;
 
 export const openCategoryFilteringBottomSheet = ({
   initialSelectedCategories,
   description,
   isSingleSelect,
+  enableReset,
 }: OpenCategoryFilteringBottomSheetProps) => {
   return overlay.openAsync<string[] | null>(({ isOpen, close }) => {
     return (
@@ -20,6 +21,7 @@ export const openCategoryFilteringBottomSheet = ({
         initialSelectedCategories={initialSelectedCategories}
         description={description}
         isSingleSelect={isSingleSelect}
+        enableReset={enableReset}
       />
     );
   });
