@@ -4,17 +4,14 @@ import TYPOGRAPHY from "@/constants/typography";
 import WriteIcon from "../../_assets/write.svg?react";
 import LogoutIcon from "../../_assets/logout.svg?react";
 import { openProfileUpdateBottomSheet } from "./_components/ProfileUpdateBottomSheet";
+import { useGetProfileQuery } from "@/hooks/@server/member";
+import dayjs from "dayjs";
 import { usePostLogoutMutation } from "@/hooks/@server/auth";
 import { openConfirmModal } from "@/components/ConfirmModal/utils";
 
 const ProfileSection = () => {
+  const { data: profile } = useGetProfileQuery();
   const { mutate: postLogout } = usePostLogoutMutation();
-
-  const handleProfileEdit = () => {
-    openProfileUpdateBottomSheet({
-      currentNickname: "Nickname",
-    });
-  };
 
   const handleLogout = async () => {
     const confirmed = await openConfirmModal({
@@ -37,16 +34,27 @@ const ProfileSection = () => {
       <div css={containerStyle}>
         <div css={topSectionStyle}>
           <div css={profileRowStyle}>
-            <div css={avatarStyle} />
+            <img
+              src={profile.profileImage ?? "https://placehold.co/48x48"}
+              alt="profile image"
+              width={48}
+              height={48}
+              css={avatarStyle}
+            />
             <div css={profileInfoStyle}>
-              <div css={nameStyle}>Nickname</div>
-              <div css={joinedStyle}>2025.10.06 가입</div>
+              <div css={nameStyle}>{profile.nickname}</div>
+              <div css={joinedStyle}>
+                {dayjs(profile.joinDate).format("YYYY.MM.DD")} 가입
+              </div>
             </div>
           </div>
         </div>
 
         <div css={bottomSectionStyle}>
-          <button css={actionButtonStyle} onClick={handleProfileEdit}>
+          <button
+            css={actionButtonStyle}
+            onClick={openProfileUpdateBottomSheet}
+          >
             <WriteIcon width={20} height={20} />
             <span css={buttonTextStyle}>프로필 편집</span>
           </button>
@@ -91,10 +99,7 @@ const profileRowStyle = css({
 });
 
 const avatarStyle = css({
-  width: 48,
-  height: 48,
   borderRadius: 48,
-  backgroundColor: "#D9D9D9",
 });
 
 const profileInfoStyle = css({

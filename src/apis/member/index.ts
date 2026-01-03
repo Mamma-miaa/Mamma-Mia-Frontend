@@ -41,6 +41,12 @@ export const postSocialLoginWithAgreements = async (
   );
 };
 
+export const getProfile = async (): Promise<
+  components["schemas"]["GetMyProfileResponse"]
+> => {
+  return await api.get("/member/profile");
+};
+
 export const patchProfile = async (data: {
   nickname?: string;
   profileImage?: string;

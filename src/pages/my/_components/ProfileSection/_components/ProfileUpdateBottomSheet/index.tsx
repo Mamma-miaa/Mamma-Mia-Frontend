@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { css } from "@emotion/react";
 import BottomSheet from "@/@lib/components/BottomSheet";
 import THEME from "@/constants/theme";
@@ -5,35 +6,29 @@ import TYPOGRAPHY from "@/constants/typography";
 import { useEffect, useRef, useState } from "react";
 import { overlay } from "overlay-kit";
 import ImageIcon from "./_assets/image_icon.svg?react";
-import { usePatchProfileMutation } from "@/hooks/@server/member";
+import {
+  useGetProfileQuery,
+  usePatchProfileMutation,
+} from "@/hooks/@server/member";
 import RemoveIcon from "./_assets/remove.svg?react";
 
-export const openProfileUpdateBottomSheet = ({
-  currentNickname,
-}: {
-  currentNickname: string;
-}) => {
+export const openProfileUpdateBottomSheet = () => {
   overlay.open(({ isOpen, close }) => (
-    <ProfileUpdateBottomSheet
-      isOpen={isOpen}
-      onClose={close}
-      currentNickname={currentNickname}
-    />
+    <ProfileUpdateBottomSheet isOpen={isOpen} onClose={close} />
   ));
 };
 
 interface ProfileUpdateBottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  currentNickname: string;
 }
 
 const ProfileUpdateBottomSheet = ({
   isOpen,
   onClose,
-  currentNickname,
 }: ProfileUpdateBottomSheetProps) => {
   const [nickname, setNickname] = useState("");
+  const { data: profile, refetch } = useGetProfileQuery();
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const { mutate: patchProfile } = usePatchProfileMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -48,7 +43,7 @@ const ProfileUpdateBottomSheet = ({
     } else {
       formData.append(
         "nickname",
-        new Blob([JSON.stringify({ nickname: currentNickname })], {
+        new Blob([JSON.stringify({ nickname: nickname || profile.nickname })], {
           type: "application/json",
         })
       );
@@ -59,6 +54,7 @@ const ProfileUpdateBottomSheet = ({
 
     patchProfile(formData, {
       onSuccess: () => {
+        refetch();
         onClose();
       },
       onError: (error) => {
@@ -74,7 +70,7 @@ const ProfileUpdateBottomSheet = ({
     }
   };
 
-  const handleRemoveImage = (e) => {
+  const handleRemoveImage = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setProfileImage(null);
   };
@@ -121,7 +117,13 @@ const ProfileUpdateBottomSheet = ({
                   />
                 </>
               ) : (
-                <ImageIcon />
+                <img
+                  src={profile.profileImage ?? "https://placehold.co/82x82"}
+                  alt="profile image"
+                  width={82}
+                  height={82}
+                  css={imageStyle}
+                />
               )}
             </div>
             <input
@@ -141,7 +143,7 @@ const ProfileUpdateBottomSheet = ({
               type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
-              placeholder={currentNickname}
+              placeholder={profile.nickname}
             />
           </div>
         </div>

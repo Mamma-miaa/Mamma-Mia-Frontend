@@ -218,6 +218,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/member/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/member/mamma-mia-store": {
         parameters: {
             query?: never;
@@ -241,7 +257,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_4"];
+        get: operations["get_5"];
         put?: never;
         post?: never;
         delete?: never;
@@ -905,6 +921,11 @@ export interface components {
              */
             distanceMeters: number;
         };
+        GetMyProfileResponse: {
+            nickname: string;
+            profileImage: string;
+            joinDate: string;
+        };
         GetMyMammaMiaStoreRequest: {
             /** Format: int32 */
             size: number;
@@ -1374,6 +1395,28 @@ export interface operations {
             };
         };
     };
+    get_4: {
+        parameters: {
+            query: {
+                memberId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetMyProfileResponse"];
+                };
+            };
+        };
+    };
     list_3: {
         parameters: {
             query: {
@@ -1397,7 +1440,7 @@ export interface operations {
             };
         };
     };
-    get_4: {
+    get_5: {
         parameters: {
             query: {
                 memberId: number;
