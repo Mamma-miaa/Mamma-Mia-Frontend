@@ -22,9 +22,13 @@ const MyChallengeStatusSection = () => {
             css={cardStyle}
             key={item.storeId}
             onClick={() =>
-              navigate(
-                `/challenge/restaurant?id=${item.storeId}&status=${item.status}`
-              )
+              item.status === "APPROVED"
+                ? navigate(
+                    `/restaurant?id=${item.storeId}&status=${item.status}`
+                  )
+                : navigate(
+                    `/challenge/restaurant?id=${item.storeId}&status=${item.status}`
+                  )
             }
           >
             <img src={item.imageUrl} alt={item.name} css={thumbnailStyle} />
