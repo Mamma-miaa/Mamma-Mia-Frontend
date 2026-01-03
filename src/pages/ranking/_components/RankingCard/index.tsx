@@ -3,12 +3,20 @@ import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
 import MammaMiaIcon from "./_assets/mamma_mia.svg?react";
 import ranking_1st_badge from "@/assets/rank/type_detail_date_monthly_number_1.webp";
+import ranking_2st_badge from "@/assets/rank/type_detail_date_monthly_number_2.webp";
+import ranking_3st_badge from "@/assets/rank/type_detail_date_monthly_number_3.webp";
+import ranking_weekly_1st_badge from "@/assets/rank/type_detail_date_weekly_number_1.webp";
+import ranking_weekly_2st_badge from "@/assets/rank/type_detail_date_weekly_number_2.webp";
+import ranking_weekly_3st_badge from "@/assets/rank/type_detail_date_weekly_number_3.webp";
+
 import type { components } from "@/apis/schema";
 
 const RankingCard = ({
   restaurant,
+  rankingType,
 }: {
   restaurant: components["schemas"]["GetStoreRankingResponses"]["stores"][number];
+  rankingType: "WEEKLY" | "MONTHLY";
 }) => {
   return (
     <div css={cardContainerStyle}>
@@ -21,7 +29,28 @@ const RankingCard = ({
 
       {/* 랭킹 배지 */}
       <img
-        src={ranking_1st_badge}
+        src={(() => {
+          if (rankingType === "WEEKLY") {
+            switch (restaurant.rank) {
+              case 1:
+                return ranking_weekly_1st_badge;
+              case 2:
+                return ranking_weekly_2st_badge;
+              case 3:
+                return ranking_weekly_3st_badge;
+            }
+          }
+          if (rankingType === "MONTHLY") {
+            switch (restaurant.rank) {
+              case 1:
+                return ranking_1st_badge;
+              case 2:
+                return ranking_2st_badge;
+              case 3:
+                return ranking_3st_badge;
+            }
+          }
+        })()}
         alt="랭킹 배지"
         css={css({
           position: "absolute",

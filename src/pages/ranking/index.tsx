@@ -57,9 +57,29 @@ const RankingPage = () => {
           spaceBetween={-210}
           centeredSlides
         >
-          {stores.slice(0, 6).map((restaurant) => (
-            <SwiperSlide key={restaurant.storeId}>
-              <RankingCard restaurant={restaurant} />
+          {stores.slice(0, 3).map((restaurant) => (
+            <SwiperSlide key={`${restaurant.storeId}-1`}>
+              <RankingCard restaurant={restaurant} rankingType={period} />
+            </SwiperSlide>
+          ))}
+          {stores.slice(0, 3).map((restaurant) => (
+            <SwiperSlide key={`${restaurant.storeId}-2`}>
+              <RankingCard restaurant={restaurant} rankingType={period} />
+            </SwiperSlide>
+          ))}
+          {stores.slice(0, 3).map((restaurant) => (
+            <SwiperSlide key={`${restaurant.storeId}-3`}>
+              <RankingCard restaurant={restaurant} rankingType={period} />
+            </SwiperSlide>
+          ))}
+          {stores.slice(0, 3).map((restaurant) => (
+            <SwiperSlide key={`${restaurant.storeId}-4`}>
+              <RankingCard restaurant={restaurant} rankingType={period} />
+            </SwiperSlide>
+          ))}
+          {stores.slice(0, 3).map((restaurant) => (
+            <SwiperSlide key={`${restaurant.storeId}-5`}>
+              <RankingCard restaurant={restaurant} rankingType={period} />
             </SwiperSlide>
           ))}
         </Swiper>
