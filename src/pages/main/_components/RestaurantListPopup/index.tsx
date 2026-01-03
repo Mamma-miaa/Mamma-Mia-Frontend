@@ -17,8 +17,12 @@ const RestaurantListPopup = ({
 }: {
   data: components["schemas"]["GetNearByResponse"][];
 }) => {
-  const { handleClickCategoryChip, getCategoryChipLabel } =
-    use필터링_바텀시트();
+  const {
+    handleClickCategoryChip,
+    getCategoryChipLabel,
+    handleClickPriceRangeChip,
+    getPriceRangeChipLabel,
+  } = use필터링_바텀시트();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isPresent, safeToRemove] = usePresence();
 
@@ -81,9 +85,15 @@ const RestaurantListPopup = ({
         >
           {getCategoryChipLabel()}
         </FilterChip>
-        {/* <FilterChip isSelected={false} onClick={handleClickPriceRangeChip}>
-          가격대
-        </FilterChip> */}
+        <FilterChip
+          isSelected={
+            (searchParams.has("minPrice") || searchParams.has("maxPrice")) &&
+            getPriceRangeChipLabel() !== "가격대"
+          }
+          onClick={handleClickPriceRangeChip}
+        >
+          {getPriceRangeChipLabel()}
+        </FilterChip>
       </div>
       <div
         css={css({

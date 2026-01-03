@@ -88,8 +88,12 @@ const MainPage = () => {
     lastStoreId: 0,
     category: searchParams.getAll("categories"),
     isOpen: searchParams.get("isOpen") === "true" ? true : undefined,
-    // minPrice: 0,
-    // maxPrice: 10000000,
+    minPrice: searchParams.has("minPrice")
+      ? Number(searchParams.get("minPrice"))
+      : undefined,
+    maxPrice: searchParams.has("maxPrice")
+      ? Number(searchParams.get("maxPrice"))
+      : undefined,
   });
 
   const navigate = useNavigate();
