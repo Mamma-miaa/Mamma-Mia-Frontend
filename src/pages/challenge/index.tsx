@@ -6,11 +6,15 @@ import challengeText from "./_assets/challenge_text.webp";
 import TopIcon from "./_assets/top.svg?react";
 import WriteIcon from "./_assets/write.svg?react";
 import ChallengeSummaryCard from "./_components/ChallengeSummaryCard";
-import { useGetRankingQuery } from "@/hooks/@server/store";
+import {
+  useGetNearbyStoreQuery,
+  useGetRankingQuery,
+} from "@/hooks/@server/store";
 import Spacing from "@/@lib/components/Spacing";
 import VIEWPORT from "@/constants/viewport";
 import BottomGNB from "@/components/BottomGNB";
 import { getIsLoggedIn } from "@/utils/sessionStorage";
+import { 충무로역_좌표 } from "../main/_constants";
 
 const PERIOD_TYPE = {
   WEEKLY: "WEEKLY",
@@ -25,9 +29,18 @@ const ChallengePage = () => {
   const period = searchParams.has("period")
     ? (searchParams.get("period") as PeriodType)
     : PERIOD_TYPE.WEEKLY;
-  const {
-    data: { stores },
-  } = useGetRankingQuery({ status: "CHALLENGE", type: period });
+  const { data } = useGetNearbyStoreQuery({
+    minLatitude: 33.0,
+    maxLatitude: 38.7,
+    minLongitude: 124.5,
+    maxLongitude: 131.9,
+    userLatitude: 충무로역_좌표.lat,
+    userLongitude: 충무로역_좌표.lng,
+    size: 20,
+    lastDistance: 0,
+    lastStoreId: 0,
+    status: "CHALLENGE",
+  });
   return (
     <>
       <div css={pageContainerStyle}>
@@ -44,7 +57,7 @@ const ChallengePage = () => {
         <div css={listHeaderContainerStyle}>
           <div css={listHeaderTitleWrapperStyle}>
             <span css={listHeaderLabelStyle}>전체</span>
-            <span css={listHeaderCountStyle}>{stores.length}</span>
+            <span css={listHeaderCountStyle}>{data?.totalCount}</span>
           </div>
 
           {/* TODO 정렬 기능 */}
@@ -57,7 +70,7 @@ const ChallengePage = () => {
 
         {/* TODO Empty 케이스 추가 */}
         <div css={css({ padding: "0 20px" })}>
-          {stores.map((restaurant) => (
+          {data?.items.map((restaurant) => (
             <ChallengeSummaryCard
               restaurant={restaurant}
               key={restaurant.storeId}

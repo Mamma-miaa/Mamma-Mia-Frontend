@@ -694,6 +694,11 @@ export interface components {
              */
             isOpen?: boolean;
             /**
+             * @description 가게 상태 (NORMAL|CHALLENGE)
+             * @example NORMAL
+             */
+            status?: string;
+            /**
              * @description 신규 가게 여부(일주일 이내 생성)
              * @example true
              */
@@ -771,6 +776,11 @@ export interface components {
              * @example true
              */
             isOpen?: boolean;
+            /**
+             * @description 신규 가게 여부(일주일 이내 생성)
+             * @example true
+             */
+            isNew?: boolean;
         };
         /** @description 근처 가게 조회 응답 */
         GetNearByStoreResponses: {

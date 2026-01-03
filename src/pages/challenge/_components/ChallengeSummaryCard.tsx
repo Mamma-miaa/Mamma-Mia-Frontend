@@ -8,7 +8,7 @@ import type { components } from "@/apis/schema";
 import { useNavigate } from "react-router-dom";
 
 interface ChallengeSummaryCardProps extends ComponentProps<"div"> {
-  restaurant: components["schemas"]["GetStoreRankingResponse"];
+  restaurant: components["schemas"]["GetNearByResponse"];
 }
 
 const ChallengeSummaryCard = ({
@@ -24,7 +24,7 @@ const ChallengeSummaryCard = ({
       {...props}
     >
       <img
-        src={restaurant.mainImage ?? "https://placehold.co/92x92"}
+        src={restaurant.imageUrl ?? "https://placehold.co/92x92"}
         alt={restaurant.name}
         width={92}
         height={92}
@@ -38,13 +38,22 @@ const ChallengeSummaryCard = ({
         <div css={locationSectionStyle}>
           <div css={locationInfoStyle}>
             <LocationIcon />
-            <span css={locationTextStyle}>내 위치로부터</span>
+            <span css={locationTextStyle}>충무로 역으로부터</span>
           </div>
+          <span css={distanceStyle}>
+            {Math.round(restaurant.distanceMeters).toLocaleString()}m
+          </span>
+          {"isOpen" in restaurant && restaurant.isOpen && (
+            <>
+              <div css={statusDotStyle} />
+              <span css={statusTextStyle}>영업중</span>
+            </>
+          )}
         </div>
         <div css={cheerSectionStyle}>
           <CheerIcon />
           <div css={cheerInfoStyle}>
-            <span css={cheerCountStyle}>{restaurant.likes}</span>
+            <span css={cheerCountStyle}>{restaurant.totalLike}</span>
             <span css={cheerTextStyle}>명이 응원했어요</span>
           </div>
         </div>
@@ -153,6 +162,29 @@ const cheerTextStyle = css(
     color: THEME.COLORS.GRAYSCALE.NEUTRAL,
   },
   TYPOGRAPHY.SUB["12R"]
+);
+
+const distanceStyle = css(
+  {
+    textAlign: "center",
+    color: THEME.COLORS.PRIMARY.RED,
+  },
+  TYPOGRAPHY.SUB["12B"]
+);
+
+const statusDotStyle = css({
+  width: 3,
+  height: 3,
+  backgroundColor: "#D9D9D9",
+  borderRadius: "50%",
+});
+
+const statusTextStyle = css(
+  {
+    textAlign: "center",
+    color: THEME.COLORS.PRIMARY.RED,
+  },
+  TYPOGRAPHY.SUB["12B"]
 );
 
 export default ChallengeSummaryCard;
