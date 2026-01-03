@@ -27,7 +27,6 @@ const RestaurantComment = ({
             <div css={avatarPlaceholderStyle} />
           )}
         </div>
-        {/* TODO: 닉네임 추가 */}
         <p css={nicknameStyle}>
           {storeDetail.commentAuthor?.nickname}님의 Comment
         </p>
