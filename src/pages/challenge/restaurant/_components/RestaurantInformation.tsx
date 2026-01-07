@@ -10,6 +10,11 @@ import timeImg from "@/assets/emoji/time.webp";
 import { useState } from "react";
 import type { components } from "@/apis/schema";
 import ArrowIcon from "../_assets/arrow.svg?react";
+import { useGetDistanceToStoreQuery } from "@/hooks/@server/store";
+import { 충무로역_좌표 } from "@/pages/main/_constants";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { openLoginModal } from "@/components/ConfirmModal/utils";
+import { getIsLoggedIn } from "@/utils/sessionStorage";
 
 export const DAY_OF_WEEK: Record<
   string,
@@ -38,6 +43,24 @@ type RestaurantInformationProps = {
 
 const RestaurantInformation = ({ storeDetail }: RestaurantInformationProps) => {
   const [isTimeAccordionOpen, setIsTimeAccordionOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [userLocation, setUserLocation] = useState<{
+    where: "user" | "station";
+    latitude: number;
+    longitude: number;
+  }>({
+    where: "station",
+    latitude: 충무로역_좌표.lat,
+    longitude: 충무로역_좌표.lng,
+  });
+
+  const navigate = useNavigate();
+
+  const { data: distanceToStore } = useGetDistanceToStoreQuery({
+    storeId: Number(searchParams.get("id")),
+    latitude: userLocation.latitude,
+    longitude: userLocation.longitude,
+  });
 
   const businessHours = storeDetail?.businessHours.map((businessHour) => {
     return {
@@ -45,6 +68,31 @@ const RestaurantInformation = ({ storeDetail }: RestaurantInformationProps) => {
       isToday: businessHour.dayOfWeek === TODAY_DAY_OF_WEEK.en,
     };
   });
+
+  const handleUserLocationChange = async () => {
+    if (!getIsLoggedIn()) {
+      const isOk = await openLoginModal();
+      if (isOk) {
+        navigate("/login");
+      }
+      return;
+    }
+
+    if (userLocation.where === "station") {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setUserLocation(() => ({
+          where: "user",
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }));
+      });
+    } else if (userLocation.where === "user")
+      setUserLocation({
+        where: "station",
+        latitude: 충무로역_좌표.lat,
+        longitude: 충무로역_좌표.lng,
+      });
+  };
 
   return (
     <div css={storeInfoSectionStyle}>
@@ -64,13 +112,21 @@ const RestaurantInformation = ({ storeDetail }: RestaurantInformationProps) => {
               />
             </div>
             <div css={distanceRowStyle}>
-              <span css={distanceTextStyle}>충무로 역으로부터</span>
+              <span css={distanceTextStyle}>
+                {userLocation.where === "station"
+                  ? "충무로 역으로"
+                  : "현재 위치로"}
+                부터
+              </span>
               <span css={distanceValueStyle}>
                 {Math.round(
-                  storeDetail.station?.distanceMeters ?? 0
+                  userLocation.where === "station"
+                    ? storeDetail.station?.distanceMeters ?? 0
+                    : distanceToStore?.distance ?? 0
                 ).toLocaleString()}
                 m
               </span>
+              <TranslateIcon onClick={handleUserLocationChange} />
             </div>
           </div>
         </div>

@@ -79,3 +79,16 @@ export const getChallengeStoreDetail = async (
 > => {
   return await api.get(`/store/pending/${storeId}`);
 };
+
+export const getDistanceToStore = async (params: {
+  storeId: number;
+  latitude: number;
+  longitude: number;
+}): Promise<components["schemas"]["GetDistanceToStoreResponse"]> => {
+  return await api.get(`/store/detail/${params.storeId}/distance`, {
+    params: {
+      latitude: params.latitude,
+      longitude: params.longitude,
+    },
+  });
+};
