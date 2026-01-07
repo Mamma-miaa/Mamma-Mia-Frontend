@@ -218,7 +218,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/member/profile": {
+    "/api/v1/store/detail/{storeId}/distance": {
         parameters: {
             query?: never;
             header?: never;
@@ -226,6 +226,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["get_4"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/member/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["get_5"];
         put?: never;
         post?: never;
         delete?: never;
@@ -257,7 +273,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["get_5"];
+        get: operations["get_6"];
         put?: never;
         post?: never;
         delete?: never;
@@ -787,6 +803,12 @@ export interface components {
             /** @description 가게 목록 */
             items: components["schemas"]["GetNearByResponse"][];
             /**
+             * Format: int64
+             * @description 조건에 맞는 전체 가게 수
+             * @example 42
+             */
+            totalCount: number;
+            /**
              * @description 다음 페이지 여부
              * @example true
              */
@@ -951,6 +973,16 @@ export interface components {
              * @description 가게로부터의 거리(미터)
              */
             distanceMeters: number;
+        };
+        GetDistanceToStoreRequest: {
+            /** Format: double */
+            latitude: number;
+            /** Format: double */
+            longitude: number;
+        };
+        GetDistanceToStoreResponse: {
+            /** Format: double */
+            distance: number;
         };
         GetMyProfileResponse: {
             nickname: string;
@@ -1452,6 +1484,30 @@ export interface operations {
     get_4: {
         parameters: {
             query: {
+                request: components["schemas"]["GetDistanceToStoreRequest"];
+            };
+            header?: never;
+            path: {
+                storeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["GetDistanceToStoreResponse"];
+                };
+            };
+        };
+    };
+    get_5: {
+        parameters: {
+            query: {
                 memberId: number;
             };
             header?: never;
@@ -1494,7 +1550,7 @@ export interface operations {
             };
         };
     };
-    get_5: {
+    get_6: {
         parameters: {
             query: {
                 memberId: number;

@@ -12,6 +12,7 @@ import {
   getBookmark,
   postChallengeApplication,
   getChallengeStoreDetail,
+  getDistanceToStore,
 } from "@/apis/store";
 import { getIsLoggedIn } from "@/utils/sessionStorage";
 
@@ -36,6 +37,7 @@ export const useGetNearbyStoreQuery = (
     queryFn: () => getNearbyStore(params),
     placeholderData: {
       items: [],
+      totalCount: 0,
       hasNext: false,
       cursorId: 0,
       lastDistance: 0,
@@ -104,4 +106,18 @@ export const useGetChallengeStoreDetailQuery = (storeId: number) =>
   useSuspenseQuery({
     queryKey: ["getChallengeStoreDetail", storeId],
     queryFn: () => getChallengeStoreDetail(storeId),
+  });
+
+export const useGetDistanceToStoreQuery = (
+  params: Parameters<typeof getDistanceToStore>[0]
+) =>
+  useQuery({
+    queryKey: [
+      "getDistanceToStore",
+      params.storeId,
+      params.latitude,
+      params.longitude,
+    ],
+    queryFn: () => getDistanceToStore(params),
+    enabled: getIsLoggedIn(),
   });
