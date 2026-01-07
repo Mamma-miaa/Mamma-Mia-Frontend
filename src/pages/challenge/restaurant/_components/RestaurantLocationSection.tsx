@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 import kakaoMapImg from "../_assets/kakaomap_basic_1.webp";
 import { useEffect, useRef } from "react";
 import toast from "@/utils/toast";
+import { 충무로역_좌표 } from "@/pages/main/_constants";
 
 const RestaurantLocationSection = ({
   latitude,
@@ -92,7 +93,10 @@ const RestaurantLocationSection = ({
           css={mapButtonStyle}
           type="button"
           onClick={() => {
-            toast({ message: "개발이 필요한 기능입니다." });
+            window.open(
+              `https://map.kakao.com/link/by/walk/충무로역,${충무로역_좌표.lat},${충무로역_좌표.lng}/${restaurantName},${latitude},${longitude}`,
+              "_blank"
+            );
           }}
         >
           <img src={kakaoMapImg} alt="카카오맵" width={20} height={20} />
