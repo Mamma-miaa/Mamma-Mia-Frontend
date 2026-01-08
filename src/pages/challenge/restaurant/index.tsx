@@ -1,18 +1,16 @@
 import { css } from "@emotion/react";
 import THEME from "@/constants/theme";
 import TYPOGRAPHY from "@/constants/typography";
-import CheerUpBadge from "@/assets/cheer_up_badge.svg?react";
 import ArrowIcon from "./_assets/arrow.svg?react";
 import RestaurantLocationSection from "./_components/RestaurantLocationSection";
 import { useSearchParams } from "react-router-dom";
 import { useGetChallengeStoreDetailQuery } from "@/hooks/@server/store";
 import toast from "@/utils/toast";
 import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
-import CheerUpButton from "./_components/CheerUpButton";
+
 import RestaurantDetailImages from "@/components/RestaurantDetailImages";
 import RestaurantFacilities from "./_components/RestaurantFacilities";
 import RestaurantInformation from "./_components/RestaurantInformation";
-import RestaurantLikeSection from "./_components/RestaurantLikeSection";
 import RestaurantComment from "@/components/RestaurantComment";
 import ReviewStatusSection from "./_components/ReviewStatusSection";
 import RestaurantDetailBackground from "@/components/RestaurantDetailBackground";
@@ -42,17 +40,7 @@ const ChallengeRestaurantDetailPage = () => {
               <span css={categoryStyle}>{storeDetail.category}</span>
               <h1 css={restaurantNameStyle}>{storeDetail.name}</h1>
             </div>
-            {searchParams.get("status") === "APPROVED" && (
-              <div css={mammaMiaSectionStyle}>
-                <CheerUpBadge />
-                <RestaurantLikeSection />
-              </div>
-            )}
           </div>
-
-          {searchParams.get("status") === "APPROVED" && (
-            <CheerUpButton storeId={storeDetail.reviewStoreId} />
-          )}
 
           {/* 매장 정보 */}
           <RestaurantInformation storeDetail={storeDetail} />
@@ -163,13 +151,6 @@ const restaurantNameStyle = css(
   },
   TYPOGRAPHY.HEADERS["22B"]
 );
-
-// 맘마미아 섹션
-const mammaMiaSectionStyle = css({
-  display: "flex",
-  alignItems: "center",
-  gap: 8,
-});
 
 // 섹션 제목
 const sectionTitleStyle = css(

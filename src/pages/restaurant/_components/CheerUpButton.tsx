@@ -1,6 +1,6 @@
 import THEME from "@/constants/theme";
-import ClickToVote from "../_assets/click_to_vote.svg?react";
-import MammaMia from "../_assets/mamma_mia.svg?react";
+import ClickToVoteBlack from "../_assets/click_to_vote_black.svg?react";
+import MammaMia from "../_assets/cheer_up.svg?react";
 import VotingCompleted from "../_assets/voting_completed.svg?react";
 import {
   useGetMammaMiaQuery,
@@ -32,11 +32,11 @@ const CheerUpButton = ({ storeId }: { storeId: number }) => {
       { storeId: storeId },
       {
         onSuccess: () => {
-          toast({ message: "맘마미아 투표에 성공하였습니다." });
+          toast({ message: "투표가 완료되었어요! Cheer-Up!" });
           refetchMammaMia();
         },
         onError: () => {
-          toast({ message: "맘마미아 투표에 실패하였습니다." });
+          toast({ message: "투표에 실패하였어요. 다시 시도해주세요." });
         },
       }
     );
@@ -54,7 +54,7 @@ const CheerUpButton = ({ storeId }: { storeId: number }) => {
       ) : (
         <>
           <MammaMia />
-          <ClickToVote
+          <ClickToVoteBlack
             css={css({
               position: "absolute",
               bottom: 7.5,

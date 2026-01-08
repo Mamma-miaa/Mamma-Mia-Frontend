@@ -32,11 +32,11 @@ const MammaMiaButton = ({ storeId }: { storeId: number }) => {
       { storeId: storeId },
       {
         onSuccess: () => {
-          toast({ message: "맘마미아 투표에 성공하였습니다." });
+          toast({ message: "투표가 완료되었어요! Mamma-Mia!" });
           refetchMammaMia();
         },
         onError: () => {
-          toast({ message: "맘마미아 투표에 실패하였습니다." });
+          toast({ message: "투표에 실패하였어요. 다시 시도해주세요." });
         },
       }
     );

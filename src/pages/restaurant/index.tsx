@@ -14,12 +14,15 @@ import RestaurantFacilities from "./_components/RestaurantFacilities";
 import RestaurantInformation from "./_components/RestaurantInformation";
 import RestaurantComment from "@/components/RestaurantComment";
 import RestaurantDetailBackground from "@/components/RestaurantDetailBackground";
+import CheerUpButton from "./_components/CheerUpButton";
+import CheerUpBadge from "@/assets/cheer_up_badge.svg?react";
 
 const RestaurantDetailPage = () => {
   const [searchParams] = useSearchParams();
   const { data: storeDetail } = useGetStoreDetailQuery(
     Number(searchParams.get("id"))
   );
+  const isChallenge = storeDetail.status === "CHALLENGE";
 
   return (
     <div css={pageContainerStyle}>
@@ -40,7 +43,15 @@ const RestaurantDetailPage = () => {
             </div>
 
             <div css={mammaMiaSectionStyle}>
-              <MammaMiaBadge />
+              {(() => {
+                switch (storeDetail.status) {
+                  case "CHALLENGE":
+                    return <CheerUpBadge />;
+                  case "APPROVED":
+                    return <MammaMiaBadge />;
+                }
+              })()}
+
               <div css={votingInfoStyle}>
                 <div css={votingItemStyle}>
                   <span css={votingLabelStyle}>이번주</span>
@@ -59,7 +70,14 @@ const RestaurantDetailPage = () => {
             </div>
           </div>
 
-          <MammaMiaButton storeId={storeDetail.storeId} />
+          {(() => {
+            switch (storeDetail.status) {
+              case "CHALLENGE":
+                return <CheerUpButton storeId={storeDetail.storeId} />;
+              case "APPROVED":
+                return <MammaMiaButton storeId={storeDetail.storeId} />;
+            }
+          })()}
 
           {/* 매장 정보 */}
           <RestaurantInformation storeDetail={storeDetail} />
