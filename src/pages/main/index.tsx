@@ -24,9 +24,9 @@ import {
 } from "./_constants";
 import RestaurantListPopup from "./_components/RestaurantListPopup";
 import { AnimatePresence } from "motion/react";
-import TYPOGRAPHY from "@/constants/typography";
-import ResetIcon from "./_assets/reset.svg?react";
+
 import MoveToMyLocationButton from "./_components/MoveToMyLocationButton";
+import RefetchOnCurrentPositionButton from "./_components/RefetchOnCurrentPositionButton";
 
 function isCategoryKey(key: string): key is keyof typeof 카테고리_이미지 {
   return key in 카테고리_이미지;
@@ -72,11 +72,7 @@ const MainPage = () => {
     setSearchParams(newParams, { replace: true });
   };
 
-  const {
-    data: nearbyStore,
-    dataUpdatedAt,
-    refetch,
-  } = useGetNearbyStoreQuery({
+  const { data: nearbyStore, dataUpdatedAt } = useGetNearbyStoreQuery({
     userLatitude: 충무로역_좌표.lat,
     userLongitude: 충무로역_좌표.lng,
     minLatitude: 지도_모서리.minLatitude,
@@ -237,17 +233,7 @@ const MainPage = () => {
           <Spacing size={12} />
           <TopNavigation />
           <Spacing size={12} />
-          <button css={searchInAreaButtonStyle} onClick={() => refetch()}>
-            <ResetIcon />
-            <span
-              css={[
-                TYPOGRAPHY.BODY["14SB"],
-                { color: THEME.COLORS.GRAYSCALE.NORMAL },
-              ]}
-            >
-              현재 지도에서 찾기
-            </span>
-          </button>
+          <RefetchOnCurrentPositionButton />
         </div>
 
         <AnimatePresence>
@@ -349,21 +335,4 @@ const searchContainerStyle = css({
 
 const searchInputStyle = css({
   flex: 1,
-});
-
-const searchInAreaButtonStyle = css({
-  height: 40,
-  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-  border: "none",
-  borderRadius: 24,
-  padding: "0 16px",
-  cursor: "pointer",
-
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: 4,
-  margin: "0 auto",
-
-  boxShadow: THEME.SHADOWS.EMPHASIZED,
 });
