@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 import { useEffect, useRef } from "react";
 import SummaryCard from "./_components/SummaryCard";
 import SearchInput from "./_components/SearchInput";
-import MyLocationIcon from "./_assets/my_location.svg?react";
 import THEME from "@/constants/theme";
 import Spacing from "@/@lib/components/Spacing";
 import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react";
@@ -27,6 +26,7 @@ import RestaurantListPopup from "./_components/RestaurantListPopup";
 import { AnimatePresence } from "motion/react";
 import TYPOGRAPHY from "@/constants/typography";
 import ResetIcon from "./_assets/reset.svg?react";
+import MoveToMyLocationButton from "./_components/MoveToMyLocationButton";
 
 function isCategoryKey(key: string): key is keyof typeof 카테고리_이미지 {
   return key in 카테고리_이미지;
@@ -232,20 +232,7 @@ const MainPage = () => {
               css={searchInputStyle}
               onClick={() => navigate("/search")}
             />
-            <button css={locationButtonStyle}>
-              <MyLocationIcon
-                onClick={() => {
-                  navigator.geolocation.getCurrentPosition((position) => {
-                    kakaoMap.current?.setCenter(
-                      new kakao.maps.LatLng(
-                        position.coords.latitude,
-                        position.coords.longitude
-                      )
-                    );
-                  });
-                }}
-              />
-            </button>
+            <MoveToMyLocationButton kakaoMap={kakaoMap} />
           </div>
           <Spacing size={12} />
           <TopNavigation />
@@ -362,16 +349,6 @@ const searchContainerStyle = css({
 
 const searchInputStyle = css({
   flex: 1,
-});
-
-const locationButtonStyle = css({
-  width: 44,
-  height: 44,
-  borderRadius: 8,
-  backgroundColor: "#191919",
-  border: "none",
-  cursor: "pointer",
-  flex: "none",
 });
 
 const searchInAreaButtonStyle = css({
