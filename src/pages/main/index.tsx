@@ -9,7 +9,6 @@ import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react"
 import { Virtual } from "swiper/modules"
 import "swiper/css"
 import "swiper/css/virtual"
-import OverlayMarker from "@/@lib/components/OverlayMarker"
 import { useNavigate, useSearchParams } from "react-router-dom"
 
 import TopNavigation from "./_components/TopNavigation"
@@ -20,7 +19,6 @@ import {
   충무로역_좌표,
   딤_영역,
   서비스_영역,
-  카테고리_이미지,
 } from "./_constants"
 import RestaurantListPopup from "./_components/RestaurantListPopup"
 import { AnimatePresence } from "motion/react"

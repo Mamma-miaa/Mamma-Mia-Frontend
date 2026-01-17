@@ -18,7 +18,7 @@ const CustomOverlayContent = ({
 }: {
   restaurant: components["schemas"]["GetNearByResponse"]
 }) => {
-  if ("WEEKLY" in restaurant.ranks) {
+  if (restaurant.ranks && "WEEKLY" in restaurant.ranks) {
     switch (restaurant.ranks.WEEKLY) {
       case 1:
       case 2:
@@ -71,7 +71,7 @@ const CustomOverlayContent = ({
     }
   }
 
-  if ("MONTHLY" in restaurant.ranks) {
+  if (restaurant.ranks && "MONTHLY" in restaurant.ranks) {
     switch (restaurant.ranks.MONTHLY) {
       case 1:
       case 2:
