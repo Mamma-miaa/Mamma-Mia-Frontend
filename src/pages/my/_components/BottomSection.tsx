@@ -162,6 +162,7 @@ const emptyStateStyle = css(
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "column",
     padding: "80px 0",
     color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
     textAlign: "center",
