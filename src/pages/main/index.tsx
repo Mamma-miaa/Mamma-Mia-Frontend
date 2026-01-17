@@ -168,10 +168,6 @@ const MainPage = () => {
         content: /* HTML */ `<div
           id="overlay-mark${restaurant.storeId}"
           class="overlay-restaurant-mark"
-          style="z-index: ${restaurant.ranks?.WEEKLY ||
-          restaurant.ranks?.MONTHLY
-            ? 1000
-            : 0};"
         >
           ${ReactDOMServer.renderToString(
             <CustomOverlayContent restaurant={restaurant} />
@@ -179,6 +175,7 @@ const MainPage = () => {
         </div>`,
         yAnchor: 1,
         xAnchor: 0.5,
+        zIndex: restaurant.ranks?.WEEKLY || restaurant.ranks?.MONTHLY ? 1000 : 0,
       })
     })
 
