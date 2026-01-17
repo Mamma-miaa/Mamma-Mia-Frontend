@@ -499,6 +499,11 @@ export interface components {
              * @example 맛집
              */
             keyword: string;
+            /**
+             * @description 가게 타입 (NORMAL=맘마미아 픽, CHALLENGE=도전 맛집)
+             * @example NORMAL
+             */
+            storeStatus?: string;
         };
         /** @description 검색 결과 응답 */
         GetSearchResultResponse: {
@@ -518,6 +523,11 @@ export interface components {
             category: string;
             /** @description 대표 이미지 URL */
             imageUrl?: string;
+            /**
+             * Format: double
+             * @description 가장 가까운 역까지의 거리(미터)
+             */
+            distanceToStationMeters?: number;
             /** @description 랭킹 정보 (주간/월간) */
             ranks?: {
                 [key: string]: number;

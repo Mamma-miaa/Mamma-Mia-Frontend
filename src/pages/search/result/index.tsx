@@ -73,7 +73,7 @@ const SearchResultPage = () => {
                 </div>
               }
             >
-              <RestaurantList />
+              <RestaurantList activeTab={activeTab} />
             </Suspense>
           </ErrorBoundary>
         )}

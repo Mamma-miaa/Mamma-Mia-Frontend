@@ -6,12 +6,12 @@ import { css } from "@emotion/react"
 import { useSearchParams } from "react-router-dom"
 import EmptyFallbackUI from "./EmptyFallbackUI"
 
-const RestaurantList = () => {
+const RestaurantList = ({ activeTab }: { activeTab: "pick" | "challenge" }) => {
   const [searchParams] = useSearchParams()
   const query = searchParams.get("query") || ""
   const {
     data: { stores },
-  } = useGetSearchedStoresQuery({ keyword: query })
+  } = useGetSearchedStoresQuery({ keyword: query, storeStatus: activeTab === "pick" ? "NORMAL" : "CHALLENGE" })
 
   // 검색 결과가 없는 경우 EmptyFallbackUI 표시
   if (stores.length === 0) {
