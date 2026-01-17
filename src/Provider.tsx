@@ -5,7 +5,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Global } from "@emotion/react";
 import globalStyles from "./styles/globalStyles";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+});
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
   return (
