@@ -1,27 +1,27 @@
-import { css } from "@emotion/react";
-import FilterBottomSheet from "@/components/FilterBottomSheet";
-import { overlay } from "overlay-kit";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { useState } from "react";
+import { css } from "@emotion/react"
+import FilterBottomSheet from "@/components/FilterBottomSheet"
+import { overlay } from "overlay-kit"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { useState } from "react"
 
 export interface BusinessHoursData {
-  selectedDay: (typeof DAYS)[number];
+  selectedDay: (typeof DAYS)[number]
   options: {
-    isClosed: boolean;
-    is24Hours: boolean;
-    hasBreakTime: boolean;
-    hasLastOrder: boolean;
-  };
+    isClosed: boolean
+    is24Hours: boolean
+    hasBreakTime: boolean
+    hasLastOrder: boolean
+  }
   businessHours?: {
-    startTime: string;
-    endTime: string;
-  };
+    startTime: string
+    endTime: string
+  }
   breakTime?: {
-    startTime: string;
-    endTime: string;
-  };
-  lastOrder?: string;
+    startTime: string
+    endTime: string
+  }
+  lastOrder?: string
 }
 
 export const openBusinessHoursBottomSheet = () => {
@@ -32,68 +32,68 @@ export const openBusinessHoursBottomSheet = () => {
         onClose={() => close(null)}
         onApply={(data) => close(data)}
       />
-    );
-  });
-};
+    )
+  })
+}
 
-const DAYS = ["월", "화", "수", "목", "금", "토", "일"] as const;
+const DAYS = ["월", "화", "수", "목", "금", "토", "일"] as const
 
 // 시간 옵션 생성 (00:00 ~ 23:30, 30분 단위)
 const generateTimeOptions = () => {
-  const times: string[] = [];
+  const times: string[] = []
   for (let hour = 0; hour < 24; hour++) {
     for (let minute = 0; minute < 60; minute += 30) {
-      const hourStr = hour.toString().padStart(2, "0");
-      const minuteStr = minute.toString().padStart(2, "0");
-      times.push(`${hourStr}:${minuteStr}`);
+      const hourStr = hour.toString().padStart(2, "0")
+      const minuteStr = minute.toString().padStart(2, "0")
+      times.push(`${hourStr}:${minuteStr}`)
     }
   }
-  return times;
-};
+  return times
+}
 
-const TIME_OPTIONS = generateTimeOptions();
+const TIME_OPTIONS = generateTimeOptions()
 
 const BusinessHoursBottomSheet = ({
   isOpen,
   onClose,
   onApply,
 }: {
-  isOpen: boolean;
-  onClose: () => void;
-  onApply: (data: BusinessHoursData | null) => void;
+  isOpen: boolean
+  onClose: () => void
+  onApply: (data: BusinessHoursData | null) => void
 }) => {
   const [selectedDay, setSelectedDay] = useState<(typeof DAYS)[number] | null>(
     null
-  );
+  )
   const [options, setOptions] = useState({
     isClosed: false,
     is24Hours: false,
     hasBreakTime: false,
     hasLastOrder: false,
-  });
+  })
   const [businessHours, setBusinessHours] = useState({
     startTime: "",
     endTime: "",
-  });
+  })
   const [breakTime, setBreakTime] = useState({
     startTime: "",
     endTime: "",
-  });
-  const [lastOrder, setLastOrder] = useState("");
+  })
+  const [lastOrder, setLastOrder] = useState("")
 
   const handleDayToggle = (day: (typeof DAYS)[number]) => {
-    setSelectedDay(day);
-  };
+    setSelectedDay(day)
+  }
 
   const handleOptionToggle = (option: keyof typeof options) => {
     setOptions((prev) => ({
       ...prev,
       [option]: !prev[option],
-    }));
-  };
+    }))
+  }
 
   const handleApply = () => {
-    if (!selectedDay) return;
+    if (!selectedDay) return
 
     onApply({
       selectedDay,
@@ -107,8 +107,8 @@ const BusinessHoursBottomSheet = ({
           ? breakTime
           : undefined,
       lastOrder: options.hasLastOrder && lastOrder ? lastOrder : undefined,
-    });
-  };
+    })
+  }
 
   return (
     <FilterBottomSheet
@@ -327,15 +327,15 @@ const BusinessHoursBottomSheet = ({
         </div>
       </div>
     </FilterBottomSheet>
-  );
-};
+  )
+}
 
 const containerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 16,
   width: "100%",
-});
+})
 
 const daysContainerStyle = css({
   display: "flex",
@@ -343,7 +343,7 @@ const daysContainerStyle = css({
   alignItems: "center",
   gap: 8,
   width: "100%",
-});
+})
 
 const dayButtonStyle = css(
   {
@@ -360,7 +360,7 @@ const dayButtonStyle = css(
     cursor: "pointer",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const dayButtonActiveStyle = css({
   backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
@@ -368,28 +368,28 @@ const dayButtonActiveStyle = css({
   "& span": {
     color: THEME.COLORS.BACKGROUND.WHITE,
   },
-});
+})
 
 const dayTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const hoursContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 16,
   width: "100%",
-});
+})
 
 const timeSectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 12,
   width: "100%",
-});
+})
 
 const timeLabelRowStyle = css({
   display: "flex",
@@ -398,20 +398,20 @@ const timeLabelRowStyle = css({
   alignItems: "flex-end",
   gap: 12,
   width: "100%",
-});
+})
 
 const timeLabelStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const timeOptionsStyle = css({
   display: "flex",
   flexDirection: "row",
   gap: 12,
-});
+})
 
 const timeOptionButtonStyle = css({
   display: "flex",
@@ -422,7 +422,7 @@ const timeOptionButtonStyle = css({
   background: "none",
   border: "none",
   padding: 0,
-});
+})
 
 const checkboxIconStyle = css({
   width: 24,
@@ -433,19 +433,19 @@ const checkboxIconStyle = css({
   alignItems: "center",
   justifyContent: "center",
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-});
+})
 
 const checkboxIconActiveStyle = css({
   backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
   border: `1px solid ${THEME.COLORS.GRAYSCALE.NORMAL}`,
-});
+})
 
 const timeOptionTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const timeSelectContainerStyle = css({
   display: "flex",
@@ -457,7 +457,7 @@ const timeSelectContainerStyle = css({
   "& > select": {
     flex: 1,
   },
-});
+})
 
 const timeSelectStyle = css(
   {
@@ -486,17 +486,17 @@ const timeSelectStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const timeSelectPlaceholderStyle = css({
   color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
-});
+})
 
 const timeSeparatorStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
-export default BusinessHoursBottomSheet;
+export default BusinessHoursBottomSheet

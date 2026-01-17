@@ -1,6 +1,6 @@
-import { css } from "@emotion/react";
-import pretendardVariable from "./fonts/pretendard-variable.woff2";
-import VIEWPORT from "@/constants/viewport";
+import { css } from "@emotion/react"
+import pretendardVariable from "./fonts/pretendard-variable.woff2"
+import VIEWPORT from "@/constants/viewport"
 
 const resetCSS = css`
   /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -137,7 +137,7 @@ const resetCSS = css`
     border: none;
     cursor: pointer;
   }
-`;
+`
 
 const baseCSS = css`
   @font-face {
@@ -168,8 +168,8 @@ const baseCSS = css`
   *::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
-`;
+`
 
-const globalStyles = css(resetCSS, baseCSS);
+const globalStyles = css(resetCSS, baseCSS)
 
-export default globalStyles;
+export default globalStyles

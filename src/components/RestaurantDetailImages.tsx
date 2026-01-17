@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css } from "@emotion/react"
 
 const RestaurantDetailImages = ({ imgUrls }: { imgUrls: string[] }) => {
   return (
@@ -7,14 +7,14 @@ const RestaurantDetailImages = ({ imgUrls }: { imgUrls: string[] }) => {
       alt="레스토랑 이미지"
       css={restaurantImageStyle}
     />
-  );
-};
+  )
+}
 
-export default RestaurantDetailImages;
+export default RestaurantDetailImages
 
 const restaurantImageStyle = css({
   width: "100%",
   aspectRatio: "1/1",
   borderRadius: 12,
   objectFit: "cover",
-});
+})

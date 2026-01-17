@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import FilterBottomSheet from "./index";
+import type { Meta, StoryObj } from "@storybook/react"
+import FilterBottomSheet from "./index"
 
 const meta: Meta<typeof FilterBottomSheet> = {
   title: "Components/FilterBottomSheet",
@@ -21,10 +21,10 @@ const meta: Meta<typeof FilterBottomSheet> = {
       description: "가격대 설정 완료 콜백",
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof FilterBottomSheet>;
+export default meta
+type Story = StoryObj<typeof FilterBottomSheet>
 
 export const Default: Story = {
   args: {
@@ -32,7 +32,7 @@ export const Default: Story = {
     onClose: () => console.log("FilterBottomSheet closed"),
     onReset: () => console.log("Price range applied:"),
   },
-};
+}
 
 export const Closed: Story = {
   args: {
@@ -40,4 +40,4 @@ export const Closed: Story = {
     onClose: () => console.log("FilterBottomSheet closed"),
     onReset: () => console.log("Price range applied:"),
   },
-};
+}

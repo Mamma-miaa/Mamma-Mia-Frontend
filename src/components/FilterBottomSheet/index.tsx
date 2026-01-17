@@ -1,20 +1,20 @@
-import { css } from "@emotion/react";
+import { css } from "@emotion/react"
 
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import ResetIcon from "./_assets/reset.svg?react";
-import BottomSheet from "@/@lib/components/BottomSheet";
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import ResetIcon from "./_assets/reset.svg?react"
+import BottomSheet from "@/@lib/components/BottomSheet"
 
 interface FilterBottomSheetProps {
-  isOpen: boolean;
-  onClose: (param?: unknown) => void;
-  onApply: (param?: unknown) => void;
-  onReset?: () => void;
-  title?: string;
-  description?: string;
-  children?: React.ReactNode;
-  isApplyButtonDisabled?: boolean;
-  ctaButtonText?: string;
+  isOpen: boolean
+  onClose: (param?: unknown) => void
+  onApply: (param?: unknown) => void
+  onReset?: () => void
+  title?: string
+  description?: string
+  children?: React.ReactNode
+  isApplyButtonDisabled?: boolean
+  ctaButtonText?: string
 }
 
 const FilterBottomSheet = ({
@@ -68,8 +68,8 @@ const FilterBottomSheet = ({
         </button>
       </div>
     </BottomSheet>
-  );
-};
+  )
+}
 
 const headerStyle = css({
   display: "flex",
@@ -77,7 +77,7 @@ const headerStyle = css({
   alignItems: "center",
   gap: 8,
   width: "100%",
-});
+})
 
 const titleContainerStyle = css({
   display: "flex",
@@ -85,7 +85,7 @@ const titleContainerStyle = css({
   alignItems: "center",
   padding: "0 10px",
   width: "100%",
-});
+})
 
 const titleStyle = css(
   {
@@ -93,33 +93,33 @@ const titleStyle = css(
     textAlign: "center",
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const descriptionStyle = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   gap: 4,
-});
+})
 
 const descriptionTextStyle = css({
   ...TYPOGRAPHY.BODY["14R"],
   color: THEME.COLORS.GRAYSCALE.NORMAL,
   textAlign: "center",
-});
+})
 
 const actionButtonsStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 8,
   width: "100%",
-});
+})
 
 const resetButtonGroupStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 8,
-});
+})
 
 const resetButtonStyle = css({
   width: 44,
@@ -136,13 +136,13 @@ const resetButtonStyle = css({
   "&:hover": {
     backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
   },
-});
+})
 
 const dividerStyle = css({
   width: 0,
   height: 16,
   borderLeft: `1px solid ${THEME.COLORS.LINE.NEUTRAL}`,
-});
+})
 
 const closeButtonStyle = css(
   {
@@ -162,7 +162,7 @@ const closeButtonStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const applyButtonStyle = css(
   {
@@ -184,6 +184,6 @@ const applyButtonStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
-export default FilterBottomSheet;
+export default FilterBottomSheet

@@ -1,25 +1,25 @@
-import { css } from "@emotion/react";
-import LocationIcon from "./_assets/location.svg?react";
-import type { ComponentProps } from "react";
-import TYPOGRAPHY from "@/constants/typography";
-import THEME from "@/constants/theme";
-import type { components } from "@/apis/schema";
-import { useNavigate } from "react-router-dom";
+import { css } from "@emotion/react"
+import LocationIcon from "./_assets/location.svg?react"
+import type { ComponentProps } from "react"
+import TYPOGRAPHY from "@/constants/typography"
+import THEME from "@/constants/theme"
+import type { components } from "@/apis/schema"
+import { useNavigate } from "react-router-dom"
 
-import ranking_1st_weekly from "./_assets/badge_ranking_w1.webp";
-import ranking_2nd_weekly from "./_assets/badge_ranking_w2.webp";
-import ranking_3rd_weekly from "./_assets/badge_ranking_w3.webp";
-import ranking_1st_monthly from "./_assets/badge_ranking_m1.webp";
-import ranking_2nd_monthly from "./_assets/badge_ranking_m2.webp";
-import ranking_3rd_monthly from "./_assets/badge_ranking_m3.webp";
+import ranking_1st_weekly from "./_assets/badge_ranking_w1.webp"
+import ranking_2nd_weekly from "./_assets/badge_ranking_w2.webp"
+import ranking_3rd_weekly from "./_assets/badge_ranking_w3.webp"
+import ranking_1st_monthly from "./_assets/badge_ranking_m1.webp"
+import ranking_2nd_monthly from "./_assets/badge_ranking_m2.webp"
+import ranking_3rd_monthly from "./_assets/badge_ranking_m3.webp"
 
 // Import Swiper styles
 interface SummaryCardProps extends ComponentProps<"div"> {
   restaurant:
     | components["schemas"]["GetNearByResponse"]
     | components["schemas"]["GetSearchResultResponse"]["stores"][number]
-    | components["schemas"]["GetStoreRankingResponse"];
-  rankingType?: "WEEKLY" | "MONTHLY";
+    | components["schemas"]["GetStoreRankingResponse"]
+  rankingType?: "WEEKLY" | "MONTHLY"
 }
 
 const getRankingBadge = (
@@ -29,62 +29,62 @@ const getRankingBadge = (
   if (type === "WEEKLY") {
     switch (rank) {
       case 1:
-        return ranking_1st_weekly;
+        return ranking_1st_weekly
       case 2:
-        return ranking_2nd_weekly;
+        return ranking_2nd_weekly
       case 3:
-        return ranking_3rd_weekly;
+        return ranking_3rd_weekly
     }
   }
   switch (rank) {
     case 1:
-      return ranking_1st_monthly;
+      return ranking_1st_monthly
     case 2:
-      return ranking_2nd_monthly;
+      return ranking_2nd_monthly
     case 3:
-      return ranking_3rd_monthly;
+      return ranking_3rd_monthly
   }
-  return "";
-};
+  return ""
+}
 
 const ResponsiveSummaryCard = ({
   restaurant,
   rankingType: propsRankingType,
   ...props
 }: SummaryCardProps) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   // 랭킹 정보 추출 로직
   const getRankInfo = () => {
     // ranks 객체가 있는 경우 (GetNearByResponse, Store 등)
     if ("ranks" in restaurant && restaurant.ranks) {
-      const ranks = restaurant.ranks as Record<string, number>;
+      const ranks = restaurant.ranks as Record<string, number>
 
       // 전달받은 rankingType이 있으면 우선 사용
       if (propsRankingType && ranks[propsRankingType]) {
-        return { rank: ranks[propsRankingType], type: propsRankingType };
+        return { rank: ranks[propsRankingType], type: propsRankingType }
       }
 
       // 없으면 WEEKLY -> MONTHLY 순으로 확인
-      if (ranks.WEEKLY) return { rank: ranks.WEEKLY, type: "WEEKLY" as const };
+      if (ranks.WEEKLY) return { rank: ranks.WEEKLY, type: "WEEKLY" as const }
       if (ranks.MONTHLY)
-        return { rank: ranks.MONTHLY, type: "MONTHLY" as const };
+        return { rank: ranks.MONTHLY, type: "MONTHLY" as const }
     }
 
-    return { rank: undefined, type: undefined };
-  };
+    return { rank: undefined, type: undefined }
+  }
 
-  const { rank, type: effectiveRankingType } = getRankInfo();
-  const isRanked = rank !== undefined && rank >= 1 && rank <= 3;
+  const { rank, type: effectiveRankingType } = getRankInfo()
+  const isRanked = rank !== undefined && rank >= 1 && rank <= 3
 
   const imageUrl =
     "imageUrl" in restaurant
       ? (restaurant as any).imageUrl
       : "mainImage" in restaurant
-      ? (restaurant as any).mainImage
-      : undefined;
+        ? (restaurant as any).mainImage
+        : undefined
 
-  const isNew = "isNew" in restaurant ? (restaurant as any).isNew : false;
+  const isNew = "isNew" in restaurant ? (restaurant as any).isNew : false
 
   return (
     <div
@@ -141,8 +141,8 @@ const ResponsiveSummaryCard = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const containerStyle = css({
   display: "flex",
@@ -151,13 +151,13 @@ const containerStyle = css({
   padding: "12px 0",
   background: "#FFFFFF",
   borderBottom: `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
-});
+})
 
 const restaurantImageStyle = css({
   objectFit: "cover",
   width: "100%",
   height: "100%",
-});
+})
 
 const imageContainerStyle = (isRanked: boolean) =>
   css({
@@ -171,7 +171,7 @@ const imageContainerStyle = (isRanked: boolean) =>
       border: `3px solid ${THEME.COLORS.GRAYSCALE.NORMAL}`,
       boxSizing: "border-box",
     }),
-  });
+  })
 
 const rankingBadgeStyle = css({
   position: "relative",
@@ -179,14 +179,14 @@ const rankingBadgeStyle = css({
   left: 0,
 
   pointerEvents: "none",
-});
+})
 
 const contentContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 4,
   flex: 1,
-});
+})
 
 const titleSectionStyle = css({
   display: "flex",
@@ -194,14 +194,14 @@ const titleSectionStyle = css({
   justifyContent: "center",
   gap: 2,
   alignSelf: "stretch",
-});
+})
 
 const categoryStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const restaurantNameStyle = css(
   {
@@ -211,14 +211,14 @@ const restaurantNameStyle = css(
     width: 210,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const badgeSectionStyle = css({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   gap: 4,
-});
+})
 
 const newBadgeStyle = css({
   display: "flex",
@@ -228,7 +228,7 @@ const newBadgeStyle = css({
   height: 20,
   backgroundColor: "rgba(0, 0, 0, 0.6)",
   borderRadius: 4,
-});
+})
 
 const newBadgeTextStyle = css(
   {
@@ -236,20 +236,20 @@ const newBadgeTextStyle = css(
     textAlign: "center",
   },
   TYPOGRAPHY.SUB["12B"]
-);
+)
 
 const locationSectionStyle = css({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   gap: 1,
-});
+})
 
 const locationInfoStyle = css({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-});
+})
 
 const locationTextStyle = css(
   {
@@ -257,7 +257,7 @@ const locationTextStyle = css(
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const distanceStyle = css(
   {
@@ -265,14 +265,14 @@ const distanceStyle = css(
     color: THEME.COLORS.PRIMARY.RED,
   },
   TYPOGRAPHY.SUB["12B"]
-);
+)
 
 const statusDotStyle = css({
   width: 3,
   height: 3,
   backgroundColor: "#D9D9D9",
   borderRadius: "50%",
-});
+})
 
 const statusTextStyle = css(
   {
@@ -280,6 +280,6 @@ const statusTextStyle = css(
     color: THEME.COLORS.PRIMARY.RED,
   },
   TYPOGRAPHY.SUB["12B"]
-);
+)
 
-export default ResponsiveSummaryCard;
+export default ResponsiveSummaryCard

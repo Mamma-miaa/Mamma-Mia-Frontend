@@ -1,15 +1,15 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import ModalContainer from "@/components/ModalContainer";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import ModalContainer from "@/components/ModalContainer"
 
 interface ConfirmModalProps {
-  isOpen: boolean;
-  onClose: (param: boolean) => void;
-  title?: string;
-  description?: string;
-  cancelText?: string;
-  confirmText?: string;
+  isOpen: boolean
+  onClose: (param: boolean) => void
+  title?: string
+  description?: string
+  cancelText?: string
+  confirmText?: string
 }
 
 const ConfirmModal = ({
@@ -42,8 +42,8 @@ const ConfirmModal = ({
         </button>
       </div>
     </ModalContainer>
-  );
-};
+  )
+}
 
 const contentStyle = css({
   display: "flex",
@@ -51,7 +51,7 @@ const contentStyle = css({
   alignItems: "center",
   gap: 8,
   width: "100%",
-});
+})
 
 const titleContainerStyle = css({
   display: "flex",
@@ -59,7 +59,7 @@ const titleContainerStyle = css({
   alignItems: "center",
   padding: "0 10px",
   width: "100%",
-});
+})
 
 const titleStyle = css(
   {
@@ -67,14 +67,14 @@ const titleStyle = css(
     textAlign: "center",
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const descriptionContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   gap: 4,
-});
+})
 
 const descriptionStyle = css(
   {
@@ -83,14 +83,14 @@ const descriptionStyle = css(
     whiteSpace: "pre-wrap",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const buttonsStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 8,
   width: "100%",
-});
+})
 
 const cancelButtonStyle = css(
   {
@@ -111,7 +111,7 @@ const cancelButtonStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const confirmButtonStyle = css(
   {
@@ -132,6 +132,6 @@ const confirmButtonStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
-export default ConfirmModal;
+export default ConfirmModal

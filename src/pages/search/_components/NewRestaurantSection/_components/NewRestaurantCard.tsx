@@ -1,16 +1,16 @@
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { css } from "@emotion/react";
-import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react";
-import type { components } from "@/apis/schema";
-import { useGetStoreDetailQuery } from "@/hooks/@server/store";
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { css } from "@emotion/react"
+import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react"
+import type { components } from "@/apis/schema"
+import { useGetStoreDetailQuery } from "@/hooks/@server/store"
 
 const NewRestaurantCard = ({
   restaurant,
 }: {
-  restaurant: components["schemas"]["GetNearByResponse"];
+  restaurant: components["schemas"]["GetNearByResponse"]
 }) => {
-  const { data: storeDetail } = useGetStoreDetailQuery(restaurant.storeId);
+  const { data: storeDetail } = useGetStoreDetailQuery(restaurant.storeId)
 
   return (
     <div css={restaurantCardStyle}>
@@ -63,10 +63,10 @@ const NewRestaurantCard = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NewRestaurantCard;
+export default NewRestaurantCard
 
 // 맛집 카드 스타일
 const restaurantCardStyle = css({
@@ -74,17 +74,17 @@ const restaurantCardStyle = css({
   borderRadius: 16,
   overflow: "hidden",
   width: "100%",
-});
+})
 
 const restaurantCardHeaderStyle = css({
   padding: "16px 12px",
-});
+})
 
 const restaurantCardTitleSectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 4,
-});
+})
 
 const restaurantCategoryStyle = css(
   {
@@ -92,7 +92,7 @@ const restaurantCategoryStyle = css(
     opacity: 0.6,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const restaurantNameStyle = css({
   color: THEME.COLORS.BACKGROUND.WHITE,
@@ -100,25 +100,25 @@ const restaurantNameStyle = css({
   fontWeight: 700,
   lineHeight: 1.4,
   letterSpacing: "-2%",
-});
+})
 
 const restaurantBadgeContainerStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 4,
-});
+})
 
 const restaurantStatsStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 4,
-});
+})
 
 const restaurantStatItemStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 2,
-});
+})
 
 const restaurantStatLabelStyle = css(
   {
@@ -126,14 +126,14 @@ const restaurantStatLabelStyle = css(
     opacity: 0.6,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const restaurantStatValueStyle = css(
   {
     color: THEME.COLORS.BACKGROUND.WHITE,
   },
   TYPOGRAPHY.SUB["12B"]
-);
+)
 
 const restaurantStatDividerStyle = css({
   color: THEME.COLORS.BACKGROUND.WHITE,
@@ -141,14 +141,14 @@ const restaurantStatDividerStyle = css({
   fontSize: 8,
   lineHeight: 1.4,
   letterSpacing: "-2%",
-});
+})
 
 const restaurantCardBodyStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 12,
   padding: "0 12px 16px",
-});
+})
 
 const restaurantImageContainerStyle = css({
   width: "100%",
@@ -156,7 +156,7 @@ const restaurantImageContainerStyle = css({
   borderRadius: 8,
   overflow: "hidden",
   backgroundColor: THEME.COLORS.LINE.ALTERNATIVE,
-});
+})
 
 const restaurantImageStyle = css({
   width: "100%",
@@ -167,26 +167,26 @@ const restaurantImageStyle = css({
   backgroundSize: "cover",
   backgroundPosition: "center",
   objectFit: "cover",
-});
+})
 
 const restaurantCommentSectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 8,
-});
+})
 
 const restaurantCommentLabelStyle = css(
   {
     color: THEME.COLORS.BACKGROUND.WHITE,
   },
   TYPOGRAPHY.SUB["12B"]
-);
+)
 
 const restaurantCommentContentStyle = css({
   display: "flex",
   gap: 6,
   alignItems: "flex-start",
-});
+})
 
 const restaurantCommentAvatarStyle = css({
   width: 28,
@@ -195,7 +195,7 @@ const restaurantCommentAvatarStyle = css({
   backgroundColor: THEME.COLORS.LINE.NORMAL,
   border: `2px solid ${THEME.COLORS.BACKGROUND.WHITE}`,
   flexShrink: 0,
-});
+})
 
 const restaurantCommentTextStyle = css(
   {
@@ -209,7 +209,7 @@ const restaurantCommentTextStyle = css(
     WebkitBoxOrient: "vertical",
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const restaurantCommentNameStyle = css({
   color: THEME.COLORS.BACKGROUND.WHITE,
@@ -217,4 +217,4 @@ const restaurantCommentNameStyle = css({
   fontWeight: 700,
   lineHeight: 1.4,
   letterSpacing: "-2%",
-});
+})

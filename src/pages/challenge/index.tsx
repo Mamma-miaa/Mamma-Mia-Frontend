@@ -1,34 +1,34 @@
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { css } from "@emotion/react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import challengeText from "./_assets/challenge_text.webp";
-import TopIcon from "./_assets/top.svg?react";
-import WriteIcon from "./_assets/write.svg?react";
-import ChallengeSummaryCard from "./_components/ChallengeSummaryCard";
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { css } from "@emotion/react"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import challengeText from "./_assets/challenge_text.webp"
+import TopIcon from "./_assets/top.svg?react"
+import WriteIcon from "./_assets/write.svg?react"
+import ChallengeSummaryCard from "./_components/ChallengeSummaryCard"
 import {
   useGetNearbyStoreQuery,
   useGetRankingQuery,
-} from "@/hooks/@server/store";
-import Spacing from "@/@lib/components/Spacing";
-import VIEWPORT from "@/constants/viewport";
-import BottomGNB from "@/components/BottomGNB";
-import { getIsLoggedIn } from "@/utils/sessionStorage";
-import { 충무로역_좌표 } from "../main/_constants";
+} from "@/hooks/@server/store"
+import Spacing from "@/@lib/components/Spacing"
+import VIEWPORT from "@/constants/viewport"
+import BottomGNB from "@/components/BottomGNB"
+import { getIsLoggedIn } from "@/utils/sessionStorage"
+import { 충무로역_좌표 } from "../main/_constants"
 
 const PERIOD_TYPE = {
   WEEKLY: "WEEKLY",
   MONTHLY: "MONTHLY",
-} as const;
+} as const
 
-type PeriodType = (typeof PERIOD_TYPE)[keyof typeof PERIOD_TYPE];
+type PeriodType = (typeof PERIOD_TYPE)[keyof typeof PERIOD_TYPE]
 
 const ChallengePage = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const period = searchParams.has("period")
     ? (searchParams.get("period") as PeriodType)
-    : PERIOD_TYPE.WEEKLY;
+    : PERIOD_TYPE.WEEKLY
   const { data } = useGetNearbyStoreQuery({
     minLatitude: 33.0,
     maxLatitude: 38.7,
@@ -40,7 +40,7 @@ const ChallengePage = () => {
     lastDistance: 0,
     lastStoreId: 0,
     status: "CHALLENGE",
-  });
+  })
   return (
     <>
       <div css={pageContainerStyle}>
@@ -100,17 +100,17 @@ const ChallengePage = () => {
       </div>
       <BottomGNB />
     </>
-  );
-};
+  )
+}
 
-export default ChallengePage;
+export default ChallengePage
 
 // 페이지 컨테이너 스타일
 const pageContainerStyle = css({
   width: "100%",
   minHeight: "100vh",
   position: "relative",
-});
+})
 
 // 뒤로가기 버튼 스타일
 const floatingButtonStyle = css({
@@ -134,34 +134,34 @@ const floatingButtonStyle = css({
   "&:active": {
     transform: "scale(0.95)",
   },
-});
+})
 
 const listHeaderContainerStyle = css({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   padding: "0 20px 4px",
-});
+})
 
 const listHeaderTitleWrapperStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 2,
-});
+})
 
 const listHeaderLabelStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const listHeaderCountStyle = css(
   {
     color: THEME.COLORS.PRIMARY.RED,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const floatingButtonsContainerStyle = css({
   position: "fixed",
@@ -178,7 +178,7 @@ const floatingButtonsContainerStyle = css({
   maxWidth: VIEWPORT.MAX_WIDTH,
   width: "100%",
   zIndex: 10,
-});
+})
 
 const floatingButtonBaseStyle = css({
   width: 44,
@@ -198,17 +198,17 @@ const floatingButtonBaseStyle = css({
   "&:active": {
     transform: "scale(0.95)",
   },
-});
+})
 
 const floatingButtonTopStyle = css({
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-});
+})
 
 const floatingButtonWriteStyle = css({
   backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
-});
+})
 
 const floatingButtonIconStyle = css({
   width: 24,
   height: 24,
-});
+})

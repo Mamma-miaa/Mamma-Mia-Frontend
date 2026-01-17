@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState } from "react"
 
 const useSearchInput = ({ initialValue }: { initialValue?: string } = {}) => {
-  const [inputValue, setInputValue] = useState(initialValue || "");
+  const [inputValue, setInputValue] = useState(initialValue || "")
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
-  };
+    const newValue = e.target.value
+    setInputValue(newValue)
+  }
 
-  return { inputValue, handleChange };
-};
+  return { inputValue, handleChange }
+}
 
-export default useSearchInput;
+export default useSearchInput

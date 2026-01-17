@@ -1,24 +1,24 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import ReviewStatusBadge from "@/components/ReviewStatusBadge";
-import type { components } from "@/apis/schema";
-import { useSearchParams } from "react-router-dom";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import ReviewStatusBadge from "@/components/ReviewStatusBadge"
+import type { components } from "@/apis/schema"
+import { useSearchParams } from "react-router-dom"
 
 interface ReviewStatusSectionProps {
   storeDetail:
     | components["schemas"]["GetStoreDetailResponse"]
-    | components["schemas"]["GetUnderReviewChallengeStoreDetailResponse"];
+    | components["schemas"]["GetUnderReviewChallengeStoreDetailResponse"]
 }
 
 const ReviewStatusSection = ({ storeDetail }: ReviewStatusSectionProps) => {
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams()
   // 검수 중 상태가 아닌 경우 표시하지 않음
   const reviewStatus =
-    "reviewStatus" in storeDetail ? storeDetail.reviewStatus : undefined;
+    "reviewStatus" in storeDetail ? storeDetail.reviewStatus : undefined
 
   if (!reviewStatus || reviewStatus === "APPROVED") {
-    return null;
+    return null
   }
 
   return (
@@ -27,10 +27,10 @@ const ReviewStatusSection = ({ storeDetail }: ReviewStatusSectionProps) => {
       <p css={messageStyle}>{searchParams.get("status")}</p>
       <div css={innerShadowStyle} />
     </div>
-  );
-};
+  )
+}
 
-export default ReviewStatusSection;
+export default ReviewStatusSection
 
 const containerStyle = (status: string) =>
   css({
@@ -43,18 +43,18 @@ const containerStyle = (status: string) =>
     backgroundColor: (() => {
       switch (status) {
         case "PENDING":
-          return "rgba(244, 244, 245, 0.6)";
+          return "rgba(244, 244, 245, 0.6)"
         case "REVISION_REQUIRED":
-          return "rgba(250, 246, 219, 0.6)";
+          return "rgba(250, 246, 219, 0.6)"
         case "REJECTED":
-          return "rgba(251, 239, 239, 0.6)";
+          return "rgba(251, 239, 239, 0.6)"
       }
     })(),
     backdropFilter: "blur(2px)",
     border: `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
     borderRadius: 8,
     boxSizing: "border-box",
-  });
+  })
 
 const messageStyle = css(
   {
@@ -64,7 +64,7 @@ const messageStyle = css(
     minWidth: 0,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const innerShadowStyle = css({
   position: "absolute",
@@ -75,4 +75,4 @@ const innerShadowStyle = css({
   pointerEvents: "none",
   boxShadow: "inset -2px 2px 4px 0px rgba(255, 255, 255, 0.2)",
   borderRadius: 8,
-});
+})

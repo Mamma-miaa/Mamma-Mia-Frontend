@@ -1,13 +1,13 @@
-import { useNavigate } from "react-router-dom";
-import ExitIcon from "../_assets/exit.svg?react";
+import { useNavigate } from "react-router-dom"
+import ExitIcon from "../_assets/exit.svg?react"
 
-import registrationTitle from "../_assets/registration.webp";
-import Spacing from "@/@lib/components/Spacing";
-import { css } from "@emotion/react";
-import { openConfirmModal } from "@/components/ConfirmModal/utils";
+import registrationTitle from "../_assets/registration.webp"
+import Spacing from "@/@lib/components/Spacing"
+import { css } from "@emotion/react"
+import { openConfirmModal } from "@/components/ConfirmModal/utils"
 
 const ChallengeRegistrationPageHeader = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleExit = async () => {
     const isOk = await openConfirmModal({
@@ -15,9 +15,9 @@ const ChallengeRegistrationPageHeader = () => {
       description: `아직 등록이 완료되지 않았고,\n작성한 내용이 사라질 수 있습니다.\n계속 등록을 진행하시겠습니까?`,
       cancelText: "나가기",
       confirmText: "계속 등록하기",
-    });
-    if (!isOk) navigate(-1);
-  };
+    })
+    if (!isOk) navigate(-1)
+  }
 
   return (
     <>
@@ -41,7 +41,7 @@ const ChallengeRegistrationPageHeader = () => {
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ChallengeRegistrationPageHeader;
+export default ChallengeRegistrationPageHeader

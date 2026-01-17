@@ -1,12 +1,12 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import FilterBottomSheet from "@/components/FilterBottomSheet";
-import { useState, useCallback } from "react";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import FilterBottomSheet from "@/components/FilterBottomSheet"
+import { useState, useCallback } from "react"
 
-const MIN_LIMIT = 0;
-const MAX_LIMIT = 50000;
-const STEP = 1000;
+const MIN_LIMIT = 0
+const MAX_LIMIT = 50000
+const STEP = 1000
 
 const 가격대_필터링_바텀시트 = ({
   isOpen,
@@ -14,40 +14,40 @@ const 가격대_필터링_바텀시트 = ({
   initialMinPrice = MIN_LIMIT,
   initialMaxPrice = MAX_LIMIT,
 }: {
-  isOpen: boolean;
-  onClose: (param: unknown) => void;
-  initialMinPrice?: number;
-  initialMaxPrice?: number;
+  isOpen: boolean
+  onClose: (param: unknown) => void
+  initialMinPrice?: number
+  initialMaxPrice?: number
 }) => {
-  const [minPrice, setMinPrice] = useState(initialMinPrice);
-  const [maxPrice, setMaxPrice] = useState(initialMaxPrice);
+  const [minPrice, setMinPrice] = useState(initialMinPrice)
+  const [maxPrice, setMaxPrice] = useState(initialMaxPrice)
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.min(Number(e.target.value), maxPrice - STEP);
-    setMinPrice(value);
-  };
+    const value = Math.min(Number(e.target.value), maxPrice - STEP)
+    setMinPrice(value)
+  }
 
   const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Math.max(Number(e.target.value), minPrice + STEP);
-    setMaxPrice(value);
-  };
+    const value = Math.max(Number(e.target.value), minPrice + STEP)
+    setMaxPrice(value)
+  }
 
   const handleReset = useCallback(() => {
-    setMinPrice(MIN_LIMIT);
-    setMaxPrice(MAX_LIMIT);
-  }, []);
+    setMinPrice(MIN_LIMIT)
+    setMaxPrice(MAX_LIMIT)
+  }, [])
 
   const handleApply = useCallback(() => {
-    onClose({ minPrice, maxPrice });
-  }, [minPrice, maxPrice, onClose]);
+    onClose({ minPrice, maxPrice })
+  }, [minPrice, maxPrice, onClose])
 
   const formatPrice = (price: number) => {
-    if (price >= MAX_LIMIT) return "50,000원+";
-    return `${price.toLocaleString()}원`;
-  };
+    if (price >= MAX_LIMIT) return "50,000원+"
+    return `${price.toLocaleString()}원`
+  }
 
-  const minPercent = (minPrice / MAX_LIMIT) * 100;
-  const maxPercent = (maxPrice / MAX_LIMIT) * 100;
+  const minPercent = (minPrice / MAX_LIMIT) * 100
+  const maxPercent = (maxPrice / MAX_LIMIT) * 100
 
   return (
     <FilterBottomSheet
@@ -105,34 +105,34 @@ const 가격대_필터링_바텀시트 = ({
         </div>
       </div>
     </FilterBottomSheet>
-  );
-};
+  )
+}
 
 const sliderContainerStyle = css({
   width: "100%",
   padding: "20px 0 40px",
-});
+})
 
 const sliderTitleStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 4,
   marginBottom: 24,
-});
+})
 
 const sliderLabelStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const priceRangeStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.HEADERS["18SB"]
-);
+)
 
 const sliderWrapperStyle = css({
   position: "relative",
@@ -140,7 +140,7 @@ const sliderWrapperStyle = css({
   height: 20,
   display: "flex",
   alignItems: "center",
-});
+})
 
 const sliderTrackStyle = css({
   position: "absolute",
@@ -148,7 +148,7 @@ const sliderTrackStyle = css({
   height: 4,
   backgroundColor: THEME.COLORS.LINE.NORMAL,
   borderRadius: 12,
-});
+})
 
 const sliderRangeStyle = css({
   position: "absolute",
@@ -156,7 +156,7 @@ const sliderRangeStyle = css({
   backgroundColor: THEME.COLORS.PRIMARY.RED,
   borderRadius: 12,
   zIndex: 1,
-});
+})
 
 const rangeInputStyle = css({
   position: "absolute",
@@ -188,7 +188,7 @@ const rangeInputStyle = css({
     backgroundColor: "transparent",
     cursor: "pointer",
   },
-});
+})
 
 const sliderHandleStyle = css({
   position: "absolute",
@@ -201,6 +201,6 @@ const sliderHandleStyle = css({
   transform: "translateX(-50%)",
   zIndex: 1,
   pointerEvents: "none", // input이 이벤트를 받도록 설정
-});
+})
 
-export default 가격대_필터링_바텀시트;
+export default 가격대_필터링_바텀시트

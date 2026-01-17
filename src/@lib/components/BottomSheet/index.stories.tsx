@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
-import BottomSheet from "./index";
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
+import type { Meta, StoryObj } from "@storybook/react"
+import { useState } from "react"
+import BottomSheet from "./index"
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
 
 const meta: Meta<typeof BottomSheet> = {
   title: "Components/BottomSheet",
@@ -21,15 +21,15 @@ const meta: Meta<typeof BottomSheet> = {
       description: "바텀시트 닫기 콜백",
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof BottomSheet>;
+export default meta
+type Story = StoryObj<typeof BottomSheet>
 
 // 기본 스토리
 export const Default: Story = {
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
       <div css={storyContainerStyle}>
@@ -49,14 +49,14 @@ export const Default: Story = {
           </div>
         </BottomSheet>
       </div>
-    );
+    )
   },
-};
+}
 
 // 긴 콘텐츠가 있는 스토리
 export const LongContent: Story = {
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
       <div css={storyContainerStyle}>
@@ -80,14 +80,14 @@ export const LongContent: Story = {
           </div>
         </BottomSheet>
       </div>
-    );
+    )
   },
-};
+}
 
 // 필터 바텀시트 스타일 스토리
 export const FilterStyle: Story = {
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
       <div css={storyContainerStyle}>
@@ -128,9 +128,9 @@ export const FilterStyle: Story = {
           </div>
         </BottomSheet>
       </div>
-    );
+    )
   },
-};
+}
 
 // 스타일 정의
 const storyContainerStyle = css({
@@ -139,7 +139,7 @@ const storyContainerStyle = css({
   alignItems: "center",
   justifyContent: "center",
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
-});
+})
 
 const triggerButtonStyle = css(
   {
@@ -151,12 +151,12 @@ const triggerButtonStyle = css(
     cursor: "pointer",
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const contentStyle = css({
   width: "100%",
   textAlign: "center",
-});
+})
 
 const titleStyle = css(
   {
@@ -164,7 +164,7 @@ const titleStyle = css(
     marginBottom: 16,
   },
   TYPOGRAPHY.HEADERS["18SB"]
-);
+)
 
 const descriptionStyle = css(
   {
@@ -173,7 +173,7 @@ const descriptionStyle = css(
     lineHeight: 1.5,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const closeButtonStyle = css(
   {
@@ -185,24 +185,24 @@ const closeButtonStyle = css(
     cursor: "pointer",
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const longContentStyle = css({
   maxHeight: 300,
   overflowY: "auto",
   marginBottom: 16,
-});
+})
 
 const filterContentStyle = css({
   width: "100%",
-});
+})
 
 const filterHeaderStyle = css({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   marginBottom: 24,
-});
+})
 
 const resetButtonStyle = css(
   {
@@ -213,11 +213,11 @@ const resetButtonStyle = css(
     textDecoration: "underline",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const filterSectionStyle = css({
   marginBottom: 24,
-});
+})
 
 const sectionTitleStyle = css(
   {
@@ -225,13 +225,13 @@ const sectionTitleStyle = css(
     marginBottom: 12,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const filterOptionsStyle = css({
   display: "flex",
   flexWrap: "wrap",
   gap: 8,
-});
+})
 
 const filterOptionStyle = css(
   {
@@ -243,7 +243,7 @@ const filterOptionStyle = css(
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const applyButtonStyle = css(
   {
@@ -257,4 +257,4 @@ const applyButtonStyle = css(
     marginTop: 24,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)

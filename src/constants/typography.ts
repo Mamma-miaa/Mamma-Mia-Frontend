@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css } from "@emotion/react"
 
 const TYPOGRAPHY = {
   HEADERS: {
@@ -57,6 +57,6 @@ const TYPOGRAPHY = {
       letterSpacing: "-2%",
     }),
   },
-};
+}
 
-export default TYPOGRAPHY;
+export default TYPOGRAPHY

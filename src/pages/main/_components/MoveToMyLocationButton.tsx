@@ -1,8 +1,8 @@
-import { css } from "@emotion/react";
-import MyLocationIcon from "../_assets/my_location.svg?react";
+import { css } from "@emotion/react"
+import MyLocationIcon from "../_assets/my_location.svg?react"
 
 interface MoveToMyLocationButtonProps {
-  kakaoMap: React.RefObject<kakao.maps.Map | null>;
+  kakaoMap: React.RefObject<kakao.maps.Map | null>
 }
 
 const MoveToMyLocationButton = ({ kakaoMap }: MoveToMyLocationButtonProps) => {
@@ -16,15 +16,15 @@ const MoveToMyLocationButton = ({ kakaoMap }: MoveToMyLocationButtonProps) => {
                 position.coords.latitude,
                 position.coords.longitude
               )
-            );
-          });
+            )
+          })
         }}
       />
     </button>
-  );
-};
+  )
+}
 
-export default MoveToMyLocationButton;
+export default MoveToMyLocationButton
 
 const locationButtonStyle = css({
   width: 44,
@@ -34,4 +34,4 @@ const locationButtonStyle = css({
   border: "none",
   cursor: "pointer",
   flex: "none",
-});
+})

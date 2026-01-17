@@ -1,12 +1,12 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import type { PropsWithChildren } from "react";
-import VIEWPORT from "@/constants/viewport";
-import { AnimatePresence, motion } from "motion/react";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import type { PropsWithChildren } from "react"
+import VIEWPORT from "@/constants/viewport"
+import { AnimatePresence, motion } from "motion/react"
 
 interface BottomSheetProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen: boolean
+  onClose: () => void
 }
 
 const BottomSheet = ({
@@ -38,8 +38,8 @@ const BottomSheet = ({
         </motion.div>
       )}
     </AnimatePresence>
-  );
-};
+  )
+}
 
 // Styles
 const overlayStyle = css({
@@ -57,7 +57,7 @@ const overlayStyle = css({
 
   width: "100%",
   maxWidth: VIEWPORT.MAX_WIDTH,
-});
+})
 
 const containerStyle = css({
   width: "100%",
@@ -71,6 +71,6 @@ const containerStyle = css({
   gap: 24,
 
   maxWidth: VIEWPORT.MAX_WIDTH,
-});
+})
 
-export default BottomSheet;
+export default BottomSheet

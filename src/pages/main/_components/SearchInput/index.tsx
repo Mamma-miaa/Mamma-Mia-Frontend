@@ -1,8 +1,8 @@
-import { css } from "@emotion/react";
-import SearchIcon from "./_assets/search.svg?react";
-import type { ComponentProps } from "react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
+import { css } from "@emotion/react"
+import SearchIcon from "./_assets/search.svg?react"
+import type { ComponentProps } from "react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
 
 const SearchInput = ({ ...props }: ComponentProps<"div">) => {
   return (
@@ -10,8 +10,8 @@ const SearchInput = ({ ...props }: ComponentProps<"div">) => {
       <SearchIcon />
       <div css={inputStyle}>맛집 검색</div>
     </div>
-  );
-};
+  )
+}
 
 const containerStyle = css({
   flex: 1,
@@ -25,7 +25,7 @@ const containerStyle = css({
   background: "#FFFFFF",
   borderRadius: 8,
   boxShadow: THEME.SHADOWS.EMPHASIZED,
-});
+})
 
 const inputStyle = css(
   {
@@ -39,6 +39,6 @@ const inputStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
-export default SearchInput;
+export default SearchInput

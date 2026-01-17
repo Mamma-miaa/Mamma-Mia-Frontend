@@ -1,9 +1,9 @@
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { css } from "@emotion/react";
-import ListIcon from "../_assets/list.svg?react";
-import MapIcon from "../_assets/map.svg?react";
-import { motion } from "motion/react";
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { css } from "@emotion/react"
+import ListIcon from "../_assets/list.svg?react"
+import MapIcon from "../_assets/map.svg?react"
+import { motion } from "motion/react"
 
 const 지도보기 = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -22,8 +22,8 @@ const 지도보기 = ({ onClick }: { onClick: () => void }) => {
       <MapIcon />
       <span>지도보기</span>
     </motion.div>
-  );
-};
+  )
+}
 
 const 목록보기 = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -42,15 +42,15 @@ const 목록보기 = ({ onClick }: { onClick: () => void }) => {
       <ListIcon />
       <span>목록보기</span>
     </motion.div>
-  );
-};
+  )
+}
 
 const PopupToggleButton = {
   지도보기,
   목록보기,
-};
+}
 
-export default PopupToggleButton;
+export default PopupToggleButton
 
 const floatingButtonStyle = css(
   {
@@ -71,4 +71,4 @@ const floatingButtonStyle = css(
     userSelect: "none",
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)

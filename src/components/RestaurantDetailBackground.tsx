@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css } from "@emotion/react"
 
 const RestaurantDetailBackground = ({ imgUrl }: { imgUrl: string }) => {
   return (
@@ -7,10 +7,10 @@ const RestaurantDetailBackground = ({ imgUrl }: { imgUrl: string }) => {
       alt="레스토랑 배경 이미지"
       css={restaurantBackgroundImageStyle}
     />
-  );
-};
+  )
+}
 
-export default RestaurantDetailBackground;
+export default RestaurantDetailBackground
 
 const restaurantBackgroundImageStyle = css({
   width: "100%",
@@ -20,4 +20,4 @@ const restaurantBackgroundImageStyle = css({
   mask: "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
   WebkitMask:
     "linear-gradient(180deg, rgba(217, 217, 217, 1) 73%, rgba(115, 115, 115, 0) 100%)",
-});
+})

@@ -1,13 +1,13 @@
-import React from "react";
+import React from "react"
 
 export interface OverlayMarkerProps {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }
 
 const OverlayMarker: React.FC<OverlayMarkerProps> = ({ children }) => {
-  const size = 28;
-  const triangleSize = size * 0.21; // 6px for 28px size
-  const circleSize = size; // 28px for 28px size
+  const size = 28
+  const triangleSize = size * 0.21 // 6px for 28px size
+  const circleSize = size // 28px for 28px size
 
   return (
     <div
@@ -57,7 +57,7 @@ const OverlayMarker: React.FC<OverlayMarkerProps> = ({ children }) => {
         }}
       />
     </div>
-  );
-};
+  )
+}
 
-export default OverlayMarker;
+export default OverlayMarker

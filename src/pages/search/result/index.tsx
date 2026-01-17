@@ -1,23 +1,23 @@
-import { css } from "@emotion/react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import BackIcon from "@/@lib/assets/back.svg?react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { Suspense, useState } from "react";
-import SearchInput from "../_components/SearchInput";
-import useSearchInput from "../_hooks/useSearchInput";
-import { QueryErrorResetBoundary } from "@tanstack/react-query";
-import { ErrorBoundary } from "react-error-boundary";
-import RestaurantList from "./_components/RestaurantList";
-import Spacing from "@/@lib/components/Spacing";
-import Spinner from "@/@lib/components/Spinner";
+import { css } from "@emotion/react"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import BackIcon from "@/@lib/assets/back.svg?react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { Suspense, useState } from "react"
+import SearchInput from "../_components/SearchInput"
+import useSearchInput from "../_hooks/useSearchInput"
+import { QueryErrorResetBoundary } from "@tanstack/react-query"
+import { ErrorBoundary } from "react-error-boundary"
+import RestaurantList from "./_components/RestaurantList"
+import Spacing from "@/@lib/components/Spacing"
+import Spinner from "@/@lib/components/Spinner"
 
 const SearchResultPage = () => {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<"pick" | "challenge">("pick");
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("query") || "";
-  const { inputValue, handleChange } = useSearchInput({ initialValue: query });
+  const navigate = useNavigate()
+  const [activeTab, setActiveTab] = useState<"pick" | "challenge">("pick")
+  const [searchParams] = useSearchParams()
+  const query = searchParams.get("query") || ""
+  const { inputValue, handleChange } = useSearchInput({ initialValue: query })
 
   return (
     <div css={containerStyle}>
@@ -27,7 +27,7 @@ const SearchResultPage = () => {
           value={inputValue}
           onChange={handleChange}
           onSubmit={() => {
-            navigate(`/search/result?query=${inputValue}`, { replace: true });
+            navigate(`/search/result?query=${inputValue}`, { replace: true })
           }}
         />
       </div>
@@ -79,15 +79,15 @@ const SearchResultPage = () => {
         )}
       </QueryErrorResetBoundary>
     </div>
-  );
-};
+  )
+}
 
 // 스타일 정의
 const containerStyle = css({
   width: "100%",
   height: "100dvh",
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-});
+})
 
 const headerStyle = css({
   display: "flex",
@@ -95,17 +95,17 @@ const headerStyle = css({
   gap: 12,
   padding: 20,
   height: 56,
-});
+})
 
 const tabContainerStyle = css({
   padding: "0 20px",
-});
+})
 
 const tabWrapperStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 10,
-});
+})
 
 const tabButtonStyle = css(
   {
@@ -117,11 +117,11 @@ const tabButtonStyle = css(
     borderBottom: "2px solid transparent",
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const activeTabStyle = css({
   color: THEME.COLORS.GRAYSCALE.NORMAL,
   borderBottomColor: THEME.COLORS.GRAYSCALE.NORMAL,
-});
+})
 
-export default SearchResultPage;
+export default SearchResultPage

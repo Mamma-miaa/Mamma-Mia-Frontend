@@ -1,25 +1,25 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import logoImg from "./_assets/graphic_mamma_mia.webp";
-import naverLogoImg from "./_assets/naver_logo.webp";
-import kakaoLogoImg from "./_assets/kakao_logo.webp";
-import googleLogoImg from "./_assets/google_logo.webp";
-import ExitIcon from "./_assets/exit.svg?react";
-import { useNavigate } from "react-router-dom";
-import toast from "@/utils/toast";
-import VIEWPORT from "@/constants/viewport";
-import { usePostSocialLoginMutation } from "@/hooks/@server/auth";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import logoImg from "./_assets/graphic_mamma_mia.webp"
+import naverLogoImg from "./_assets/naver_logo.webp"
+import kakaoLogoImg from "./_assets/kakao_logo.webp"
+import googleLogoImg from "./_assets/google_logo.webp"
+import ExitIcon from "./_assets/exit.svg?react"
+import { useNavigate } from "react-router-dom"
+import toast from "@/utils/toast"
+import VIEWPORT from "@/constants/viewport"
+import { usePostSocialLoginMutation } from "@/hooks/@server/auth"
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const { mutate: postSocialLogin } = usePostSocialLoginMutation();
+  const navigate = useNavigate()
+  const { mutate: postSocialLogin } = usePostSocialLoginMutation()
 
   const handleKakaoLogin = () => {
     Kakao.Auth.authorize({
       redirectUri: `${window.location.origin}/login/oauth`,
-    });
-  };
+    })
+  }
 
   return (
     <div css={containerStyle}>
@@ -64,8 +64,8 @@ const LoginPage = () => {
         </button> */}
       </div>
     </div>
-  );
-};
+  )
+}
 
 // 스타일 정의
 const containerStyle = css({
@@ -76,7 +76,7 @@ const containerStyle = css({
   flexDirection: "column",
   alignItems: "center",
   paddingTop: "50%",
-});
+})
 
 const closeButtonStyle = css({
   position: "absolute",
@@ -85,14 +85,14 @@ const closeButtonStyle = css({
   backgroundColor: "transparent",
   border: "none",
   cursor: "pointer",
-});
+})
 
 const logoSectionStyle = css({
   width: "66.66%",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-});
+})
 
 const buttonsContainerStyle = css({
   position: "absolute",
@@ -103,7 +103,7 @@ const buttonsContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 12,
-});
+})
 
 const naverButtonStyle = css({
   display: "flex",
@@ -117,7 +117,7 @@ const naverButtonStyle = css({
   border: "none",
   cursor: "pointer",
   color: THEME.COLORS.BACKGROUND.WHITE,
-});
+})
 
 const kakaoButtonStyle = css({
   display: "flex",
@@ -131,7 +131,7 @@ const kakaoButtonStyle = css({
   border: "none",
   cursor: "pointer",
   color: THEME.COLORS.GRAYSCALE.NORMAL,
-});
+})
 
 const googleButtonStyle = css({
   display: "flex",
@@ -145,21 +145,21 @@ const googleButtonStyle = css({
   border: "none",
   cursor: "pointer",
   color: THEME.COLORS.GRAYSCALE.NORMAL,
-});
+})
 
 const buttonTextStyle = css({
   ...TYPOGRAPHY.HEADERS["16SB"],
   color: THEME.COLORS.BACKGROUND.WHITE,
-});
+})
 
 const kakaoButtonTextStyle = css({
   ...TYPOGRAPHY.HEADERS["16SB"],
   color: "rgba(0, 0, 0, 0.85)",
-});
+})
 
 const googleButtonTextStyle = css({
   ...TYPOGRAPHY.HEADERS["16SB"],
   color: "#1F1F1F",
-});
+})
 
-export default LoginPage;
+export default LoginPage

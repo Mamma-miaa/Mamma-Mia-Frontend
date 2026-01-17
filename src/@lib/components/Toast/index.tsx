@@ -1,21 +1,21 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { AnimatePresence, motion } from "motion/react";
-import { useEffect } from "react";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { AnimatePresence, motion } from "motion/react"
+import { useEffect } from "react"
 
 interface ToastProps {
-  message: string;
-  isOpen: boolean;
-  onClose: () => void;
+  message: string
+  isOpen: boolean
+  onClose: () => void
 }
 
 const Toast = ({ message, isOpen, onClose }: ToastProps) => {
   useEffect(() => {
     if (isOpen) {
-      setTimeout(onClose, 2000);
+      setTimeout(onClose, 2000)
     }
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose])
 
   return (
     <AnimatePresence>
@@ -31,8 +31,8 @@ const Toast = ({ message, isOpen, onClose }: ToastProps) => {
         </motion.div>
       )}
     </AnimatePresence>
-  );
-};
+  )
+}
 
 const toastContainerStyle = css({
   position: "fixed",
@@ -45,7 +45,7 @@ const toastContainerStyle = css({
   padding: "12px 16px",
   boxShadow: THEME.SHADOWS.HEAVY,
   maxWidth: "calc(100vw - 32px)",
-});
+})
 
 const toastMessageStyle = css(
   {
@@ -56,6 +56,6 @@ const toastMessageStyle = css(
     textOverflow: "ellipsis",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
-export default Toast;
+export default Toast

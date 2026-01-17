@@ -1,11 +1,11 @@
-import { css } from "@emotion/react";
-import { AnimatePresence, motion } from "motion/react";
+import { css } from "@emotion/react"
+import { AnimatePresence, motion } from "motion/react"
 
 interface ModalContainerProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  containerWidth?: number | string;
+  isOpen: boolean
+  onClose: () => void
+  children: React.ReactNode
+  containerWidth?: number | string
 }
 
 const ModalContainer = ({
@@ -41,10 +41,10 @@ const ModalContainer = ({
         </motion.div>
       )}
     </AnimatePresence>
-  );
-};
+  )
+}
 
-export default ModalContainer;
+export default ModalContainer
 
 const overlayStyle = css({
   position: "fixed",
@@ -60,7 +60,7 @@ const overlayStyle = css({
   alignItems: "center",
   justifyContent: "center",
   padding: 16,
-});
+})
 
 const containerStyle = css({
   backgroundColor: "#FFFFFF",
@@ -72,4 +72,4 @@ const containerStyle = css({
   gap: 16,
   width: "100%",
   maxWidth: 320,
-});
+})

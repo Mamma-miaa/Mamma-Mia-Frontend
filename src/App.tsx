@@ -1,16 +1,16 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import MainPage from "./pages/main";
-import RestaurantDetailPage from "./pages/restaurant";
-import Provider from "./Provider";
-import RankingPage from "./pages/ranking";
-import SearchPage from "./pages/search";
-import LoginPage from "./pages/login";
-import LoginRedirectPage from "./pages/login/oauth";
-import MyPage from "./pages/my";
-import SearchResultPage from "./pages/search/result";
-import ChallengeRegistrationPage from "./pages/challenge/registration";
-import ChallengePage from "./pages/challenge";
-import ChallengeRestaurantDetailPage from "./pages/challenge/restaurant";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom"
+import MainPage from "./pages/main"
+import RestaurantDetailPage from "./pages/restaurant"
+import Provider from "./Provider"
+import RankingPage from "./pages/ranking"
+import SearchPage from "./pages/search"
+import LoginPage from "./pages/login"
+import LoginRedirectPage from "./pages/login/oauth"
+import MyPage from "./pages/my"
+import SearchResultPage from "./pages/search/result"
+import ChallengeRegistrationPage from "./pages/challenge/registration"
+import ChallengePage from "./pages/challenge"
+import ChallengeRestaurantDetailPage from "./pages/challenge/restaurant"
 
 const router = createBrowserRouter([
   {
@@ -82,10 +82,10 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+])
 
 function App() {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />
 }
 
-export default App;
+export default App

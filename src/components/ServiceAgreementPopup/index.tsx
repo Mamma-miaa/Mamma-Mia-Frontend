@@ -1,19 +1,19 @@
-import { css } from "@emotion/react";
-import { useState } from "react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import ModalContainer from "@/components/ModalContainer";
-import CheckboxOffIcon from "./_assets/checkbox_off.svg?react";
-import CheckboxOnIcon from "./_assets/checkbox_on.svg?react";
-import ArrowRightIcon from "./_assets/arrow_right.svg?react";
-import TermsOfService from "@/view/TermsOfService";
-import { openPopup } from "@/@lib/components/Popup";
-import PrivacyPolicy from "@/view/PrivacyPolicy";
-import LocationInformationUseTerms from "@/view/LocationInformationUseTerms";
+import { css } from "@emotion/react"
+import { useState } from "react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import ModalContainer from "@/components/ModalContainer"
+import CheckboxOffIcon from "./_assets/checkbox_off.svg?react"
+import CheckboxOnIcon from "./_assets/checkbox_on.svg?react"
+import ArrowRightIcon from "./_assets/arrow_right.svg?react"
+import TermsOfService from "@/view/TermsOfService"
+import { openPopup } from "@/@lib/components/Popup"
+import PrivacyPolicy from "@/view/PrivacyPolicy"
+import LocationInformationUseTerms from "@/view/LocationInformationUseTerms"
 
 interface ServiceAgreementPopupProps {
-  isOpen: boolean;
-  onClose: (result: boolean) => void;
+  isOpen: boolean
+  onClose: (result: boolean) => void
 }
 
 const ServiceAgreementPopup = ({
@@ -25,54 +25,54 @@ const ServiceAgreementPopup = ({
     terms: false,
     location: false,
     privacy: false,
-  });
+  })
 
   const handleAllCheck = () => {
-    const newValue = !agreements.all;
+    const newValue = !agreements.all
     setAgreements({
       all: newValue,
       terms: newValue,
       location: newValue,
       privacy: newValue,
-    });
-  };
+    })
+  }
 
   const handleIndividualCheck = (key: "terms" | "location" | "privacy") => {
     const newAgreements = {
       ...agreements,
       [key]: !agreements[key],
-    };
+    }
 
     // 모든 개별 항목이 체크되면 전체 동의도 체크
     const allChecked =
-      newAgreements.terms && newAgreements.location && newAgreements.privacy;
-    newAgreements.all = allChecked;
+      newAgreements.terms && newAgreements.location && newAgreements.privacy
+    newAgreements.all = allChecked
 
-    setAgreements(newAgreements);
-  };
+    setAgreements(newAgreements)
+  }
 
   const isAllRequired =
-    agreements.terms && agreements.location && agreements.privacy;
+    agreements.terms && agreements.location && agreements.privacy
 
   const handleConfirm = () => {
     if (isAllRequired) {
-      onClose(true);
+      onClose(true)
     }
-  };
+  }
 
   const handleOpenTerms = (type: "terms" | "location" | "privacy") => {
     switch (type) {
       case "terms":
-        openPopup(<TermsOfService />);
-        break;
+        openPopup(<TermsOfService />)
+        break
       case "location":
-        openPopup(<LocationInformationUseTerms />);
-        break;
+        openPopup(<LocationInformationUseTerms />)
+        break
       case "privacy":
-        openPopup(<PrivacyPolicy />);
-        break;
+        openPopup(<PrivacyPolicy />)
+        break
     }
-  };
+  }
 
   return (
     <ModalContainer
@@ -211,10 +211,10 @@ const ServiceAgreementPopup = ({
         </button>
       </div>
     </ModalContainer>
-  );
-};
+  )
+}
 
-export default ServiceAgreementPopup;
+export default ServiceAgreementPopup
 
 // Content
 const contentStyle = css({
@@ -223,14 +223,14 @@ const contentStyle = css({
   alignItems: "center",
   gap: 16,
   width: "100%",
-});
+})
 
 // Title
 const titleContainerStyle = css({
   display: "flex",
   justifyContent: "center",
   width: "100%",
-});
+})
 
 const titleStyle = css(
   {
@@ -238,7 +238,7 @@ const titleStyle = css(
     textAlign: "center",
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 // Agreements Container
 const agreementsContainerStyle = css({
@@ -246,7 +246,7 @@ const agreementsContainerStyle = css({
   flexDirection: "column",
   gap: 12,
   width: "100%",
-});
+})
 
 // All Agreement
 const allAgreementButtonStyle = css({
@@ -263,21 +263,21 @@ const allAgreementButtonStyle = css({
   "&:hover": {
     opacity: 0.8,
   },
-});
+})
 
 const allAgreementTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 // Individual Agreements
 const individualAgreementsContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-});
+})
 
 const agreementItemStyle = css({
   display: "flex",
@@ -286,7 +286,7 @@ const agreementItemStyle = css({
   gap: 4,
   padding: "6px 4px",
   width: "100%",
-});
+})
 
 const agreementItemButtonStyle = css({
   display: "flex",
@@ -299,14 +299,14 @@ const agreementItemButtonStyle = css({
   "&:hover": {
     opacity: 0.8,
   },
-});
+})
 
 const agreementItemTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const arrowButtonStyle = css({
   display: "flex",
@@ -321,18 +321,18 @@ const arrowButtonStyle = css({
   "&:hover": {
     opacity: 0.8,
   },
-});
+})
 
 const checkboxStyle = css({
   width: 24,
   height: 24,
   flexShrink: 0,
-});
+})
 
 const arrowIconStyle = css({
   width: 20,
   height: 20,
-});
+})
 
 // Buttons
 const buttonsStyle = css({
@@ -340,7 +340,7 @@ const buttonsStyle = css({
   alignItems: "center",
   gap: 8,
   width: "100%",
-});
+})
 
 const cancelButtonStyle = css(
   {
@@ -361,7 +361,7 @@ const cancelButtonStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const confirmButtonStyle = css(
   {
@@ -376,7 +376,7 @@ const confirmButtonStyle = css(
     padding: "8px 12px",
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const confirmButtonEnabledStyle = css({
   backgroundColor: THEME.COLORS.GRAYSCALE.NORMAL,
@@ -385,10 +385,10 @@ const confirmButtonEnabledStyle = css({
   "&:hover": {
     backgroundColor: THEME.COLORS.GRAYSCALE.STRONG,
   },
-});
+})
 
 const confirmButtonDisabledStyle = css({
   backgroundColor: THEME.COLORS.BACKGROUND.DISABLE,
   color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
   cursor: "not-allowed",
-});
+})

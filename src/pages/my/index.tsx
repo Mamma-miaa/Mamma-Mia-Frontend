@@ -1,15 +1,15 @@
-import BackIcon from "@/@lib/assets/back.svg?react";
-import Spacing from "@/@lib/components/Spacing";
-import { css } from "@emotion/react";
-import myTitleImage from "./_assets/my_text.png";
-import ProfileSection from "./_components/ProfileSection";
-import MyChallengeStatusSection from "./_components/MyChallengeStatusSection";
-import { useNavigate } from "react-router-dom";
-import BottomSection from "./_components/BottomSection";
-import BottomGNB from "@/components/BottomGNB";
+import BackIcon from "@/@lib/assets/back.svg?react"
+import Spacing from "@/@lib/components/Spacing"
+import { css } from "@emotion/react"
+import myTitleImage from "./_assets/my_text.png"
+import ProfileSection from "./_components/ProfileSection"
+import MyChallengeStatusSection from "./_components/MyChallengeStatusSection"
+import { useNavigate } from "react-router-dom"
+import BottomSection from "./_components/BottomSection"
+import BottomGNB from "@/components/BottomGNB"
 
 const MyPage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <div css={css({ width: "100%", height: "100dvh" })}>
@@ -27,7 +27,7 @@ const MyPage = () => {
       <BottomSection />
       <BottomGNB />
     </div>
-  );
-};
+  )
+}
 
-export default MyPage;
+export default MyPage

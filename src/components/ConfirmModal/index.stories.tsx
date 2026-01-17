@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { useState } from "react";
-import ConfirmModal from "./index";
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
+import type { Meta, StoryObj } from "@storybook/react"
+import { useState } from "react"
+import ConfirmModal from "./index"
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
 
 const meta: Meta<typeof ConfirmModal> = {
   title: "Components/ConfirmModal",
@@ -37,15 +37,15 @@ const meta: Meta<typeof ConfirmModal> = {
       description: "확인 버튼 텍스트",
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof ConfirmModal>;
+export default meta
+type Story = StoryObj<typeof ConfirmModal>
 
 // 기본 스토리 (로그인 안내)
 export const Default: Story = {
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
       <div css={storyContainerStyle}>
@@ -58,14 +58,14 @@ export const Default: Story = {
           onClose={() => setIsOpen(false)}
         />
       </div>
-    );
+    )
   },
-};
+}
 
 // 커스텀 텍스트 스토리
 export const CustomText: Story = {
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
       <div css={storyContainerStyle}>
@@ -82,14 +82,14 @@ export const CustomText: Story = {
           confirmText="삭제하기"
         />
       </div>
-    );
+    )
   },
-};
+}
 
 // 긴 텍스트 스토리
 export const LongText: Story = {
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
       <div css={storyContainerStyle}>
@@ -104,14 +104,14 @@ export const LongText: Story = {
           description="로그인 페이지로 이동하여 계정에 로그인한 후 다시 시도해주세요. 로그인하지 않으면 이 기능을 사용할 수 없습니다."
         />
       </div>
-    );
+    )
   },
-};
+}
 
 // 경고 스타일 스토리
 export const WarningStyle: Story = {
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
       <div css={storyContainerStyle}>
@@ -128,14 +128,14 @@ export const WarningStyle: Story = {
           confirmText="계속하기"
         />
       </div>
-    );
+    )
   },
-};
+}
 
 // 정보 안내 스토리
 export const InfoStyle: Story = {
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
       <div css={storyContainerStyle}>
@@ -152,9 +152,9 @@ export const InfoStyle: Story = {
           confirmText="확인하기"
         />
       </div>
-    );
+    )
   },
-};
+}
 
 // 스타일 정의
 const storyContainerStyle = css({
@@ -163,7 +163,7 @@ const storyContainerStyle = css({
   alignItems: "center",
   justifyContent: "center",
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
-});
+})
 
 const triggerButtonStyle = css(
   {
@@ -179,4 +179,4 @@ const triggerButtonStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)

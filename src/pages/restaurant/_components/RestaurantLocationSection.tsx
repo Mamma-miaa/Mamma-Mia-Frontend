@@ -1,35 +1,35 @@
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { css } from "@emotion/react";
-import kakaoMapImg from "../_assets/kakaomap_basic_1.webp";
-import { useEffect, useRef } from "react";
-import toast from "@/utils/toast";
-import { 충무로역_좌표 } from "@/pages/main/_constants";
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { css } from "@emotion/react"
+import kakaoMapImg from "../_assets/kakaomap_basic_1.webp"
+import { useEffect, useRef } from "react"
+import toast from "@/utils/toast"
+import { 충무로역_좌표 } from "@/pages/main/_constants"
 
 const RestaurantLocationSection = ({
   latitude,
   longitude,
   restaurantName,
 }: {
-  latitude: number;
-  longitude: number;
-  restaurantName: string;
+  latitude: number
+  longitude: number
+  restaurantName: string
 }) => {
-  const mapRef = useRef<HTMLDivElement>(null);
-  const kakaoMap = useRef<kakao.maps.Map | null>(null);
+  const mapRef = useRef<HTMLDivElement>(null)
+  const kakaoMap = useRef<kakao.maps.Map | null>(null)
 
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (!mapRef.current) return
 
     var options = {
       //지도를 생성할 때 필요한 기본 옵션
       center: new kakao.maps.LatLng(latitude, longitude), //지도의 중심좌표.
       level: 3, //지도의 레벨(확대, 축소 정도)
-    };
+    }
 
-    kakaoMap.current = new kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
-    kakaoMap.current.setDraggable(false);
-    kakaoMap.current.setZoomable(false);
+    kakaoMap.current = new kakao.maps.Map(mapRef.current, options) //지도 생성 및 객체 리턴
+    kakaoMap.current.setDraggable(false)
+    kakaoMap.current.setZoomable(false)
 
     new kakao.maps.CustomOverlay({
       map: kakaoMap.current,
@@ -81,8 +81,8 @@ const RestaurantLocationSection = ({
           ></div>
         </div>
       `,
-    });
-  }, []);
+    })
+  }, [])
 
   return (
     <div css={locationSectionStyle}>
@@ -96,7 +96,7 @@ const RestaurantLocationSection = ({
             window.open(
               `https://map.kakao.com/link/by/walk/충무로역,${충무로역_좌표.lat},${충무로역_좌표.lng}/${restaurantName},${latitude},${longitude}`,
               "_blank"
-            );
+            )
           }}
         >
           <img src={kakaoMapImg} alt="카카오맵" width={20} height={20} />
@@ -104,10 +104,10 @@ const RestaurantLocationSection = ({
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RestaurantLocationSection;
+export default RestaurantLocationSection
 
 // 섹션 제목
 const sectionTitleStyle = css(
@@ -116,21 +116,21 @@ const sectionTitleStyle = css(
     margin: 0,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 // 위치 섹션
 const locationSectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 12,
-});
+})
 
 // 지도 컨테이너
 const mapContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-});
+})
 
 // 지도 이미지
 const mapImageStyle = css({
@@ -139,7 +139,7 @@ const mapImageStyle = css({
   borderRadius: "8px 8px 0 0",
   objectFit: "cover",
   position: "relative",
-});
+})
 
 // 지도 버튼
 const mapButtonStyle = css({
@@ -153,7 +153,7 @@ const mapButtonStyle = css({
   justifyContent: "center",
   gap: 4,
   padding: "8px 4px",
-});
+})
 
 // 지도 버튼 텍스트
 const mapButtonTextStyle = css(
@@ -161,4 +161,4 @@ const mapButtonTextStyle = css(
     color: THEME.COLORS.GRAYSCALE.NEUTRAL,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)

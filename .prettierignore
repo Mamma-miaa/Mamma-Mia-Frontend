@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+yarn.lock
+package-lock.json
+
+# Build outputs
+dist
+dist-ssr
+build
+storybook-static
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.local
+
+# Generated files
+*.d.ts
+src/apis/schema.d.ts

@@ -1,16 +1,16 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import ArrowRightIcon from "../../_assets/arrow_right.svg?react";
-import WriteIcon from "../../_assets/write_icon.svg?react";
-import { useGetMyChallengeStoreQuery } from "@/hooks/@server/member";
-import { useNavigate } from "react-router-dom";
-import { openReviewStandardsGuideBottomSheet } from "./_components/ReviewStandardsGuideBottomSheet";
-import ReviewStatusBadge from "@/components/ReviewStatusBadge";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import ArrowRightIcon from "../../_assets/arrow_right.svg?react"
+import WriteIcon from "../../_assets/write_icon.svg?react"
+import { useGetMyChallengeStoreQuery } from "@/hooks/@server/member"
+import { useNavigate } from "react-router-dom"
+import { openReviewStandardsGuideBottomSheet } from "./_components/ReviewStandardsGuideBottomSheet"
+import ReviewStatusBadge from "@/components/ReviewStatusBadge"
 
 const MyChallengeStatusSection = () => {
-  const { data: challengeStoreData } = useGetMyChallengeStoreQuery();
-  const navigate = useNavigate();
+  const { data: challengeStoreData } = useGetMyChallengeStoreQuery()
+  const navigate = useNavigate()
 
   return (
     <section css={sectionStyle}>
@@ -69,16 +69,16 @@ const MyChallengeStatusSection = () => {
         </button>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default MyChallengeStatusSection;
+export default MyChallengeStatusSection
 
 const sectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 12,
-});
+})
 
 const titleStyle = css(
   {
@@ -86,7 +86,7 @@ const titleStyle = css(
     color: THEME.COLORS.GRAYSCALE.STRONG,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const listRowStyle = css({
   display: "flex",
@@ -95,7 +95,7 @@ const listRowStyle = css({
   gap: 12,
   overflowX: "scroll",
   padding: "0 20px",
-});
+})
 
 const cardStyle = css({
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
@@ -109,7 +109,7 @@ const cardStyle = css({
   width: 311,
   height: 116,
   flex: "none",
-});
+})
 
 const thumbnailStyle = css({
   width: 92,
@@ -117,20 +117,20 @@ const thumbnailStyle = css({
   borderRadius: 4,
   backgroundColor: THEME.COLORS.BACKGROUND.DISABLE,
   flex: "none",
-});
+})
 
 const cardContentStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 4,
   width: 183,
-});
+})
 
 const cardTextsStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 2,
-});
+})
 
 const categoryTextStyle = css(
   {
@@ -138,7 +138,7 @@ const categoryTextStyle = css(
     flex: "none",
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const cardTitleTextStyle = css(
   {
@@ -148,7 +148,7 @@ const cardTitleTextStyle = css(
     textOverflow: "ellipsis",
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const ctaRowStyle = css({
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
@@ -158,14 +158,14 @@ const ctaRowStyle = css({
   justifyContent: "space-between",
   alignItems: "center",
   margin: "0 20px",
-});
+})
 
 const ctaLeftTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NEUTRAL,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const ctaButtonStyle = css({
   display: "flex",
@@ -175,14 +175,14 @@ const ctaButtonStyle = css({
   border: "none",
   padding: 0,
   cursor: "pointer",
-});
+})
 
 const ctaButtonTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NEUTRAL,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const emptyCardStyle = css({
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
@@ -198,7 +198,7 @@ const emptyCardStyle = css({
   height: 116,
   flex: "none",
   cursor: "pointer",
-});
+})
 
 const emptyCardTextStyle = css(
   {
@@ -206,7 +206,7 @@ const emptyCardTextStyle = css(
     textAlign: "center",
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const emptyCardButtonStyle = css({
   display: "flex",
@@ -216,11 +216,11 @@ const emptyCardButtonStyle = css({
   border: "none",
   padding: 0,
   cursor: "pointer",
-});
+})
 
 const emptyCardButtonTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)

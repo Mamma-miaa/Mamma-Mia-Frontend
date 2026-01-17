@@ -1,12 +1,12 @@
-import type { components } from "@/apis/schema";
-import { DAY_OF_WEEK } from "./RestaurantInformation";
+import type { components } from "@/apis/schema"
+import { DAY_OF_WEEK } from "./RestaurantInformation"
 
 const RestaurantBusinessHour = ({
   businessHour,
 }: {
   businessHour?: components["schemas"]["GetStoreDetailResponseBusinessHour"] & {
-    isToday: boolean;
-  };
+    isToday: boolean
+  }
 }) => {
   return (
     <>
@@ -19,7 +19,7 @@ const RestaurantBusinessHour = ({
         "-"
       )}
     </>
-  );
-};
+  )
+}
 
-export default RestaurantBusinessHour;
+export default RestaurantBusinessHour

@@ -1,31 +1,31 @@
-import { css } from "@emotion/react";
-import BackIcon from "@/@lib/assets/back.svg?react";
-import SearchInput from "./_components/SearchInput";
-import { useNavigate } from "react-router-dom";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import RemoveIcon from "./_assets/remove.svg?react";
-import ArrowDownIcon from "./_assets/arrow_down.svg?react";
-import NewRestaurantSection from "./_components/NewRestaurantSection";
-import useSearchInput from "./_hooks/useSearchInput";
-import useRecentSearch from "./_hooks/useRecentSearch";
-import { useState } from "react";
+import { css } from "@emotion/react"
+import BackIcon from "@/@lib/assets/back.svg?react"
+import SearchInput from "./_components/SearchInput"
+import { useNavigate } from "react-router-dom"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import RemoveIcon from "./_assets/remove.svg?react"
+import ArrowDownIcon from "./_assets/arrow_down.svg?react"
+import NewRestaurantSection from "./_components/NewRestaurantSection"
+import useSearchInput from "./_hooks/useSearchInput"
+import useRecentSearch from "./_hooks/useRecentSearch"
+import { useState } from "react"
 
 const SearchPage = () => {
-  const navigate = useNavigate();
-  const { inputValue, handleChange } = useSearchInput();
-  const [showAll, setShowAll] = useState(false);
+  const navigate = useNavigate()
+  const { inputValue, handleChange } = useSearchInput()
+  const [showAll, setShowAll] = useState(false)
   const {
     recentSearch,
     handleSearch,
     handleRemoveSearch,
     handleClearAll,
     handleSearchClick,
-  } = useRecentSearch();
-  const isEmpty = recentSearch.length === 0;
+  } = useRecentSearch()
+  const isEmpty = recentSearch.length === 0
 
   // 표시할 검색어 목록 (더보기 기능)
-  const displaySearches = showAll ? recentSearch : recentSearch.slice(0, 3);
+  const displaySearches = showAll ? recentSearch : recentSearch.slice(0, 3)
 
   return (
     <div css={css({ width: "100%", height: "100dvh" })}>
@@ -101,8 +101,8 @@ const SearchPage = () => {
       </div>
       <NewRestaurantSection />
     </div>
-  );
-};
+  )
+}
 
 // 스타일 정의
 const recentSearchSectionStyle = css({
@@ -111,14 +111,14 @@ const recentSearchSectionStyle = css({
   flexDirection: "column",
   gap: 0,
   height: 276,
-});
+})
 
 const recentSearchHeaderStyle = css({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   marginBottom: 0,
-});
+})
 
 const recentSearchTitleStyle = css(
   {
@@ -126,7 +126,7 @@ const recentSearchTitleStyle = css(
     margin: 0,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const deleteAllButtonStyle = css(
   {
@@ -143,14 +143,14 @@ const deleteAllButtonStyle = css(
     justifyContent: "center",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const recentSearchListStyle = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   width: "100%",
-});
+})
 
 const recentSearchItemStyle = css({
   display: "flex",
@@ -159,7 +159,7 @@ const recentSearchItemStyle = css({
   width: "100%",
   padding: "12px 0",
   borderBottom: `1px solid ${THEME.COLORS.LINE.ALTERNATIVE}`,
-});
+})
 
 const recentSearchTextStyle = css(
   {
@@ -168,7 +168,7 @@ const recentSearchTextStyle = css(
     flex: 1,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const removeIconStyle = css({
   cursor: "pointer",
@@ -177,7 +177,7 @@ const removeIconStyle = css({
   "&:hover": {
     backgroundColor: THEME.COLORS.GRAYSCALE.ASSISTIVE,
   },
-});
+})
 
 const showMoreStyle = css({
   display: "flex",
@@ -187,13 +187,13 @@ const showMoreStyle = css({
   padding: "12px 0 0",
   gap: 4,
   cursor: "pointer",
-});
+})
 
 const showMoreTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
-export default SearchPage;
+export default SearchPage

@@ -1,9 +1,9 @@
-import Spinner from "./@lib/components/Spinner";
-import { OverlayProvider } from "overlay-kit";
-import { Suspense } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Global } from "@emotion/react";
-import globalStyles from "./styles/globalStyles";
+import Spinner from "./@lib/components/Spinner"
+import { OverlayProvider } from "overlay-kit"
+import { Suspense } from "react"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { Global } from "@emotion/react"
+import globalStyles from "./styles/globalStyles"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,7 +11,7 @@ const queryClient = new QueryClient({
       retry: false,
     },
   },
-});
+})
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -21,7 +21,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
         <OverlayProvider>{children}</OverlayProvider>
       </Suspense>
     </QueryClientProvider>
-  );
-};
+  )
+}
 
-export default Provider;
+export default Provider

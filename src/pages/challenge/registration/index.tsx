@@ -1,47 +1,47 @@
-import { css } from "@emotion/react";
-import Spacing from "@/@lib/components/Spacing";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import ArrowDownIcon from "./_assets/arrow_down.svg?react";
-import SearchIcon from "./_assets/search.svg?react";
-import PlusIcon from "./_assets/plus.svg?react";
-import ArrowRightIcon from "@/pages/search/result/_assets/arrow_right.svg?react";
-import { useState, useRef, useEffect } from "react";
-import registrationTitle from "./_assets/registration.webp";
-import ExitIcon from "./_assets/exit.svg?react";
-import VIEWPORT from "@/constants/viewport";
-import { openCategoryFilteringBottomSheet } from "@/components/CategoryFilterBottomSheet/utils";
-import PhotoRemoveIcon from "./_assets/photo_remove.svg?react";
-import useTextInput from "@/hooks/useTextInput";
+import { css } from "@emotion/react"
+import Spacing from "@/@lib/components/Spacing"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import ArrowDownIcon from "./_assets/arrow_down.svg?react"
+import SearchIcon from "./_assets/search.svg?react"
+import PlusIcon from "./_assets/plus.svg?react"
+import ArrowRightIcon from "@/pages/search/result/_assets/arrow_right.svg?react"
+import { useState, useRef, useEffect } from "react"
+import registrationTitle from "./_assets/registration.webp"
+import ExitIcon from "./_assets/exit.svg?react"
+import VIEWPORT from "@/constants/viewport"
+import { openCategoryFilteringBottomSheet } from "@/components/CategoryFilterBottomSheet/utils"
+import PhotoRemoveIcon from "./_assets/photo_remove.svg?react"
+import useTextInput from "@/hooks/useTextInput"
 import {
   openRecommendedMenuRegisterBottomSheet,
   type RecommendedMenuResult,
-} from "./_components/RecommendedMenuRegisterBottomSheet";
-import { openRestaurantSearchBottomSheet } from "./_components/RestaurantSearchBottomSheet";
-import type { RestaurantSearchResult } from "./_components/RestaurantSearchBottomSheet";
-import { usePostChallengeApplicationMutation } from "@/hooks/@server/store";
-import { useNavigate } from "react-router-dom";
-import { openConfirmModal } from "@/components/ConfirmModal/utils";
-import toast from "@/utils/toast";
+} from "./_components/RecommendedMenuRegisterBottomSheet"
+import { openRestaurantSearchBottomSheet } from "./_components/RestaurantSearchBottomSheet"
+import type { RestaurantSearchResult } from "./_components/RestaurantSearchBottomSheet"
+import { usePostChallengeApplicationMutation } from "@/hooks/@server/store"
+import { useNavigate } from "react-router-dom"
+import { openConfirmModal } from "@/components/ConfirmModal/utils"
+import toast from "@/utils/toast"
 
 interface PhotoFile {
-  file: File;
-  preview: string;
+  file: File
+  preview: string
 }
 
 const ChallengeRegistrationPage = () => {
-  const [photos, setPhotos] = useState<PhotoFile[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const { value: comment, handleChange: handleCommentChange } = useTextInput();
+  const [photos, setPhotos] = useState<PhotoFile[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const { value: comment, handleChange: handleCommentChange } = useTextInput()
   const [recommendedMenus, setRecommendedMenus] = useState<
     RecommendedMenuResult[]
-  >([]);
+  >([])
   const [selectedRestaurant, setSelectedRestaurant] =
-    useState<RestaurantSearchResult | null>(null);
+    useState<RestaurantSearchResult | null>(null)
   const { mutate: postChallengeApplication } =
-    usePostChallengeApplicationMutation();
-  const navigate = useNavigate();
+    usePostChallengeApplicationMutation()
+  const navigate = useNavigate()
 
   const handleCategorySelect = async () => {
     const categories = await openCategoryFilteringBottomSheet({
@@ -49,86 +49,86 @@ const ChallengeRegistrationPage = () => {
       description: "등록할 음식점의 음식 카테고리를 설정해주세요.",
       isSingleSelect: true,
       enableReset: false,
-    });
+    })
     if (categories) {
-      setSelectedCategories(categories);
+      setSelectedCategories(categories)
     }
-  };
+  }
 
   const handlePhotoSelect = () => {
     if (photos.length >= 3) {
-      return;
+      return
     }
-    fileInputRef.current?.click();
-  };
+    fileInputRef.current?.click()
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
+    const files = e.target.files
+    if (!files) return
 
-    const remainingSlots = 3 - photos.length;
-    const filesToAdd = Array.from(files).slice(0, remainingSlots);
+    const remainingSlots = 3 - photos.length
+    const filesToAdd = Array.from(files).slice(0, remainingSlots)
 
     const newPhotos: PhotoFile[] = filesToAdd.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
-    }));
+    }))
 
-    setPhotos((prev) => [...prev, ...newPhotos]);
+    setPhotos((prev) => [...prev, ...newPhotos])
 
     // input 초기화
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = ""
     }
-  };
+  }
 
   const handlePhotoRemove = (index: number) => {
     setPhotos((prev) => {
-      const newPhotos = [...prev];
+      const newPhotos = [...prev]
       // 이전 URL 해제
-      URL.revokeObjectURL(newPhotos[index].preview);
-      newPhotos.splice(index, 1);
-      return newPhotos;
-    });
-  };
+      URL.revokeObjectURL(newPhotos[index].preview)
+      newPhotos.splice(index, 1)
+      return newPhotos
+    })
+  }
 
   const handleRecommendedMenuRegister = async () => {
-    const result = await openRecommendedMenuRegisterBottomSheet();
+    const result = await openRecommendedMenuRegisterBottomSheet()
     if (result) {
-      setRecommendedMenus((prev) => [...prev, result]);
+      setRecommendedMenus((prev) => [...prev, result])
     }
-  };
+  }
 
   const handleMenuEdit = (menuId: string) => {
     // TODO: 메뉴 수정 기능 구현
-    console.log("Edit menu:", menuId);
-  };
+    console.log("Edit menu:", menuId)
+  }
 
   const handleRestaurantSearch = async () => {
-    const restaurant = await openRestaurantSearchBottomSheet();
+    const restaurant = await openRestaurantSearchBottomSheet()
     if (restaurant) {
-      setSelectedRestaurant(restaurant);
+      setSelectedRestaurant(restaurant)
     }
-  };
+  }
 
   // 컴포넌트 언마운트 시 메모리 정리
   useEffect(() => {
     return () => {
       photos.forEach((photo) => {
-        URL.revokeObjectURL(photo.preview);
-      });
-    };
-  }, [photos]);
+        URL.revokeObjectURL(photo.preview)
+      })
+    }
+  }, [photos])
 
   const isAllFieldsFilled =
     selectedCategories.length > 0 &&
     selectedRestaurant !== null &&
     photos.length > 0 &&
     comment.trim().length > 0 &&
-    recommendedMenus.length > 0;
+    recommendedMenus.length > 0
 
   const handleChallengeApplication = () => {
-    const formData = new FormData();
+    const formData = new FormData()
     formData.append(
       "request",
       new Blob(
@@ -159,26 +159,26 @@ const ChallengeRegistrationPage = () => {
           type: "application/json",
         }
       )
-    );
+    )
     photos.forEach((photo) => {
-      formData.append("storeImages", photo.file);
-    });
+      formData.append("storeImages", photo.file)
+    })
     recommendedMenus.forEach((menu) => {
       if (menu.image?.file) {
-        formData.append("menuImages", menu.image.file);
+        formData.append("menuImages", menu.image.file)
       }
-    });
+    })
     postChallengeApplication(formData, {
       onSuccess: () => {
         // TODO 도전 맛집 등록 성공 시 처리
-        navigate("/", { replace: true });
-        toast({ message: "도전 맛집 등록이 완료되었습니다." });
+        navigate("/", { replace: true })
+        toast({ message: "도전 맛집 등록이 완료되었습니다." })
       },
       onError: (error) => {
-        console.error(error);
+        console.error(error)
       },
-    });
-  };
+    })
+  }
 
   const handleExit = async () => {
     const isOk = await openConfirmModal({
@@ -186,9 +186,9 @@ const ChallengeRegistrationPage = () => {
       description: `아직 등록이 완료되지 않았고,\n작성한 내용이 사라질 수 있습니다.\n계속 등록을 진행하시겠습니까?`,
       cancelText: "나가기",
       confirmText: "계속 등록하기",
-    });
-    if (!isOk) navigate(-1);
-  };
+    })
+    if (!isOk) navigate(-1)
+  }
 
   return (
     <div css={css({ width: "100%", minHeight: "100vh" })}>
@@ -294,8 +294,8 @@ const ChallengeRegistrationPage = () => {
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    handlePhotoSelect();
+                    e.preventDefault()
+                    handlePhotoSelect()
                   }
                 }}
               >
@@ -387,28 +387,28 @@ const ChallengeRegistrationPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const contentContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 16,
   padding: "0 20px",
-});
+})
 
 const sectionContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 12,
-});
+})
 
 const labelStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const labelRequiredStyle = css({
   ":after": {
@@ -416,7 +416,7 @@ const labelRequiredStyle = css({
     color: THEME.COLORS.PRIMARY.RED,
     marginLeft: 4,
   },
-});
+})
 
 const selectBoxStyle = css({
   display: "flex",
@@ -429,14 +429,14 @@ const selectBoxStyle = css({
   border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
   borderRadius: 8,
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-});
+})
 
 const selectTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const selectTextPlaceHolderStyle = css(
   {
@@ -444,7 +444,7 @@ const selectTextPlaceHolderStyle = css(
     textAlign: "center",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const buttonStyle = css({
   display: "flex",
@@ -458,25 +458,25 @@ const buttonStyle = css({
   border: `1px dashed ${THEME.COLORS.LINE.NORMAL}`,
   borderRadius: 8,
   cursor: "pointer",
-});
+})
 
 const buttonTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const iconStyle = css({
   width: 20,
   height: 20,
-});
+})
 
 const photoSectionContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 12,
-});
+})
 
 const photoUploadBoxStyle = css({
   width: 92,
@@ -489,21 +489,21 @@ const photoUploadBoxStyle = css({
   justifyContent: "center",
   alignItems: "center",
   cursor: "pointer",
-});
+})
 
 const photoUploadContentStyle = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   gap: 2,
-});
+})
 
 const photoCountStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const photoListContainerStyle = css({
   display: "flex",
@@ -514,14 +514,14 @@ const photoListContainerStyle = css({
     display: "none",
   },
   scrollbarWidth: "none",
-});
+})
 
 const photoItemStyle = css({
   position: "relative",
   flexShrink: 0,
   width: 92,
   height: 92,
-});
+})
 
 const photoImageStyle = css({
   width: "100%",
@@ -529,18 +529,18 @@ const photoImageStyle = css({
   objectFit: "cover",
   borderRadius: 8,
   border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
-});
+})
 
 const photoRemoveButtonStyle = css({
   position: "absolute",
   top: 4,
   right: 4,
   borderRadius: "50%",
-});
+})
 
 const hiddenInputStyle = css({
   display: "none",
-});
+})
 
 const restaurantInfoBoxStyle = css({
   display: "flex",
@@ -553,49 +553,49 @@ const restaurantInfoBoxStyle = css({
   borderRadius: 8,
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
   cursor: "pointer",
-});
+})
 
 const restaurantInfoContentStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 8,
   flex: 1,
-});
+})
 
 const restaurantInfoRowStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 2,
   width: 198,
-});
+})
 
 const restaurantNameStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const restaurantAddressStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const restaurantAddressDetailStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const menuListContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 0,
   width: "100%",
-});
+})
 
 const menuItemStyle = css({
   display: "flex",
@@ -604,54 +604,54 @@ const menuItemStyle = css({
   gap: 12,
   padding: "12px 0",
   width: "100%",
-});
+})
 
 const menuImageContainerStyle = css({
   width: 60,
   height: 60,
   flexShrink: 0,
-});
+})
 
 const menuImageStyle = css({
   width: "100%",
   height: "100%",
   borderRadius: 4,
   objectFit: "cover",
-});
+})
 
 const menuImagePlaceholderStyle = css({
   width: "100%",
   height: "100%",
   borderRadius: 4,
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
-});
+})
 
 const menuInfoStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 4,
   flex: 1,
-});
+})
 
 const menuTitleContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 2,
-});
+})
 
 const menuNameStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const menuPriceStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const menuEditButtonStyle = css(
   {
@@ -670,13 +670,13 @@ const menuEditButtonStyle = css(
     flexShrink: 0,
   },
   TYPOGRAPHY.SUB["12B"]
-);
+)
 
 const commentContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 4,
-});
+})
 
 const textareaStyle = css(
   {
@@ -693,7 +693,7 @@ const textareaStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const commentCountStyle = css(
   {
@@ -701,7 +701,7 @@ const commentCountStyle = css(
     textAlign: "right",
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const CTAButtonStyle = css(
   {
@@ -720,7 +720,7 @@ const CTAButtonStyle = css(
     color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const CTAButtonActiveStyle = css(
   {
@@ -739,7 +739,7 @@ const CTAButtonActiveStyle = css(
     color: THEME.COLORS.BACKGROUND.WHITE,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const ctaButtonContainerStyle = css({
   maxWidth: VIEWPORT.MAX_WIDTH,
@@ -752,6 +752,6 @@ const ctaButtonContainerStyle = css({
   padding: "20px 20px 24px 20px",
   background:
     "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 19%)",
-});
+})
 
-export default ChallengeRegistrationPage;
+export default ChallengeRegistrationPage

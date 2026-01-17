@@ -1,6 +1,6 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
 
 const LocationInformationUseTerms = () => {
   return (
@@ -172,10 +172,10 @@ const LocationInformationUseTerms = () => {
         </p>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default LocationInformationUseTerms;
+export default LocationInformationUseTerms
 
 const containerStyle = css({
   display: "flex",
@@ -183,7 +183,7 @@ const containerStyle = css({
   gap: 20,
   padding: "12px 20px 20px",
   width: "100%",
-});
+})
 
 const titleStyle = css(
   {
@@ -192,7 +192,7 @@ const titleStyle = css(
     whiteSpace: "pre-wrap",
   },
   TYPOGRAPHY.HEADERS["22B"]
-);
+)
 
 const effectiveDateStyle = css(
   {
@@ -201,7 +201,7 @@ const effectiveDateStyle = css(
     whiteSpace: "pre-wrap",
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const introStyle = css(
   {
@@ -210,14 +210,14 @@ const introStyle = css(
     whiteSpace: "pre-wrap",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const sectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 8,
   width: "100%",
-});
+})
 
 const sectionTitleStyle = css(
   {
@@ -226,13 +226,13 @@ const sectionTitleStyle = css(
     whiteSpace: "pre-wrap",
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const sectionContentStyle = css({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-});
+})
 
 const paragraphStyle = css(
   {
@@ -242,7 +242,7 @@ const paragraphStyle = css(
     lineHeight: 1.4,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const orderedListStyle = css(
   {
@@ -252,7 +252,7 @@ const orderedListStyle = css(
     whiteSpace: "pre-wrap",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const listItemStyle = css(
   {
@@ -260,7 +260,7 @@ const listItemStyle = css(
     lineHeight: 1.4,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const nestedListStyle = css(
   {
@@ -270,7 +270,7 @@ const nestedListStyle = css(
     whiteSpace: "pre-wrap",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const nestedListItemStyle = css(
   {
@@ -278,10 +278,10 @@ const nestedListItemStyle = css(
     lineHeight: 1.4,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const contactInfoStyle = css({
   display: "flex",
   flexDirection: "column",
   width: "100%",
-});
+})

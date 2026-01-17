@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import SummaryCard from "./index";
+import type { Meta, StoryObj } from "@storybook/react"
+import SummaryCard from "./index"
 
 const meta: Meta<typeof SummaryCard> = {
   title: "Main/SummaryCard",
@@ -22,10 +22,10 @@ const meta: Meta<typeof SummaryCard> = {
       description: "거리 정보",
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
@@ -34,7 +34,7 @@ export const Default: Story = {
     distance: "380m",
     restaurantImageUrl: "https://placehold.co/78x78",
   },
-};
+}
 
 export const LongName: Story = {
   args: {
@@ -43,7 +43,7 @@ export const LongName: Story = {
     distance: "1.2km",
     restaurantImageUrl: "https://placehold.co/78x78",
   },
-};
+}
 
 export const ShortDistance: Story = {
   args: {
@@ -52,4 +52,4 @@ export const ShortDistance: Story = {
     distance: "50m",
     restaurantImageUrl: "https://placehold.co/78x78",
   },
-};
+}

@@ -1,16 +1,16 @@
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { css } from "@emotion/react";
-import ArrowRightIcon from "../_assets/arrow_right.svg?react";
-import EmptyIcon from "@/assets/empty_icon.svg?react";
-import { useNavigate } from "react-router-dom";
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { css } from "@emotion/react"
+import ArrowRightIcon from "../_assets/arrow_right.svg?react"
+import EmptyIcon from "@/assets/empty_icon.svg?react"
+import { useNavigate } from "react-router-dom"
 
 const EmptyFallbackUI = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleRegisterButtonClick = () => {
-    navigate("/challenge/registration");
-  };
+    navigate("/challenge/registration")
+  }
 
   return (
     <div css={containerStyle}>
@@ -47,16 +47,16 @@ const EmptyFallbackUI = () => {
         </button>
       </div>
     </div>
-  );
-};
-export default EmptyFallbackUI;
+  )
+}
+export default EmptyFallbackUI
 
 // ===== 메인 컨테이너 =====
 const containerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 40,
-});
+})
 
 // ===== 빈 상태 섹션 =====
 const emptyStateSectionStyle = css({
@@ -64,20 +64,20 @@ const emptyStateSectionStyle = css({
   justifyContent: "center",
   alignItems: "center",
   padding: "40px 20px",
-});
+})
 
 const emptyStateContentStyle = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   gap: 20,
-});
+})
 
 const emptyStateIconStyle = css({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-});
+})
 
 const emptyStateTextStyle = css(
   {
@@ -85,7 +85,7 @@ const emptyStateTextStyle = css(
     color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 // ===== 팁 섹션 =====
 const tipsSectionStyle = css({
@@ -93,7 +93,7 @@ const tipsSectionStyle = css({
   flexDirection: "column",
   gap: 8,
   padding: "0 20px",
-});
+})
 
 const tipsCardStyle = css({
   display: "flex",
@@ -103,7 +103,7 @@ const tipsCardStyle = css({
   padding: 12,
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
   borderRadius: 8,
-});
+})
 
 const tipsTitleStyle = css(
   {
@@ -111,7 +111,7 @@ const tipsTitleStyle = css(
     margin: 0,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const tipsListStyle = css({
   display: "flex",
@@ -120,7 +120,7 @@ const tipsListStyle = css({
   gap: 6,
   listStyle: "inside",
   paddingLeft: 16,
-});
+})
 
 const tipItemStyle = css(
   {
@@ -128,7 +128,7 @@ const tipItemStyle = css(
     margin: 0,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 // ===== 등록 버튼 =====
 const registerButtonStyle = css({
@@ -151,24 +151,24 @@ const registerButtonStyle = css({
     backgroundColor: THEME.COLORS.GRAYSCALE.STRONG,
     transform: "scale(0.98)",
   },
-});
+})
 
 const registerButtonSubTextStyle = css(
   {
     color: THEME.COLORS.BACKGROUND.WHITE,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const registerButtonMainContentStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 4,
-});
+})
 
 const registerButtonMainTextStyle = css(
   {
     color: THEME.COLORS.BACKGROUND.WHITE,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)

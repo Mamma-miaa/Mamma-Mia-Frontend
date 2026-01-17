@@ -1,14 +1,14 @@
-import { css } from "@emotion/react";
-import { type ComponentProps } from "react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import SearchIcon from "@/@lib/assets/search.svg?react";
-import cancelButtonImage from "../_assets/cancel.webp";
+import { css } from "@emotion/react"
+import { type ComponentProps } from "react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import SearchIcon from "@/@lib/assets/search.svg?react"
+import cancelButtonImage from "../_assets/cancel.webp"
 
 interface SearchInputProps extends ComponentProps<"input"> {
-  placeholder?: string;
-  onSearch?: (query: string) => void;
-  onSubmit: () => void;
+  placeholder?: string
+  onSearch?: (query: string) => void
+  onSubmit: () => void
 }
 
 const SearchInput = ({
@@ -21,8 +21,8 @@ const SearchInput = ({
     <form
       css={searchFieldStyle}
       onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit();
+        e.preventDefault()
+        onSubmit()
       }}
     >
       <button type="submit" css={searchIconButtonStyle}>
@@ -36,8 +36,8 @@ const SearchInput = ({
         css={inputStyle}
       />
     </form>
-  );
-};
+  )
+}
 
 const searchFieldStyle = css({
   flex: 1,
@@ -49,7 +49,7 @@ const searchFieldStyle = css({
   alignItems: "center",
   gap: 6,
   padding: "0 12px",
-});
+})
 
 const searchIconButtonStyle = css({
   backgroundColor: "transparent",
@@ -59,7 +59,7 @@ const searchIconButtonStyle = css({
   height: "fit-content",
   padding: 0,
   margin: 0,
-});
+})
 
 const inputStyle = css(
   {
@@ -85,6 +85,6 @@ const inputStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
-export default SearchInput;
+export default SearchInput

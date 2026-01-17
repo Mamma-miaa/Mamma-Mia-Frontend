@@ -1,17 +1,17 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import type { components } from "@/apis/schema";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import type { components } from "@/apis/schema"
 
 const RestaurantComment = ({
   storeDetail,
 }: {
   storeDetail:
     | components["schemas"]["GetStoreDetailResponse"]
-    | components["schemas"]["GetUnderReviewChallengeStoreDetailResponse"];
+    | components["schemas"]["GetUnderReviewChallengeStoreDetailResponse"]
 }) => {
   if (!storeDetail?.comment) {
-    return null;
+    return null
   }
   return (
     <div css={containerStyle}>
@@ -34,10 +34,10 @@ const RestaurantComment = ({
       <p css={commentStyle}>{storeDetail.comment}</p>
       <div css={innerShadowStyle} />
     </div>
-  );
-};
+  )
+}
 
-export default RestaurantComment;
+export default RestaurantComment
 
 const containerStyle = css({
   position: "relative",
@@ -51,14 +51,14 @@ const containerStyle = css({
   border: `1px solid ${THEME.COLORS.BACKGROUND.WHITE}`,
   borderRadius: 12,
   boxSizing: "border-box",
-});
+})
 
 const headerStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 6,
   width: "100%",
-});
+})
 
 const avatarStyle = css({
   width: 28,
@@ -71,25 +71,25 @@ const avatarStyle = css({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-});
+})
 
 const avatarImageStyle = css({
   width: "100%",
   height: "100%",
   objectFit: "cover",
-});
+})
 
 const avatarPlaceholderStyle = css({
   width: "100%",
   height: "100%",
   backgroundColor: "#cecece",
-});
+})
 
 const nicknameStyle = css({
   ...TYPOGRAPHY.HEADERS["16SB"],
   color: THEME.COLORS.GRAYSCALE.NORMAL,
   flexShrink: 0,
-});
+})
 
 const commentStyle = css({
   ...TYPOGRAPHY.BODY["14R"],
@@ -97,7 +97,7 @@ const commentStyle = css({
   whiteSpace: "pre-wrap",
   wordBreak: "break-word",
   width: "100%",
-});
+})
 
 const innerShadowStyle = css({
   position: "absolute",
@@ -108,4 +108,4 @@ const innerShadowStyle = css({
   pointerEvents: "none",
   boxShadow: "inset -2px 2px 4px 0px rgba(255, 255, 255, 0.2)",
   borderRadius: 12,
-});
+})

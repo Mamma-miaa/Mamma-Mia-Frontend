@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { css } from "@emotion/react";
-import ModalContainer from "./index";
-import TYPOGRAPHY from "@/constants/typography";
-import THEME from "@/constants/theme";
+import type { Meta, StoryObj } from "@storybook/react"
+import { css } from "@emotion/react"
+import ModalContainer from "./index"
+import TYPOGRAPHY from "@/constants/typography"
+import THEME from "@/constants/theme"
 
 const meta = {
   title: "Components/ModalContainer",
@@ -11,10 +11,10 @@ const meta = {
     layout: "fullscreen",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof ModalContainer>;
+} satisfies Meta<typeof ModalContainer>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 const ExampleContent = () => (
   <>
@@ -22,7 +22,7 @@ const ExampleContent = () => (
     <div css={descriptionStyle}>모달 본문 내용입니다.</div>
     <button css={buttonStyle}>확인</button>
   </>
-);
+)
 
 export const Default: Story = {
   args: {
@@ -30,7 +30,7 @@ export const Default: Story = {
     onClose: () => console.log("Close"),
     children: <ExampleContent />,
   },
-};
+}
 
 export const CustomWidth: Story = {
   args: {
@@ -39,7 +39,7 @@ export const CustomWidth: Story = {
     containerWidth: 400,
     children: <ExampleContent />,
   },
-};
+}
 
 // Example Styles
 const titleStyle = css(
@@ -48,7 +48,7 @@ const titleStyle = css(
     textAlign: "center",
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const descriptionStyle = css(
   {
@@ -56,7 +56,7 @@ const descriptionStyle = css(
     textAlign: "center",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const buttonStyle = css(
   {
@@ -73,7 +73,4 @@ const buttonStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14SB"]
-);
-
-
-
+)

@@ -1,13 +1,13 @@
-import { css } from "@emotion/react";
-import LocationIcon from "./_assets/location.svg?react";
-import type { ComponentProps } from "react";
-import TYPOGRAPHY from "@/constants/typography";
-import THEME from "@/constants/theme";
-import type { components } from "@/apis/schema";
+import { css } from "@emotion/react"
+import LocationIcon from "./_assets/location.svg?react"
+import type { ComponentProps } from "react"
+import TYPOGRAPHY from "@/constants/typography"
+import THEME from "@/constants/theme"
+import type { components } from "@/apis/schema"
 
 // Import Swiper styles
 interface SummaryCardProps extends ComponentProps<"div"> {
-  restaurant: components["schemas"]["GetNearByResponse"];
+  restaurant: components["schemas"]["GetNearByResponse"]
 }
 
 const SummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
@@ -47,8 +47,8 @@ const SummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const containerStyle = css({
   display: "flex",
@@ -59,20 +59,20 @@ const containerStyle = css({
   background: "#FFFFFF",
   borderRadius: 8,
   boxShadow: THEME.SHADOWS.EMPHASIZED,
-});
+})
 
 const restaurantImageStyle = css({
   objectFit: "cover",
   borderRadius: 4,
   margin: -3,
-});
+})
 
 const contentContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 4,
   flex: 1,
-});
+})
 
 const titleSectionStyle = css({
   display: "flex",
@@ -80,14 +80,14 @@ const titleSectionStyle = css({
   justifyContent: "center",
   gap: 2,
   alignSelf: "stretch",
-});
+})
 
 const categoryStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const restaurantNameStyle = css(
   {
@@ -97,14 +97,14 @@ const restaurantNameStyle = css(
     width: 210,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const badgeSectionStyle = css({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   gap: 4,
-});
+})
 
 const newBadgeStyle = css({
   display: "flex",
@@ -114,7 +114,7 @@ const newBadgeStyle = css({
   height: 20,
   backgroundColor: "rgba(0, 0, 0, 0.6)",
   borderRadius: 4,
-});
+})
 
 const newBadgeTextStyle = css(
   {
@@ -122,20 +122,20 @@ const newBadgeTextStyle = css(
     textAlign: "center",
   },
   TYPOGRAPHY.SUB["12B"]
-);
+)
 
 const locationSectionStyle = css({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   gap: 2,
-});
+})
 
 const locationInfoStyle = css({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-});
+})
 
 const locationTextStyle = css(
   {
@@ -143,7 +143,7 @@ const locationTextStyle = css(
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const distanceStyle = css(
   {
@@ -151,14 +151,14 @@ const distanceStyle = css(
     color: THEME.COLORS.PRIMARY.RED,
   },
   TYPOGRAPHY.SUB["12B"]
-);
+)
 
 const statusDotStyle = css({
   width: 3,
   height: 3,
   backgroundColor: "#D9D9D9",
   borderRadius: "50%",
-});
+})
 
 const statusTextStyle = css(
   {
@@ -166,6 +166,6 @@ const statusTextStyle = css(
     color: THEME.COLORS.PRIMARY.RED,
   },
   TYPOGRAPHY.SUB["12B"]
-);
+)
 
-export default SummaryCard;
+export default SummaryCard

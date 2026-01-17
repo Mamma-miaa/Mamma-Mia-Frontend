@@ -1,79 +1,79 @@
-import { css } from "@emotion/react";
+import { css } from "@emotion/react"
 
-import BackIcon from "../_assets/back.svg?react";
-import ShareIcon from "../_assets/share.svg?react";
-import BookmarkEmptyIcon from "../_assets/bookmark_empty.svg?react";
-import BookmarkFilledIcon from "../_assets/bookmark_filled.svg?react";
-import { useNavigate } from "react-router-dom";
+import BackIcon from "../_assets/back.svg?react"
+import ShareIcon from "../_assets/share.svg?react"
+import BookmarkEmptyIcon from "../_assets/bookmark_empty.svg?react"
+import BookmarkFilledIcon from "../_assets/bookmark_filled.svg?react"
+import { useNavigate } from "react-router-dom"
 import {
   usePostBookmarkMutation,
   useDeleteBookmarkMutation,
   useGetBookmarkQuery,
-} from "@/hooks/@server/store";
-import toast from "@/utils/toast";
-import type { components } from "@/apis/schema";
-import { getIsLoggedIn } from "@/utils/sessionStorage";
-import { openLoginModal } from "@/components/ConfirmModal/utils";
+} from "@/hooks/@server/store"
+import toast from "@/utils/toast"
+import type { components } from "@/apis/schema"
+import { getIsLoggedIn } from "@/utils/sessionStorage"
+import { openLoginModal } from "@/components/ConfirmModal/utils"
 
 const RestaurantDetailHeader = ({
   storeDetail,
 }: {
-  storeDetail: components["schemas"]["GetStoreDetailResponse"];
+  storeDetail: components["schemas"]["GetStoreDetailResponse"]
 }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const { data: bookmarkData, refetch: refetchBookmark } = useGetBookmarkQuery({
     storeId: storeDetail?.storeId,
-  });
-  const { mutate: postBookmark } = usePostBookmarkMutation();
-  const { mutate: deleteBookmark } = useDeleteBookmarkMutation();
+  })
+  const { mutate: postBookmark } = usePostBookmarkMutation()
+  const { mutate: deleteBookmark } = useDeleteBookmarkMutation()
 
   // TODO 응답에 맘마미아 상태 포함시키는 작업 완료되면 맘마미아 토글기능 작업
   const handlePostBookmark = async () => {
     if (!getIsLoggedIn()) {
-      const isOk = await openLoginModal();
+      const isOk = await openLoginModal()
       if (isOk) {
-        navigate("/login");
+        navigate("/login")
       }
-      return;
+      return
     }
     postBookmark(
       { storeId: storeDetail?.storeId },
       {
         onSuccess: () => {
-          toast({ message: "북마크에 추가되었습니다." });
-          refetchBookmark();
+          toast({ message: "북마크에 추가되었습니다." })
+          refetchBookmark()
         },
       }
-    );
-  };
+    )
+  }
 
   const handleDeleteBookmark = () => {
     deleteBookmark(
       { storeId: storeDetail?.storeId },
       {
         onSuccess: () => {
-          toast({ message: "북마크에서 제거되었습니다." });
-          refetchBookmark();
+          toast({ message: "북마크에서 제거되었습니다." })
+          refetchBookmark()
         },
       }
-    );
-  };
+    )
+  }
 
   const toggleBookmark = () => {
     if (bookmarkData?.isBookmark) {
-      handleDeleteBookmark();
+      handleDeleteBookmark()
     } else {
-      handlePostBookmark();
+      handlePostBookmark()
     }
-  };
+  }
 
   const handleShare = () => {
     window.navigator.share({
       title: storeDetail?.name,
       text: storeDetail?.name,
       url: window.location.href,
-    });
-  };
+    })
+  }
 
   return (
     <>
@@ -111,10 +111,10 @@ const RestaurantDetailHeader = ({
         <ShareIcon />
       </button>
     </>
-  );
-};
+  )
+}
 
-export default RestaurantDetailHeader;
+export default RestaurantDetailHeader
 
 // 뒤로가기 버튼 스타일
 const floatingButtonStyle = css({
@@ -123,4 +123,4 @@ const floatingButtonStyle = css({
   border: "none",
   background: "transparent",
   zIndex: 10,
-});
+})

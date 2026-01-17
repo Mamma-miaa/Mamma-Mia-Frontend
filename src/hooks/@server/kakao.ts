@@ -1,8 +1,8 @@
 import {
   getLocationByCategory,
   type SearchByCategoryRequest,
-} from "@/apis/kakao";
-import { useQuery } from "@tanstack/react-query";
+} from "@/apis/kakao"
+import { useQuery } from "@tanstack/react-query"
 
 export const useGetLocationByCategoryQuery = (
   params: SearchByCategoryRequest
@@ -10,5 +10,5 @@ export const useGetLocationByCategoryQuery = (
   return useQuery({
     queryKey: ["getLocationByCategory", params],
     queryFn: () => getLocationByCategory(params),
-  });
-};
+  })
+}

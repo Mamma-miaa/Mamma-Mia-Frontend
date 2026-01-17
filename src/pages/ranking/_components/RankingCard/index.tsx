@@ -1,22 +1,22 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import MammaMiaIcon from "./_assets/mamma_mia.svg?react";
-import ranking_1st_badge from "@/assets/rank/type_detail_date_monthly_number_1.webp";
-import ranking_2st_badge from "@/assets/rank/type_detail_date_monthly_number_2.webp";
-import ranking_3st_badge from "@/assets/rank/type_detail_date_monthly_number_3.webp";
-import ranking_weekly_1st_badge from "@/assets/rank/type_detail_date_weekly_number_1.webp";
-import ranking_weekly_2st_badge from "@/assets/rank/type_detail_date_weekly_number_2.webp";
-import ranking_weekly_3st_badge from "@/assets/rank/type_detail_date_weekly_number_3.webp";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import MammaMiaIcon from "./_assets/mamma_mia.svg?react"
+import ranking_1st_badge from "@/assets/rank/type_detail_date_monthly_number_1.webp"
+import ranking_2st_badge from "@/assets/rank/type_detail_date_monthly_number_2.webp"
+import ranking_3st_badge from "@/assets/rank/type_detail_date_monthly_number_3.webp"
+import ranking_weekly_1st_badge from "@/assets/rank/type_detail_date_weekly_number_1.webp"
+import ranking_weekly_2st_badge from "@/assets/rank/type_detail_date_weekly_number_2.webp"
+import ranking_weekly_3st_badge from "@/assets/rank/type_detail_date_weekly_number_3.webp"
 
-import type { components } from "@/apis/schema";
+import type { components } from "@/apis/schema"
 
 const RankingCard = ({
   restaurant,
   rankingType,
 }: {
-  restaurant: components["schemas"]["GetStoreRankingResponses"]["stores"][number];
-  rankingType: "WEEKLY" | "MONTHLY";
+  restaurant: components["schemas"]["GetStoreRankingResponses"]["stores"][number]
+  rankingType: "WEEKLY" | "MONTHLY"
 }) => {
   return (
     <div css={cardContainerStyle}>
@@ -33,21 +33,21 @@ const RankingCard = ({
           if (rankingType === "WEEKLY") {
             switch (restaurant.rank) {
               case 1:
-                return ranking_weekly_1st_badge;
+                return ranking_weekly_1st_badge
               case 2:
-                return ranking_weekly_2st_badge;
+                return ranking_weekly_2st_badge
               case 3:
-                return ranking_weekly_3st_badge;
+                return ranking_weekly_3st_badge
             }
           }
           if (rankingType === "MONTHLY") {
             switch (restaurant.rank) {
               case 1:
-                return ranking_1st_badge;
+                return ranking_1st_badge
               case 2:
-                return ranking_2st_badge;
+                return ranking_2st_badge
               case 3:
-                return ranking_3st_badge;
+                return ranking_3st_badge
             }
           }
         })()}
@@ -86,10 +86,10 @@ const RankingCard = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RankingCard;
+export default RankingCard
 
 const cardContainerStyle = css({
   position: "relative",
@@ -101,7 +101,7 @@ const cardContainerStyle = css({
   overflow: "hidden",
 
   color: THEME.COLORS.BACKGROUND.WHITE,
-});
+})
 
 const backgroundImageStyle = css({
   position: "absolute",
@@ -110,7 +110,7 @@ const backgroundImageStyle = css({
   width: 307,
   height: 349,
   objectFit: "cover",
-});
+})
 
 const gradientOverlayStyle = css({
   position: "absolute",
@@ -120,7 +120,7 @@ const gradientOverlayStyle = css({
   height: 111,
   background:
     "linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 66%)",
-});
+})
 
 const contentContainerStyle = css({
   position: "absolute",
@@ -130,19 +130,19 @@ const contentContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 2,
-});
+})
 
 const categoryStyle = css({
   ...TYPOGRAPHY.BODY["14SB"],
   color: THEME.COLORS.BACKGROUND.WHITE,
   textShadow: "0px 0px 1px rgba(0, 0, 0, 0.25)",
-});
+})
 
 const restaurantNameStyle = css({
   ...TYPOGRAPHY.HEADERS["22B"],
   color: THEME.COLORS.BACKGROUND.WHITE,
   textShadow: "0px 0px 1px rgba(0, 0, 0, 0.25)",
-});
+})
 
 const mammaMiaContainerStyle = css({
   display: "flex",
@@ -150,31 +150,31 @@ const mammaMiaContainerStyle = css({
   justifyContent: "center",
   gap: 8,
   alignSelf: "stretch",
-});
+})
 
 const votesContainerStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 6,
-});
+})
 
 const voteItemStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 4,
-});
+})
 
 const voteLabelStyle = css({
   ...TYPOGRAPHY.BODY["14R"],
   color: THEME.COLORS.BACKGROUND.WHITE,
   textShadow: "0px 0px 1px rgba(0, 0, 0, 0.25)",
-});
+})
 
 const voteNumberStyle = css({
   ...TYPOGRAPHY.BODY["14SB"],
   color: THEME.COLORS.BACKGROUND.WHITE,
   textShadow: "0px 0px 1px rgba(0, 0, 0, 0.25)",
-});
+})
 
 const separatorStyle = css({
   fontSize: 8,
@@ -185,4 +185,4 @@ const separatorStyle = css({
   opacity: 0.6,
   textAlign: "center",
   textShadow: "0px 0px 1px rgba(0, 0, 0, 0.25)",
-});
+})

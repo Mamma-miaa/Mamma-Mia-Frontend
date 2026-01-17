@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import OverlayMarker from ".";
-import 아시안_이미지 from "@/assets/graphics/아시안.webp";
-import 삼겹살_이미지 from "@/assets/graphics/고기구이.webp";
-import 치킨_이미지 from "@/assets/graphics/치킨.webp";
+import type { Meta, StoryObj } from "@storybook/react"
+import OverlayMarker from "."
+import 아시안_이미지 from "@/assets/graphics/아시안.webp"
+import 삼겹살_이미지 from "@/assets/graphics/고기구이.webp"
+import 치킨_이미지 from "@/assets/graphics/치킨.webp"
 
 const meta: Meta<typeof OverlayMarker> = {
   title: "Components/OverlayMarker",
@@ -17,15 +17,15 @@ const meta: Meta<typeof OverlayMarker> = {
       description: "마커 내부에 표시할 내용",
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 // 기본 마커
 export const Default: Story = {
   args: {},
-};
+}
 
 // 아시안 음식 이미지가 있는 마커
 export const WithAsianFood: Story = {
@@ -43,7 +43,7 @@ export const WithAsianFood: Story = {
       />
     ),
   },
-};
+}
 
 // 삼겹살 이미지가 있는 마커
 export const WithPorkBelly: Story = {
@@ -61,7 +61,7 @@ export const WithPorkBelly: Story = {
       />
     ),
   },
-};
+}
 
 // 치킨 이미지가 있는 마커
 export const WithChicken: Story = {
@@ -79,7 +79,7 @@ export const WithChicken: Story = {
       />
     ),
   },
-};
+}
 
 // 텍스트가 있는 마커
 export const WithText: Story = {
@@ -96,14 +96,14 @@ export const WithText: Story = {
       </span>
     ),
   },
-};
+}
 
 // 이모지가 있는 마커
 export const WithEmoji: Story = {
   args: {
     children: <span style={{ fontSize: "16px" }}>🍜</span>,
   },
-};
+}
 
 // 여러 마커 비교
 export const MultipleMarkers: Story = {
@@ -166,4 +166,4 @@ export const MultipleMarkers: Story = {
       </div>
     </div>
   ),
-};
+}

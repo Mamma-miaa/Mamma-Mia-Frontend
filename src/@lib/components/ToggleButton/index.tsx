@@ -1,29 +1,29 @@
-import { css } from "@emotion/react";
-import { motion } from "motion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { useSearchParams } from "react-router-dom";
+import { css } from "@emotion/react"
+import { motion } from "motion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { useSearchParams } from "react-router-dom"
 
 type Item = {
-  label: string;
-  value: string;
-};
+  label: string
+  value: string
+}
 
 const ToggleButton = ({
   firstItem,
   secondItem,
   paramKey,
 }: {
-  paramKey: string;
-  firstItem: Item;
-  secondItem: Item;
+  paramKey: string
+  firstItem: Item
+  secondItem: Item
 }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const isFirstItemActive =
     searchParams.get(paramKey) === firstItem.value ||
-    !searchParams.has(paramKey);
-  const isSecondItemActive = searchParams.get(paramKey) === secondItem.value;
+    !searchParams.has(paramKey)
+  const isSecondItemActive = searchParams.get(paramKey) === secondItem.value
 
   return (
     <div
@@ -31,11 +31,11 @@ const ToggleButton = ({
         setSearchParams(
           (prev) => {
             if (prev.get(paramKey) === secondItem.value) {
-              prev.delete(paramKey);
+              prev.delete(paramKey)
             } else {
-              prev.set(paramKey, secondItem.value);
+              prev.set(paramKey, secondItem.value)
             }
-            return prev;
+            return prev
           },
           { replace: true }
         )
@@ -86,8 +86,8 @@ const ToggleButton = ({
         {secondItem.label}
       </span>
     </div>
-  );
-};
+  )
+}
 
 // Styles
 const containerStyle = css({
@@ -101,7 +101,7 @@ const containerStyle = css({
   width: 102,
   height: 40,
   cursor: "pointer",
-});
+})
 
 const optionStyle = css({
   width: 48,
@@ -113,7 +113,7 @@ const optionStyle = css({
   outline: "none",
   position: "relative",
   overflow: "hidden",
-});
+})
 
 const textStyle = css(
   {
@@ -123,6 +123,6 @@ const textStyle = css(
     zIndex: 1,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
-export default ToggleButton;
+export default ToggleButton

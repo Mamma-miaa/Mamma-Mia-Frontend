@@ -1,5 +1,5 @@
-import { overlay } from "overlay-kit";
-import ConfirmModal from "..";
+import { overlay } from "overlay-kit"
+import ConfirmModal from ".."
 
 export const openLoginModal = () => {
   return overlay.openAsync<boolean>(({ isOpen, close }) => (
@@ -11,8 +11,8 @@ export const openLoginModal = () => {
       cancelText="취소"
       confirmText="이동하기"
     />
-  ));
-};
+  ))
+}
 
 export const openConfirmModal = ({
   title,
@@ -20,10 +20,10 @@ export const openConfirmModal = ({
   cancelText,
   confirmText,
 }: {
-  title: string;
-  description: string;
-  cancelText: string;
-  confirmText: string;
+  title: string
+  description: string
+  cancelText: string
+  confirmText: string
 }) => {
   return overlay.openAsync<boolean>(({ isOpen, close }) => (
     <ConfirmModal
@@ -34,5 +34,5 @@ export const openConfirmModal = ({
       cancelText={cancelText}
       confirmText={confirmText}
     />
-  ));
-};
+  ))
+}

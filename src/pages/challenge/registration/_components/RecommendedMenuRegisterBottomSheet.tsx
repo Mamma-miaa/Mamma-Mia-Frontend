@@ -1,21 +1,21 @@
-import { css } from "@emotion/react";
-import FilterBottomSheet from "@/components/FilterBottomSheet";
-import { overlay } from "overlay-kit";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import useTextInput from "@/hooks/useTextInput";
-import PlusIcon from "../_assets/plus.svg?react";
-import { useRef, useState } from "react";
-import useNumberInput from "@/hooks/useNumberInput";
+import { css } from "@emotion/react"
+import FilterBottomSheet from "@/components/FilterBottomSheet"
+import { overlay } from "overlay-kit"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import useTextInput from "@/hooks/useTextInput"
+import PlusIcon from "../_assets/plus.svg?react"
+import { useRef, useState } from "react"
+import useNumberInput from "@/hooks/useNumberInput"
 
 export interface RecommendedMenuResult {
-  id: string;
-  name: string;
-  price: string;
+  id: string
+  name: string
+  price: string
   image?: {
-    file: File;
-    preview: string;
-  };
+    file: File
+    preview: string
+  }
 }
 
 export const openRecommendedMenuRegisterBottomSheet = () => {
@@ -27,14 +27,14 @@ export const openRecommendedMenuRegisterBottomSheet = () => {
           onClose={() => close(null)}
           onApply={(menu) => close(menu)}
         />
-      );
+      )
     }
-  );
-};
+  )
+}
 
 interface PhotoFile {
-  file: File;
-  preview: string;
+  file: File
+  preview: string
 }
 
 const RecommendedMenuRegisterBottomSheet = ({
@@ -42,56 +42,55 @@ const RecommendedMenuRegisterBottomSheet = ({
   onClose,
   onApply,
 }: {
-  isOpen: boolean;
-  onClose: () => void;
-  onApply: (menu: RecommendedMenuResult | null) => void;
+  isOpen: boolean
+  onClose: () => void
+  onApply: (menu: RecommendedMenuResult | null) => void
 }) => {
-  const { value: menuName, handleChange: handleMenuNameChange } =
-    useTextInput();
+  const { value: menuName, handleChange: handleMenuNameChange } = useTextInput()
   const { value: menuPrice, handleChange: handleMenuPriceChange } =
-    useNumberInput();
-  const [photo, setPhoto] = useState<PhotoFile | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+    useNumberInput()
+  const [photo, setPhoto] = useState<PhotoFile | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handlePhotoSelect = () => {
-    fileInputRef.current?.click();
-  };
+    fileInputRef.current?.click()
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
+    const files = e.target.files
+    if (!files || files.length === 0) return
 
-    const file = files[0];
+    const file = files[0]
     setPhoto({
       file,
       preview: URL.createObjectURL(file),
-    });
+    })
 
     // input 초기화
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = ""
     }
-  };
+  }
 
   const handlePhotoRemove = () => {
     if (photo) {
-      URL.revokeObjectURL(photo.preview);
-      setPhoto(null);
+      URL.revokeObjectURL(photo.preview)
+      setPhoto(null)
     }
-  };
+  }
 
   const handleApply = () => {
     if (!menuName.trim()) {
-      return;
+      return
     }
     const menu: RecommendedMenuResult = {
       id: Date.now().toString(),
       name: menuName,
       price: menuPrice.toString(),
       image: photo || undefined,
-    };
-    onApply(menu);
-  };
+    }
+    onApply(menu)
+  }
 
   return (
     <FilterBottomSheet
@@ -153,8 +152,8 @@ const RecommendedMenuRegisterBottomSheet = ({
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  handlePhotoSelect();
+                  e.preventDefault()
+                  handlePhotoSelect()
                 }
               }}
             >
@@ -174,8 +173,8 @@ const RecommendedMenuRegisterBottomSheet = ({
         </div>
       </div>
     </FilterBottomSheet>
-  );
-};
+  )
+}
 
 const containerStyle = css({
   display: "flex",
@@ -183,7 +182,7 @@ const containerStyle = css({
   alignItems: "center",
   gap: 16,
   width: "100%",
-});
+})
 
 const menuTitleStyle = css(
   {
@@ -191,26 +190,26 @@ const menuTitleStyle = css(
     width: "100%",
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const sectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 12,
   width: "100%",
-});
+})
 
 const labelStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const requiredMarkStyle = css({
   color: THEME.COLORS.PRIMARY.RED,
   marginLeft: 4,
-});
+})
 
 const labelRequiredStyle = css({
   ":after": {
@@ -218,7 +217,7 @@ const labelRequiredStyle = css({
     color: THEME.COLORS.PRIMARY.RED,
     marginLeft: 4,
   },
-});
+})
 
 const inputStyle = css(
   {
@@ -234,7 +233,7 @@ const inputStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const priceInputContainerStyle = css({
   display: "flex",
@@ -242,14 +241,14 @@ const priceInputContainerStyle = css({
   alignItems: "center",
   gap: 8,
   width: "100%",
-});
+})
 
 const priceUnitStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const photoUploadBoxStyle = css({
   width: 92,
@@ -261,33 +260,33 @@ const photoUploadBoxStyle = css({
   justifyContent: "center",
   alignItems: "center",
   cursor: "pointer",
-});
+})
 
 const photoUploadContentStyle = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   gap: 2,
-});
+})
 
 const plusIconStyle = css({
   width: 20,
   height: 20,
   fill: THEME.COLORS.BACKGROUND.WHITE,
-});
+})
 
 const photoUploadTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.ASSISTIVE,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const photoContainerStyle = css({
   position: "relative",
   width: 92,
   height: 92,
-});
+})
 
 const photoImageStyle = css({
   width: "100%",
@@ -295,7 +294,7 @@ const photoImageStyle = css({
   objectFit: "cover",
   borderRadius: 8,
   border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
-});
+})
 
 const photoRemoveButtonStyle = css({
   position: "absolute",
@@ -313,10 +312,10 @@ const photoRemoveButtonStyle = css({
   justifyContent: "center",
   fontSize: 20,
   lineHeight: 1,
-});
+})
 
 const hiddenInputStyle = css({
   display: "none",
-});
+})
 
-export default RecommendedMenuRegisterBottomSheet;
+export default RecommendedMenuRegisterBottomSheet

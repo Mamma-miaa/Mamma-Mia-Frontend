@@ -1,21 +1,21 @@
-import type { components } from "@/apis/schema";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { css } from "@emotion/react";
-import carImg from "@/assets/emoji/car.webp";
-import deliveryImg from "@/assets/emoji/delivery.webp";
-import takeoutImg from "@/assets/emoji/takeout.webp";
+import type { components } from "@/apis/schema"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { css } from "@emotion/react"
+import carImg from "@/assets/emoji/car.webp"
+import deliveryImg from "@/assets/emoji/delivery.webp"
+import takeoutImg from "@/assets/emoji/takeout.webp"
 
 type RestaurantFacilitiesProps = {
-  facilities: components["schemas"]["GetStoreDetailResponseFacility"];
-};
+  facilities: components["schemas"]["GetStoreDetailResponseFacility"]
+}
 
 const RestaurantFacilities = ({ facilities }: RestaurantFacilitiesProps) => {
   const hasFacilities = [
     facilities.parking,
     facilities.delivery,
     facilities.takeout,
-  ].some(Boolean);
+  ].some(Boolean)
 
   return (
     hasFacilities && (
@@ -43,10 +43,10 @@ const RestaurantFacilities = ({ facilities }: RestaurantFacilitiesProps) => {
         </div>
       </div>
     )
-  );
-};
+  )
+}
 
-export default RestaurantFacilities;
+export default RestaurantFacilities
 
 // 섹션 제목
 const sectionTitleStyle = css(
@@ -55,21 +55,21 @@ const sectionTitleStyle = css(
     margin: 0,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 // 부가 정보 섹션
 const additionalInfoSectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 12,
-});
+})
 
 // 부가 정보 그리드
 const additionalInfoGridStyle = css({
   display: "flex",
   alignItems: "stretch",
   gap: 24,
-});
+})
 
 // 부가 정보 아이템
 const additionalInfoItemStyle = css({
@@ -78,13 +78,13 @@ const additionalInfoItemStyle = css({
   alignItems: "center",
   gap: 6,
   flex: 1 / 3,
-});
+})
 
 // 부가 정보 이모지
 const additionalEmojiStyle = css({
   width: 24,
   height: 24,
-});
+})
 
 // 부가 정보 텍스트
 const additionalTextStyle = css(
@@ -94,4 +94,4 @@ const additionalTextStyle = css(
     whiteSpace: "nowrap",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)

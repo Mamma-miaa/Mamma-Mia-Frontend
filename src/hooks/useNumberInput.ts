@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useState } from "react"
 
 const useNumberInput = ({ initialValue }: { initialValue?: number } = {}) => {
-  const [value, setValue] = useState(initialValue || 0);
+  const [value, setValue] = useState(initialValue || 0)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
+    const newValue = e.target.value
     if (newValue.match(/^\d*$/)) {
-      setValue(Number(newValue));
+      setValue(Number(newValue))
     }
-  };
+  }
 
-  return { value, handleChange };
-};
+  return { value, handleChange }
+}
 
-export default useNumberInput;
+export default useNumberInput

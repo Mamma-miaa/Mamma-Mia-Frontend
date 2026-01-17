@@ -1,19 +1,19 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import BottomSheet from "@/@lib/components/BottomSheet";
-import { overlay } from "overlay-kit";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import BottomSheet from "@/@lib/components/BottomSheet"
+import { overlay } from "overlay-kit"
 
 interface ReviewStandardsGuideBottomSheetProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen: boolean
+  onClose: () => void
 }
 
 export const openReviewStandardsGuideBottomSheet = () => {
   overlay.open(({ isOpen, close }) => (
     <ReviewStandardsGuideBottomSheet isOpen={isOpen} onClose={close} />
-  ));
-};
+  ))
+}
 
 const ReviewStandardsGuideBottomSheet = ({
   isOpen,
@@ -54,10 +54,10 @@ const ReviewStandardsGuideBottomSheet = ({
         </button>
       </div>
     </BottomSheet>
-  );
-};
+  )
+}
 
-export default ReviewStandardsGuideBottomSheet;
+export default ReviewStandardsGuideBottomSheet
 
 // Styles
 const contentStyle = css({
@@ -66,7 +66,7 @@ const contentStyle = css({
   flexDirection: "column",
   alignItems: "center",
   gap: 24,
-});
+})
 
 const titleStyle = css(
   {
@@ -74,7 +74,7 @@ const titleStyle = css(
     textAlign: "center",
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const standardsListStyle = css({
   width: "100%",
@@ -84,7 +84,7 @@ const standardsListStyle = css({
 
   listStyle: "numeric",
   paddingLeft: 16,
-});
+})
 
 const standardItemStyle = css(
   {
@@ -92,14 +92,14 @@ const standardItemStyle = css(
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const boldTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 const confirmButtonStyle = css(
   {
@@ -119,4 +119,4 @@ const confirmButtonStyle = css(
     },
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)

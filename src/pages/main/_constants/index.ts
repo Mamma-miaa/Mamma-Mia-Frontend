@@ -1,30 +1,30 @@
-import 한식_백반 from "@/assets/graphics/한식_백반.webp";
-import 국밥 from "@/assets/graphics/국밥.webp";
-import 찜_탕_찌개 from "@/assets/graphics/찜_탕_찌개.webp";
-import 고기구이 from "@/assets/graphics/고기구이.webp";
-import 치킨 from "@/assets/graphics/치킨.webp";
-import 피자_패스트푸드 from "@/assets/graphics/피자_패스트푸드.webp";
-import 족발_보쌈 from "@/assets/graphics/족발_보쌈.webp";
-import 회_해산물 from "@/assets/graphics/회_해산물.webp";
-import 일식 from "@/assets/graphics/일식.webp";
-import 중식 from "@/assets/graphics/중식.webp";
-import 양식 from "@/assets/graphics/양식.webp";
-import 아시안 from "@/assets/graphics/아시안.webp";
-import 분식 from "@/assets/graphics/분식.webp";
-import 채식_건강식 from "@/assets/graphics/채식_건강식.webp";
-import 간식_길거리음식 from "@/assets/graphics/간식_길거리음식.webp";
+import 한식_백반 from "@/assets/graphics/한식_백반.webp"
+import 국밥 from "@/assets/graphics/국밥.webp"
+import 찜_탕_찌개 from "@/assets/graphics/찜_탕_찌개.webp"
+import 고기구이 from "@/assets/graphics/고기구이.webp"
+import 치킨 from "@/assets/graphics/치킨.webp"
+import 피자_패스트푸드 from "@/assets/graphics/피자_패스트푸드.webp"
+import 족발_보쌈 from "@/assets/graphics/족발_보쌈.webp"
+import 회_해산물 from "@/assets/graphics/회_해산물.webp"
+import 일식 from "@/assets/graphics/일식.webp"
+import 중식 from "@/assets/graphics/중식.webp"
+import 양식 from "@/assets/graphics/양식.webp"
+import 아시안 from "@/assets/graphics/아시안.webp"
+import 분식 from "@/assets/graphics/분식.webp"
+import 채식_건강식 from "@/assets/graphics/채식_건강식.webp"
+import 간식_길거리음식 from "@/assets/graphics/간식_길거리음식.webp"
 
 export const 충무로역_좌표 = {
   lat: 37.561306,
   lng: 126.9945,
-};
+}
 
 export const 딤_영역 = [
   new kakao.maps.LatLng(0.0, 200.0),
   new kakao.maps.LatLng(200.0, 0.0),
   new kakao.maps.LatLng(200.0, 200.0),
   new kakao.maps.LatLng(0.0, 0.0),
-];
+]
 
 export const 서비스_영역 = [
   new kakao.maps.LatLng(37.570294707575194, 126.99218948837137),
@@ -60,7 +60,7 @@ export const 서비스_영역 = [
   new kakao.maps.LatLng(37.566047751895546, 126.98267070383284),
   new kakao.maps.LatLng(37.566165502609785, 126.98760574186248),
   new kakao.maps.LatLng(37.57026504120442, 126.98768429960681),
-];
+]
 
 export const 카테고리_이미지 = {
   "한식/백반": 한식_백반,
@@ -78,4 +78,4 @@ export const 카테고리_이미지 = {
   분식: 분식,
   "채식·건강식": 채식_건강식,
   "간식/길거리음식": 간식_길거리음식,
-};
+}

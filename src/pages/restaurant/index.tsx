@@ -1,28 +1,28 @@
-import { css } from "@emotion/react";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react";
-import ArrowIcon from "./_assets/arrow.svg?react";
-import RestaurantLocationSection from "./_components/RestaurantLocationSection";
-import { useSearchParams } from "react-router-dom";
-import { useGetStoreDetailQuery } from "@/hooks/@server/store";
-import toast from "@/utils/toast";
-import RestaurantDetailHeader from "./_components/RestaurantDetailHeader";
-import MammaMiaButton from "./_components/MammaMiaButton";
-import RestaurantDetailImages from "@/components/RestaurantDetailImages";
-import RestaurantFacilities from "./_components/RestaurantFacilities";
-import RestaurantInformation from "./_components/RestaurantInformation";
-import RestaurantComment from "@/components/RestaurantComment";
-import RestaurantDetailBackground from "@/components/RestaurantDetailBackground";
-import CheerUpButton from "./_components/CheerUpButton";
-import CheerUpBadge from "@/assets/cheer_up_badge.svg?react";
+import { css } from "@emotion/react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react"
+import ArrowIcon from "./_assets/arrow.svg?react"
+import RestaurantLocationSection from "./_components/RestaurantLocationSection"
+import { useSearchParams } from "react-router-dom"
+import { useGetStoreDetailQuery } from "@/hooks/@server/store"
+import toast from "@/utils/toast"
+import RestaurantDetailHeader from "./_components/RestaurantDetailHeader"
+import MammaMiaButton from "./_components/MammaMiaButton"
+import RestaurantDetailImages from "@/components/RestaurantDetailImages"
+import RestaurantFacilities from "./_components/RestaurantFacilities"
+import RestaurantInformation from "./_components/RestaurantInformation"
+import RestaurantComment from "@/components/RestaurantComment"
+import RestaurantDetailBackground from "@/components/RestaurantDetailBackground"
+import CheerUpButton from "./_components/CheerUpButton"
+import CheerUpBadge from "@/assets/cheer_up_badge.svg?react"
 
 const RestaurantDetailPage = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams()
   const { data: storeDetail } = useGetStoreDetailQuery(
     Number(searchParams.get("id"))
-  );
-  const isChallenge = storeDetail.status === "CHALLENGE";
+  )
+  const isChallenge = storeDetail.status === "CHALLENGE"
 
   return (
     <div css={pageContainerStyle}>
@@ -46,9 +46,9 @@ const RestaurantDetailPage = () => {
               {(() => {
                 switch (storeDetail.status) {
                   case "CHALLENGE":
-                    return <CheerUpBadge />;
+                    return <CheerUpBadge />
                   case "APPROVED":
-                    return <MammaMiaBadge />;
+                    return <MammaMiaBadge />
                 }
               })()}
 
@@ -73,9 +73,9 @@ const RestaurantDetailPage = () => {
           {(() => {
             switch (storeDetail.status) {
               case "CHALLENGE":
-                return <CheerUpButton storeId={storeDetail.storeId} />;
+                return <CheerUpButton storeId={storeDetail.storeId} />
               case "APPROVED":
-                return <MammaMiaButton storeId={storeDetail.storeId} />;
+                return <MammaMiaButton storeId={storeDetail.storeId} />
             }
           })()}
 
@@ -124,7 +124,7 @@ const RestaurantDetailPage = () => {
               css={reportButtonStyle}
               type="button"
               onClick={() => {
-                toast({ message: "개발이 필요한 기능입니다." });
+                toast({ message: "개발이 필요한 기능입니다." })
               }}
             >
               <span css={reportTextStyle}>잘못된 정보 제보하기</span>
@@ -134,8 +134,8 @@ const RestaurantDetailPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 // 페이지 컨테이너 스타일
 const pageContainerStyle = css({
@@ -143,7 +143,7 @@ const pageContainerStyle = css({
   minHeight: "100vh",
   position: "relative",
   backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
-});
+})
 
 // 정보 카드 스타일
 const infoCardStyle = css({
@@ -157,21 +157,21 @@ const infoCardStyle = css({
   boxShadow:
     "0px 0px 6px 0px rgba(0, 0, 0, 0.05), 1px 1px 1px 0px rgba(0, 0, 0, 0.01), 1px 1px 1px 0px rgba(0, 0, 0, 0.01), inset -2px 2px 4px 0px rgba(255, 255, 255, 0.2)",
   backdropFilter: "blur(4px)",
-});
+})
 
 // 레스토랑 정보 섹션
 const restaurantInfoSectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 4,
-});
+})
 
 // 제목 섹션
 const titleSectionStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 2,
-});
+})
 
 // 카테고리 스타일
 const categoryStyle = css(
@@ -179,7 +179,7 @@ const categoryStyle = css(
     color: THEME.COLORS.GRAYSCALE.NEUTRAL,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 // 레스토랑 이름 스타일
 const restaurantNameStyle = css(
@@ -187,28 +187,28 @@ const restaurantNameStyle = css(
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.HEADERS["22B"]
-);
+)
 
 // 맘마미아 섹션
 const mammaMiaSectionStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 8,
-});
+})
 
 // 투표 정보
 const votingInfoStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 6,
-});
+})
 
 // 투표 아이템
 const votingItemStyle = css({
   display: "flex",
   alignItems: "center",
   gap: 4,
-});
+})
 
 // 투표 라벨
 const votingLabelStyle = css(
@@ -216,7 +216,7 @@ const votingLabelStyle = css(
     color: THEME.COLORS.GRAYSCALE.NEUTRAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 // 투표 숫자
 const votingNumberStyle = css(
@@ -224,7 +224,7 @@ const votingNumberStyle = css(
     color: THEME.COLORS.PRIMARY.RED,
   },
   TYPOGRAPHY.BODY["14SB"]
-);
+)
 
 // 구분자
 const separatorStyle = css({
@@ -234,7 +234,7 @@ const separatorStyle = css({
   fontWeight: 400,
   lineHeight: 1.4,
   letterSpacing: "-2%",
-});
+})
 
 // 섹션 제목
 const sectionTitleStyle = css(
@@ -243,19 +243,19 @@ const sectionTitleStyle = css(
     margin: 0,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 // 메뉴 섹션
 const menuSectionStyle = css({
   display: "flex",
   flexDirection: "column",
-});
+})
 
 // 메뉴 리스트
 const menuListStyle = css({
   display: "flex",
   flexDirection: "column",
-});
+})
 
 // 메뉴 아이템
 const menuItemStyle = css({
@@ -267,7 +267,7 @@ const menuItemStyle = css({
   "&:last-child": {
     borderBottom: "none",
   },
-});
+})
 
 // 메뉴 정보
 const menuInfoStyle = css({
@@ -275,7 +275,7 @@ const menuInfoStyle = css({
   flexDirection: "column",
   gap: 4,
   flex: 1,
-});
+})
 
 // 메뉴 제목
 const menuTitleStyle = css({
@@ -284,7 +284,7 @@ const menuTitleStyle = css({
   justifyContent: "center",
   alignSelf: "stretch",
   gap: 2,
-});
+})
 
 // 메뉴 이름
 const menuNameStyle = css(
@@ -292,7 +292,7 @@ const menuNameStyle = css(
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 // 메뉴 가격
 const menuPriceStyle = css(
@@ -300,7 +300,7 @@ const menuPriceStyle = css(
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 // 메뉴 이미지 컨테이너
 const menuImageContainerStyle = css({
@@ -308,7 +308,7 @@ const menuImageContainerStyle = css({
   height: 60,
   borderRadius: 3.33,
   overflow: "hidden",
-});
+})
 
 // 메뉴 이미지
 const menuImageStyle = css({
@@ -316,13 +316,13 @@ const menuImageStyle = css({
   height: 65,
   objectFit: "cover",
   margin: "-2.5px",
-});
+})
 
 // 제보 섹션
 const reportSectionStyle = css({
   padding: "12px 0 0",
   borderTop: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
-});
+})
 
 // 제보 버튼
 const reportButtonStyle = css({
@@ -334,7 +334,7 @@ const reportButtonStyle = css({
   backgroundColor: "transparent",
   border: "none",
   padding: 0,
-});
+})
 
 // 제보 텍스트
 const reportTextStyle = css(
@@ -342,7 +342,7 @@ const reportTextStyle = css(
     color: THEME.COLORS.GRAYSCALE.NEUTRAL,
   },
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
 const containerStyle = css({
   position: "absolute",
@@ -355,5 +355,5 @@ const containerStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 20,
-});
-export default RestaurantDetailPage;
+})
+export default RestaurantDetailPage

@@ -1,21 +1,21 @@
-import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard";
-import THEME from "@/constants/theme";
-import TYPOGRAPHY from "@/constants/typography";
-import { useGetSearchedStoresQuery } from "@/hooks/@server/store";
-import { css } from "@emotion/react";
-import { useSearchParams } from "react-router-dom";
-import EmptyFallbackUI from "./EmptyFallbackUI";
+import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
+import { useGetSearchedStoresQuery } from "@/hooks/@server/store"
+import { css } from "@emotion/react"
+import { useSearchParams } from "react-router-dom"
+import EmptyFallbackUI from "./EmptyFallbackUI"
 
 const RestaurantList = () => {
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("query") || "";
+  const [searchParams] = useSearchParams()
+  const query = searchParams.get("query") || ""
   const {
     data: { stores },
-  } = useGetSearchedStoresQuery({ keyword: query });
+  } = useGetSearchedStoresQuery({ keyword: query })
 
   // 검색 결과가 없는 경우 EmptyFallbackUI 표시
   if (stores.length === 0) {
-    return <EmptyFallbackUI />;
+    return <EmptyFallbackUI />
   }
 
   return (
@@ -30,10 +30,10 @@ const RestaurantList = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RestaurantList;
+export default RestaurantList
 
 const listStyle = css({
   display: "flex",
@@ -41,14 +41,14 @@ const listStyle = css({
   padding: "0 20px",
   width: "100%",
   flex: 1,
-});
+})
 
 const listContainerStyle = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   flex: 1,
-});
+})
 
 const resultHeaderStyle = css({
   display: "flex",
@@ -56,18 +56,18 @@ const resultHeaderStyle = css({
   gap: 2,
   padding: "0 20px 4px",
   width: "100%",
-});
+})
 
 const resultCountStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const resultNumberStyle = css(
   {
     color: THEME.COLORS.PRIMARY.RED,
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
