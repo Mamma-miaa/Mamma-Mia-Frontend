@@ -27,6 +27,7 @@ import { AnimatePresence } from "motion/react"
 
 import MoveToMyLocationButton from "./_components/MoveToMyLocationButton"
 import RefetchOnCurrentPositionButton from "./_components/RefetchOnCurrentPositionButton"
+import CustomOverlayContent from "./_components/CustomOverlayContent"
 
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null)
@@ -165,7 +166,6 @@ const MainPage = () => {
       overlay.setMap(null)
     })
     customOverlays.current = nearbyStore.items.map((restaurant) => {
-      const { category } = restaurant
       // 커스텀 오버레이 생성
       return new kakao.maps.CustomOverlay({
         map: kakaoMap.current!,
@@ -178,14 +178,7 @@ const MainPage = () => {
           class="overlay-restaurant-mark"
         >
           ${ReactDOMServer.renderToString(
-            (() => {
-              switch (restaurant.ranks.WEEKLY) {
-                case 1:
-                  return <OverlayMarker></OverlayMarker>
-                default:
-                  return
-              }
-            })()
+            <CustomOverlayContent restaurant={restaurant} />
           )}
         </div>`,
         yAnchor: 1,

@@ -1,64 +1,64 @@
-import THEME from "@/constants/theme";
-import { css } from "@emotion/react";
-import NewIcon from "@/pages/main/_assets/new.svg?react";
-import { useSearchParams } from "react-router-dom";
-import TYPOGRAPHY from "@/constants/typography";
-import type { components } from "@/apis/schema";
-import VIEWPORT from "@/constants/viewport";
-import styled from "@emotion/styled";
-import use필터링_바텀시트 from "./_hooks/use필터링_바텀시트";
-import EmptyIcon from "@/assets/empty_icon.svg?react";
-import { motion, usePresence } from "motion/react";
-import { useEffect } from "react";
-import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard";
+import THEME from "@/constants/theme"
+import { css } from "@emotion/react"
+import NewIcon from "@/pages/main/_assets/new.svg?react"
+import { useSearchParams } from "react-router-dom"
+import TYPOGRAPHY from "@/constants/typography"
+import type { components } from "@/apis/schema"
+import VIEWPORT from "@/constants/viewport"
+import styled from "@emotion/styled"
+import use필터링_바텀시트 from "./_hooks/use필터링_바텀시트"
+import EmptyIcon from "@/assets/empty_icon.svg?react"
+import { motion, usePresence } from "motion/react"
+import { useEffect } from "react"
+import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard"
 
 const RestaurantListPopup = ({
   data,
   totalCount, // 총 맛집 수
 }: {
-  data: components["schemas"]["GetNearByResponse"][];
-  totalCount: number;
+  data: components["schemas"]["GetNearByResponse"][]
+  totalCount: number
 }) => {
   const {
     handleClickCategoryChip,
     getCategoryChipLabel,
     handleClickPriceRangeChip,
     getPriceRangeChipLabel,
-  } = use필터링_바텀시트();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [isPresent, safeToRemove] = usePresence();
+  } = use필터링_바텀시트()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [isPresent, safeToRemove] = usePresence()
 
   const toggleNewChip = () => {
     setSearchParams(
       (prev) => {
         if (prev.has("isNew")) {
-          prev.delete("isNew");
+          prev.delete("isNew")
         } else {
-          prev.set("isNew", "true");
+          prev.set("isNew", "true")
         }
-        return prev;
+        return prev
       },
       { replace: true }
-    );
-  };
+    )
+  }
 
   const toggleIsOpenChip = () => {
     setSearchParams(
       (prev) => {
         if (prev.has("isOpen")) {
-          prev.delete("isOpen");
+          prev.delete("isOpen")
         } else {
-          prev.set("isOpen", "true");
+          prev.set("isOpen", "true")
         }
-        return prev;
+        return prev
       },
       { replace: true }
-    );
-  };
+    )
+  }
 
   useEffect(() => {
-    !isPresent && setTimeout(safeToRemove, 1000);
-  }, [isPresent]);
+    !isPresent && setTimeout(safeToRemove, 1000)
+  }, [isPresent])
 
   return (
     <motion.div
@@ -134,8 +134,8 @@ const RestaurantListPopup = ({
         </div>
       )}
     </motion.div>
-  );
-};
+  )
+}
 
 const popupContainerStyle = css({
   maxWidth: VIEWPORT.MAX_WIDTH,
@@ -148,7 +148,7 @@ const popupContainerStyle = css({
   transform: "translateX(-50%)",
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
   zIndex: 1000,
-});
+})
 
 const filterContainerStyle = css({
   position: "sticky",
@@ -159,7 +159,7 @@ const filterContainerStyle = css({
   alignItems: "center",
   gap: 8,
   zIndex: 10,
-});
+})
 
 const totalCountContainerStyle = css(
   {
@@ -169,15 +169,15 @@ const totalCountContainerStyle = css(
     padding: "0 20px 4px 20px",
   },
   TYPOGRAPHY.HEADERS["16SB"]
-);
+)
 
 const totalCountLabelStyle = css({
   color: THEME.COLORS.GRAYSCALE.NORMAL,
-});
+})
 
 const totalCountNumberStyle = css({
   color: THEME.COLORS.PRIMARY.RED,
-});
+})
 
 const emptyStateContainerStyle = css({
   display: "flex",
@@ -185,20 +185,20 @@ const emptyStateContainerStyle = css({
   alignItems: "center",
   height: "calc(100vh - 200px)",
   padding: "40px 20px",
-});
+})
 
 const emptyStateContentStyle = css({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   gap: 20,
-});
+})
 
 const emptyStateIconStyle = css({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-});
+})
 
 const emptyStateTextStyle = css(
   {
@@ -206,7 +206,7 @@ const emptyStateTextStyle = css(
     color: "rgba(55, 56, 60, 0.61)",
   },
   TYPOGRAPHY.BODY["14R"]
-);
+)
 
 const FilterChip = styled.button(
   ({ isSelected }: { isSelected: boolean }) => ({
@@ -230,6 +230,6 @@ const FilterChip = styled.button(
     },
   }),
   TYPOGRAPHY.SUB["12R"]
-);
+)
 
-export default RestaurantListPopup;
+export default RestaurantListPopup
