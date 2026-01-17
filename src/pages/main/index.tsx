@@ -10,19 +10,13 @@ import { Virtual } from "swiper/modules"
 import "swiper/css"
 import "swiper/css/virtual"
 import { useNavigate, useSearchParams } from "react-router-dom"
-
 import TopNavigation from "./_components/TopNavigation"
 import { useGetNearbyStoreQuery } from "@/hooks/@server/store"
 import VIEWPORT from "@/constants/viewport"
 import PopupToggleButton from "./_components/PopupToggleButton"
-import {
-  충무로역_좌표,
-  딤_영역,
-  서비스_영역,
-} from "./_constants"
+import { 충무로역_좌표, 딤_영역, 서비스_영역 } from "./_constants"
 import RestaurantListPopup from "./_components/RestaurantListPopup"
 import { AnimatePresence } from "motion/react"
-
 import MoveToMyLocationButton from "./_components/MoveToMyLocationButton"
 import RefetchOnCurrentPositionButton from "./_components/RefetchOnCurrentPositionButton"
 import CustomOverlayContent from "./_components/CustomOverlayContent"
