@@ -7,6 +7,7 @@ import ToggleButton from "@/@lib/components/ToggleButton"
 import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard"
 import { useGetRankingQuery } from "@/hooks/@server/store"
 import BottomGNB from "@/components/BottomGNB"
+import Spacing from "@/@lib/components/Spacing"
 
 const PERIOD_TYPE = {
   WEEKLY: "WEEKLY",
@@ -94,6 +95,7 @@ const RankingPage = () => {
           ))}
         </div>
       </div>
+      <Spacing size={64} />
       <BottomGNB />
     </>
   )

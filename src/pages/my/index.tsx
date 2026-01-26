@@ -25,6 +25,7 @@ const MyPage = () => {
       <MyChallengeStatusSection />
       <Spacing size={20} />
       <BottomSection />
+      <Spacing size={64} />
       <BottomGNB />
     </div>
   )
