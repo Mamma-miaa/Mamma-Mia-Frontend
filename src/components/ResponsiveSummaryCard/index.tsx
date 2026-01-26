@@ -123,15 +123,41 @@ const ResponsiveSummaryCard = ({
           <h3 css={restaurantNameStyle}>{restaurant.name}</h3>
         </div>
         <div css={locationSectionStyle}>
-          <div css={locationInfoStyle}>
-            <LocationIcon />
-            <span css={locationTextStyle}>충무로 역으로부터</span>
-          </div>
-          {"distanceMeters" in restaurant && (
-            <span css={distanceStyle}>
-              {Math.round(restaurant.distanceMeters).toLocaleString()}m
-            </span>
-          )}
+          {(() => {
+            if ("distanceMeters" in restaurant) {
+              return (
+                <>
+                  <div css={locationInfoStyle}>
+                    <LocationIcon />
+                    <span css={locationTextStyle}>충무로 역으로부터</span>
+                  </div>
+                  <span css={distanceStyle}>
+                    {Math.round(restaurant.distanceMeters).toLocaleString()}m
+                  </span>
+                </>
+              )
+            }
+
+            if (
+              "distanceToStationMeters" in restaurant &&
+              restaurant.distanceToStationMeters
+            ) {
+              return (
+                <>
+                  <div css={locationInfoStyle}>
+                    <LocationIcon />
+                    <span css={locationTextStyle}>충무로 역으로부터</span>
+                  </div>
+                  <span css={distanceStyle}>
+                    {Math.round(
+                      restaurant.distanceToStationMeters
+                    ).toLocaleString()}
+                    m
+                  </span>
+                </>
+              )
+            }
+          })()}
           {"isOpen" in restaurant && restaurant.isOpen && (
             <>
               <div css={statusDotStyle} />
@@ -263,6 +289,7 @@ const distanceStyle = css(
   {
     textAlign: "center",
     color: THEME.COLORS.PRIMARY.RED,
+    marginLeft: 2,
   },
   TYPOGRAPHY.SUB["12B"]
 )
