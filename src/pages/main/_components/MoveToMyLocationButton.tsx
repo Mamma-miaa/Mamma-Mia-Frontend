@@ -1,5 +1,7 @@
 import { css } from "@emotion/react"
 import MyLocationIcon from "../_assets/my_location.svg?react"
+import { getIsLoggedIn } from "@/utils/sessionStorage"
+import { openLoginModal } from "@/components/ConfirmModal/utils"
 
 interface MoveToMyLocationButtonProps {
   kakaoMap: React.RefObject<kakao.maps.Map | null>
@@ -10,7 +12,14 @@ const MoveToMyLocationButton = ({
   kakaoMap,
   onLocationUpdate,
 }: MoveToMyLocationButtonProps) => {
-  const handleClick = () => {
+  const handleClick = async () => {
+    // 로그인 상태 확인
+    if (!getIsLoggedIn()) {
+      await openLoginModal()
+      return
+    }
+
+    // 로그인 상태일 때만 위치 정보 가져오기
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords

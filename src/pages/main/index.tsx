@@ -117,7 +117,7 @@ const MainPage = () => {
       searchParams.has("maxLongitude"),
     ].every(Boolean)
 
-    const myLocation = {
+    const myLocation = {  
       lat: hasInitialBounds
         ? (Number(searchParams.get("minLatitude")) +
             Number(searchParams.get("maxLatitude"))) /
