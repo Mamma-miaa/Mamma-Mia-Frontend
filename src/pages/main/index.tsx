@@ -20,6 +20,7 @@ import { AnimatePresence } from "motion/react"
 import MoveToMyLocationButton from "./_components/MoveToMyLocationButton"
 import RefetchOnCurrentPositionButton from "./_components/RefetchOnCurrentPositionButton"
 import CustomOverlayContent from "./_components/CustomOverlayContent"
+import MyLocationOverlayContent from "./_components/MyLocationOverlayContent"
 
 const MainPage = () => {
   const mapRef = useRef<HTMLDivElement>(null)
@@ -28,6 +29,7 @@ const MainPage = () => {
 
   const [searchParams, setSearchParams] = useSearchParams()
   const customOverlays = useRef<kakao.maps.CustomOverlay[]>([])
+  const myLocationOverlay = useRef<kakao.maps.CustomOverlay | null>(null)
 
   // 지도_모서리 상태를 searchParams로 관리
   const 지도_모서리 = {
@@ -84,6 +86,27 @@ const MainPage = () => {
 
   const navigate = useNavigate()
 
+  const showMyLocationMarker = (latitude: number, longitude: number) => {
+    if (!kakaoMap.current) return
+
+    // 기존 마커가 있으면 제거
+    if (myLocationOverlay.current) {
+      myLocationOverlay.current.setMap(null)
+    }
+
+    // 새로운 마커 생성
+    myLocationOverlay.current = new kakao.maps.CustomOverlay({
+      map: kakaoMap.current,
+      position: new kakao.maps.LatLng(latitude, longitude),
+      content: /* HTML */ `<div id="my-location-overlay">
+        ${ReactDOMServer.renderToString(<MyLocationOverlayContent />)}
+      </div>`,
+      yAnchor: 0.5,
+      xAnchor: 0.5,
+      zIndex: 2000,
+    })
+  }
+
   useEffect(() => {
     if (!mapRef.current) return
 
@@ -94,7 +117,7 @@ const MainPage = () => {
       searchParams.has("maxLongitude"),
     ].every(Boolean)
 
-    const myLocation = {
+    const myLocation = {  
       lat: hasInitialBounds
         ? (Number(searchParams.get("minLatitude")) +
             Number(searchParams.get("maxLatitude"))) /
@@ -206,7 +229,10 @@ const MainPage = () => {
               css={searchInputStyle}
               onClick={() => navigate("/search")}
             />
-            <MoveToMyLocationButton kakaoMap={kakaoMap} />
+            <MoveToMyLocationButton
+              kakaoMap={kakaoMap}
+              onLocationUpdate={showMyLocationMarker}
+            />
           </div>
           <Spacing size={12} />
           <TopNavigation />
