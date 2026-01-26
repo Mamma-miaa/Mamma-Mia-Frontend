@@ -4,7 +4,7 @@ import type { ComponentProps } from "react"
 import TYPOGRAPHY from "@/constants/typography"
 import THEME from "@/constants/theme"
 import type { components } from "@/apis/schema"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 
 import ranking_1st_weekly from "./_assets/badge_ranking_w1.webp"
 import ranking_2nd_weekly from "./_assets/badge_ranking_w2.webp"
@@ -47,12 +47,19 @@ const getRankingBadge = (
   return ""
 }
 
+const isPeriodType = (
+  period: string | null | undefined
+): period is "WEEKLY" | "MONTHLY" => {
+  return period === "WEEKLY" || period === "MONTHLY"
+}
+
 const ResponsiveSummaryCard = ({
   restaurant,
   rankingType: propsRankingType,
   ...props
 }: SummaryCardProps) => {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
   // 랭킹 정보 추출 로직
   const getRankInfo = () => {
@@ -69,6 +76,17 @@ const ResponsiveSummaryCard = ({
       if (ranks.WEEKLY) return { rank: ranks.WEEKLY, type: "WEEKLY" as const }
       if (ranks.MONTHLY)
         return { rank: ranks.MONTHLY, type: "MONTHLY" as const }
+    }
+
+    if ("rank" in restaurant && restaurant.rank) {
+      const period = searchParams.get("period")
+      if (isPeriodType(period)) {
+        return {
+          rank: restaurant.rank,
+          type: period,
+        }
+      }
+      return { rank: restaurant.rank, type: "WEEKLY" as const }
     }
 
     return { rank: undefined, type: undefined }
