@@ -17,9 +17,9 @@ const RestaurantComment = ({
     <div css={containerStyle}>
       <div css={headerStyle}>
         <div css={avatarStyle}>
-          {storeDetail.images?.[0] ? (
+          {storeDetail.commentAuthor?.profileImage ? (
             <img
-              src={storeDetail.images?.[0]}
+              src={storeDetail.commentAuthor?.profileImage}
               alt={storeDetail.name}
               css={avatarImageStyle}
             />
@@ -28,7 +28,9 @@ const RestaurantComment = ({
           )}
         </div>
         <p css={nicknameStyle}>
-          {storeDetail.commentAuthor?.nickname}님의 Comment
+          {storeDetail.commentAuthor?.nickname ??
+            `${storeDetail.commentAuthor?.nickname}}님의`}{" "}
+          Comment
         </p>
       </div>
       <p css={commentStyle}>{storeDetail.comment}</p>
