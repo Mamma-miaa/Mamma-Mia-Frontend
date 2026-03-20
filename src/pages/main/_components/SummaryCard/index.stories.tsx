@@ -32,7 +32,7 @@ export const Default: Story = {
     category: "국밥·탕/찌개",
     restaurantName: "계림닭도리탕 충무로직영점",
     distance: "380m",
-    restaurantImageUrl: "https://placehold.co/78x78",
+    restaurantImageUrl: "https://static.mamma-mia.site/store-image/empty.webp",
   },
 }
 
@@ -41,7 +41,7 @@ export const LongName: Story = {
     category: "한식",
     restaurantName: "매우 긴 레스토랑 이름을 가진 맛집입니다",
     distance: "1.2km",
-    restaurantImageUrl: "https://placehold.co/78x78",
+    restaurantImageUrl: "https://static.mamma-mia.site/store-image/empty.webp",
   },
 }
 
@@ -50,6 +50,6 @@ export const ShortDistance: Story = {
     category: "카페",
     restaurantName: "스타벅스",
     distance: "50m",
-    restaurantImageUrl: "https://placehold.co/78x78",
+    restaurantImageUrl: "https://static.mamma-mia.site/store-image/empty.webp",
   },
 }

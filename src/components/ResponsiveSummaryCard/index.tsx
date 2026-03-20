@@ -112,7 +112,9 @@ const ResponsiveSummaryCard = ({
     >
       <div css={imageContainerStyle(isRanked)}>
         <img
-          src={imageUrl ?? "https://placehold.co/78x78"}
+          src={
+            imageUrl ?? "https://static.mamma-mia.site/store-image/empty.webp"
+          }
           alt={restaurant.name}
           width={isRanked ? 86 : 92}
           height={isRanked ? 86 : 92}

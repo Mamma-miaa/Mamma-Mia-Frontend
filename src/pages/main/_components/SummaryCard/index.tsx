@@ -14,7 +14,10 @@ const SummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
   return (
     <div css={containerStyle} {...props}>
       <img
-        src={restaurant.imageUrl ?? "https://placehold.co/78x78"}
+        src={
+          restaurant.imageUrl ??
+          "https://static.mamma-mia.site/store-image/empty.webp"
+        }
         alt={restaurant.name}
         width={92}
         height={92}
