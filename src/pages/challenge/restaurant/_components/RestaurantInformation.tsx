@@ -105,6 +105,7 @@ const RestaurantInformation = ({ storeDetail }: RestaurantInformationProps) => {
             <div css={infoRowStyle}>
               <span css={infoTextStyle}>{storeDetail.address}</span>
               <ClipBoardIcon
+                css={clipBoardIconStyle}
                 onClick={() => {
                   navigator.clipboard.writeText(storeDetail.address)
                   toast({ message: "주소가 복사가 완료되었습니다." })
@@ -217,23 +218,36 @@ const emojiIconStyle = css({
 const infoContentStyle = css({
   display: "flex",
   flexDirection: "column",
+  flex: 1,
+  minWidth: 0,
 })
 
 // 정보 행
 const infoRowStyle = css({
   display: "flex",
-  alignItems: "center",
+  alignItems: "flex-start",
   gap: 4,
-  height: 24,
+  width: "100%",
 })
 
 // 정보 텍스트
 const infoTextStyle = css(
   {
     color: THEME.COLORS.GRAYSCALE.NORMAL,
+    flex: 1,
+    minWidth: 0,
+    display: "-webkit-box",
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    wordBreak: "keep-all",
   },
   TYPOGRAPHY.BODY["14R"]
 )
+
+const clipBoardIconStyle = css({
+  flexShrink: 0,
+})
 
 // 거리 행
 const distanceRowStyle = css({
