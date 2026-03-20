@@ -64,6 +64,7 @@ const containerStyle = css({
 
 const restaurantImageStyle = css({
   objectFit: "cover",
+  aspectRatio: "1/1",
   borderRadius: 4,
   margin: -3,
 })
