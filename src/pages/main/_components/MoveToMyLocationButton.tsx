@@ -28,9 +28,7 @@ const MoveToMyLocationButton = ({
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords
-        kakaoMap.current?.setCenter(
-          new kakao.maps.LatLng(latitude, longitude)
-        )
+        kakaoMap.current?.setCenter(new kakao.maps.LatLng(latitude, longitude))
         onLocationUpdate?.(latitude, longitude)
       },
       (error) => {
@@ -56,4 +54,8 @@ const locationButtonStyle = css({
   border: "none",
   cursor: "pointer",
   flex: "none",
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 })
