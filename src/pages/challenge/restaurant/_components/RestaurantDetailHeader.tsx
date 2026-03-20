@@ -22,7 +22,6 @@ const RestaurantDetailHeader = ({
   const handleShare = () => {
     window.navigator.share({
       title: storeDetail?.name,
-      text: storeDetail?.name,
       url: window.location.href,
     })
   }
