@@ -16,6 +16,7 @@ import RestaurantComment from "@/components/RestaurantComment"
 import RestaurantDetailBackground from "@/components/RestaurantDetailBackground"
 import CheerUpButton from "./_components/CheerUpButton"
 import CheerUpBadge from "@/assets/cheer_up_badge.svg?react"
+import { EMPTY_IMAGE_URL } from "@/constants/setting"
 
 const RestaurantDetailPage = () => {
   const [searchParams] = useSearchParams()
@@ -28,7 +29,7 @@ const RestaurantDetailPage = () => {
     <div css={pageContainerStyle}>
       <RestaurantDetailHeader storeDetail={storeDetail} />
       <RestaurantDetailBackground
-        imgUrl={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
+        imgUrl={storeDetail?.images?.[0] || EMPTY_IMAGE_URL}
       />
       <div css={containerStyle}>
         <RestaurantDetailImages imgUrls={storeDetail?.images ?? []} />
@@ -90,7 +91,7 @@ const RestaurantDetailPage = () => {
                 <div css={menuItemStyle} key={menu.name}>
                   <div css={menuImageContainerStyle}>
                     <img
-                      src={menu.imageUrl ?? "https://placehold.co/60x60"}
+                      src={menu.imageUrl || EMPTY_IMAGE_URL}
                       alt={menu.name}
                       css={menuImageStyle}
                     />

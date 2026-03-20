@@ -4,6 +4,7 @@ import type { ComponentProps } from "react"
 import TYPOGRAPHY from "@/constants/typography"
 import THEME from "@/constants/theme"
 import type { components } from "@/apis/schema"
+import { EMPTY_IMAGE_URL } from "@/constants/setting"
 
 // Import Swiper styles
 interface SummaryCardProps extends ComponentProps<"div"> {
@@ -14,10 +15,7 @@ const SummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
   return (
     <div css={containerStyle} {...props}>
       <img
-        src={
-          restaurant.imageUrl ??
-          "https://static.mamma-mia.site/store-image/empty.webp"
-        }
+        src={restaurant.imageUrl || EMPTY_IMAGE_URL}
         alt={restaurant.name}
         width={92}
         height={92}

@@ -14,6 +14,7 @@ import RestaurantInformation from "./_components/RestaurantInformation"
 import RestaurantComment from "@/components/RestaurantComment"
 import ReviewStatusSection from "./_components/ReviewStatusSection"
 import RestaurantDetailBackground from "@/components/RestaurantDetailBackground"
+import { EMPTY_IMAGE_URL } from "@/constants/setting"
 
 const ChallengeRestaurantDetailPage = () => {
   const [searchParams] = useSearchParams()
@@ -25,7 +26,7 @@ const ChallengeRestaurantDetailPage = () => {
     <div css={pageContainerStyle}>
       <RestaurantDetailHeader storeDetail={storeDetail} />
       <RestaurantDetailBackground
-        imgUrl={storeDetail?.images?.[0] ?? "https://placehold.co/375x460"}
+        imgUrl={storeDetail?.images?.[0] ?? EMPTY_IMAGE_URL}
       />
       <div css={containerStyle}>
         <ReviewStatusSection storeDetail={storeDetail} />

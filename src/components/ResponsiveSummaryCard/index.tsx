@@ -12,6 +12,7 @@ import ranking_3rd_weekly from "./_assets/badge_ranking_w3.webp"
 import ranking_1st_monthly from "./_assets/badge_ranking_m1.webp"
 import ranking_2nd_monthly from "./_assets/badge_ranking_m2.webp"
 import ranking_3rd_monthly from "./_assets/badge_ranking_m3.webp"
+import { EMPTY_IMAGE_URL } from "@/constants/setting"
 
 // Import Swiper styles
 interface SummaryCardProps extends ComponentProps<"div"> {
@@ -112,9 +113,7 @@ const ResponsiveSummaryCard = ({
     >
       <div css={imageContainerStyle(isRanked)}>
         <img
-          src={
-            imageUrl ?? "https://static.mamma-mia.site/store-image/empty.webp"
-          }
+          src={imageUrl ?? EMPTY_IMAGE_URL}
           alt={restaurant.name}
           width={isRanked ? 86 : 92}
           height={isRanked ? 86 : 92}

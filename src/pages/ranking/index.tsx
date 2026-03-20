@@ -8,6 +8,7 @@ import ResponsiveSummaryCard from "@/components/ResponsiveSummaryCard"
 import { useGetRankingQuery } from "@/hooks/@server/store"
 import BottomGNB from "@/components/BottomGNB"
 import Spacing from "@/@lib/components/Spacing"
+import { EMPTY_IMAGE_URL } from "@/constants/setting"
 
 const PERIOD_TYPE = {
   WEEKLY: "WEEKLY",
@@ -39,7 +40,7 @@ const RankingPage = () => {
 
         {/* 헤더 영역 - 배경 이미지와 그라데이션 마스크 */}
         <img
-          src={"https://placehold.co/375x460"}
+          src={EMPTY_IMAGE_URL}
           alt="레스토랑 배경 이미지"
           css={restaurantBackgroundImageStyle}
         />

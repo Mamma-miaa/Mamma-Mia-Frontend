@@ -1,5 +1,5 @@
-import { EMPTY_IMAGE_URL } from "@/constants/setting"
 import { css } from "@emotion/react"
+import { EMPTY_IMAGE_URL } from "@/constants/setting"
 
 const RestaurantDetailImages = ({ imgUrls }: { imgUrls: string[] }) => {
   return (

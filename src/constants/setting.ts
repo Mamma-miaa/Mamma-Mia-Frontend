@@ -1,0 +1,1 @@
+export const EMPTY_IMAGE_URL = "https://static.mamma-mia.site/store-image/empty.webp"
