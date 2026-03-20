@@ -194,7 +194,7 @@ const emptyCardStyle = css({
   alignItems: "center",
   justifyContent: "center",
   gap: 12,
-  width: 311,
+  width: "100%",
   height: 116,
   flex: "none",
   cursor: "pointer",
