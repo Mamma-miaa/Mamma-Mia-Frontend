@@ -4,6 +4,7 @@ import { css } from "@emotion/react"
 import MammaMiaBadge from "@/assets/mamma_mia_badge.svg?react"
 import type { components } from "@/apis/schema"
 import { useGetStoreDetailQuery } from "@/hooks/@server/store"
+import { useNavigate } from "react-router-dom"
 
 const NewRestaurantCard = ({
   restaurant,
@@ -12,8 +13,13 @@ const NewRestaurantCard = ({
 }) => {
   const { data: storeDetail } = useGetStoreDetailQuery(restaurant.storeId)
 
+  const navigate = useNavigate()
+  const handleClickRestaurant = () => {
+    navigate(`/restaurant?id=${restaurant.storeId}`)
+  }
+
   return (
-    <div css={restaurantCardStyle}>
+    <div css={restaurantCardStyle} onClick={handleClickRestaurant}>
       <div css={restaurantCardHeaderStyle}>
         <div css={restaurantCardTitleSectionStyle}>
           <span css={restaurantCategoryStyle}>{restaurant.category}</span>
