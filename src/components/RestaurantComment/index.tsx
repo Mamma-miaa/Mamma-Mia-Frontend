@@ -28,8 +28,8 @@ const RestaurantComment = ({
           )}
         </div>
         <p css={nicknameStyle}>
-          {storeDetail.commentAuthor?.nickname ??
-            `${storeDetail.commentAuthor?.nickname}}님의`}{" "}
+          {storeDetail.commentAuthor?.nickname &&
+            `${storeDetail.commentAuthor?.nickname}님의`}{" "}
           Comment
         </p>
       </div>
