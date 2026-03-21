@@ -120,6 +120,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/store": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/member/profile-update": {
         parameters: {
             query?: never;
@@ -134,6 +150,22 @@ export interface paths {
         options?: never;
         head?: never;
         patch: operations["patch_1"];
+        trace?: never;
+    };
+    "/api/v1/admin/store/{storeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["update"];
         trace?: never;
     };
     "/api/v1/store/search": {
@@ -314,6 +346,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/store/list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["list_6"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/": {
         parameters: {
             query?: never;
@@ -485,6 +533,116 @@ export interface components {
             accessToken: string;
             /** @description Refresh Token */
             refreshToken: string;
+        };
+        AdminStoreBusinessHour: {
+            /**
+             * @description 요일
+             * @enum {string}
+             */
+            dayOfWeek: "MONDAY" | "TUESDAY" | "WEDNESDAY" | "THURSDAY" | "FRIDAY" | "SATURDAY" | "SUNDAY";
+            /**
+             * @description 오픈 시간
+             * @example 10:00
+             */
+            openTime: string;
+            /**
+             * @description 마감 시간
+             * @example 22:00
+             */
+            closeTime: string;
+            /**
+             * @description 휴게 시작
+             * @example 15:00
+             */
+            breakStart: string;
+            /**
+             * @description 휴게 종료
+             * @example 17:00
+             */
+            breakEnd: string;
+            /**
+             * @description 마지막 주문
+             * @example 21:30
+             */
+            lastOrder: string;
+            /** @description 휴무 여부 */
+            closed: boolean;
+        };
+        AdminStoreFacility: {
+            /** @description 주차 가능 */
+            parking: boolean;
+            /** @description 포장 가능 */
+            takeout: boolean;
+            /** @description 배달 가능 */
+            delivery: boolean;
+            /** @description 내부 화장실 */
+            indoorRestroom: boolean;
+            /** @description 외부 화장실 */
+            outdoorRestroom: boolean;
+            /** @description 단체석 */
+            groupSeating: boolean;
+        };
+        AdminStoreMenu: {
+            /** @description 메뉴 이름 */
+            name: string;
+            /**
+             * Format: int32
+             * @description 가격
+             */
+            price: number;
+            /** @description 메뉴 이미지 URL */
+            imageUrl: string;
+            /**
+             * Format: int32
+             * @description 업로드된 이미지 인덱스
+             */
+            imageUploadIndex: number;
+        };
+        /** @description 어드민 가게 등록/수정 요청 */
+        AdminUpsertStoreRequest: {
+            /**
+             * Format: int64
+             * @description 가게 ID (수정 시 필요)
+             */
+            storeId: number;
+            /** @description 가게 이름 */
+            name: string;
+            /** @description 코멘트 */
+            comment: string;
+            /** @description 카테고리 이름 */
+            category: string;
+            /** @description 가까운 역 이름 */
+            stationName: string;
+            /** @description 주소 */
+            address: string;
+            /**
+             * Format: double
+             * @description 위도
+             */
+            latitude: number;
+            /**
+             * Format: double
+             * @description 경도
+             */
+            longitude: number;
+            /** @description 가게 상태 (NORMAL|CHALLENGE) */
+            status: string;
+            /** @description 가게 이미지 URL 목록 */
+            storeImageUrls: string[];
+            /** @description 영업 시간 목록 */
+            businessHours: components["schemas"]["AdminStoreBusinessHour"][];
+            /** @description 편의시설 */
+            facilities: components["schemas"]["AdminStoreFacility"];
+            /** @description 메뉴 목록 */
+            menus: components["schemas"]["AdminStoreMenu"][];
+        };
+        /** @description 어드민 가게 등록/수정 응답 */
+        AdminUpsertStoreResponse: {
+            /**
+             * Format: int64
+             * @description 가게 ID
+             */
+            storeId: number;
         };
         PatchProfileRequest: {
             nickname: string;
@@ -1060,6 +1218,11 @@ export interface components {
             /** Format: int32 */
             pageSize: number;
         };
+        /** @description 어드민 가게 목록 응답 */
+        AdminStoreListResponse: {
+            /** @description 가게 목록 */
+            stores: components["schemas"]["Store"][];
+        };
     };
     responses: never;
     parameters: never;
@@ -1332,6 +1495,34 @@ export interface operations {
             };
         };
     };
+    create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": {
+                    request: components["schemas"]["AdminUpsertStoreRequest"];
+                    storeImages?: string[];
+                    menuImages?: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminUpsertStoreResponse"];
+                };
+            };
+        };
+    };
     patch_1: {
         parameters: {
             query?: never;
@@ -1354,6 +1545,36 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                storeId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": {
+                    request: components["schemas"]["AdminUpsertStoreRequest"];
+                    storeImages?: string[];
+                    menuImages?: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminUpsertStoreResponse"];
+                };
             };
         };
     };
@@ -1623,6 +1844,29 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["GetMyBookmarkStoreResponses"];
+                };
+            };
+        };
+    };
+    list_6: {
+        parameters: {
+            query?: {
+                keyword?: string;
+                size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminStoreListResponse"];
                 };
             };
         };
