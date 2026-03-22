@@ -11,6 +11,7 @@ import SearchResultPage from "./pages/search/result"
 import ChallengeRegistrationPage from "./pages/challenge/registration"
 import ChallengePage from "./pages/challenge"
 import ChallengeRestaurantDetailPage from "./pages/challenge/restaurant"
+import AdminPage from "./pages/admin"
 
 const router = createBrowserRouter([
   {
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
             element: <ChallengeRestaurantDetailPage />,
           },
         ],
+      },
+      {
+        path: "/admin",
+        element: <AdminPage />,
       },
     ],
   },
