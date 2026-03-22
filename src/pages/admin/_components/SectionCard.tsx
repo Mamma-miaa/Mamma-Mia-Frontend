@@ -6,16 +6,18 @@ import type { ReactNode } from "react"
 interface SectionCardProps {
   title?: string
   children: ReactNode
-  actions?: ReactNode
   gap?: number
 }
 
-const SectionCard = ({ title, children, actions, gap = 12 }: SectionCardProps) => {
+const SectionCard = ({
+  title,
+  children,
+  gap = 12,
+}: SectionCardProps) => {
   return (
     <section css={[cardStyle, css({ gap })]}>
       <header css={headerStyle}>
         {title && <h2 css={titleStyle}>{title}</h2>}
-        {actions}
       </header>
       <div>{children}</div>
     </section>

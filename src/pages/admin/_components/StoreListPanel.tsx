@@ -72,11 +72,17 @@ const StoreListPanel = ({
           선택 ID 불러오기
         </button>
       </div>
-      <span css={statusTextStyle}>{isLoading ? "목록 조회 중..." : statusText}</span>
+      <span css={statusTextStyle}>
+        {isLoading ? "목록 조회 중..." : statusText}
+      </span>
 
       <div css={listStyle}>
         {stores?.map((store) => (
-          <div key={store.storeId} css={itemStyle}>
+          <div
+            key={store.storeId}
+            css={itemStyle}
+            onClick={() => onSelectStore(store.storeId)}
+          >
             <div css={rowBetweenStyle}>
               <div css={itemInfoStyle}>
                 <strong css={itemTitleStyle}>{store.name}</strong>
@@ -84,12 +90,6 @@ const StoreListPanel = ({
                   #{store.storeId} · {store.category}
                 </span>
               </div>
-              <button
-                css={primaryButtonStyle}
-                onClick={() => onSelectStore(store.storeId)}
-              >
-                불러오기
-              </button>
             </div>
           </div>
         ))}
@@ -125,6 +125,7 @@ const itemStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 8,
+  cursor: "pointer",
 })
 
 const rowBetweenStyle = css({
