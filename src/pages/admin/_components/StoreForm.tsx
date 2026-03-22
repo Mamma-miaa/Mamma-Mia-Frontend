@@ -18,7 +18,6 @@ interface StoreFormProps {
   menus: MenuState[]
   storeImageFiles: File[]
   isSaving: boolean
-  saveStatusText: string
   onBasicChange: (field: keyof BasicFormState, value: string) => void
   onStoreImageUrlChange: (index: number, value: string) => void
   onAddStoreImageUrl: () => void
@@ -46,7 +45,6 @@ const StoreForm = ({
   facilities,
   menus,
   isSaving,
-  saveStatusText,
   onBasicChange,
   onStoreImageUrlChange,
   onAddStoreImageUrl,
@@ -281,14 +279,17 @@ const StoreForm = ({
         </div>
       </SectionCard>
 
-      <SectionCard title="저장" actions={<span css={statusTextStyle}>{isSaving ? "저장 중..." : saveStatusText}</span>}>
-        <div css={actionsStyle}>
-          <button css={primaryButtonStyle} disabled={isSaving} onClick={onSave}>
-            저장하기
-          </button>
-          <button css={ghostButtonStyle} onClick={onReset}>
-            폼 초기화
-          </button>
+      <SectionCard title="저장">
+        <div css={saveSectionStyle}>
+          {isSaving && <span css={statusTextStyle}>저장 중...</span>}
+          <div css={actionsStyle}>
+            <button css={primaryButtonStyle} disabled={isSaving} onClick={onSave}>
+              저장하기
+            </button>
+            <button css={ghostButtonStyle} onClick={onReset}>
+              폼 초기화
+            </button>
+          </div>
         </div>
       </SectionCard>
     </div>
@@ -317,6 +318,12 @@ const rowStyle = css({
   gap: 10,
   flexWrap: "wrap",
   alignItems: "center",
+})
+
+const saveSectionStyle = css({
+  display: "flex",
+  flexDirection: "column",
+  gap: 8,
 })
 
 const actionsStyle = css({

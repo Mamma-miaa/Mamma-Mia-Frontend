@@ -66,9 +66,6 @@ function AdminPage() {
   const [sizeInput, setSizeInput] = useState("20")
   const [listKeyword, setListKeyword] = useState("")
   const [listSize, setListSize] = useState(20)
-  const [loadStatusText, setLoadStatusText] = useState("")
-  const [saveStatusText, setSaveStatusText] = useState("")
-
   const [basicFormState, setBasicFormState] = useState<BasicFormState>(
     buildInitialBasicFormState
   )
@@ -198,7 +195,6 @@ function AdminPage() {
     setBusinessHours(buildInitialBusinessHours())
     setFacilities(buildInitialFacilities())
     setMenus(buildInitialMenus())
-    setSaveStatusText("")
   }
 
   const handleAddMenu = () => {
@@ -227,7 +223,6 @@ function AdminPage() {
   }
 
   const handleLoadStoreList = async () => {
-    setLoadStatusText("목록 불러오는 중...")
     const nextKeyword = keywordInput.trim()
     const parsedSize = Number(sizeInput)
     const nextSize =
@@ -236,7 +231,6 @@ function AdminPage() {
     setListKeyword(nextKeyword)
     setListSize(nextSize)
     await refetchAdminStoreList()
-    setLoadStatusText("목록 불러오기 완료")
   }
 
   const fillFormByStoreDetail = (
@@ -309,35 +303,27 @@ function AdminPage() {
   const handleLoadStoreById = async () => {
     const storeId = Number(basicFormState.storeId)
     if (!storeId) {
-      setLoadStatusText("storeId를 입력해주세요.")
       return
     }
-    setLoadStatusText("불러오는 중...")
     try {
       const storeDetail = await getStoreDetail(storeId)
       fillFormByStoreDetail(storeDetail)
-      setLoadStatusText("불러오기 완료")
-      setSaveStatusText("")
     } catch {
-      setLoadStatusText("불러오기 실패")
+      /* noop */
     }
   }
 
   const handleStoreRowLoad = async (storeId: number) => {
     setBasicFormState((prev) => ({ ...prev, storeId: String(storeId) }))
-    setLoadStatusText("불러오는 중...")
     try {
       const storeDetail = await getStoreDetail(storeId)
       fillFormByStoreDetail(storeDetail)
-      setLoadStatusText("불러오기 완료")
-      setSaveStatusText("")
     } catch {
-      setLoadStatusText("불러오기 실패")
+      /* noop */
     }
   }
 
   const handleSave = () => {
-    setSaveStatusText("저장 중...")
     const payload = {
       request: requestData,
       storeImages: storeImageFiles,
@@ -347,7 +333,6 @@ function AdminPage() {
     const onSuccess = (
       response: components["schemas"]["AdminUpsertStoreResponse"]
     ) => {
-      setSaveStatusText("저장 완료")
       if (!basicFormState.storeId && response.storeId) {
         setBasicFormState((prev) => ({
           ...prev,
@@ -357,19 +342,15 @@ function AdminPage() {
       queryClient.invalidateQueries({ queryKey: ["getAdminStoreList"] })
     }
 
-    const onError = () => {
-      setSaveStatusText("저장 실패")
-    }
-
     if (basicFormState.storeId) {
       patchAdminStore(
         { storeId: Number(basicFormState.storeId), ...payload },
-        { onSuccess, onError }
+        { onSuccess }
       )
       return
     }
 
-    postAdminStore(payload, { onSuccess, onError })
+    postAdminStore(payload, { onSuccess })
   }
 
   useLayoutEffect(() => {
@@ -396,8 +377,13 @@ function AdminPage() {
           keyword={keywordInput}
           size={sizeInput}
           storeIdInput={basicFormState.storeId}
+          selectedStoreId={
+            basicFormState.storeId.trim() === "" ||
+            Number.isNaN(Number(basicFormState.storeId))
+              ? null
+              : Number(basicFormState.storeId)
+          }
           isLoading={isAdminStoreListFetching}
-          statusText={loadStatusText}
           stores={adminStoreListData?.stores}
           onKeywordChange={setKeywordInput}
           onSizeChange={setSizeInput}
@@ -416,7 +402,6 @@ function AdminPage() {
             menus={menus}
             storeImageFiles={storeImageFiles}
             isSaving={isSaving}
-            saveStatusText={saveStatusText}
             onBasicChange={handleBasicChange}
             onStoreImageUrlChange={handleStoreImageUrlChange}
             onAddStoreImageUrl={handleAddStoreImageUrl}

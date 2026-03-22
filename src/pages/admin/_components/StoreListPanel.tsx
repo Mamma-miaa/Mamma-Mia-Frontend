@@ -8,8 +8,8 @@ interface StoreListPanelProps {
   keyword: string
   size: string
   storeIdInput: string
+  selectedStoreId: number | null
   isLoading: boolean
-  statusText: string
   stores?: StoreListItem[]
   onKeywordChange: (value: string) => void
   onSizeChange: (value: string) => void
@@ -23,8 +23,8 @@ const StoreListPanel = ({
   keyword,
   size,
   storeIdInput,
+  selectedStoreId,
   isLoading,
-  statusText,
   stores,
   onKeywordChange,
   onSizeChange,
@@ -72,27 +72,40 @@ const StoreListPanel = ({
           선택 ID 불러오기
         </button>
       </div>
-      <span css={statusTextStyle}>
-        {isLoading ? "목록 조회 중..." : statusText}
-      </span>
+      {isLoading && (
+        <span css={statusTextStyle}>목록 조회 중...</span>
+      )}
 
-      <div css={listStyle}>
-        {stores?.map((store) => (
-          <div
-            key={store.storeId}
-            css={itemStyle}
-            onClick={() => onSelectStore(store.storeId)}
-          >
-            <div css={rowBetweenStyle}>
-              <div css={itemInfoStyle}>
-                <strong css={itemTitleStyle}>{store.name}</strong>
-                <span css={itemDescriptionStyle}>
-                  #{store.storeId} · {store.category}
-                </span>
+      <div css={listStyle} role="list" aria-label="가게 목록">
+        {stores?.map((store) => {
+          const isActive = selectedStoreId === store.storeId
+          return (
+            <div
+              key={store.storeId}
+              role="listitem"
+              aria-selected={isActive}
+              css={[itemStyle, isActive && itemActiveStyle]}
+              onClick={() => onSelectStore(store.storeId)}
+            >
+              <div css={rowBetweenStyle}>
+                <div css={itemInfoStyle}>
+                  <strong css={[itemTitleStyle, isActive && itemTitleActiveStyle]}>
+                    {store.name}
+                  </strong>
+                  <span
+                    css={[
+                      itemDescriptionStyle,
+                      isActive && itemDescriptionActiveStyle,
+                    ]}
+                  >
+                    #{store.storeId} · {store.category}
+                  </span>
+                </div>
+                {isActive && <span css={activeBadgeStyle}>선택됨</span>}
               </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
         {!stores?.length && <span css={statusTextStyle}>검색 결과 없음</span>}
       </div>
     </SectionCard>
@@ -118,7 +131,7 @@ const listStyle = css({
 })
 
 const itemStyle = css({
-  border: `1px dashed ${THEME.COLORS.LINE.NORMAL}`,
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
   borderRadius: 12,
   padding: 12,
   backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
@@ -126,6 +139,40 @@ const itemStyle = css({
   flexDirection: "column",
   gap: 8,
   cursor: "pointer",
+  transition:
+    "border-color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease",
+  "&:hover": {
+    borderColor: THEME.COLORS.GRAYSCALE.ASSISTIVE,
+    backgroundColor: THEME.COLORS.BACKGROUND.DISABLE,
+  },
+})
+
+const itemActiveStyle = css({
+  borderColor: THEME.COLORS.PRIMARY.RED,
+  backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
+  boxShadow: THEME.SHADOWS.EMPHASIZED,
+  "&:hover": {
+    borderColor: THEME.COLORS.PRIMARY.RED,
+    backgroundColor: THEME.COLORS.BACKGROUND.ALTERNATIVE,
+  },
+})
+
+const itemTitleActiveStyle = css({
+  color: THEME.COLORS.PRIMARY.RED,
+})
+
+const itemDescriptionActiveStyle = css({
+  color: THEME.COLORS.GRAYSCALE.NEUTRAL,
+})
+
+const activeBadgeStyle = css({
+  ...TYPOGRAPHY.CAPTION["11B"],
+  flexShrink: 0,
+  alignSelf: "flex-start",
+  padding: "4px 8px",
+  borderRadius: 6,
+  backgroundColor: THEME.COLORS.PRIMARY.RED,
+  color: THEME.COLORS.BACKGROUND.WHITE,
 })
 
 const rowBetweenStyle = css({
