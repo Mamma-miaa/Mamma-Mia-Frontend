@@ -9,6 +9,7 @@ import {
   type FacilitiesState,
   type MenuState,
 } from "./types"
+import Spacing from "@/@lib/components/Spacing"
 
 interface StoreFormProps {
   basicFormState: BasicFormState
@@ -34,6 +35,7 @@ interface StoreFormProps {
     value: string | File | null
   ) => void
   onAddMenu: () => void
+  onLoadStoreById: () => void
   onSave: () => void
   onReset: () => void
 }
@@ -53,12 +55,41 @@ const StoreForm = ({
   onFacilityChange,
   onMenuChange,
   onAddMenu,
+  onLoadStoreById,
   onSave,
   onReset,
 }: StoreFormProps) => {
   return (
     <div css={formStackStyle}>
+      <SectionCard title="Store ID로 불러오기" gap={12}>
+        <div css={loadByIdRowStyle}>
+          <div css={loadByIdFieldStyle}>
+            <Label>Store ID (직접 입력)</Label>
+            <input
+              css={inputStyle}
+              value={basicFormState.storeId}
+              onChange={(event) => onBasicChange("storeId", event.target.value)}
+              placeholder="예: 12"
+            />
+          </div>
+          <button
+            type="button"
+            css={primaryButtonStyle}
+            onClick={onLoadStoreById}
+          >
+            검색
+          </button>
+        </div>
+      </SectionCard>
+
       <SectionCard title="기본 정보">
+        {/* <button
+          css={[primaryButtonStyle, css({ backgroundColor: "skyblue" })]}
+          onClick={onReset}
+        >
+          폼 초기화
+        </button> */}
+        <Spacing size={12} />
         <div css={gridStyle}>
           <InputField
             label="가게 이름"
@@ -102,7 +133,8 @@ const StoreForm = ({
             placeholder="예: 126.9780"
           />
         </div>
-        <div>
+        <Spacing size={12} />
+        <div css={rowStyle}>
           <Label>코멘트</Label>
           <textarea
             css={textAreaStyle}
@@ -127,11 +159,13 @@ const StoreForm = ({
             </div>
           ))}
         </div>
+        <Spacing size={12} />
         <div css={rowStyle}>
           <button css={ghostButtonStyle} onClick={onAddStoreImageUrl}>
             URL 추가
           </button>
         </div>
+        <Spacing size={12} />
         <div>
           <Label>새 이미지 업로드 (기존 URL 무시)</Label>
           <input
@@ -143,93 +177,6 @@ const StoreForm = ({
               onStoreImageFilesChange(Array.from(event.target.files || []))
             }
           />
-        </div>
-      </SectionCard>
-
-      <SectionCard title="영업 시간">
-        <div css={listStyle}>
-          {businessHours.map((businessHour, index) => (
-            <div key={businessHour.dayOfWeek} css={itemStyle}>
-              <div css={hourGridStyle}>
-                <strong css={itemTitleStyle}>
-                  {DAY_ORDER.find((day) => day.code === businessHour.dayOfWeek)
-                    ?.label || businessHour.dayOfWeek}
-                </strong>
-                <input
-                  css={inputStyle}
-                  type="time"
-                  value={businessHour.openTime}
-                  onChange={(event) =>
-                    onBusinessHourChange(index, "openTime", event.target.value)
-                  }
-                />
-                <input
-                  css={inputStyle}
-                  type="time"
-                  value={businessHour.closeTime}
-                  onChange={(event) =>
-                    onBusinessHourChange(index, "closeTime", event.target.value)
-                  }
-                />
-                <input
-                  css={inputStyle}
-                  type="time"
-                  value={businessHour.breakStart}
-                  onChange={(event) =>
-                    onBusinessHourChange(index, "breakStart", event.target.value)
-                  }
-                />
-                <input
-                  css={inputStyle}
-                  type="time"
-                  value={businessHour.breakEnd}
-                  onChange={(event) =>
-                    onBusinessHourChange(index, "breakEnd", event.target.value)
-                  }
-                />
-                <input
-                  css={inputStyle}
-                  type="time"
-                  value={businessHour.lastOrder}
-                  onChange={(event) =>
-                    onBusinessHourChange(index, "lastOrder", event.target.value)
-                  }
-                />
-                <label css={checkboxLabelStyle}>
-                  <input
-                    type="checkbox"
-                    checked={businessHour.closed}
-                    onChange={(event) =>
-                      onBusinessHourChange(index, "closed", event.target.checked)
-                    }
-                  />
-                  휴무
-                </label>
-              </div>
-            </div>
-          ))}
-        </div>
-      </SectionCard>
-
-      <SectionCard title="편의시설">
-        <div css={gridStyle}>
-          {([
-            ["parking", "주차"],
-            ["takeout", "포장"],
-            ["delivery", "배달"],
-            ["indoorRestroom", "내부 화장실"],
-            ["outdoorRestroom", "외부 화장실"],
-            ["groupSeating", "단체석"],
-          ] as const).map(([field, label]) => (
-            <label key={field} css={checkboxLabelStyle}>
-              <input
-                type="checkbox"
-                checked={facilities[field]}
-                onChange={(event) => onFacilityChange(field, event.target.checked)}
-              />
-              {label}
-            </label>
-          ))}
         </div>
       </SectionCard>
 
@@ -279,19 +226,112 @@ const StoreForm = ({
         </div>
       </SectionCard>
 
-      <SectionCard title="저장">
-        <div css={saveSectionStyle}>
-          {isSaving && <span css={statusTextStyle}>저장 중...</span>}
-          <div css={actionsStyle}>
-            <button css={primaryButtonStyle} disabled={isSaving} onClick={onSave}>
-              저장하기
-            </button>
-            <button css={ghostButtonStyle} onClick={onReset}>
-              폼 초기화
-            </button>
-          </div>
+      <SectionCard title="영업 시간">
+        <div css={listStyle}>
+          {businessHours.map((businessHour, index) => (
+            <div key={businessHour.dayOfWeek} css={itemStyle}>
+              <div css={hourGridStyle}>
+                <strong css={itemTitleStyle}>
+                  {DAY_ORDER.find((day) => day.code === businessHour.dayOfWeek)
+                    ?.label || businessHour.dayOfWeek}
+                </strong>
+                <input
+                  css={inputStyle}
+                  type="time"
+                  value={businessHour.openTime}
+                  onChange={(event) =>
+                    onBusinessHourChange(index, "openTime", event.target.value)
+                  }
+                />
+                <input
+                  css={inputStyle}
+                  type="time"
+                  value={businessHour.closeTime}
+                  onChange={(event) =>
+                    onBusinessHourChange(index, "closeTime", event.target.value)
+                  }
+                />
+                <input
+                  css={inputStyle}
+                  type="time"
+                  value={businessHour.breakStart}
+                  onChange={(event) =>
+                    onBusinessHourChange(
+                      index,
+                      "breakStart",
+                      event.target.value
+                    )
+                  }
+                />
+                <input
+                  css={inputStyle}
+                  type="time"
+                  value={businessHour.breakEnd}
+                  onChange={(event) =>
+                    onBusinessHourChange(index, "breakEnd", event.target.value)
+                  }
+                />
+                <input
+                  css={inputStyle}
+                  type="time"
+                  value={businessHour.lastOrder}
+                  onChange={(event) =>
+                    onBusinessHourChange(index, "lastOrder", event.target.value)
+                  }
+                />
+                <label css={checkboxLabelStyle}>
+                  <input
+                    type="checkbox"
+                    checked={businessHour.closed}
+                    onChange={(event) =>
+                      onBusinessHourChange(
+                        index,
+                        "closed",
+                        event.target.checked
+                      )
+                    }
+                  />
+                  휴무
+                </label>
+              </div>
+            </div>
+          ))}
         </div>
       </SectionCard>
+
+      <SectionCard title="편의시설">
+        <div css={gridStyle}>
+          {(
+            [
+              ["parking", "주차"],
+              ["takeout", "포장"],
+              ["delivery", "배달"],
+              ["indoorRestroom", "내부 화장실"],
+              ["outdoorRestroom", "외부 화장실"],
+              ["groupSeating", "단체석"],
+            ] as const
+          ).map(([field, label]) => (
+            <label key={field} css={checkboxLabelStyle}>
+              <input
+                type="checkbox"
+                checked={facilities[field]}
+                onChange={(event) =>
+                  onFacilityChange(field, event.target.checked)
+                }
+              />
+              {label}
+            </label>
+          ))}
+        </div>
+      </SectionCard>
+
+      <button
+        css={[primaryButtonStyle, floatingSaveButtonStyle]}
+        disabled={isSaving}
+        onClick={onSave}
+      >
+        저장하기
+      </button>
     </div>
   )
 }
@@ -300,12 +340,13 @@ const formStackStyle = css({
   display: "flex",
   flexDirection: "column",
   gap: 16,
+  paddingBottom: 96,
 })
 
 const gridStyle = css({
   display: "grid",
   gap: 12,
-  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
 })
 
 const listStyle = css({
@@ -320,18 +361,16 @@ const rowStyle = css({
   alignItems: "center",
 })
 
-const saveSectionStyle = css({
+const loadByIdRowStyle = css({
   display: "flex",
-  flexDirection: "column",
-  gap: 8,
+  flexWrap: "wrap",
+  gap: 12,
+  alignItems: "flex-end",
 })
 
-const actionsStyle = css({
-  display: "flex",
-  justifyContent: "flex-start",
-  alignItems: "center",
-  gap: 10,
-  flexWrap: "wrap",
+const loadByIdFieldStyle = css({
+  flex: "1 1 220px",
+  minWidth: 0,
 })
 
 const itemStyle = css({
@@ -344,10 +383,12 @@ const itemStyle = css({
   gap: 8,
 })
 
-const itemTitleStyle = css({
-  ...TYPOGRAPHY.BODY["14SB"],
-  color: THEME.COLORS.GRAYSCALE.NORMAL,
-})
+const itemTitleStyle = css([
+  TYPOGRAPHY.BODY["14SB"],
+  {
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+])
 
 const hourGridStyle = css({
   display: "grid",
@@ -359,60 +400,82 @@ const hourGridStyle = css({
   },
 })
 
-const labelBaseStyle = css({
-  ...TYPOGRAPHY.SUB["12R"],
-  display: "block",
-  marginBottom: 6,
-  color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
-})
+const labelBaseStyle = css([
+  TYPOGRAPHY.SUB["12R"],
+  {
+    display: "block",
+    marginBottom: 6,
+    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+  },
+])
 
-const inputStyle = css({
-  ...TYPOGRAPHY.BODY["14R"],
-  width: "100%",
-  padding: "10px 12px",
-  borderRadius: 10,
-  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
-  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-  color: THEME.COLORS.GRAYSCALE.NORMAL,
-})
+const inputStyle = css([
+  TYPOGRAPHY.BODY["14R"],
+  {
+    width: "100%",
+    flex: "none",
+    padding: "10px 12px",
+    borderRadius: 10,
+    border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+])
 
 const textAreaStyle = css({
-  ...inputStyle,
-  minHeight: 90,
+  minHeight: 40,
   resize: "vertical",
+  border: `1px solid ${THEME.COLORS.LINE.NORMAL}`,
+  width: "100%",
 })
 
-const checkboxLabelStyle = css({
-  ...TYPOGRAPHY.BODY["14R"],
-  display: "flex",
-  alignItems: "center",
-  gap: 6,
-  color: THEME.COLORS.GRAYSCALE.NORMAL,
-})
+const checkboxLabelStyle = css([
+  TYPOGRAPHY.BODY["14R"],
+  {
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+])
 
-const statusTextStyle = css({
-  ...TYPOGRAPHY.SUB["12R"],
-  color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
-})
+const primaryButtonStyle = css([
+  TYPOGRAPHY.BODY["14SB"],
+  {
+    border: "none",
+    backgroundColor: THEME.COLORS.PRIMARY.RED,
+    color: THEME.COLORS.BACKGROUND.WHITE,
+    padding: "10px 14px",
+    borderRadius: 10,
+    cursor: "pointer",
+  },
+])
 
-const primaryButtonStyle = css({
-  ...TYPOGRAPHY.BODY["14SB"],
-  border: "none",
-  backgroundColor: THEME.COLORS.PRIMARY.RED,
-  color: THEME.COLORS.BACKGROUND.WHITE,
-  padding: "10px 14px",
-  borderRadius: 10,
-  cursor: "pointer",
-})
+const ghostButtonStyle = css([
+  TYPOGRAPHY.BODY["14SB"],
+  {
+    width: "100%",
+    border: `1px solid ${THEME.COLORS.PRIMARY.RED}`,
+    backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
+    color: THEME.COLORS.PRIMARY.RED,
+    padding: "10px 14px",
+    borderRadius: 10,
+    cursor: "pointer",
+  },
+])
 
-const ghostButtonStyle = css({
-  ...TYPOGRAPHY.BODY["14SB"],
-  border: `1px solid ${THEME.COLORS.PRIMARY.RED}`,
-  backgroundColor: THEME.COLORS.BACKGROUND.WHITE,
-  color: THEME.COLORS.PRIMARY.RED,
-  padding: "10px 14px",
-  borderRadius: 10,
-  cursor: "pointer",
+const floatingSaveButtonStyle = css({
+  position: "fixed",
+  right: 24,
+  bottom: 24,
+  width: 180,
+  zIndex: 10,
+  boxShadow: THEME.SHADOWS.NORMAL,
+  "@media (max-width: 820px)": {
+    right: 16,
+    bottom: 16,
+    width: "calc(100% - 32px)",
+  },
 })
 
 const Label = ({ children }: { children: string }) => (
@@ -430,7 +493,7 @@ const InputField = ({
   onChange: (value: string) => void
   placeholder?: string
 }) => (
-  <div>
+  <div css={rowStyle}>
     <Label>{label}</Label>
     <input
       css={inputStyle}
@@ -452,7 +515,7 @@ const SelectField = ({
   options: { label: string; value: string }[]
   onChange: (value: string) => void
 }) => (
-  <div>
+  <div css={rowStyle}>
     <Label>{label}</Label>
     <select
       css={inputStyle}

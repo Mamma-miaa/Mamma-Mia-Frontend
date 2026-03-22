@@ -42,10 +42,12 @@ const headerStyle = css({
   marginBottom: 8,
 })
 
-const titleStyle = css({
-  ...TYPOGRAPHY.HEADERS["18SB"],
-  margin: 0,
-  color: THEME.COLORS.GRAYSCALE.NORMAL,
-})
+const titleStyle = css([
+  TYPOGRAPHY.HEADERS["18SB"],
+  {
+    margin: 0,
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+])
 
 export default SectionCard

@@ -367,11 +367,6 @@ function AdminPage() {
 
   return (
     <div css={pageStyle}>
-      <header css={headerStyle}>
-        <h1 css={titleStyle}>Store Admin Console</h1>
-        <p css={subtitleStyle}>운영 데이터 직접 수정용 임시 화면</p>
-      </header>
-
       <div css={layoutStyle}>
         <StoreListPanel
           keyword={keywordInput}
@@ -410,6 +405,7 @@ function AdminPage() {
             onFacilityChange={handleFacilityChange}
             onMenuChange={handleMenuChange}
             onAddMenu={handleAddMenu}
+            onLoadStoreById={handleLoadStoreById}
             onSave={handleSave}
             onReset={resetForm}
           />
@@ -430,17 +426,21 @@ const headerStyle = css({
   textAlign: "center",
 })
 
-const titleStyle = css({
-  ...TYPOGRAPHY.HEADERS["22B"],
-  margin: 0,
-  color: THEME.COLORS.GRAYSCALE.NORMAL,
-})
+const titleStyle = css([
+  TYPOGRAPHY.HEADERS["22B"],
+  {
+    margin: 0,
+    color: THEME.COLORS.GRAYSCALE.NORMAL,
+  },
+])
 
-const subtitleStyle = css({
-  ...TYPOGRAPHY.BODY["14R"],
-  color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
-  margin: "6px 0 0",
-})
+const subtitleStyle = css([
+  TYPOGRAPHY.BODY["14R"],
+  {
+    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+    margin: "6px 0 0",
+  },
+])
 
 const layoutStyle = css({
   display: "grid",
