@@ -77,6 +77,7 @@ const RestaurantDetailPage = () => {
               case "CHALLENGE":
                 return <CheerUpButton storeId={storeDetail.storeId} />
               case "APPROVED":
+              default:
                 return <MammaMiaButton storeId={storeDetail.storeId} />
             }
           })()}
