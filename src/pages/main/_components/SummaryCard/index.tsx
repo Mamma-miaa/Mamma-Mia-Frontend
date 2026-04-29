@@ -23,11 +23,11 @@ const SummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
       />
       <div css={contentContainerStyle}>
         <div css={badgeSectionStyle}>
-          <div css={newBadgeStyle}>
-            {restaurant.isNew && (
+          {restaurant.isNew && (
+            <div css={newBadgeStyle}>
               <span css={newBadgeTextStyle}>New</span>
-            )}
-          </div>
+            </div>
+          )}
         </div>
         <div css={titleSectionStyle}>
           <span css={categoryStyle}>{restaurant.category}</span>
