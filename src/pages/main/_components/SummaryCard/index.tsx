@@ -24,7 +24,9 @@ const SummaryCard = ({ restaurant, ...props }: SummaryCardProps) => {
       <div css={contentContainerStyle}>
         <div css={badgeSectionStyle}>
           <div css={newBadgeStyle}>
-            <span css={newBadgeTextStyle}>New</span>
+            {restaurant.isNew && (
+              <span css={newBadgeTextStyle}>New</span>
+            )}
           </div>
         </div>
         <div css={titleSectionStyle}>
