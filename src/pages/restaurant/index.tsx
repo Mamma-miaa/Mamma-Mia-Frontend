@@ -49,6 +49,7 @@ const RestaurantDetailPage = () => {
                   case "CHALLENGE":
                     return <CheerUpBadge />
                   case "APPROVED":
+                  default:
                     return <MammaMiaBadge />
                 }
               })()}
