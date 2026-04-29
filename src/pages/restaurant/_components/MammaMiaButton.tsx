@@ -14,7 +14,9 @@ import { openLoginModal } from "@/components/ConfirmModal/utils"
 import { useNavigate } from "react-router-dom"
 
 const MammaMiaButton = ({ storeId }: { storeId: number }) => {
-  const { data: mammaMiaData } = useGetMammaMiaQuery({ storeId: storeId })
+  const { data: mammaMiaData, refetch: refetchMammaMia } = useGetMammaMiaQuery({
+    storeId: storeId,
+  })
   const { mutate: postMammaMia } = usePostMammaMiaMutation()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
@@ -33,6 +35,7 @@ const MammaMiaButton = ({ storeId }: { storeId: number }) => {
       {
         onSuccess: () => {
           toast({ message: "투표가 완료되었어요! Mamma-Mia!" })
+          refetchMammaMia()
           queryClient.invalidateQueries({
             queryKey: ["getStoreDetail", storeId],
           })
