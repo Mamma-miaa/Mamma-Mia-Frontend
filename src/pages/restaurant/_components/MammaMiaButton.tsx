@@ -7,16 +7,16 @@ import {
   usePostMammaMiaMutation,
 } from "@/hooks/@server/store"
 import { css } from "@emotion/react"
+import { useQueryClient } from "@tanstack/react-query"
 import toast from "@/utils/toast"
 import { getIsLoggedIn } from "@/utils/sessionStorage"
 import { openLoginModal } from "@/components/ConfirmModal/utils"
 import { useNavigate } from "react-router-dom"
 
 const MammaMiaButton = ({ storeId }: { storeId: number }) => {
-  const { data: mammaMiaData, refetch: refetchMammaMia } = useGetMammaMiaQuery({
-    storeId: storeId,
-  })
+  const { data: mammaMiaData } = useGetMammaMiaQuery({ storeId: storeId })
   const { mutate: postMammaMia } = usePostMammaMiaMutation()
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
 
   const handlePostMammaMia = async () => {
@@ -33,7 +33,9 @@ const MammaMiaButton = ({ storeId }: { storeId: number }) => {
       {
         onSuccess: () => {
           toast({ message: "투표가 완료되었어요! Mamma-Mia!" })
-          refetchMammaMia()
+          queryClient.invalidateQueries({
+            queryKey: ["getStoreDetail", storeId],
+          })
         },
         onError: () => {
           toast({ message: "투표에 실패하였어요. 다시 시도해주세요." })
