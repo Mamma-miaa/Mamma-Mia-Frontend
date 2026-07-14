@@ -35,6 +35,13 @@ export const useGetNearbyStoreQuery = (
       params.maxPrice,
     ],
     queryFn: () => getNearbyStore(params),
+    // 지도 초기화 전 bounds가 0인 상태로 무효 요청이 나가지 않도록 방지
+    enabled: [
+      params.minLatitude,
+      params.maxLatitude,
+      params.minLongitude,
+      params.maxLongitude,
+    ].every(Boolean),
     placeholderData: {
       items: [],
       totalCount: 0,

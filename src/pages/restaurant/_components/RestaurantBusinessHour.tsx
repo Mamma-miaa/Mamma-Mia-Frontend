@@ -11,7 +11,9 @@ const RestaurantBusinessHour = ({
   return (
     <>
       {businessHour?.dayOfWeek && DAY_OF_WEEK[businessHour.dayOfWeek].ko}{" "}
-      {[businessHour?.openTime, businessHour?.closeTime].every(Boolean) ? (
+      {businessHour?.isClosed ? (
+        "휴무"
+      ) : [businessHour?.openTime, businessHour?.closeTime].every(Boolean) ? (
         <>
           {businessHour?.openTime} ~ {businessHour?.closeTime}
         </>

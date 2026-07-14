@@ -7,7 +7,6 @@ import NewRestaurantCard from "./_components/NewRestaurantCard"
 import { Swiper, SwiperSlide, type SwiperRef } from "swiper/react"
 import VIEWPORT from "@/constants/viewport"
 import { useRef } from "react"
-import { Virtual } from "swiper/modules"
 import { 충무로역_좌표 } from "@/pages/main/_constants"
 import { useGetNearbyStoreQuery } from "@/hooks/@server/store"
 
@@ -25,6 +24,8 @@ const NewRestaurantSection = () => {
     isNew: true,
   })
   const swiperRef = useRef<SwiperRef>(null)
+
+  if (!data?.items.length) return null
 
   return (
     <div css={newRestaurantSectionStyle}>
