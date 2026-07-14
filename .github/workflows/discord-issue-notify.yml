@@ -1,0 +1,39 @@
+name: Discord Issue Notification
+
+on:
+  issues:
+    types:
+      - closed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "DISCORD_WEBHOOK_URL 시크릿이 없어 알림을 건너뜁니다."
+            exit 0
+          fi
+          jq -n \
+            --arg title "✅ 이슈 해결: #$ISSUE_NUMBER" \
+            --arg desc "$ISSUE_TITLE" \
+            --arg issue_url "$ISSUE_URL" \
+            --arg actor "$ACTOR" \
+            '{
+              embeds: [{
+                title: $title,
+                description: $desc,
+                url: $issue_url,
+                color: 3447003,
+                fields: [
+                  { name: "처리자", value: $actor, inline: true }
+                ]
+              }]
+            }' | curl -sS -X POST -H "Content-Type: application/json" -d @- "$DISCORD_WEBHOOK_URL"

@@ -52,3 +52,35 @@ jobs:
           cache: "0"
           # Sets the Cache-Control header to immutable
           immutable: true
+
+      - name: Notify Discord
+        if: success()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          ACTOR: ${{ github.actor }}
+          BRANCH: ${{ github.ref_name }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "DISCORD_WEBHOOK_URL 시크릿이 없어 알림을 건너뜁니다."
+            exit 0
+          fi
+          jq -n \
+            --arg title "🚀 프로덕션 배포 완료" \
+            --arg desc "$(echo "$COMMIT_MESSAGE" | head -1)" \
+            --arg branch "$BRANCH" \
+            --arg actor "$ACTOR" \
+            --arg run_url "$RUN_URL" \
+            '{
+              embeds: [{
+                title: $title,
+                description: $desc,
+                color: 5763719,
+                fields: [
+                  { name: "브랜치", value: $branch, inline: true },
+                  { name: "배포자", value: $actor, inline: true },
+                  { name: "링크", value: ("[사이트](https://mamma-mia.site) · [배포 로그](" + $run_url + ")") }
+                ]
+              }]
+            }' | curl -sS -X POST -H "Content-Type: application/json" -d @- "$DISCORD_WEBHOOK_URL"
