@@ -9,6 +9,9 @@ import { useGetRankingQuery } from "@/hooks/@server/store"
 import BottomGNB from "@/components/BottomGNB"
 import Spacing from "@/@lib/components/Spacing"
 import { EMPTY_IMAGE_URL } from "@/constants/setting"
+import EmptyIcon from "@/assets/empty_icon.svg?react"
+import THEME from "@/constants/theme"
+import TYPOGRAPHY from "@/constants/typography"
 
 const PERIOD_TYPE = {
   WEEKLY: "WEEKLY",
@@ -52,39 +55,51 @@ const RankingPage = () => {
           css={rankingTextStyle}
         />
         {/* 랭킹 카드 섹션 */}
-        <Swiper
-          css={rankingSectionStyle}
-          loop
-          slidesPerView={3}
-          spaceBetween={-210}
-          centeredSlides
-        >
-          {stores.slice(0, 3).map((restaurant) => (
-            <SwiperSlide key={`${restaurant.storeId}-1`}>
-              <RankingCard restaurant={restaurant} rankingType={period} />
-            </SwiperSlide>
-          ))}
-          {stores.slice(0, 3).map((restaurant) => (
-            <SwiperSlide key={`${restaurant.storeId}-2`}>
-              <RankingCard restaurant={restaurant} rankingType={period} />
-            </SwiperSlide>
-          ))}
-          {stores.slice(0, 3).map((restaurant) => (
-            <SwiperSlide key={`${restaurant.storeId}-3`}>
-              <RankingCard restaurant={restaurant} rankingType={period} />
-            </SwiperSlide>
-          ))}
-          {stores.slice(0, 3).map((restaurant) => (
-            <SwiperSlide key={`${restaurant.storeId}-4`}>
-              <RankingCard restaurant={restaurant} rankingType={period} />
-            </SwiperSlide>
-          ))}
-          {stores.slice(0, 3).map((restaurant) => (
-            <SwiperSlide key={`${restaurant.storeId}-5`}>
-              <RankingCard restaurant={restaurant} rankingType={period} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {stores.length === 0 && (
+          <div css={emptyStateStyle}>
+            <EmptyIcon />
+            <p css={emptyStateTextStyle}>
+              아직 랭킹에 오른 맛집이 없어요.
+              <br />
+              맘마미아 투표로 첫 랭킹을 만들어 보세요!
+            </p>
+          </div>
+        )}
+        {stores.length > 0 && (
+          <Swiper
+            css={rankingSectionStyle}
+            loop
+            slidesPerView={3}
+            spaceBetween={-210}
+            centeredSlides
+          >
+            {stores.slice(0, 3).map((restaurant) => (
+              <SwiperSlide key={`${restaurant.storeId}-1`}>
+                <RankingCard restaurant={restaurant} rankingType={period} />
+              </SwiperSlide>
+            ))}
+            {stores.slice(0, 3).map((restaurant) => (
+              <SwiperSlide key={`${restaurant.storeId}-2`}>
+                <RankingCard restaurant={restaurant} rankingType={period} />
+              </SwiperSlide>
+            ))}
+            {stores.slice(0, 3).map((restaurant) => (
+              <SwiperSlide key={`${restaurant.storeId}-3`}>
+                <RankingCard restaurant={restaurant} rankingType={period} />
+              </SwiperSlide>
+            ))}
+            {stores.slice(0, 3).map((restaurant) => (
+              <SwiperSlide key={`${restaurant.storeId}-4`}>
+                <RankingCard restaurant={restaurant} rankingType={period} />
+              </SwiperSlide>
+            ))}
+            {stores.slice(0, 3).map((restaurant) => (
+              <SwiperSlide key={`${restaurant.storeId}-5`}>
+                <RankingCard restaurant={restaurant} rankingType={period} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
 
         <div css={css({ padding: "0 20px", marginTop: 96 })}>
           {stores.map((restaurant) => (
@@ -153,3 +168,26 @@ const rankingTextStyle = css({
   transform: "translateX(-50%)",
   zIndex: 1000,
 })
+
+// 빈 상태 스타일
+const emptyStateStyle = css({
+  position: "absolute",
+  top: 180,
+  left: 0,
+  right: 0,
+  zIndex: 1000,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: 20,
+  padding: "40px 20px",
+})
+
+const emptyStateTextStyle = css(
+  {
+    textAlign: "center",
+    color: THEME.COLORS.GRAYSCALE.ALTERNATIVE,
+    margin: 0,
+  },
+  TYPOGRAPHY.BODY["14R"]
+)
