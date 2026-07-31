@@ -26,13 +26,13 @@ jobs:
 
       # 환경 변수는 Vercel 프로젝트 설정에서 받아온다 (VITE_API_URL, VITE_SENTRY_DSN 등)
       - name: Pull Vercel environment
-        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+        run: vercel pull --yes --environment=production --scope=shackstacks-projects --token="$VERCEL_TOKEN"
 
       - name: Build
-        run: vercel build --prod --token="$VERCEL_TOKEN"
+        run: vercel build --prod --scope=shackstacks-projects --token="$VERCEL_TOKEN"
 
       - name: Deploy
-        run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+        run: vercel deploy --prebuilt --prod --scope=shackstacks-projects --token="$VERCEL_TOKEN"
 
       - name: Notify Discord
         if: success()
