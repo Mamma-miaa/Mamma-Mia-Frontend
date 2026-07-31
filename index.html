@@ -26,7 +26,10 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      Kakao.init("%VITE_KAKAO_JS_KEY%")
+      // SDK 로드가 차단되면 Kakao가 없어 이 스크립트에서 페이지 전체가 죽는다
+      if (typeof Kakao !== "undefined") {
+        Kakao.init("%VITE_KAKAO_JS_KEY%")
+      }
     </script>
   </head>
   <body>

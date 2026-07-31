@@ -10,12 +10,22 @@ import { useNavigate } from "react-router-dom"
 import toast from "@/utils/toast"
 import VIEWPORT from "@/constants/viewport"
 import { usePostSocialLoginMutation } from "@/hooks/@server/auth"
+import * as Sentry from "@sentry/react"
 
 const LoginPage = () => {
   const navigate = useNavigate()
   const { mutate: postSocialLogin } = usePostSocialLoginMutation()
 
   const handleKakaoLogin = () => {
+    // SDK 로드가 차단되면 Kakao가 없어 클릭 시 페이지가 죽는다
+    if (typeof Kakao === "undefined" || !Kakao.isInitialized?.()) {
+      toast({
+        message: "카카오 로그인을 불러오지 못했어요. 잠시 후 다시 시도해주세요.",
+      })
+      Sentry.captureMessage("Kakao JS SDK 로드 실패", "error")
+      return
+    }
+
     Kakao.Auth.authorize({
       redirectUri: `${window.location.origin}/login/oauth`,
     })
