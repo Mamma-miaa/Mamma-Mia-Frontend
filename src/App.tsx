@@ -1,4 +1,5 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom"
+import * as Sentry from "@sentry/react"
 import MainPage from "./pages/main"
 import RestaurantDetailPage from "./pages/restaurant"
 import Provider from "./Provider"
@@ -13,7 +14,10 @@ import ChallengePage from "./pages/challenge"
 import ChallengeRestaurantDetailPage from "./pages/challenge/restaurant"
 import AdminPage from "./pages/admin"
 
-const router = createBrowserRouter([
+// 라우트 단위 트랜잭션 이름을 위해 Sentry로 감싼 createBrowserRouter 사용
+const sentryCreateBrowserRouter = Sentry.wrapCreateBrowserRouterV7(createBrowserRouter)
+
+const router = sentryCreateBrowserRouter([
   {
     path: "/",
     element: (

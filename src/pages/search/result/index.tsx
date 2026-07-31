@@ -8,6 +8,7 @@ import SearchInput from "../_components/SearchInput"
 import useSearchInput from "../_hooks/useSearchInput"
 import { QueryErrorResetBoundary } from "@tanstack/react-query"
 import { ErrorBoundary } from "react-error-boundary"
+import * as Sentry from "@sentry/react"
 import RestaurantList from "./_components/RestaurantList"
 import Spacing from "@/@lib/components/Spacing"
 import Spinner from "@/@lib/components/Spinner"
@@ -55,6 +56,7 @@ const SearchResultPage = () => {
         {({ reset }) => (
           <ErrorBoundary
             onReset={reset}
+            onError={(error) => Sentry.captureException(error)}
             fallbackRender={({ resetErrorBoundary }) => (
               <div onClick={resetErrorBoundary}>다시 시도</div>
             )}
