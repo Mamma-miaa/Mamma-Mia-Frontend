@@ -1,18 +1,17 @@
-name: Deploy to S3
+name: Deploy to Vercel
 
 on:
   push:
     branches:
       - main
-      - stage/*
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      VITE_API_URL: ${{ vars.VITE_API_URL }}
+      VERCEL_ORG_ID: team_lmRUn3mWMp0n48c6H63XidpZ
+      VERCEL_PROJECT_ID: prj_EzcKmcwkrYVbiAy9xlUztngUtEo4
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5.0.0
@@ -21,37 +20,19 @@ jobs:
         uses: actions/setup-node@v5.0.0
         with:
           node-version: "22.19.0"
-          cache: "yarn"
 
-      - name: Install dependencies
-        run: yarn install
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      # 환경 변수는 Vercel 프로젝트 설정에서 받아온다 (VITE_API_URL, VITE_SENTRY_DSN 등)
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
 
       - name: Build
-        run: yarn vite build
+        run: vercel build --prod --token="$VERCEL_TOKEN"
 
-      - name: Deploy to S3
-        uses: Reggionick/s3-deploy@v4.0.0
-        with:
-          # Directory to deploy
-          folder: dist
-          # Name of AWS Bucket
-          bucket: ${{ secrets.S3_BUCKET }}
-          # The destination bucket region
-          bucket-region: ${{ secrets.AWS_REGION }}
-          # AWS CloudFront distribution ID
-          dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-          # AWS CloudFront invalidation path(s)
-          invalidation: "/*"
-          # Removes files in S3 that are not available in the local copy of the directory
-          delete-removed: true
-          # Use this parameter to specify Cache-Control: no-cache, no-store, must-revalidate header
-          no-cache: true
-          # Upload files with private ACL, needed for S3 static website hosting
-          private: true
-          # Sets the Cache-Control: max-age=X header
-          cache: "0"
-          # Sets the Cache-Control header to immutable
-          immutable: true
+      - name: Deploy
+        run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
 
       - name: Notify Discord
         if: success()
