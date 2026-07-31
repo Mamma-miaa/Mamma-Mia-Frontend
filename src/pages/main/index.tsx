@@ -14,15 +14,17 @@ import TopNavigation from "./_components/TopNavigation"
 import { useGetNearbyStoreQuery } from "@/hooks/@server/store"
 import VIEWPORT from "@/constants/viewport"
 import PopupToggleButton from "./_components/PopupToggleButton"
-import { 충무로역_좌표, 딤_영역, 서비스_영역 } from "./_constants"
+import { 충무로역_좌표, get딤_영역, get서비스_영역 } from "./_constants"
 import RestaurantListPopup from "./_components/RestaurantListPopup"
 import { AnimatePresence } from "motion/react"
 import MoveToMyLocationButton from "./_components/MoveToMyLocationButton"
 import RefetchOnCurrentPositionButton from "./_components/RefetchOnCurrentPositionButton"
 import CustomOverlayContent from "./_components/CustomOverlayContent"
 import MyLocationOverlayContent from "./_components/MyLocationOverlayContent"
+import useKakaoMapsReady from "@/hooks/useKakaoMapsReady"
 
 const MainPage = () => {
+  const isKakaoMapsReady = useKakaoMapsReady()
   const mapRef = useRef<HTMLDivElement>(null)
   const kakaoMap = useRef<kakao.maps.Map | null>(null)
   const swiperRef = useRef<SwiperRef>(null)
@@ -108,7 +110,7 @@ const MainPage = () => {
   }
 
   useEffect(() => {
-    if (!mapRef.current) return
+    if (!mapRef.current || !isKakaoMapsReady) return
 
     const hasInitialBounds = [
       searchParams.has("minLatitude"),
@@ -146,7 +148,7 @@ const MainPage = () => {
     })
 
     const polygon = new kakao.maps.Polygon({
-      path: [딤_영역, 서비스_영역],
+      path: [get딤_영역(), get서비스_영역()],
       strokeWeight: 1, // 선의 두께입니다
       strokeColor: THEME.COLORS.PRIMARY.RED, // 선의 색깔입니다
       strokeStyle: "solid", // 선의 스타일 입니다
@@ -171,7 +173,7 @@ const MainPage = () => {
         { isPopupOpen: false }
       )
     })
-  }, [])
+  }, [isKakaoMapsReady])
 
   useEffect(() => {
     if (!kakaoMap.current) return

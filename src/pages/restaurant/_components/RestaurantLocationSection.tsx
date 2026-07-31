@@ -5,6 +5,7 @@ import kakaoMapImg from "../_assets/kakaomap_basic_1.webp"
 import { useEffect, useRef } from "react"
 import toast from "@/utils/toast"
 import { 충무로역_좌표 } from "@/pages/main/_constants"
+import useKakaoMapsReady from "@/hooks/useKakaoMapsReady"
 
 const RestaurantLocationSection = ({
   latitude,
@@ -17,9 +18,10 @@ const RestaurantLocationSection = ({
 }) => {
   const mapRef = useRef<HTMLDivElement>(null)
   const kakaoMap = useRef<kakao.maps.Map | null>(null)
+  const isKakaoMapsReady = useKakaoMapsReady()
 
   useEffect(() => {
-    if (!mapRef.current) return
+    if (!mapRef.current || !isKakaoMapsReady) return
 
     var options = {
       //지도를 생성할 때 필요한 기본 옵션
@@ -82,7 +84,7 @@ const RestaurantLocationSection = ({
         </div>
       `,
     })
-  }, [])
+  }, [isKakaoMapsReady])
 
   return (
     <div css={locationSectionStyle}>

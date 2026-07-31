@@ -19,14 +19,16 @@ export const 충무로역_좌표 = {
   lng: 126.9945,
 }
 
-export const 딤_영역 = [
+// 모듈 최상단에서 kakao 전역을 참조하면 SDK 로드 실패 시 import 시점에 앱 전체가 죽는다.
+// 지도 SDK 준비 이후에만 호출되도록 함수로 감싼다.
+export const get딤_영역 = () => [
   new kakao.maps.LatLng(0.0, 200.0),
   new kakao.maps.LatLng(200.0, 0.0),
   new kakao.maps.LatLng(200.0, 200.0),
   new kakao.maps.LatLng(0.0, 0.0),
 ]
 
-export const 서비스_영역 = [
+export const get서비스_영역 = () => [
   new kakao.maps.LatLng(37.570294707575194, 126.99218948837137),
   new kakao.maps.LatLng(37.57052912439423, 126.99513256445218),
   new kakao.maps.LatLng(37.570979706332714, 127.00194698594886),

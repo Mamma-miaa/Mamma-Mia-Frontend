@@ -4,6 +4,7 @@ import { overlay } from "overlay-kit"
 import THEME from "@/constants/theme"
 import TYPOGRAPHY from "@/constants/typography"
 import useTextInput from "@/hooks/useTextInput"
+import useKakaoMapsReady from "@/hooks/useKakaoMapsReady"
 import SearchIcon from "../_assets/search.svg?react"
 import { useState, useEffect, useRef } from "react"
 
@@ -48,12 +49,13 @@ const RestaurantSearchBottomSheet = ({
   const [selectedRestaurant, setSelectedRestaurant] =
     useState<RestaurantSearchResult | null>(null)
   const placesServiceRef = useRef<kakao.maps.services.Places | null>(null)
+  const isKakaoMapsReady = useKakaoMapsReady()
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.kakao?.maps?.services) {
-      placesServiceRef.current = new kakao.maps.services.Places()
-    }
-  }, [])
+    if (!isKakaoMapsReady || !window.kakao?.maps?.services) return
+
+    placesServiceRef.current = new kakao.maps.services.Places()
+  }, [isKakaoMapsReady])
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
